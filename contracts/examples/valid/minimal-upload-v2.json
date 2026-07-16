@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 2,
+  "createdAt": "2026-07-16T10:00:00.000Z",
+  "durationMs": 1000,
+  "sampling": {
+    "intervalMs": 250,
+    "frameWidth": 480,
+    "frameHeight": 270,
+    "colorSpace": "srgb"
+  },
+  "producer": {
+    "name": "aether-desktop-web",
+    "version": "0.2.0",
+    "platform": "browser"
+  },
+  "mediaFingerprintAtStart": "sha256:7c21b6f966fd0b91cf2a5880d316fa2ad7b42f526af79c6e1e2b0a57108978ff",
+  "frames": [
+    {
+      "timestampMs": 0,
+      "luminance": 0.1842,
+      "contrast": 0.0913,
+      "saturation": 0.6241,
+      "motionEnergy": 0,
+      "sceneCutProbability": 0,
+      "palette": []
+    }
+  ]
+}

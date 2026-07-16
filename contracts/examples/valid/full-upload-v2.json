@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 2,
+  "createdAt": "2026-07-16T10:00:00.000Z",
+  "durationMs": 1000,
+  "sampling": {
+    "intervalMs": 250,
+    "frameWidth": 480,
+    "frameHeight": 270,
+    "colorSpace": "srgb"
+  },
+  "producer": {
+    "name": "aether-desktop-web",
+    "version": "0.2.0",
+    "platform": "browser"
+  },
+  "mediaFingerprintAtStart": "sha256:7c21b6f966fd0b91cf2a5880d316fa2ad7b42f526af79c6e1e2b0a57108978ff",
+  "clientContentFingerprint": {
+    "algorithm": "aether-sparse-content-v1",
+    "value": "sha256:95d48a2cd43b8ac21636c8e881962b53e9631ff218cb44c4147203075ee97c89"
+  },
+  "frames": [
+    {
+      "timestampMs": 0,
+      "luminance": 0.1842,
+      "contrast": 0.0913,
+      "saturation": 0.6241,
+      "motionEnergy": 0,
+      "sceneCutProbability": 0,
+      "audio": {
+        "rms": 0.182,
+        "flux": 0.041
+      },
+      "palette": [
+        {
+          "red": 24,
+          "green": 41,
+          "blue": 78,
+          "coverage": 0.46
+        }
+      ],
+      "futureCompatibleField": "ignored by schema-version-2 readers"
+    },
+    {
+      "timestampMs": 250,
+      "luminance": 0.2018,
+      "contrast": 0.1041,
+      "saturation": 0.6512,
+      "motionEnergy": 0.083,
+      "sceneCutProbability": 0.012,
+      "palette": [
+        {
+          "red": 27,
+          "green": 46,
+          "blue": 86,
+          "coverage": 0.51
+        }
+      ]
+    }
+  ],
+  "audioFrames": [
+    {
+      "timestampMs": 0,
+      "rms": 0.182,
+      "flux": 0.041
+    },
+    {
+      "timestampMs": 100,
+      "rms": 0.197,
+      "flux": 0.052
+    }
+  ]
+}

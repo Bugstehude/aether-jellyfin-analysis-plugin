@@ -1,0 +1,63 @@
+# AETHER Analysis for Jellyfin
+
+Private development repository for the AETHER analysis plugin targeting **Jellyfin 10.11.11**.
+The repository is the canonical source of truth for the plugin and for every AETHER client that
+reads or writes persistent video analyses.
+
+## Source-of-truth rule
+
+The following artifacts are normative and are versioned together here:
+
+- `contracts/openapi/aether-analysis-v1.yaml` — HTTP API under `/AetherAnalysis/v1`
+- `contracts/schemas/analysis-upload-v2.schema.json` — upload document schema
+- `contracts/examples/` — valid and invalid Golden Files
+- `docs/architecture/plugin-concept.md` — architecture, security and lifecycle decisions
+- `docs/compatibility.md` — exact Jellyfin/.NET/EF Core compatibility matrix
+- `docs/implementation-status.md` — implemented behavior versus accepted follow-up work
+- `CHANGELOG.md` — semantic contract and implementation changes
+
+Consumers must import or generate from these files. They must not maintain divergent copies.
+The URL version (`v1`), document schema (`2`) and analysis algorithm version are deliberately
+independent.
+
+## Current scope
+
+Version 0.1 implements the storage-plugin foundation:
+
+- authenticated capabilities and item-scoped analysis endpoints;
+- Jellyfin item-access checks that return 404 without leaking inaccessible item existence;
+- administrator-only writes for the initial implementation;
+- EF Core backed plugin-owned SQLite storage;
+- Brotli-compressed, bounded JSON documents with ETags;
+- a minimal configuration page and storage defaults;
+- contract and unit tests.
+
+The plugin stores no video frames, thumbnails, source media, Jellyfin tokens or user passwords.
+Actual video analysis remains a client responsibility in this phase.
+
+See `docs/implementation-status.md` before deployment. The first baseline builds and tests locally,
+but is not production-ready until it passes the real Jellyfin 10.11.11/LXC smoke test.
+
+## Build
+
+Requirements: .NET SDK 9 and network access to NuGet.
+
+```bash
+dotnet restore --locked-mode
+dotnet test --configuration Release -p:AetherIncludeRuntimeDependencies=true
+dotnet publish src/Jellyfin.Plugin.AetherAnalysis/Jellyfin.Plugin.AetherAnalysis.csproj \
+  --configuration Release --output artifacts/plugin
+```
+
+The installable artifact is `artifacts/plugin/Jellyfin.Plugin.AetherAnalysis.dll`. Do not copy the
+generated `runtimes/` directory or host framework assemblies into Jellyfin's plugin directory;
+Jellyfin 10.11.11 already supplies the exactly pinned runtime dependencies.
+
+The package references are pinned to Jellyfin 10.11.11. Do not upgrade them independently of
+the target-server compatibility matrix and an integration test against that exact server build.
+
+## License and repository visibility
+
+The repository remains private during early development. The plugin links against Jellyfin's
+GPL-licensed assemblies and is therefore licensed under GPL-3.0-or-later. Public distribution
+must include corresponding source code and license obligations.

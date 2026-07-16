@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>AETHER Analysis</title>
+</head>
+<body>
+  <div id="AetherAnalysisConfigPage" data-role="page" class="page type-interior pluginConfigurationPage">
+    <div data-role="content">
+      <div class="content-primary">
+        <form id="AetherAnalysisConfigForm">
+          <h1>AETHER Analysis</h1>
+          <p>Canonical persistent analysis storage. No frames, media files or tokens are stored.</p>
+          <p>Restart Jellyfin after changing allowed browser origins.</p>
+          <div class="inputContainer">
+            <label class="inputLabel inputLabelUnfocused" for="MaxStoredGiB">Maximum storage (GiB)</label>
+            <input id="MaxStoredGiB" type="number" min="1" max="1024" step="1" required>
+          </div>
+          <div class="inputContainer">
+            <label class="inputLabel inputLabelUnfocused" for="RetentionDays">Retention days (0 = unlimited)</label>
+            <input id="RetentionDays" type="number" min="0" max="36500" step="1" required>
+          </div>
+          <div class="inputContainer">
+            <label class="inputLabel inputLabelUnfocused" for="AllowedOrigins">Allowed browser origins (one per line)</label>
+            <textarea id="AllowedOrigins" rows="4" placeholder="https://aether.example.test"></textarea>
+          </div>
+          <button is="emby-button" type="submit" class="raised button-submit block"><span>Save</span></button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+    (() => {
+      const pluginId = 'ea32f6f5-de62-4784-9b60-4cfe664995ed';
+      const page = document.querySelector('#AetherAnalysisConfigPage');
+      const form = document.querySelector('#AetherAnalysisConfigForm');
+      page.addEventListener('pageshow', async () => {
+        Dashboard.showLoadingMsg();
+        const config = await ApiClient.getPluginConfiguration(pluginId);
+        document.querySelector('#MaxStoredGiB').value = Math.max(1, Math.round(config.MaxStoredBytes / 1073741824));
+        document.querySelector('#RetentionDays').value = config.RetentionDays ?? 0;
+        document.querySelector('#AllowedOrigins').value = (config.AllowedOrigins ?? []).join('\n');
+        Dashboard.hideLoadingMsg();
+      });
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        Dashboard.showLoadingMsg();
+        const config = await ApiClient.getPluginConfiguration(pluginId);
+        config.MaxStoredBytes = Number(document.querySelector('#MaxStoredGiB').value) * 1073741824;
+        config.RetentionDays = Number(document.querySelector('#RetentionDays').value);
+        config.AllowedOrigins = document.querySelector('#AllowedOrigins').value
+          .split(/\r?\n/).map(value => value.trim()).filter(Boolean);
+        await ApiClient.updatePluginConfiguration(pluginId, config);
+        Dashboard.processPluginConfigurationUpdateResult();
+      });
+    })();
+  </script>
+</body>
+</html>

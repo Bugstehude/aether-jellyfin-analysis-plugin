@@ -1,0 +1,596 @@
+openapi: 3.1.0
+info:
+  title: AETHER Analysis API for Jellyfin
+  version: 1.0.0
+  description: >-
+    Canonical API for storing and retrieving AETHER analysis schema 2 documents from an
+    authenticated Jellyfin 10.11.11 server. Inaccessible, missing and stale resources are
+    deliberately indistinguishable to ordinary readers.
+  license:
+    name: GPL-3.0-or-later
+    identifier: GPL-3.0-or-later
+servers:
+  - url: /AetherAnalysis/v1
+security:
+  - jellyfinSession: []
+tags:
+  - name: Contract
+  - name: Analyses
+  - name: Administration
+paths:
+  /capabilities:
+    get:
+      operationId: getAetherAnalysisCapabilities
+      tags: [Contract]
+      summary: Negotiate contract, limits and current-user permissions
+      responses:
+        "200":
+          description: Supported contract capabilities
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Capabilities"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "503":
+          $ref: "#/components/responses/Unavailable"
+  /items/{itemId}/media-sources/{mediaSourceId}/fingerprint:
+    parameters:
+      - $ref: "#/components/parameters/ItemId"
+      - $ref: "#/components/parameters/MediaSourceId"
+    get:
+      operationId: getAetherMediaFingerprint
+      tags: [Analyses]
+      summary: Read the current server-derived media fingerprint
+      responses:
+        "200":
+          description: Current media identity
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MediaFingerprint"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "503":
+          $ref: "#/components/responses/Unavailable"
+  /items/{itemId}/media-sources/{mediaSourceId}/analyses/{algorithmId}/{algorithmVersion}:
+    parameters:
+      - $ref: "#/components/parameters/ItemId"
+      - $ref: "#/components/parameters/MediaSourceId"
+      - $ref: "#/components/parameters/AlgorithmId"
+      - $ref: "#/components/parameters/AlgorithmVersion"
+    get:
+      operationId: getAetherAnalysis
+      tags: [Analyses]
+      summary: Retrieve a current analysis document
+      parameters:
+        - name: If-None-Match
+          in: header
+          required: false
+          schema:
+            type: string
+        - name: detail
+          in: query
+          required: false
+          description: Requested temporal representation; defaults to balanced.
+          schema:
+            $ref: "#/components/schemas/DetailLevel"
+            default: balanced
+      responses:
+        "200":
+          description: Current analysis document
+          headers:
+            ETag:
+              required: true
+              schema:
+                type: string
+            Content-Encoding:
+              description: Brotli when the client advertises `br`; identity otherwise.
+              schema:
+                enum: [br, identity]
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/analysis-document-v2.schema.json"
+        "304":
+          description: The supplied ETag is current
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "503":
+          $ref: "#/components/responses/Unavailable"
+    head:
+      operationId: headAetherAnalysis
+      tags: [Analyses]
+      summary: Test whether a current analysis exists
+      responses:
+        "204":
+          description: Current analysis exists
+          headers:
+            ETag:
+              required: true
+              schema:
+                type: string
+            X-Aether-Analysis-Created-At:
+              schema:
+                type: string
+                format: date-time
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    put:
+      operationId: putAetherAnalysis
+      tags: [Analyses]
+      summary: Create or atomically replace an analysis
+      parameters:
+        - name: If-Match
+          in: header
+          required: false
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/analysis-upload-v2.schema.json"
+      responses:
+        "201":
+          description: Analysis created
+          headers:
+            ETag:
+              required: true
+              schema:
+                type: string
+        "204":
+          description: Identical content retained or existing analysis replaced
+          headers:
+            ETag:
+              required: true
+              schema:
+                type: string
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          description: Media changed during analysis
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+        "412":
+          description: If-Match did not match the existing analysis ETag
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+        "413":
+          description: Uncompressed request exceeds 50 MiB or configured limit
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+        "422":
+          description: Syntactically valid JSON violates schema or cross-field invariants
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+        "503":
+          $ref: "#/components/responses/Unavailable"
+        "507":
+          description: Configured analysis storage limit would be exceeded
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+    delete:
+      operationId: deleteAetherAnalysis
+      tags: [Administration]
+      summary: Idempotently delete one analysis
+      responses:
+        "204":
+          description: Deleted or already absent
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "503":
+          $ref: "#/components/responses/Unavailable"
+  /analyses/query:
+    post:
+      operationId: queryAetherAnalyses
+      tags: [Analyses]
+      summary: Query status for an explicit bounded item selection
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BatchSelection"
+      responses:
+        "200":
+          description: Status for visible items; inaccessible items are reported as missing
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BatchStatus"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "413":
+          description: More than 200 or configured maximum items supplied
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+  /analyses/delete:
+    post:
+      operationId: deleteSelectedAetherAnalyses
+      tags: [Administration]
+      summary: Delete analyses for an explicit bounded selection
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BatchSelection"
+      responses:
+        "200":
+          description: Deletion summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BatchDeleteResult"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "413":
+          description: More than 200 or configured maximum items supplied
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+  /status:
+    get:
+      operationId: getAetherAnalysisStatus
+      tags: [Administration]
+      summary: Read storage health and usage without exposing filesystem paths
+      responses:
+        "200":
+          description: Storage status filtered to current-user permissions
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StorageStatus"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+components:
+  securitySchemes:
+    jellyfinSession:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: >-
+        Native Jellyfin MediaBrowser authorization header. Tokens are never accepted in query
+        parameters, payloads, logs or persisted data.
+  parameters:
+    ItemId:
+      name: itemId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    MediaSourceId:
+      name: mediaSourceId
+      in: path
+      required: true
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 128
+    AlgorithmId:
+      name: algorithmId
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: "^[a-z0-9][a-z0-9-]*$"
+        minLength: 1
+        maxLength: 64
+    AlgorithmVersion:
+      name: algorithmVersion
+      in: path
+      required: true
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 32
+  responses:
+    BadRequest:
+      description: Invalid request shape
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Problem"
+    Unauthorized:
+      description: Missing or invalid Jellyfin authentication
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Problem"
+    Forbidden:
+      description: Authenticated user lacks analyzer or administrator permission
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Problem"
+    NotFound:
+      description: Item inaccessible, media source missing, analysis missing or analysis stale
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Problem"
+    Unavailable:
+      description: Jellyfin or plugin is starting, stopping or temporarily unavailable
+      headers:
+        Retry-After:
+          schema:
+            type: integer
+            minimum: 1
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Problem"
+  schemas:
+    Capabilities:
+      type: object
+      required:
+        - apiVersion
+        - pluginVersion
+        - supportedAnalysisSchemas
+        - supportedAlgorithms
+        - supportedDetailLevels
+        - limits
+        - defaults
+        - permissions
+      properties:
+        apiVersion:
+          const: "1.0"
+        pluginVersion:
+          type: string
+        supportedAnalysisSchemas:
+          type: array
+          items:
+            type: integer
+          contains:
+            const: 2
+        supportedAlgorithms:
+          type: array
+          items:
+            $ref: "#/components/schemas/SupportedAlgorithm"
+        supportedDetailLevels:
+          type: array
+          items:
+            $ref: "#/components/schemas/DetailLevel"
+          default: [compact, balanced, full]
+        limits:
+          $ref: "#/components/schemas/Limits"
+        defaults:
+          $ref: "#/components/schemas/Defaults"
+        permissions:
+          $ref: "#/components/schemas/Permissions"
+    SupportedAlgorithm:
+      type: object
+      required: [id, versions]
+      properties:
+        id:
+          type: string
+        versions:
+          type: array
+          items:
+            type: string
+    Limits:
+      type: object
+      required: [maxUploadBytes, maxFramesPerAnalysis, maxBatchItems]
+      properties:
+        maxUploadBytes:
+          type: integer
+          default: 52428800
+        maxFramesPerAnalysis:
+          type: integer
+          default: 86400
+        maxBatchItems:
+          type: integer
+          default: 200
+    Defaults:
+      type: object
+      required: [samplingIntervalMs, frameWidth, compression, detail]
+      properties:
+        samplingIntervalMs:
+          type: integer
+          const: 250
+        frameWidth:
+          type: integer
+          const: 480
+        compression:
+          const: br
+        detail:
+          $ref: "#/components/schemas/DetailLevel"
+          default: balanced
+    DetailLevel:
+      type: string
+      enum: [compact, balanced, full]
+    Permissions:
+      type: object
+      required: [canUpload, canDelete, canViewStorageDetails]
+      properties:
+        canUpload:
+          type: boolean
+        canDelete:
+          type: boolean
+        canViewStorageDetails:
+          type: boolean
+    MediaFingerprint:
+      type: object
+      required: [itemId, mediaSourceId, fingerprint, fingerprintQuality, durationMs]
+      properties:
+        itemId:
+          type: string
+          format: uuid
+        mediaSourceId:
+          type: string
+        fingerprint:
+          type: string
+          pattern: "^sha256:[0-9a-f]{64}$"
+        fingerprintQuality:
+          enum: [strong, weak]
+        durationMs:
+          type: integer
+          minimum: 1
+    Algorithm:
+      type: object
+      required: [id, version]
+      properties:
+        id:
+          type: string
+          pattern: "^[a-z0-9][a-z0-9-]*$"
+        version:
+          type: string
+    ItemSelection:
+      type: object
+      required: [itemId, mediaSourceId]
+      properties:
+        itemId:
+          type: string
+          format: uuid
+        mediaSourceId:
+          type: string
+          minLength: 1
+    BatchSelection:
+      type: object
+      required: [algorithm, items]
+      properties:
+        algorithm:
+          $ref: "#/components/schemas/Algorithm"
+        items:
+          type: array
+          minItems: 1
+          maxItems: 200
+          items:
+            $ref: "#/components/schemas/ItemSelection"
+    BatchStatus:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/ItemStatus"
+    ItemStatus:
+      type: object
+      required: [itemId, mediaSourceId, status]
+      properties:
+        itemId:
+          type: string
+          format: uuid
+        mediaSourceId:
+          type: string
+        status:
+          enum: [available, missing, stale, unsupported]
+        reason:
+          enum: [media-changed, algorithm-unsupported]
+        createdAt:
+          type: string
+          format: date-time
+        frameCount:
+          type: integer
+        storedBytes:
+          type: integer
+        etag:
+          type: string
+    BatchDeleteResult:
+      type: object
+      required: [requested, deleted, notFound]
+      properties:
+        requested:
+          type: integer
+        deleted:
+          type: integer
+        notFound:
+          type: integer
+    StorageStatus:
+      type: object
+      required:
+        - service
+        - databaseSchemaVersion
+        - recordCount
+        - storedBytes
+        - maxStoredBytes
+        - retentionDays
+      properties:
+        service:
+          enum: [ready, degraded]
+        databaseSchemaVersion:
+          type: integer
+        recordCount:
+          type: integer
+        storedBytes:
+          type: integer
+        maxStoredBytes:
+          type: integer
+          default: 10737418240
+        retentionDays:
+          type: integer
+          default: 0
+        oldestRecordAt:
+          type: [string, "null"]
+          format: date-time
+        lastCleanupAt:
+          type: [string, "null"]
+          format: date-time
+        cleanup:
+          type: object
+          properties:
+            orphanedRecords:
+              type: integer
+            staleRecords:
+              type: integer
+    Problem:
+      type: object
+      required: [type, title, status, code, traceId]
+      properties:
+        type:
+          type: string
+          format: uri-reference
+        title:
+          type: string
+        status:
+          type: integer
+        detail:
+          type: string
+        code:
+          enum:
+            - analysis-invalid
+            - analysis-stale
+            - fingerprint-mismatch
+            - media-source-not-found
+            - payload-too-large
+            - precondition-failed
+            - unsupported-schema
+            - forbidden
+            - storage-limit-exceeded
+        traceId:
+          type: string

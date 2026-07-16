@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+          cache: true
+          cache-dependency-path: "**/*.csproj"
+      - name: Restore
+        run: dotnet restore --locked-mode
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+      - name: Test
+        run: dotnet test --configuration Release -p:AetherIncludeRuntimeDependencies=true
+      - name: Publish plugin
+        run: dotnet publish src/Jellyfin.Plugin.AetherAnalysis/Jellyfin.Plugin.AetherAnalysis.csproj --configuration Release --no-build --output artifacts/plugin
+      - uses: actions/upload-artifact@v4
+        with:
+          name: aether-analysis-plugin
+          path: artifacts/plugin/Jellyfin.Plugin.AetherAnalysis.dll

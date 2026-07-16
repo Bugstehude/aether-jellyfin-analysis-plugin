@@ -1,0 +1,16 @@
+---
+name: "AETHER Analysis"
+guid: "ea32f6f5-de62-4784-9b60-4cfe664995ed"
+version: "0.1.0.0"
+targetAbi: "10.11.11.0"
+framework: "net9.0"
+overview: "Persistent multi-resolution AETHER video analysis storage"
+description: >
+  Stores compact feature timelines for AETHER clients, associates them with exact Jellyfin media
+  sources and serves device-appropriate compact, balanced or full representations.
+category: "General"
+owner: "Bugstehude"
+artifacts:
+  - "Jellyfin.Plugin.AetherAnalysis.dll"
+changelog: >
+  Initial private development build targeting Jellyfin 10.11.11.

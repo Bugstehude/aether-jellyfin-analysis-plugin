@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 2,
+  "item": {
+    "id": "61fd9006-c087-4f95-822d-cbf1997d5e1a",
+    "mediaSourceId": "61fd9006c0874f95822dcbf1997d5e1a",
+    "fingerprint": "sha256:7c21b6f966fd0b91cf2a5880d316fa2ad7b42f526af79c6e1e2b0a57108978ff",
+    "fingerprintQuality": "strong"
+  },
+  "algorithm": {
+    "id": "aether-visual",
+    "version": "1.0.0"
+  },
+  "createdAt": "2026-07-16T10:00:00.000Z",
+  "storedAt": "2026-07-16T10:08:42.000Z",
+  "durationMs": 1000,
+  "sampling": {
+    "intervalMs": 250,
+    "frameWidth": 480,
+    "frameHeight": 270,
+    "colorSpace": "srgb"
+  },
+  "producer": {
+    "name": "aether-desktop-web",
+    "version": "0.2.0",
+    "platform": "browser"
+  },
+  "representation": {
+    "detail": "balanced",
+    "sourceIntervalMs": 250,
+    "derived": false,
+    "reductionVersion": "aether-reduction-1"
+  },
+  "frames": [
+    {
+      "timestampMs": 0,
+      "luminance": 0.1842,
+      "contrast": 0.0913,
+      "saturation": 0.6241,
+      "motionEnergy": 0,
+      "sceneCutProbability": 0,
+      "palette": [
+        {
+          "red": 24,
+          "green": 41,
+          "blue": 78,
+          "coverage": 0.46
+        }
+      ]
+    }
+  ]
+}
