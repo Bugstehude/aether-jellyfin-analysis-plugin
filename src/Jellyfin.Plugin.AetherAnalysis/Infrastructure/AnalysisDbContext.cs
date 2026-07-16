@@ -8,6 +8,9 @@ public sealed class AnalysisDbContext(DbContextOptions<AnalysisDbContext> option
     /// <summary>Gets stored analysis records.</summary>
     public DbSet<AnalysisRecord> Analyses => Set<AnalysisRecord>();
 
+    /// <summary>Gets the singleton maintenance state.</summary>
+    public DbSet<AnalysisMaintenanceState> MaintenanceStates => Set<AnalysisMaintenanceState>();
+
     /// <inheritdoc />
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -28,5 +31,11 @@ public sealed class AnalysisDbContext(DbContextOptions<AnalysisDbContext> option
         record.Property(value => value.Etag).HasMaxLength(96);
         record.HasIndex(value => value.LastAccessedAtUnixTimeMilliseconds);
         record.HasIndex(value => value.StoredAtUnixTimeMilliseconds);
+
+        var maintenance = modelBuilder.Entity<AnalysisMaintenanceState>();
+        maintenance.ToTable("analysis_maintenance_state");
+        maintenance.HasKey(value => value.Id);
+        maintenance.Property(value => value.Id).ValueGeneratedNever();
+        maintenance.Property(value => value.LastReason).HasMaxLength(32);
     }
 }

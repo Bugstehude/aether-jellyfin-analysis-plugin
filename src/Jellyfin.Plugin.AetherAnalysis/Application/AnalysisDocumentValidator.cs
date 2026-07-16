@@ -62,7 +62,8 @@ public sealed partial class AnalysisDocumentValidator
             return "createdAt is too far in the future.";
         }
 
-        if (value.Sampling.IntervalMs is < 250 or > 10000
+        if (value.Sampling is null
+            || value.Sampling.IntervalMs is < 250 or > 10000
             || value.Sampling.FrameWidth is < 16 or > 1920
             || value.Sampling.FrameHeight is < 16 or > 1080
             || !string.Equals(value.Sampling.ColorSpace, "srgb", StringComparison.Ordinal))
@@ -70,22 +71,28 @@ public sealed partial class AnalysisDocumentValidator
             return "sampling is outside contract limits.";
         }
 
-        if (value.Producer.Name.Length is < 1 or > 64
-            || value.Producer.Version.Length is < 1 or > 32
+        if (value.Producer is null
+            || string.IsNullOrEmpty(value.Producer.Name)
+            || value.Producer.Name.Length > 64
+            || string.IsNullOrEmpty(value.Producer.Version)
+            || value.Producer.Version.Length > 32
             || value.Producer.Platform is not ("browser" or "server"))
         {
             return "producer is invalid.";
         }
 
-        if (!Sha256Fingerprint().IsMatch(value.MediaFingerprintAtStart)
+        if (string.IsNullOrEmpty(value.MediaFingerprintAtStart)
+            || !Sha256Fingerprint().IsMatch(value.MediaFingerprintAtStart)
             || (value.ClientContentFingerprint is not null
-                && (!Sha256Fingerprint().IsMatch(value.ClientContentFingerprint.Value)
-                    || value.ClientContentFingerprint.Algorithm.Length is < 1 or > 64)))
+                && (string.IsNullOrEmpty(value.ClientContentFingerprint.Value)
+                    || !Sha256Fingerprint().IsMatch(value.ClientContentFingerprint.Value)
+                    || string.IsNullOrEmpty(value.ClientContentFingerprint.Algorithm)
+                    || value.ClientContentFingerprint.Algorithm.Length > 64)))
         {
             return "fingerprint format is invalid.";
         }
 
-        if (value.Frames.Count is < 1 or > MaximumFrames)
+        if (value.Frames is null || value.Frames.Count is < 1 or > MaximumFrames)
         {
             return "frames count is outside contract limits.";
         }
@@ -93,6 +100,11 @@ public sealed partial class AnalysisDocumentValidator
         long previousTimestamp = -1;
         foreach (var frame in value.Frames)
         {
+            if (frame is null)
+            {
+                return "frames must not contain null values.";
+            }
+
             if (frame.TimestampMs <= previousTimestamp || frame.TimestampMs > value.DurationMs + value.Sampling.IntervalMs)
             {
                 return "frame timestamps must be strictly increasing and within duration.";
@@ -109,7 +121,8 @@ public sealed partial class AnalysisDocumentValidator
                 return "frame features must be finite numbers in [0, 1].";
             }
 
-            if (frame.Palette.Count > 5
+            if (frame.Palette is null
+                || frame.Palette.Count > 5
                 || frame.Palette.Any(color => color.Red is < 0 or > 255
                     || color.Green is < 0 or > 255
                     || color.Blue is < 0 or > 255
@@ -128,7 +141,8 @@ public sealed partial class AnalysisDocumentValidator
         previousTimestamp = -1;
         foreach (var frame in value.AudioFrames ?? [])
         {
-            if (frame.TimestampMs <= previousTimestamp
+            if (frame is null
+                || frame.TimestampMs <= previousTimestamp
                 || frame.TimestampMs > value.DurationMs + value.Sampling.IntervalMs
                 || !IsUnit(frame.Rms)
                 || !IsUnit(frame.Flux))

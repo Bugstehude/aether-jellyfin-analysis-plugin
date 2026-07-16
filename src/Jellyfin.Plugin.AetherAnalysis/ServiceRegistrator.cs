@@ -28,7 +28,7 @@ public sealed class ServiceRegistrator : IPluginServiceRegistrator
 
         serviceCollection.AddPooledDbContextFactory<AnalysisDbContext>(options =>
             options.UseSqlite(connectionString));
-        var origins = Plugin.Instance.Configuration.AllowedOrigins
+        var origins = (Plugin.Instance.Configuration.AllowedOrigins ?? [])
             .Select(NormalizeOrigin)
             .OfType<string>()
             .Distinct(StringComparer.OrdinalIgnoreCase)
@@ -54,7 +54,9 @@ public sealed class ServiceRegistrator : IPluginServiceRegistrator
         serviceCollection.AddSingleton<MediaFingerprintService>();
         serviceCollection.AddSingleton<AnalysisRepresentationService>();
         serviceCollection.AddSingleton<AnalysisWriteCoordinator>();
+        serviceCollection.AddSingleton<AnalysisUploadResourceFilter>();
         serviceCollection.AddHostedService<AnalysisDatabaseInitializer>();
+        serviceCollection.AddHostedService<AnalysisCleanupWorker>();
     }
 
     private static string? NormalizeOrigin(string value)

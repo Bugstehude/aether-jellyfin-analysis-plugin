@@ -11,6 +11,9 @@ public sealed class PluginConfiguration : BasePluginConfiguration
     /// <summary>Gets or sets retention in days; zero disables age-based expiry.</summary>
     public int RetentionDays { get; set; }
 
+    /// <summary>Gets or sets the interval between maintenance runs.</summary>
+    public int CleanupIntervalHours { get; set; } = 6;
+
     /// <summary>Gets or sets the maximum uncompressed upload size.</summary>
     public int MaxUploadBytes { get; set; } = 50 * 1024 * 1024;
 

@@ -86,10 +86,6 @@ paths:
               required: true
               schema:
                 type: string
-            Content-Encoding:
-              description: Brotli when the client advertises `br`; identity otherwise.
-              schema:
-                enum: [br, identity]
           content:
             application/json:
               schema:
@@ -106,6 +102,14 @@ paths:
       operationId: headAetherAnalysis
       tags: [Analyses]
       summary: Test whether a current analysis exists
+      parameters:
+        - name: detail
+          in: query
+          required: false
+          description: Representation whose ETag is requested; defaults to balanced.
+          schema:
+            $ref: "#/components/schemas/DetailLevel"
+            default: balanced
       responses:
         "204":
           description: Current analysis exists
@@ -147,7 +151,7 @@ paths:
               schema:
                 type: string
         "204":
-          description: Identical content retained or existing analysis replaced
+          description: Existing analysis replaced
           headers:
             ETag:
               required: true
@@ -186,7 +190,7 @@ paths:
         "503":
           $ref: "#/components/responses/Unavailable"
         "507":
-          description: Configured analysis storage limit would be exceeded
+          description: Upload cannot fit even after retention and LRU cleanup
           content:
             application/problem+json:
               schema:
@@ -276,6 +280,24 @@ paths:
                 $ref: "#/components/schemas/StorageStatus"
         "401":
           $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+  /maintenance/cleanup:
+    post:
+      operationId: runAetherAnalysisCleanup
+      tags: [Administration]
+      summary: Run retention and over-capacity LRU cleanup immediately
+      responses:
+        "200":
+          description: Cleanup result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CleanupResult"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
 components:
   securitySchemes:
     jellyfinSession:
@@ -307,7 +329,7 @@ components:
       required: true
       schema:
         type: string
-        pattern: "^[a-z0-9][a-z0-9-]*$"
+        pattern: "^[a-z0-9][a-z0-9._-]*$"
         minLength: 1
         maxLength: 64
     AlgorithmVersion:
@@ -562,12 +584,32 @@ components:
           type: [string, "null"]
           format: date-time
         cleanup:
-          type: object
+          type: [object, "null"]
           properties:
-            orphanedRecords:
+            reason:
+              enum: [scheduled, upload, manual]
+            retentionDeletedRecords:
               type: integer
-            staleRecords:
+            capacityDeletedRecords:
               type: integer
+            deletedBytes:
+              type: integer
+    CleanupResult:
+      type: object
+      required:
+        - retentionDeletedRecords
+        - capacityDeletedRecords
+        - deletedBytes
+        - storedBytesAfter
+      properties:
+        retentionDeletedRecords:
+          type: integer
+        capacityDeletedRecords:
+          type: integer
+        deletedBytes:
+          type: integer
+        storedBytesAfter:
+          type: integer
     Problem:
       type: object
       required: [type, title, status, code, traceId]
@@ -591,6 +633,8 @@ components:
             - precondition-failed
             - unsupported-schema
             - forbidden
+            - invalid-identity
+            - invalid-request
             - storage-limit-exceeded
         traceId:
           type: string

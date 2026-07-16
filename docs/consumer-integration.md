@@ -1,5 +1,7 @@
 # Consumer integration
 
+The complete normative client behavior is defined in `docs/client-integration-contract.md`.
+
 Both AETHER stacks integrate through the same repository abstraction and immutable contract
 release from this repository.
 
@@ -15,6 +17,9 @@ Jellyfin after changing that list. Same-origin clients need no additional CORS e
 5. Before analysis, fetch the server fingerprint; upload it as `mediaFingerprintAtStart`.
 6. Treat 404 as inaccessible, missing or stale without trying to distinguish item existence.
 7. Retry 503 only after the server's `Retry-After` delay.
+
+Selection, decoding and analysis jobs always remain in the AETHER client. The plugin exposes no
+server-side job API and never starts analysis for a library or folder.
 
 ## Device policy
 

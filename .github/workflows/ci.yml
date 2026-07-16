@@ -11,23 +11,45 @@ permissions:
 
 jobs:
   build-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/setup-dotnet@d4c94342e560b34958eacfc5d055d21461ed1c5d # v4.3.1
         with:
-          dotnet-version: 9.0.x
+          dotnet-version: 9.0.304
           cache: true
-          cache-dependency-path: "**/*.csproj"
+          cache-dependency-path: |
+            **/packages.lock.json
+            .config/dotnet-tools.json
+            global.json
       - name: Restore
         run: dotnet restore --locked-mode
+      - name: Restore repository tools
+        run: dotnet tool restore
       - name: Build
         run: dotnet build --configuration Release --no-restore
+      - name: Verify formatting
+        run: dotnet format --verify-no-changes --no-restore
       - name: Test
-        run: dotnet test --configuration Release -p:AetherIncludeRuntimeDependencies=true
-      - name: Publish plugin
-        run: dotnet publish src/Jellyfin.Plugin.AetherAnalysis/Jellyfin.Plugin.AetherAnalysis.csproj --configuration Release --no-build --output artifacts/plugin
-      - uses: actions/upload-artifact@v4
+        run: dotnet test --configuration Release --no-restore --no-build
+      - name: Verify EF model snapshot
+        run: >-
+          dotnet tool run dotnet-ef -- migrations has-pending-model-changes
+          --project src/Jellyfin.Plugin.AetherAnalysis/Jellyfin.Plugin.AetherAnalysis.csproj
+          --startup-project tests/Jellyfin.Plugin.AetherAnalysis.Tests/Jellyfin.Plugin.AetherAnalysis.Tests.csproj
+          --no-build
+      - name: Audit NuGet dependencies
+        run: dotnet list package --include-transitive --vulnerable
+      - name: Build deterministic install archive
+        run: tools/package-plugin.sh
+      - name: Jellyfin 10.11.11 load smoke test
+        run: tools/smoke-jellyfin.sh
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: aether-analysis-plugin
-          path: artifacts/plugin/Jellyfin.Plugin.AetherAnalysis.dll
+          path: |
+            artifacts/package/aether-analysis-*.zip
+            artifacts/package/aether-analysis-*.zip.sha256
+            build.yaml
+            contracts/
