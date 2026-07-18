@@ -25,7 +25,7 @@ implementation milestone so consumers never infer features from the architecture
 - Metadata-only batch status plus metadata-only HEAD and conditional 304 responses.
 - Absolute ASP.NET request-size limit and defensive null/identity/detail validation.
 - Corrupt-record isolation plus non-sensitive process-local failure counters in admin status.
-- Unit/Golden-File tests, NuGet vulnerability gate and private-repository CI.
+- Unit/Golden-File tests, NuGet vulnerability gate and public-repository CI.
 - Deterministic single-DLL archive and digest-pinned Jellyfin start/restart smoke harness.
 - Reproducible Jellyfin catalog manifest tied to the versioned GitHub release archive.
 
@@ -34,10 +34,11 @@ implementation milestone so consumers never infer features from the architecture
 - Library-scan invalidation hook and orphan cleanup.
 - External importer for the transitional AETHER sidecar.
 - Generated TypeScript client package and automated consumer synchronization releases.
-- Successful CI execution of the Jellyfin 10.11.11 smoke harness, LXC backup test and Quest 3S benchmark.
+- Target-LXC install/upgrade/uninstall acceptance, backup test and Quest 3S benchmark.
 
 Folder and multi-item analysis management is intentionally implemented by AETHER clients and is
 not an open plugin task. The plugin never decodes media or starts analysis jobs; see ADR 0004.
 
-Until the real-server smoke test passes, builds are development artifacts and must not be treated
-as production-ready plugin releases.
+Version 0.1 is a test release: fresh installation, authenticated API access, storage initialization
+and restart pass against Jellyfin 10.11.11 on local ARM64 Docker and x64 CI. It must not be treated
+as production-ready until the target-LXC acceptance and the remaining P0 gates pass.

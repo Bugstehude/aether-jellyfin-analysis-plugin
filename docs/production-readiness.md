@@ -12,12 +12,14 @@ against the exact supported Jellyfin build. Passing unit tests alone is insuffic
 - [x] Persisted cleanup status and damped last-access writes.
 - [x] Corrupt-record isolation and operational error telemetry.
 - [ ] Controller-level authorization, CORS, precondition and malformed-payload integration tests.
-- [ ] Install, restart, upgrade and uninstall smoke test on Jellyfin 10.11.11.
+- [x] Fresh-install and restart smoke test on Jellyfin 10.11.11 (ARM64 local and x64 CI).
+- [ ] Upgrade and uninstall smoke test on the target Jellyfin 10.11.11 LXC.
 
 ## P1 release engineering
 
 - [x] Deterministic install archive with manifest, SHA-256 checksum and SBOM.
-- [ ] Dependency vulnerability and license gate.
+- [x] Dependency vulnerability gate.
+- [ ] Automated dependency-license gate.
 - [ ] Tagged release workflow; rollback and backup procedure is documented.
 - [ ] Generated TypeScript client artifact and consumer contract-hash gate.
 - [ ] Real-server test for multiple media sources, file replacement and access isolation.

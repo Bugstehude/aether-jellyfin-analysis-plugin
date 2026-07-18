@@ -13,4 +13,4 @@ owner: "Bugstehude"
 artifacts:
   - "Jellyfin.Plugin.AetherAnalysis.dll"
 changelog: >
-  Initial private development build targeting Jellyfin 10.11.11.
+  Initial test release targeting Jellyfin 10.11.11.

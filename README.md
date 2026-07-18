@@ -1,6 +1,6 @@
 # AETHER Analysis for Jellyfin
 
-Private development repository for the AETHER analysis plugin targeting **Jellyfin 10.11.11**.
+Canonical source repository for the AETHER analysis plugin targeting **Jellyfin 10.11.11**.
 The repository is the canonical source of truth for the plugin and for every AETHER client that
 reads or writes persistent video analyses.
 
@@ -46,8 +46,10 @@ the test project is isolated from the install archive to avoid native-library co
 Actual video analysis permanently remains an AETHER-client responsibility. Folder and multi-item
 checkbox selection are implemented by the client; the plugin never decodes media or starts jobs.
 
-See `docs/implementation-status.md` before deployment. The first baseline builds and tests locally,
-but is not production-ready until it passes the real Jellyfin 10.11.11/LXC smoke test.
+See `docs/implementation-status.md` before deployment. The 0.1 test release passes fresh-install
+and restart smoke tests against Jellyfin 10.11.11 on ARM64 locally and x64 in CI. Target-LXC
+installation, upgrade, uninstall and backup/restore acceptance remain required before the release
+may be called production-ready.
 
 ## Build
 
@@ -105,6 +107,9 @@ can adopt databases created by the private 0.1 development build without deletin
 
 ## License and repository visibility
 
-The repository remains private during early development. The plugin links against Jellyfin's
-GPL-licensed assemblies and is therefore licensed under GPL-3.0-or-later. Public distribution
-must include corresponding source code and license obligations.
+The repository is public for the 0.1 test release so Jellyfin can fetch its repository manifest
+and install archive without GitHub credentials. The plugin links against Jellyfin's GPL-licensed
+assemblies and is therefore licensed under GPL-3.0-or-later. Public distribution must include
+corresponding source code and satisfy the license obligations. Making this repository private
+again leaves an installed copy intact but disables fresh installations and catalog updates unless
+the manifest, archive and corresponding source are mirrored on an accessible endpoint.
