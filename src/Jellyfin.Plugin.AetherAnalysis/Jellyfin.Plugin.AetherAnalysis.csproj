@@ -6,6 +6,8 @@
     <Description>Persistent multi-resolution AETHER video analysis for Jellyfin.</Description>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
 
   <ItemGroup>

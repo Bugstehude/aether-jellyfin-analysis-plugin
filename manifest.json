@@ -1,0 +1,20 @@
+[
+  {
+    "guid": "ea32f6f5-de62-4784-9b60-4cfe664995ed",
+    "name": "AETHER Analysis",
+    "description": "Stores compact, multi-resolution AETHER video analyses on the Jellyfin server and serves device-appropriate representations to authorized AETHER clients.",
+    "overview": "Persistent multi-resolution AETHER video analysis storage",
+    "owner": "Bugstehude",
+    "category": "General",
+    "versions": [
+      {
+        "version": "0.1.0.0",
+        "changelog": "Initial release for Jellyfin 10.11.11.",
+        "targetAbi": "10.11.11.0",
+        "sourceUrl": "https://github.com/Bugstehude/aether-jellyfin-analysis-plugin/releases/download/v0.1.0.0/aether-analysis-0.1.0.0.zip",
+        "checksum": "c9e904a54ea89c6af81de129c8713f1b",
+        "timestamp": "2026-07-18T00:00:00Z"
+      }
+    ]
+  }
+]

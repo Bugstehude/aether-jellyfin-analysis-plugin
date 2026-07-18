@@ -66,6 +66,21 @@ and CycloneDX SBOM are generated beside it. The archive contains only
 test-native libraries or host framework assemblies into Jellyfin's plugin directory. Jellyfin
 10.11.11 supplies the exactly pinned runtime dependencies.
 
+## Install through Jellyfin
+
+Once this repository and its release assets are public, add this URL in
+**Dashboard > Plugins > Repositories**:
+
+```text
+https://raw.githubusercontent.com/Bugstehude/aether-jellyfin-analysis-plugin/main/manifest.json
+```
+
+After saving, open the Jellyfin plugin catalog, select **AETHER Analysis**, install it and restart
+Jellyfin. The repository manifest pins the Jellyfin ABI, release archive and MD5 checksum Jellyfin
+uses to validate the download. A private GitHub repository cannot serve this unauthenticated URL;
+for private long-term operation, mirror `manifest.json` and the referenced release ZIP on a public
+HTTPS endpoint and update `sourceUrl` accordingly.
+
 The package references are pinned to Jellyfin 10.11.11. Do not upgrade them independently of
 the target-server compatibility matrix and an integration test against that exact server build.
 

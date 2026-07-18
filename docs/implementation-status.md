@@ -27,6 +27,7 @@ implementation milestone so consumers never infer features from the architecture
 - Corrupt-record isolation plus non-sensitive process-local failure counters in admin status.
 - Unit/Golden-File tests, NuGet vulnerability gate and private-repository CI.
 - Deterministic single-DLL archive and digest-pinned Jellyfin start/restart smoke harness.
+- Reproducible Jellyfin catalog manifest tied to the versioned GitHub release archive.
 
 ## Accepted but not yet implemented
 

@@ -42,5 +42,9 @@ else
 fi
 
 python3 "$root/tools/generate-sbom.py" "$package_dir/aether-analysis-${version}.cdx.json"
+python3 "$root/tools/generate-repository-manifest.py" \
+  "$archive" \
+  "$package_dir/manifest.json" \
+  --build "$root/build.yaml"
 
 echo "$archive"
