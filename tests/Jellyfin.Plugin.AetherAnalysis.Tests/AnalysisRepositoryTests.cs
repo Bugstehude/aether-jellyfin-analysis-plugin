@@ -172,6 +172,46 @@ public sealed class AnalysisRepositoryTests
     }
 
     [Fact]
+    public async Task MetadataBatchReturnsOnlyRequestedLightweightRecords()
+    {
+        var path = Path.Combine(Path.GetTempPath(), $"aether-analysis-{Guid.NewGuid():N}.sqlite");
+        try
+        {
+            var options = new DbContextOptionsBuilder<AnalysisDbContext>()
+                .UseSqlite($"Data Source={path}")
+                .Options;
+            var factory = new TestContextFactory(options);
+            await using (var context = await factory.CreateDbContextAsync())
+            {
+                await context.Database.MigrateAsync();
+            }
+
+            var repository = new AnalysisRepository(factory);
+            var requested = CreateRecord("source-requested", "\"requested\"", 11);
+            var unrelated = CreateRecord("source-unrelated", "\"unrelated\"", 17);
+            await repository.UpsertAsync(requested, null, default);
+            await repository.UpsertAsync(unrelated, null, default);
+            var requestedKey = new AnalysisKey(
+                requested.ItemId,
+                requested.MediaSourceId,
+                requested.AlgorithmId,
+                requested.AlgorithmVersion);
+            var missingKey = requestedKey with { MediaSourceId = "source-missing" };
+
+            var metadata = await repository.GetMetadataAsync([requestedKey, missingKey], default);
+
+            var result = Assert.Single(metadata);
+            Assert.Equal(requestedKey, result.Key);
+            Assert.Equal(11, result.Value.StoredBytes);
+            Assert.Equal("\"requested\"", result.Value.Etag);
+        }
+        finally
+        {
+            File.Delete(path);
+        }
+    }
+
+    [Fact]
     public async Task FailedBoundedStorePreconditionDoesNotEvictOtherRecords()
     {
         var path = Path.Combine(Path.GetTempPath(), $"aether-analysis-{Guid.NewGuid():N}.sqlite");

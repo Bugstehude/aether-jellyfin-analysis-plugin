@@ -16,3 +16,9 @@ All notable changes to implementation and canonical contracts are recorded here.
 - Hard request-size and defensive malformed-payload validation.
 - Deterministic install archive, checksum and Jellyfin 10.11.11 container load gate.
 - Normative client workflow for checkbox selection and client-owned analysis jobs.
+- Atomic bounded upload transactions and batched retention/LRU cleanup.
+- Metadata-only batch status, HEAD and conditional 304 paths.
+- Process-local corruption/touch-failure telemetry in administrator status.
+- Patched native SQLite test runtime with an explicit Jellyfin-owned production runtime boundary.
+- Contract synchronization hash, CycloneDX SBOM and backup/rollback operations guide.
+- Authenticated, digest-pinned Jellyfin start/restart smoke harness.

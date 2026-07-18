@@ -6,6 +6,7 @@ implementation milestone so consumers never infer features from the architecture
 ## Implemented in 0.1 development baseline
 
 - Exact Jellyfin 10.11.11, .NET 9 and EF Core 9.0.11 pins.
+- Server-owned SQLite runtime boundary plus patched, isolated native SQLite test runtime.
 - Canonical OpenAPI, schema version 2 JSON Schemas and Golden Files.
 - Native Jellyfin authentication with item visibility checks and non-leaking 404 responses.
 - Administrator or explicit analyzer-user uploads; administrator-only deletion.
@@ -21,15 +22,18 @@ implementation milestone so consumers never infer features from the architecture
 - EF Core migration baseline with lossless adoption of 0.1 development databases.
 - Scheduled, manual and upload-time retention/LRU cleanup with persisted status.
 - Damped access-time updates to avoid a database write on every playback request.
+- Metadata-only batch status plus metadata-only HEAD and conditional 304 responses.
 - Absolute ASP.NET request-size limit and defensive null/identity/detail validation.
-- Unit/Golden-File tests and private-repository CI.
+- Corrupt-record isolation plus non-sensitive process-local failure counters in admin status.
+- Unit/Golden-File tests, NuGet vulnerability gate and private-repository CI.
+- Deterministic single-DLL archive and digest-pinned Jellyfin start/restart smoke harness.
 
 ## Accepted but not yet implemented
 
 - Library-scan invalidation hook and orphan cleanup.
 - External importer for the transitional AETHER sidecar.
 - Generated TypeScript client package and automated consumer synchronization releases.
-- Real Jellyfin 10.11.11 installation smoke test, LXC backup test and Quest 3S benchmark.
+- Successful CI execution of the Jellyfin 10.11.11 smoke harness, LXC backup test and Quest 3S benchmark.
 
 Folder and multi-item analysis management is intentionally implemented by AETHER clients and is
 not an open plugin task. The plugin never decodes media or starts analysis jobs; see ADR 0004.

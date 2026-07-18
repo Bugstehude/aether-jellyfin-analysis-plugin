@@ -15,7 +15,10 @@
     <PackageReference Include="Jellyfin.Model" Version="10.11.11">
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.11">
+    <!-- Jellyfin 10.11.11 owns the process-wide SQLite native runtime. Using
+         the Core provider prevents the plugin package from bringing a second,
+         conflicting native e_sqlite3 binary into the server process. -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="9.0.11">
       <ExcludeAssets Condition="'$(AetherIncludeRuntimeDependencies)' != 'true'">runtime</ExcludeAssets>
     </PackageReference>
   </ItemGroup>

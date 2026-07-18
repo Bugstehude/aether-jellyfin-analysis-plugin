@@ -62,7 +62,10 @@ public sealed class AnalysisRepresentationService
     }
 
     /// <summary>Produces a deterministic compact, balanced or full representation.</summary>
-    public AnalysisRepresentation Create(ReadOnlySpan<byte> masterJson, string requestedDetail)
+    public AnalysisRepresentation Create(
+        ReadOnlySpan<byte> masterJson,
+        string requestedDetail,
+        string? masterEtag = null)
     {
         var detail = requestedDetail switch
         {
@@ -93,7 +96,11 @@ public sealed class AnalysisRepresentationService
 
         root["representation"] = Representation(detail, sourceInterval, targetInterval > sourceInterval);
         var bytes = JsonSerializer.SerializeToUtf8Bytes(root, SerializerOptions);
-        return new AnalysisRepresentation(detail, bytes, CreateEtag(bytes), targetInterval);
+        return new AnalysisRepresentation(
+            detail,
+            bytes,
+            CreateRepresentationEtag(masterEtag ?? CreateEtag(masterJson), detail),
+            targetInterval);
     }
 
     /// <summary>Creates a strong content ETag.</summary>
@@ -101,6 +108,13 @@ public sealed class AnalysisRepresentationService
     {
         var hash = Convert.ToHexString(SHA256.HashData(bytes)).ToLowerInvariant();
         return $"\"sha256-{hash}\"";
+    }
+
+    /// <summary>Creates a strong validator for one deterministic detail representation.</summary>
+    public static string CreateRepresentationEtag(string masterEtag, string detail)
+    {
+        var identity = string.Concat(ReductionVersion, "\n", detail, "\n", masterEtag);
+        return CreateEtag(System.Text.Encoding.UTF8.GetBytes(identity));
     }
 
     private static JsonArray ReduceVisualFrames(JsonArray source, int intervalMs)

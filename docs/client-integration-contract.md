@@ -86,12 +86,15 @@ user-configurable.
 | `507` | Inform the user that the result cannot fit after server cleanup; do not loop. |
 
 Retries of reads are safe. A repeated `PUT` without `If-Match` intentionally replaces the current
-analysis; clients that coordinate multiple writers should send the ETag in `If-Match`.
+analysis; clients that coordinate multiple writers should send the master ETag returned by PUT or
+`POST /analyses/query` in `If-Match`. GET/HEAD ETags identify one `detail` representation and are
+used only with `If-None-Match`.
 
 ## Contract synchronization gate
 
 Consumers pin a tagged release or immutable commit of this repository. Their CI must:
 
+- compare `contracts/contract.sha256` before generated clients are built;
 - validate upload fixtures against the pinned schema and the plugin Golden Files;
 - compile generated models from `contracts/openapi/aether-analysis-v1.yaml`;
 - verify that API v1, schema 2 and `aether-visual@1.0.0` are supported;

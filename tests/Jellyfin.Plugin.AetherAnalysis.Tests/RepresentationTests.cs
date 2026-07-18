@@ -46,4 +46,20 @@ public sealed class RepresentationTests
 
         Assert.NotEqual(compact.Etag, full.Etag);
     }
+
+    [Fact]
+    public void RepresentationEtagCanBeResolvedWithoutMaterializingRepresentation()
+    {
+        var service = new AnalysisRepresentationService();
+        var master = System.Text.Encoding.UTF8.GetBytes(
+            """{"sampling":{"intervalMs":250},"frames":[]}""");
+        var masterEtag = AnalysisRepresentationService.CreateEtag(master);
+
+        var representation = service.Create(master, "balanced", masterEtag);
+        var metadataOnlyEtag = AnalysisRepresentationService.CreateRepresentationEtag(
+            masterEtag,
+            "balanced");
+
+        Assert.Equal(metadataOnlyEtag, representation.Etag);
+    }
 }

@@ -27,6 +27,7 @@ public sealed class AnalysisController(
     MediaFingerprintService fingerprintService,
     AnalysisRepresentationService representationService,
     AnalysisWriteCoordinator writeCoordinator,
+    AnalysisOperationalTelemetry operationalTelemetry,
     ILogger<AnalysisController> logger) : ControllerBase
 {
     private const int AbsoluteRequestSizeLimitBytes = 50 * 1024 * 1024;
@@ -101,6 +102,21 @@ public sealed class AnalysisController(
         }
 
         var key = new AnalysisKey(itemId, mediaSourceId, algorithmId, algorithmVersion);
+        var metadata = await GetMetadataAsync(key, cancellationToken).ConfigureAwait(false);
+        if (metadata is null || !string.Equals(metadata.MediaFingerprint, media.Fingerprint, StringComparison.Ordinal))
+        {
+            return NotFoundProblem();
+        }
+
+        var expectedEtag = AnalysisRepresentationService.CreateRepresentationEtag(metadata.Etag, detail);
+        Response.Headers.ETag = expectedEtag;
+        Response.Headers.CacheControl = "private, no-cache";
+        if (HeaderMatches(Request.Headers.IfNoneMatch, expectedEtag))
+        {
+            await TouchIfDueAsync(key, metadata.LastAccessedAt, cancellationToken).ConfigureAwait(false);
+            return StatusCode(StatusCodes.Status304NotModified);
+        }
+
         var record = await repository.GetAsync(key, cancellationToken).ConfigureAwait(false);
         if (record is null || !string.Equals(record.MediaFingerprint, media.Fingerprint, StringComparison.Ordinal))
         {
@@ -111,10 +127,11 @@ public sealed class AnalysisController(
         try
         {
             var master = CompressionCodec.Decompress(record.CompressedDocument, record.UncompressedBytes);
-            representation = representationService.Create(master, detail);
+            representation = representationService.Create(master, detail, record.Etag);
         }
         catch (Exception exception) when (exception is InvalidDataException or JsonException)
         {
+            operationalTelemetry.RecordCorruptRead();
             logger.LogError(
                 exception,
                 "Stored AETHER analysis is corrupt for item {ItemId}, source {MediaSourceId}, algorithm {AlgorithmId}@{AlgorithmVersion}",
@@ -128,12 +145,8 @@ public sealed class AnalysisController(
                 "Stored analysis is temporarily unavailable.");
         }
 
-        if (record.LastAccessedAt <= DateTimeOffset.UtcNow.AddHours(-1))
-        {
-            await TouchBestEffortAsync(key, cancellationToken).ConfigureAwait(false);
-        }
+        await TouchIfDueAsync(key, record.LastAccessedAt, cancellationToken).ConfigureAwait(false);
         Response.Headers.ETag = representation.Etag;
-        Response.Headers.CacheControl = "private, no-cache";
         if (HeaderMatches(Request.Headers.IfNoneMatch, representation.Etag))
         {
             return StatusCode(StatusCodes.Status304NotModified);
@@ -165,36 +178,21 @@ public sealed class AnalysisController(
         }
 
         var key = new AnalysisKey(itemId, mediaSourceId, algorithmId, algorithmVersion);
-        var record = await repository.GetAsync(key, cancellationToken).ConfigureAwait(false);
+        var record = await GetMetadataAsync(key, cancellationToken).ConfigureAwait(false);
         if (record is null || !string.Equals(record.MediaFingerprint, media.Fingerprint, StringComparison.Ordinal))
         {
             return NotFound();
         }
 
-        AnalysisRepresentation representation;
-        try
+        var etag = AnalysisRepresentationService.CreateRepresentationEtag(record.Etag, detail);
+        await TouchIfDueAsync(key, record.LastAccessedAt, cancellationToken).ConfigureAwait(false);
+        Response.Headers.ETag = etag;
+        Response.Headers["X-Aether-Analysis-Created-At"] = record.CreatedAt.ToString("O");
+        if (HeaderMatches(Request.Headers.IfNoneMatch, etag))
         {
-            var master = CompressionCodec.Decompress(record.CompressedDocument, record.UncompressedBytes);
-            representation = representationService.Create(master, detail);
-        }
-        catch (Exception exception) when (exception is InvalidDataException or JsonException)
-        {
-            logger.LogError(
-                exception,
-                "Stored AETHER analysis is corrupt for item {ItemId}, source {MediaSourceId}, algorithm {AlgorithmId}@{AlgorithmVersion}",
-                itemId,
-                mediaSourceId,
-                algorithmId,
-                algorithmVersion);
-            return StatusCode(StatusCodes.Status503ServiceUnavailable);
+            return StatusCode(StatusCodes.Status304NotModified);
         }
 
-        if (record.LastAccessedAt <= DateTimeOffset.UtcNow.AddHours(-1))
-        {
-            await TouchBestEffortAsync(key, cancellationToken).ConfigureAwait(false);
-        }
-        Response.Headers.ETag = representation.Etag;
-        Response.Headers["X-Aether-Analysis-Created-At"] = record.CreatedAt.ToString("O");
         return NoContent();
     }
 
@@ -345,24 +343,34 @@ public sealed class AnalysisController(
             return ProblemResult(StatusCodes.Status413PayloadTooLarge, "payload-too-large", "Batch selection exceeds limits.");
         }
 
-        var items = new List<object>(selection.Items.Count);
-        foreach (var selected in selection.Items)
+        var lookups = selection.Items.Select(selected =>
         {
             var media = GetAccessibleMedia(selected.ItemId, selected.MediaSourceId);
-            if (media is null)
+            var key = new AnalysisKey(
+                selected.ItemId,
+                selected.MediaSourceId,
+                selection.Algorithm.Id,
+                selection.Algorithm.Version);
+            return (Selected: selected, Media: media, Key: key);
+        }).ToArray();
+        var metadata = await repository.GetMetadataAsync(
+            lookups.Where(value => value.Media is not null).Select(value => value.Key).ToArray(),
+            cancellationToken).ConfigureAwait(false);
+        var items = new List<object>(lookups.Length);
+        foreach (var lookup in lookups)
+        {
+            var selected = lookup.Selected;
+            if (lookup.Media is null)
             {
                 items.Add(new { selected.ItemId, selected.MediaSourceId, status = "missing" });
                 continue;
             }
 
-            var record = await repository.GetAsync(
-                new AnalysisKey(selected.ItemId, selected.MediaSourceId, selection.Algorithm.Id, selection.Algorithm.Version),
-                cancellationToken).ConfigureAwait(false);
-            if (record is null)
+            if (!metadata.TryGetValue(lookup.Key, out var record))
             {
                 items.Add(new { selected.ItemId, selected.MediaSourceId, status = "missing" });
             }
-            else if (!string.Equals(record.MediaFingerprint, media.Fingerprint, StringComparison.Ordinal))
+            else if (!string.Equals(record.MediaFingerprint, lookup.Media.Fingerprint, StringComparison.Ordinal))
             {
                 items.Add(new { selected.ItemId, selected.MediaSourceId, status = "stale", reason = "media-changed" });
             }
@@ -375,7 +383,7 @@ public sealed class AnalysisController(
                     status = "available",
                     createdAt = record.CreatedAt,
                     frameCount = record.FrameCount,
-                    storedBytes = record.CompressedDocument.Length,
+                    record.StoredBytes,
                     etag = record.Etag
                 });
             }
@@ -422,9 +430,10 @@ public sealed class AnalysisController(
         ApplyCorsHeaders();
         var stats = await repository.GetStatsAsync(cancellationToken).ConfigureAwait(false);
         var maintenance = await repository.GetMaintenanceSummaryAsync(cancellationToken).ConfigureAwait(false);
+        var operational = operationalTelemetry.Snapshot();
         return Ok(new
         {
-            service = "ready",
+            service = operational.CorruptReadCount > 0 ? "degraded" : "ready",
             databaseSchemaVersion = 2,
             stats.RecordCount,
             stats.StoredBytes,
@@ -440,7 +449,8 @@ public sealed class AnalysisController(
                     retentionDeletedRecords = maintenance.LastRetentionDeletedRecords,
                     capacityDeletedRecords = maintenance.LastCapacityDeletedRecords,
                     deletedBytes = maintenance.LastDeletedBytes
-                }
+                },
+            operational
         });
     }
 
@@ -588,12 +598,28 @@ public sealed class AnalysisController(
         }
         catch (Exception exception) when (exception is not OperationCanceledException)
         {
+            operationalTelemetry.RecordTouchFailure();
             logger.LogWarning(
                 exception,
                 "Could not update AETHER analysis access time for item {ItemId}, source {MediaSourceId}",
                 key.ItemId,
                 key.MediaSourceId);
         }
+    }
+
+    private Task TouchIfDueAsync(
+        AnalysisKey key,
+        DateTimeOffset lastAccessedAt,
+        CancellationToken cancellationToken) => lastAccessedAt <= DateTimeOffset.UtcNow.AddHours(-1)
+        ? TouchBestEffortAsync(key, cancellationToken)
+        : Task.CompletedTask;
+
+    private async Task<AnalysisRecordMetadata?> GetMetadataAsync(
+        AnalysisKey key,
+        CancellationToken cancellationToken)
+    {
+        var metadata = await repository.GetMetadataAsync([key], cancellationToken).ConfigureAwait(false);
+        return metadata.GetValueOrDefault(key);
     }
 
     private static Configuration.PluginConfiguration CurrentConfiguration =>

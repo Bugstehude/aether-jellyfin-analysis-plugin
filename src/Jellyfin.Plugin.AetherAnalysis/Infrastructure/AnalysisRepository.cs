@@ -37,6 +37,57 @@ public sealed class AnalysisRepository(IDbContextFactory<AnalysisDbContext> cont
     }
 
     /// <inheritdoc />
+    public async Task<IReadOnlyDictionary<AnalysisKey, AnalysisRecordMetadata>> GetMetadataAsync(
+        IReadOnlyCollection<AnalysisKey> keys,
+        CancellationToken cancellationToken)
+    {
+        if (keys.Count == 0)
+        {
+            return new Dictionary<AnalysisKey, AnalysisRecordMetadata>();
+        }
+
+        var requested = keys.ToHashSet();
+        var itemIds = requested.Select(value => value.ItemId).Distinct().ToArray();
+        var mediaSourceIds = requested.Select(value => value.MediaSourceId).Distinct().ToArray();
+        var algorithmIds = requested.Select(value => value.AlgorithmId).Distinct().ToArray();
+        var algorithmVersions = requested.Select(value => value.AlgorithmVersion).Distinct().ToArray();
+        await using var context = await contextFactory.CreateDbContextAsync(cancellationToken).ConfigureAwait(false);
+        var candidates = await context.Analyses
+            .AsNoTracking()
+            .Where(value => itemIds.Contains(value.ItemId)
+                && mediaSourceIds.Contains(value.MediaSourceId)
+                && algorithmIds.Contains(value.AlgorithmId)
+                && algorithmVersions.Contains(value.AlgorithmVersion))
+            .Select(value => new
+            {
+                value.ItemId,
+                value.MediaSourceId,
+                value.AlgorithmId,
+                value.AlgorithmVersion,
+                value.MediaFingerprint,
+                value.CreatedAtUnixTimeMilliseconds,
+                value.LastAccessedAtUnixTimeMilliseconds,
+                value.FrameCount,
+                StoredBytes = value.CompressedDocument.Length,
+                value.Etag
+            })
+            .ToListAsync(cancellationToken)
+            .ConfigureAwait(false);
+
+        return candidates
+            .Select(value => new AnalysisRecordMetadata(
+                new AnalysisKey(value.ItemId, value.MediaSourceId, value.AlgorithmId, value.AlgorithmVersion),
+                value.MediaFingerprint,
+                DateTimeOffset.FromUnixTimeMilliseconds(value.CreatedAtUnixTimeMilliseconds),
+                DateTimeOffset.FromUnixTimeMilliseconds(value.LastAccessedAtUnixTimeMilliseconds),
+                value.FrameCount,
+                value.StoredBytes,
+                value.Etag))
+            .Where(value => requested.Contains(value.Key))
+            .ToDictionary(value => value.Key);
+    }
+
+    /// <inheritdoc />
     public async Task<bool> UpsertAsync(
         AnalysisRecord record,
         string? expectedEtag,

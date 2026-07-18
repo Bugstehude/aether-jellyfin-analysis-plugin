@@ -41,4 +41,6 @@ else
   (cd "$package_dir" && shasum -a 256 "$(basename "$archive")" > "$(basename "$archive").sha256")
 fi
 
+python3 "$root/tools/generate-sbom.py" "$package_dir/aether-analysis-${version}.cdx.json"
+
 echo "$archive"

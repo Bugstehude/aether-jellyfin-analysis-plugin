@@ -31,6 +31,8 @@ jobs:
         run: dotnet build --configuration Release --no-restore
       - name: Verify formatting
         run: dotnet format --verify-no-changes --no-restore
+      - name: Verify client contract hash
+        run: tools/contract-hash.sh --check
       - name: Test
         run: dotnet test --configuration Release --no-restore --no-build
       - name: Verify EF model snapshot
@@ -51,5 +53,6 @@ jobs:
           path: |
             artifacts/package/aether-analysis-*.zip
             artifacts/package/aether-analysis-*.zip.sha256
+            artifacts/package/aether-analysis-*.cdx.json
             build.yaml
             contracts/

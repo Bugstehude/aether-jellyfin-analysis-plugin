@@ -9,6 +9,11 @@ public interface IAnalysisRepository
     /// <summary>Marks a successfully served record as accessed with write damping.</summary>
     Task TouchAsync(AnalysisKey key, CancellationToken cancellationToken);
 
+    /// <summary>Gets lightweight metadata for a bounded set without loading analysis blobs.</summary>
+    Task<IReadOnlyDictionary<AnalysisKey, AnalysisRecordMetadata>> GetMetadataAsync(
+        IReadOnlyCollection<AnalysisKey> keys,
+        CancellationToken cancellationToken);
+
     /// <summary>Creates or atomically replaces a record.</summary>
     Task<bool> UpsertAsync(AnalysisRecord record, string? expectedEtag, CancellationToken cancellationToken);
 
@@ -43,6 +48,16 @@ public sealed record AnalysisStorageStats(
     long StoredBytes,
     DateTimeOffset? OldestRecordAt);
 
+/// <summary>Lightweight analysis metadata used by batch status queries.</summary>
+public sealed record AnalysisRecordMetadata(
+    AnalysisKey Key,
+    string MediaFingerprint,
+    DateTimeOffset CreatedAt,
+    DateTimeOffset LastAccessedAt,
+    int FrameCount,
+    int StoredBytes,
+    string Etag);
+
 /// <summary>One atomic bounded-store request.</summary>
 public sealed record AnalysisStoreRequest(
     AnalysisRecord Record,
@@ -55,9 +70,16 @@ public sealed record AnalysisStoreRequest(
 /// <summary>Outcome of an atomic bounded store.</summary>
 public enum AnalysisStoreResult
 {
+    /// <summary>A new analysis record was created.</summary>
     Created,
+
+    /// <summary>An existing analysis record was atomically replaced.</summary>
     Replaced,
+
+    /// <summary>The supplied optimistic concurrency condition did not match.</summary>
     PreconditionFailed,
+
+    /// <summary>The record could not be stored within the configured capacity.</summary>
     StorageLimitExceeded
 }
 

@@ -53,6 +53,7 @@ public sealed class ServiceRegistrator : IPluginServiceRegistrator
         serviceCollection.AddSingleton<AnalysisDocumentValidator>();
         serviceCollection.AddSingleton<MediaFingerprintService>();
         serviceCollection.AddSingleton<AnalysisRepresentationService>();
+        serviceCollection.AddSingleton<AnalysisOperationalTelemetry>();
         serviceCollection.AddSingleton<AnalysisWriteCoordinator>();
         serviceCollection.AddSingleton<AnalysisUploadResourceFilter>();
         serviceCollection.AddHostedService<AnalysisDatabaseInitializer>();

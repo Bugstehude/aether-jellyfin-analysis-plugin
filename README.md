@@ -11,16 +11,22 @@ The following artifacts are normative and are versioned together here:
 - `contracts/openapi/aether-analysis-v1.yaml` — HTTP API under `/AetherAnalysis/v1`
 - `contracts/schemas/analysis-upload-v2.schema.json` — upload document schema
 - `contracts/examples/` — valid and invalid Golden Files
+- `contracts/contract.sha256` — synchronization identity over OpenAPI and JSON Schemas
 - `docs/architecture/plugin-concept.md` — architecture, security and lifecycle decisions
 - `docs/compatibility.md` — exact Jellyfin/.NET/EF Core compatibility matrix
 - `docs/implementation-status.md` — implemented behavior versus accepted follow-up work
 - `docs/client-integration-contract.md` — normative client workflow and retry/device policy
 - `docs/production-readiness.md` — release blockers and verification gates
+- `docs/security.md` — reporting process and the process-owned SQLite dependency boundary
+- `docs/operations.md` — capacity, backup, restore, rollback and uninstall procedures
 - `CHANGELOG.md` — semantic contract and implementation changes
 
 Consumers must import or generate from these files. They must not maintain divergent copies.
 The URL version (`v1`), document schema (`2`) and analysis algorithm version are deliberately
 independent.
+
+After an intentional OpenAPI or schema change, run `tools/contract-hash.sh` and update
+`contracts/contract.sha256` in the same commit. CI rejects stale contract identities.
 
 ## Current scope
 
@@ -35,6 +41,8 @@ Version 0.1 implements the storage-plugin foundation:
 - contract and unit tests.
 
 The plugin stores no video frames, thumbnails, source media, Jellyfin tokens or user passwords.
+It uses Jellyfin's process-owned SQLite runtime in production; the patched native SQLite bundle in
+the test project is isolated from the install archive to avoid native-library conflicts.
 Actual video analysis permanently remains an AETHER-client responsibility. Folder and multi-item
 checkbox selection are implemented by the client; the plugin never decodes media or starts jobs.
 
@@ -47,14 +55,16 @@ Requirements: .NET SDK 9 and network access to NuGet.
 
 ```bash
 dotnet restore --locked-mode
-dotnet test --configuration Release -p:AetherIncludeRuntimeDependencies=true
-dotnet publish src/Jellyfin.Plugin.AetherAnalysis/Jellyfin.Plugin.AetherAnalysis.csproj \
-  --configuration Release --output artifacts/plugin
+dotnet build --configuration Release --no-restore
+dotnet test --configuration Release --no-restore --no-build
+tools/package-plugin.sh
 ```
 
-The installable artifact is `artifacts/plugin/Jellyfin.Plugin.AetherAnalysis.dll`. Do not copy the
-generated `runtimes/` directory or host framework assemblies into Jellyfin's plugin directory;
-Jellyfin 10.11.11 already supplies the exactly pinned runtime dependencies.
+The installable artifact is `artifacts/package/aether-analysis-0.1.0.0.zip`. Its SHA-256 checksum
+and CycloneDX SBOM are generated beside it. The archive contains only
+`Jellyfin.Plugin.AetherAnalysis.dll`; do not copy
+test-native libraries or host framework assemblies into Jellyfin's plugin directory. Jellyfin
+10.11.11 supplies the exactly pinned runtime dependencies.
 
 The package references are pinned to Jellyfin 10.11.11. Do not upgrade them independently of
 the target-server compatibility matrix and an integration test against that exact server build.
