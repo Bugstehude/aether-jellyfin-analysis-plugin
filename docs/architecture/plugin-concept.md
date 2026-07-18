@@ -16,7 +16,7 @@ Clients ausliefert und verwaltet.
 
 Es dokumentiert insbesondere folgende projektübergreifend verbindliche Entscheidungen:
 
-- Verantwortungsgrenze zwischen AETHER-Client, Jellyfin-Plugin und optionaler Serveranalyse
+- Verantwortungsgrenze zwischen AETHER-Client und Jellyfin-Plugin
 - REST-API und Autorisierungsmodell
 - Struktur, Validierung und Versionierung der JSON-Daten
 - Dateibezogene Zuordnung und Invalidierung nach Medienänderungen
@@ -91,8 +91,9 @@ Die erste Version führt die eigentliche Bildanalyse nicht auf dem Jellyfin-Serv
 Desktop bleibt der Analyse-Worker. Damit wird vermieden, dass der Server mit FFmpeg jedes Video
 zusätzlich decodieren muss.
 
-Eine serverseitige Analyse bleibt eine spätere, separat zu benchmarkende Erweiterung. Sie darf
-nicht implizit Teil der Speicher-API werden.
+Serverseitiges Decoding und eine Plugin-eigene Job-Engine sind dauerhaft nicht Teil dieses
+Plugins. Falls später ein separater Worker gewünscht wird, verhält er sich als AETHER-Client und
+verwendet ausschließlich dieselbe öffentliche API.
 
 ### 4.2 Gemeinsamer Plugin-Vertrag für parallele Projekte
 

@@ -6,6 +6,7 @@ implementation milestone so consumers never infer features from the architecture
 ## Implemented in 0.1 development baseline
 
 - Exact Jellyfin 10.11.11, .NET 9 and EF Core 9.0.11 pins.
+- Server-owned SQLite runtime boundary plus patched, isolated native SQLite test runtime.
 - Canonical OpenAPI, schema version 2 JSON Schemas and Golden Files.
 - Native Jellyfin authentication with item visibility checks and non-leaking 404 responses.
 - Administrator or explicit analyzer-user uploads; administrator-only deletion.
@@ -18,18 +19,26 @@ implementation milestone so consumers never infer features from the architecture
 - Jellyfin dashboard configuration for 10 GiB default capacity, retention and browser origins.
 - Hard rejection before an upload would exceed configured capacity.
 - Serialized capacity-check/commit section so concurrent uploads cannot bypass the hard ceiling.
-- Unit/Golden-File tests and private-repository CI.
+- EF Core migration baseline with lossless adoption of 0.1 development databases.
+- Scheduled, manual and upload-time retention/LRU cleanup with persisted status.
+- Damped access-time updates to avoid a database write on every playback request.
+- Metadata-only batch status plus metadata-only HEAD and conditional 304 responses.
+- Absolute ASP.NET request-size limit and defensive null/identity/detail validation.
+- Corrupt-record isolation plus non-sensitive process-local failure counters in admin status.
+- Unit/Golden-File tests, NuGet vulnerability gate and public-repository CI.
+- Deterministic single-DLL archive and digest-pinned Jellyfin start/restart smoke harness.
+- Reproducible Jellyfin catalog manifest tied to the versioned GitHub release archive.
 
 ## Accepted but not yet implemented
 
-- LRU capacity cleanup and age-based retention task. The baseline enforces a hard capacity ceiling
-  but does not yet evict older records automatically.
-- EF Core migrations beyond initial schema creation.
 - Library-scan invalidation hook and orphan cleanup.
-- Per-folder/item analysis job management; the plugin does not decode media in v1.
 - External importer for the transitional AETHER sidecar.
 - Generated TypeScript client package and automated consumer synchronization releases.
-- Real Jellyfin 10.11.11 installation smoke test, LXC backup test and Quest 3S benchmark.
+- Target-LXC install/upgrade/uninstall acceptance, backup test and Quest 3S benchmark.
 
-Until the real-server smoke test passes, builds are development artifacts and must not be treated
-as production-ready plugin releases.
+Folder and multi-item analysis management is intentionally implemented by AETHER clients and is
+not an open plugin task. The plugin never decodes media or starts analysis jobs; see ADR 0004.
+
+Version 0.1 is a test release: fresh installation, authenticated API access, storage initialization
+and restart pass against Jellyfin 10.11.11 on local ARM64 Docker and x64 CI. It must not be treated
+as production-ready until the target-LXC acceptance and the remaining P0 gates pass.

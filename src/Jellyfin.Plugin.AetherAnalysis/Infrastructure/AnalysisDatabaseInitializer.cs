@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Jellyfin.Plugin.AetherAnalysis.Infrastructure;
 
-/// <summary>Creates the initial plugin database before API use.</summary>
+/// <summary>Applies plugin-owned database migrations before API use.</summary>
 public sealed class AnalysisDatabaseInitializer(
     IDbContextFactory<AnalysisDbContext> contextFactory,
     ILogger<AnalysisDatabaseInitializer> logger) : IHostedService
@@ -16,8 +16,11 @@ public sealed class AnalysisDatabaseInitializer(
             ?? throw new InvalidOperationException("AETHER plugin data path is not initialized.");
         Directory.CreateDirectory(dataFolder);
         await using var context = await contextFactory.CreateDbContextAsync(cancellationToken).ConfigureAwait(false);
-        await context.Database.EnsureCreatedAsync(cancellationToken).ConfigureAwait(false);
-        logger.LogInformation("AETHER analysis database schema 1 is ready");
+        await context.Database.MigrateAsync(cancellationToken).ConfigureAwait(false);
+        var migrations = await context.Database.GetAppliedMigrationsAsync(cancellationToken).ConfigureAwait(false);
+        logger.LogInformation(
+            "AETHER analysis database schema 2 is ready at migration {Migration}",
+            migrations.LastOrDefault() ?? "none");
     }
 
     /// <inheritdoc />

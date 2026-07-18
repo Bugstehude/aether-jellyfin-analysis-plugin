@@ -21,6 +21,10 @@
             <input id="RetentionDays" type="number" min="0" max="36500" step="1" required>
           </div>
           <div class="inputContainer">
+            <label class="inputLabel inputLabelUnfocused" for="CleanupIntervalHours">Cleanup interval (hours)</label>
+            <input id="CleanupIntervalHours" type="number" min="1" max="168" step="1" required>
+          </div>
+          <div class="inputContainer">
             <label class="inputLabel inputLabelUnfocused" for="AllowedOrigins">Allowed browser origins (one per line)</label>
             <textarea id="AllowedOrigins" rows="4" placeholder="https://aether.example.test"></textarea>
           </div>
@@ -39,6 +43,7 @@
         const config = await ApiClient.getPluginConfiguration(pluginId);
         document.querySelector('#MaxStoredGiB').value = Math.max(1, Math.round(config.MaxStoredBytes / 1073741824));
         document.querySelector('#RetentionDays').value = config.RetentionDays ?? 0;
+        document.querySelector('#CleanupIntervalHours').value = config.CleanupIntervalHours ?? 6;
         document.querySelector('#AllowedOrigins').value = (config.AllowedOrigins ?? []).join('\n');
         Dashboard.hideLoadingMsg();
       });
@@ -48,6 +53,7 @@
         const config = await ApiClient.getPluginConfiguration(pluginId);
         config.MaxStoredBytes = Number(document.querySelector('#MaxStoredGiB').value) * 1073741824;
         config.RetentionDays = Number(document.querySelector('#RetentionDays').value);
+        config.CleanupIntervalHours = Number(document.querySelector('#CleanupIntervalHours').value);
         config.AllowedOrigins = document.querySelector('#AllowedOrigins').value
           .split(/\r?\n/).map(value => value.trim()).filter(Boolean);
         await ApiClient.updatePluginConfiguration(pluginId, config);
