@@ -23,3 +23,4 @@ All notable changes to implementation and canonical contracts are recorded here.
 - Contract synchronization hash, CycloneDX SBOM and backup/rollback operations guide.
 - Authenticated, digest-pinned Jellyfin start/restart smoke harness.
 - Reproducible Jellyfin repository manifest with ABI, release URL and package checksum validation.
+- Jellyfin-safe deferred plugin data/configuration access during service registration.

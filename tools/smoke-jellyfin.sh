@@ -56,7 +56,7 @@ if [[ "$ready" != "true" ]]; then
   fail_with_logs "Jellyfin did not become ready within 120 seconds."
 fi
 
-if ! jq -e '.Version == "10.11.11"' "$scratch/system-info.json" >/dev/null; then
+if ! jq -e '(.Version // .version) == "10.11.11"' "$scratch/system-info.json" >/dev/null; then
   fail_with_logs "The smoke container is not running Jellyfin 10.11.11."
 fi
 capabilities_status="$(curl --connect-timeout 2 --max-time 5 --silent \

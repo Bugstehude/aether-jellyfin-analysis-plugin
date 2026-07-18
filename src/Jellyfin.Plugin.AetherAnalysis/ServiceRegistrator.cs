@@ -15,36 +15,24 @@ public sealed class ServiceRegistrator : IPluginServiceRegistrator
     /// <inheritdoc />
     public void RegisterServices(IServiceCollection serviceCollection, IServerApplicationHost applicationHost)
     {
-        var dataFolder = Plugin.Instance?.DataFolderPath
-            ?? throw new InvalidOperationException("AETHER plugin data path is not initialized.");
-        var databasePath = Path.Combine(dataFolder, "aether-analysis.sqlite");
-        var connectionString = new SqliteConnectionStringBuilder
+        serviceCollection.AddPooledDbContextFactory<AnalysisDbContext>((_, options) =>
         {
-            DataSource = databasePath,
-            Mode = SqliteOpenMode.ReadWriteCreate,
-            Cache = SqliteCacheMode.Shared,
-            Pooling = true
-        }.ToString();
+            var dataFolder = Plugin.Instance?.DataFolderPath
+                ?? throw new InvalidOperationException("AETHER plugin data path is not initialized.");
+            var connectionString = new SqliteConnectionStringBuilder
+            {
+                DataSource = Path.Combine(dataFolder, "aether-analysis.sqlite"),
+                Mode = SqliteOpenMode.ReadWriteCreate,
+                Cache = SqliteCacheMode.Shared,
+                Pooling = true
+            }.ToString();
 
-        serviceCollection.AddPooledDbContextFactory<AnalysisDbContext>(options =>
-            options.UseSqlite(connectionString));
-        var origins = (Plugin.Instance.Configuration.AllowedOrigins ?? [])
-            .Select(NormalizeOrigin)
-            .OfType<string>()
-            .Distinct(StringComparer.OrdinalIgnoreCase)
-            .ToArray();
+            options.UseSqlite(connectionString);
+        });
         serviceCollection.AddCors(options => options.AddPolicy(AetherCorsPolicy.Name, policy =>
         {
-            if (origins.Length > 0)
-            {
-                policy.WithOrigins(origins);
-            }
-            else
-            {
-                policy.SetIsOriginAllowed(_ => false);
-            }
-
-            policy.WithMethods("GET", "HEAD", "PUT", "DELETE", "POST", "OPTIONS")
+            policy.SetIsOriginAllowed(IsAllowedOrigin)
+                .WithMethods("GET", "HEAD", "PUT", "DELETE", "POST", "OPTIONS")
                 .WithHeaders("Authorization", "Content-Type", "If-Match", "If-None-Match")
                 .WithExposedHeaders("ETag", "X-Aether-Analysis-Created-At", "Retry-After")
                 .SetPreflightMaxAge(TimeSpan.FromMinutes(10));
@@ -58,6 +46,16 @@ public sealed class ServiceRegistrator : IPluginServiceRegistrator
         serviceCollection.AddSingleton<AnalysisUploadResourceFilter>();
         serviceCollection.AddHostedService<AnalysisDatabaseInitializer>();
         serviceCollection.AddHostedService<AnalysisCleanupWorker>();
+    }
+
+    private static bool IsAllowedOrigin(string origin)
+    {
+        var normalized = NormalizeOrigin(origin);
+        return normalized is not null
+            && (Plugin.Instance?.Configuration.AllowedOrigins ?? [])
+                .Select(NormalizeOrigin)
+                .OfType<string>()
+                .Contains(normalized, StringComparer.OrdinalIgnoreCase);
     }
 
     private static string? NormalizeOrigin(string value)
