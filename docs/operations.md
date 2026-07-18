@@ -5,7 +5,7 @@
 The canonical Jellyfin repository endpoint is:
 
 ```text
-https://raw.githubusercontent.com/Bugstehude/aether-jellyfin-analysis-plugin/main/manifest.json
+https://github.com/Bugstehude/aether-jellyfin-analysis-plugin/releases/latest/download/manifest.json
 ```
 
 Jellyfin fetches this endpoint without GitHub credentials. The repository and the release asset
@@ -13,10 +13,11 @@ therefore have to remain public while installing or updating. Install the catalo
 `AETHER Analysis`, then restart Jellyfin. Existing analysis data and plugin configuration survive
 normal plugin updates.
 
-For a release, build with `tools/package-plugin.sh`, confirm that the committed `manifest.json`
-equals `artifacts/package/manifest.json`, and attach the ZIP, SHA-256 file and CycloneDX SBOM to the
-matching `v<version>` GitHub release. Jellyfin validates the ZIP using the MD5 value in the
-manifest; SHA-256 remains available for operators and release provenance.
+For a release, build with `tools/package-plugin.sh` and attach the generated `manifest.json`, ZIP,
+SHA-256 file and CycloneDX SBOM to the matching `v<version>` GitHub release. Jellyfin validates the
+ZIP using the MD5 value in the manifest; SHA-256 remains available for operators and release
+provenance. The manifest and ZIP must always come from the same build because deterministic .NET
+outputs are not guaranteed to be byte-identical across operating systems.
 
 ## Data ownership
 

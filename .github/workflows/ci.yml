@@ -46,8 +46,8 @@ jobs:
         run: dotnet list package --include-transitive --vulnerable
       - name: Build deterministic install archive
         run: tools/package-plugin.sh
-      - name: Verify Jellyfin repository manifest
-        run: cmp manifest.json artifacts/package/manifest.json
+      - name: Validate Jellyfin repository manifest
+        run: python3 -m json.tool artifacts/package/manifest.json >/dev/null
       - name: Jellyfin 10.11.11 load smoke test
         run: tools/smoke-jellyfin.sh
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
