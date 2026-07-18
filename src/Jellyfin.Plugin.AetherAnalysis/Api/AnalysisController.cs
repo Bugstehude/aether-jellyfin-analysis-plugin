@@ -7,7 +7,6 @@ using Jellyfin.Plugin.AetherAnalysis.Infrastructure;
 using MediaBrowser.Controller.Entities;
 using MediaBrowser.Controller.Library;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -18,7 +17,6 @@ namespace Jellyfin.Plugin.AetherAnalysis.Api;
 /// <summary>Canonical AETHER analysis API.</summary>
 [ApiController]
 [Authorize]
-[EnableCors(AetherCorsPolicy.Name)]
 [Route("AetherAnalysis/v1")]
 public sealed class AnalysisController(
     ILibraryManager libraryManager,
@@ -76,7 +74,16 @@ public sealed class AnalysisController(
     {
         ApplyCorsHeaders();
         var media = GetAccessibleMedia(itemId, mediaSourceId);
-        return media is null ? NotFoundProblem() : Ok(media);
+        return media is null
+            ? NotFoundProblem()
+            : Ok(new
+            {
+                itemId = media.ItemId,
+                mediaSourceId = media.MediaSourceId,
+                fingerprint = media.Fingerprint,
+                fingerprintQuality = media.FingerprintQuality,
+                durationMs = media.DurationMs
+            });
     }
 
     /// <summary>Gets one current analysis representation.</summary>
@@ -362,28 +369,44 @@ public sealed class AnalysisController(
             var selected = lookup.Selected;
             if (lookup.Media is null)
             {
-                items.Add(new { selected.ItemId, selected.MediaSourceId, status = "missing" });
+                items.Add(new
+                {
+                    itemId = selected.ItemId,
+                    mediaSourceId = selected.MediaSourceId,
+                    status = "missing"
+                });
                 continue;
             }
 
             if (!metadata.TryGetValue(lookup.Key, out var record))
             {
-                items.Add(new { selected.ItemId, selected.MediaSourceId, status = "missing" });
+                items.Add(new
+                {
+                    itemId = selected.ItemId,
+                    mediaSourceId = selected.MediaSourceId,
+                    status = "missing"
+                });
             }
             else if (!string.Equals(record.MediaFingerprint, lookup.Media.Fingerprint, StringComparison.Ordinal))
             {
-                items.Add(new { selected.ItemId, selected.MediaSourceId, status = "stale", reason = "media-changed" });
+                items.Add(new
+                {
+                    itemId = selected.ItemId,
+                    mediaSourceId = selected.MediaSourceId,
+                    status = "stale",
+                    reason = "media-changed"
+                });
             }
             else
             {
                 items.Add(new
                 {
-                    selected.ItemId,
-                    selected.MediaSourceId,
+                    itemId = selected.ItemId,
+                    mediaSourceId = selected.MediaSourceId,
                     status = "available",
                     createdAt = record.CreatedAt,
                     frameCount = record.FrameCount,
-                    record.StoredBytes,
+                    storedBytes = record.StoredBytes,
                     etag = record.Etag
                 });
             }
@@ -435,11 +458,11 @@ public sealed class AnalysisController(
         {
             service = operational.CorruptReadCount > 0 ? "degraded" : "ready",
             databaseSchemaVersion = 2,
-            stats.RecordCount,
-            stats.StoredBytes,
+            recordCount = stats.RecordCount,
+            storedBytes = stats.StoredBytes,
             maxStoredBytes = EffectiveMaxStoredBytes,
             retentionDays = EffectiveRetentionDays,
-            stats.OldestRecordAt,
+            oldestRecordAt = stats.OldestRecordAt,
             lastCleanupAt = maintenance?.LastCompletedAt,
             cleanup = maintenance is null
                 ? null
@@ -450,7 +473,13 @@ public sealed class AnalysisController(
                     capacityDeletedRecords = maintenance.LastCapacityDeletedRecords,
                     deletedBytes = maintenance.LastDeletedBytes
                 },
-            operational
+            operational = new
+            {
+                corruptReadCount = operational.CorruptReadCount,
+                lastCorruptReadAt = operational.LastCorruptReadAt,
+                touchFailureCount = operational.TouchFailureCount,
+                lastTouchFailureAt = operational.LastTouchFailureAt
+            }
         });
     }
 
@@ -477,7 +506,13 @@ public sealed class AnalysisController(
                 "manual",
                 now),
             cancellationToken).ConfigureAwait(false);
-        return Ok(result);
+        return Ok(new
+        {
+            retentionDeletedRecords = result.RetentionDeletedRecords,
+            capacityDeletedRecords = result.CapacityDeletedRecords,
+            deletedBytes = result.DeletedBytes,
+            storedBytesAfter = result.StoredBytesAfter
+        });
     }
 
     /// <summary>Handles positive browser preflight requests.</summary>

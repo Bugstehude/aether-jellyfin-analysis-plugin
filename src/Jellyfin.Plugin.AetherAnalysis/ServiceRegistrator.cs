@@ -29,14 +29,6 @@ public sealed class ServiceRegistrator : IPluginServiceRegistrator
 
             options.UseSqlite(connectionString);
         });
-        serviceCollection.AddCors(options => options.AddPolicy(AetherCorsPolicy.Name, policy =>
-        {
-            policy.SetIsOriginAllowed(IsAllowedOrigin)
-                .WithMethods("GET", "HEAD", "PUT", "DELETE", "POST", "OPTIONS")
-                .WithHeaders("Authorization", "Content-Type", "If-Match", "If-None-Match")
-                .WithExposedHeaders("ETag", "X-Aether-Analysis-Created-At", "Retry-After")
-                .SetPreflightMaxAge(TimeSpan.FromMinutes(10));
-        }));
         serviceCollection.AddSingleton<IAnalysisRepository, AnalysisRepository>();
         serviceCollection.AddSingleton<AnalysisDocumentValidator>();
         serviceCollection.AddSingleton<MediaFingerprintService>();
@@ -48,27 +40,4 @@ public sealed class ServiceRegistrator : IPluginServiceRegistrator
         serviceCollection.AddHostedService<AnalysisCleanupWorker>();
     }
 
-    private static bool IsAllowedOrigin(string origin)
-    {
-        var normalized = NormalizeOrigin(origin);
-        return normalized is not null
-            && (Plugin.Instance?.Configuration.AllowedOrigins ?? [])
-                .Select(NormalizeOrigin)
-                .OfType<string>()
-                .Contains(normalized, StringComparer.OrdinalIgnoreCase);
-    }
-
-    private static string? NormalizeOrigin(string value)
-    {
-        if (!Uri.TryCreate(value.Trim(), UriKind.Absolute, out var uri)
-            || (uri.Scheme != Uri.UriSchemeHttps && uri.Scheme != Uri.UriSchemeHttp)
-            || uri.AbsolutePath != "/"
-            || !string.IsNullOrEmpty(uri.Query)
-            || !string.IsNullOrEmpty(uri.Fragment))
-        {
-            return null;
-        }
-
-        return uri.GetLeftPart(UriPartial.Authority);
-    }
 }

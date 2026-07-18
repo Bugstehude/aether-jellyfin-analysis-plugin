@@ -88,20 +88,25 @@ fi
 auth_identity='MediaBrowser Client="AETHER%20Smoke", DeviceId="aether-ci", Device="CI", Version="0.1.0"'
 jq -n --arg username "$username" --arg password "$password" \
   '{Username: $username, Pw: $password}' > "$scratch/auth-request.json"
-if ! curl --connect-timeout 2 --max-time 5 --fail --silent \
-  --request POST \
-  --header "Authorization: $auth_identity" \
-  --header 'Content-Type: application/json' \
-  --data-binary "@$scratch/auth-request.json" \
-  "http://127.0.0.1:${port}/Users/AuthenticateByName" > "$scratch/auth-response.json"; then
-  fail_with_logs "Jellyfin rejected smoke-test authentication."
-fi
-access_token="$(jq -r '.AccessToken' "$scratch/auth-response.json")"
-if [[ -z "$access_token" || "$access_token" == "null" ]]; then
-  echo "Jellyfin startup completed but did not issue a smoke-test token." >&2
-  exit 1
-fi
-auth_header="$auth_identity, Token=$access_token"
+authenticate() {
+  local response_file="$1"
+  if ! curl --connect-timeout 2 --max-time 5 --fail --silent \
+    --request POST \
+    --header "Authorization: $auth_identity" \
+    --header 'Content-Type: application/json' \
+    --data-binary "@$scratch/auth-request.json" \
+    "http://127.0.0.1:${port}/Users/AuthenticateByName" > "$response_file"; then
+    fail_with_logs "Jellyfin rejected smoke-test authentication."
+  fi
+
+  access_token="$(jq -r '.AccessToken' "$response_file")"
+  if [[ -z "$access_token" || "$access_token" == "null" ]]; then
+    fail_with_logs "Jellyfin did not issue a smoke-test token."
+  fi
+  auth_header="$auth_identity, Token=$access_token"
+}
+
+authenticate "$scratch/auth-response.json"
 if ! curl --connect-timeout 2 --max-time 5 --fail --silent \
   --header "Authorization: $auth_header" \
   "http://127.0.0.1:${port}/AetherAnalysis/v1/capabilities" > "$scratch/capabilities.json"; then
@@ -118,6 +123,7 @@ if ! curl --connect-timeout 2 --max-time 5 --fail --silent \
 fi
 if ! jq -e '.service == "ready" and .databaseSchemaVersion == 2 and .recordCount == 0' \
   "$scratch/plugin-status.json" >/dev/null; then
+  jq . "$scratch/plugin-status.json" >&2 || true
   fail_with_logs "The initial AETHER storage status was not ready and empty."
 fi
 logs="$(docker logs "$container" 2>&1)"
@@ -128,18 +134,39 @@ if grep -Eiq '(ERR.*AETHER|AETHER.*(exception|failed)|Jellyfin\.Plugin\.AetherAn
 fi
 
 docker restart "$container" >/dev/null
+port="$(docker port "$container" 8096/tcp | sed -n 's/.*://p')"
+restart_ready=false
 for _ in $(seq 1 60); do
-  restarted_status="$(curl --connect-timeout 2 --max-time 5 --silent \
-    --header "Authorization: $auth_header" \
-    --output /dev/null --write-out '%{http_code}' \
-    "http://127.0.0.1:${port}/AetherAnalysis/v1/capabilities" || true)"
-  [[ "$restarted_status" == "200" ]] && break
+  if curl --connect-timeout 2 --max-time 5 --fail --silent \
+    "http://127.0.0.1:${port}/System/Info/Public" > "$scratch/system-info-after-restart.json"; then
+    restart_ready=true
+    break
+  fi
+  if ! docker inspect --format '{{.State.Running}}' "$container" | grep -q true; then
+    fail_with_logs "Jellyfin stopped while recovering from its restart."
+  fi
   sleep 2
 done
-if [[ "${restarted_status:-}" != "200" ]]; then
-  fail_with_logs "Plugin endpoint did not recover after a Jellyfin restart."
+if [[ "$restart_ready" != "true" ]]; then
+  fail_with_logs "Jellyfin's public endpoint did not recover after restart on port $port."
 fi
 
+restarted_status=""
+for _ in $(seq 1 60); do
+  restarted_status="$(curl --connect-timeout 2 --max-time 5 --silent \
+    --output /dev/null --write-out '%{http_code}' \
+    "http://127.0.0.1:${port}/AetherAnalysis/v1/capabilities" || true)"
+  [[ "$restarted_status" == "401" ]] && break
+  if ! docker inspect --format '{{.State.Running}}' "$container" | grep -q true; then
+    fail_with_logs "Jellyfin stopped while recovering from its restart."
+  fi
+  sleep 2
+done
+if [[ "$restarted_status" != "401" ]]; then
+  fail_with_logs "Plugin endpoint did not recover after a Jellyfin restart; got HTTP $restarted_status."
+fi
+
+authenticate "$scratch/auth-response-after-restart.json"
 curl --connect-timeout 2 --max-time 5 --fail --silent \
   --header "Authorization: $auth_header" \
   "http://127.0.0.1:${port}/AetherAnalysis/v1/status" \
