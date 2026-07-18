@@ -40,6 +40,7 @@ jobs:
           dotnet tool run dotnet-ef -- migrations has-pending-model-changes
           --project src/Jellyfin.Plugin.AetherAnalysis/Jellyfin.Plugin.AetherAnalysis.csproj
           --startup-project tests/Jellyfin.Plugin.AetherAnalysis.Tests/Jellyfin.Plugin.AetherAnalysis.Tests.csproj
+          --configuration Release
           --no-build
       - name: Audit NuGet dependencies
         run: dotnet list package --include-transitive --vulnerable
