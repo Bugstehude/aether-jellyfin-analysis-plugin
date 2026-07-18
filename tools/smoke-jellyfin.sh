@@ -59,11 +59,19 @@ fi
 if ! jq -e '(.Version // .version) == "10.11.11"' "$scratch/system-info.json" >/dev/null; then
   fail_with_logs "The smoke container is not running Jellyfin 10.11.11."
 fi
-capabilities_status="$(curl --connect-timeout 2 --max-time 5 --silent \
-  --output /dev/null --write-out '%{http_code}' \
-  "http://127.0.0.1:${port}/AetherAnalysis/v1/capabilities")"
+capabilities_status=""
+for _ in $(seq 1 60); do
+  capabilities_status="$(curl --connect-timeout 2 --max-time 5 --silent \
+    --output /dev/null --write-out '%{http_code}' \
+    "http://127.0.0.1:${port}/AetherAnalysis/v1/capabilities" || true)"
+  [[ "$capabilities_status" == "401" ]] && break
+  if ! docker inspect --format '{{.State.Running}}' "$container" | grep -q true; then
+    fail_with_logs "Jellyfin stopped before the AETHER endpoint became ready."
+  fi
+  sleep 2
+done
 if [[ "$capabilities_status" != "401" ]]; then
-  fail_with_logs "Expected the unauthenticated plugin endpoint to return 401, got $capabilities_status."
+  fail_with_logs "Expected the unauthenticated plugin endpoint to become ready with 401, got $capabilities_status."
 fi
 
 if ! curl --connect-timeout 2 --max-time 5 --fail --silent \
