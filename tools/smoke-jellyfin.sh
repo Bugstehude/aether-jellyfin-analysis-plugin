@@ -74,9 +74,21 @@ if [[ "$capabilities_status" != "401" ]]; then
   fail_with_logs "Expected the unauthenticated plugin endpoint to become ready with 401, got $capabilities_status."
 fi
 
-if ! curl --connect-timeout 2 --max-time 5 --fail --silent \
-  "http://127.0.0.1:${port}/Startup/User" > "$scratch/startup-user.json"; then
-  fail_with_logs "Jellyfin rejected the startup-user request."
+startup_user_ready=false
+for _ in $(seq 1 60); do
+  if curl --connect-timeout 2 --max-time 5 --fail --silent \
+    "http://127.0.0.1:${port}/Startup/User" > "$scratch/startup-user.json" \
+    && jq -e 'has("Name")' "$scratch/startup-user.json" >/dev/null; then
+    startup_user_ready=true
+    break
+  fi
+  if ! docker inspect --format '{{.State.Running}}' "$container" | grep -q true; then
+    fail_with_logs "Jellyfin stopped before its startup-user endpoint became ready."
+  fi
+  sleep 2
+done
+if [[ "$startup_user_ready" != "true" ]]; then
+  fail_with_logs "Jellyfin's startup-user endpoint did not become ready within 120 seconds."
 fi
 username="$(jq -r '.Name' "$scratch/startup-user.json")"
 password="$(jq -r '.Password // ""' "$scratch/startup-user.json")"
