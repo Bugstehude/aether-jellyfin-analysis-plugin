@@ -38,15 +38,24 @@
       const pluginId = 'ea32f6f5-de62-4784-9b60-4cfe664995ed';
       const page = document.querySelector('#AetherAnalysisConfigPage');
       const form = document.querySelector('#AetherAnalysisConfigForm');
-      page.addEventListener('pageshow', async () => {
+      const loadConfiguration = async () => {
         Dashboard.showLoadingMsg();
-        const config = await ApiClient.getPluginConfiguration(pluginId);
-        document.querySelector('#MaxStoredGiB').value = Math.max(1, Math.round(config.MaxStoredBytes / 1073741824));
-        document.querySelector('#RetentionDays').value = config.RetentionDays ?? 0;
-        document.querySelector('#CleanupIntervalHours').value = config.CleanupIntervalHours ?? 6;
-        document.querySelector('#AllowedOrigins').value = (config.AllowedOrigins ?? []).join('\n');
-        Dashboard.hideLoadingMsg();
-      });
+        try {
+          const config = await ApiClient.getPluginConfiguration(pluginId);
+          document.querySelector('#MaxStoredGiB').value = Math.max(1, Math.round(config.MaxStoredBytes / 1073741824));
+          document.querySelector('#RetentionDays').value = config.RetentionDays ?? 0;
+          document.querySelector('#CleanupIntervalHours').value = config.CleanupIntervalHours ?? 6;
+          document.querySelector('#AllowedOrigins').value = (config.AllowedOrigins ?? []).join('\n');
+        } finally {
+          Dashboard.hideLoadingMsg();
+        }
+      };
+      // Populate on every view show AND immediately: this inline script usually
+      // runs AFTER the page's initial 'pageshow' has already fired, so binding
+      // the listener alone left the form on defaults the first time it opened
+      // (current values were never loaded, while Save still worked).
+      page.addEventListener('pageshow', loadConfiguration);
+      loadConfiguration();
       form.addEventListener('submit', async (event) => {
         event.preventDefault();
         Dashboard.showLoadingMsg();
