@@ -24,15 +24,23 @@ dotnet publish "$root/src/Jellyfin.Plugin.AetherAnalysis/Jellyfin.Plugin.AetherA
   --no-build \
   --output "$publish_dir"
 
+worker_file="aether-analysis-worker.cjs"
+if [[ ! -f "$publish_dir/$worker_file" ]]; then
+  echo "Vendored worker bundle missing from publish output: $publish_dir/$worker_file" >&2
+  echo "Rebuild it in the AETHER repo (pnpm --filter @aether/server-analysis-worker build:plugin) and run tools/vendor-worker.sh." >&2
+  exit 1
+fi
+
 mkdir -p "$staging_dir" "$package_dir"
 find "$staging_dir" -mindepth 1 -maxdepth 1 -delete
 cp "$publish_dir/Jellyfin.Plugin.AetherAnalysis.dll" "$staging_dir/"
-chmod 0644 "$staging_dir/Jellyfin.Plugin.AetherAnalysis.dll"
-TZ=UTC touch -t 198001010000 "$staging_dir/Jellyfin.Plugin.AetherAnalysis.dll"
+cp "$publish_dir/$worker_file" "$staging_dir/"
+chmod 0644 "$staging_dir/Jellyfin.Plugin.AetherAnalysis.dll" "$staging_dir/$worker_file"
+TZ=UTC touch -t 198001010000 "$staging_dir/Jellyfin.Plugin.AetherAnalysis.dll" "$staging_dir/$worker_file"
 rm -f "$archive" "$archive.sha256"
 (
   cd "$staging_dir"
-  zip -X -q "$archive" Jellyfin.Plugin.AetherAnalysis.dll
+  zip -X -q "$archive" Jellyfin.Plugin.AetherAnalysis.dll "$worker_file"
 )
 
 if command -v sha256sum >/dev/null 2>&1; then

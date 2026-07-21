@@ -26,6 +26,7 @@ public sealed class AnalysisController(
     AnalysisRepresentationService representationService,
     AnalysisWriteCoordinator writeCoordinator,
     AnalysisOperationalTelemetry operationalTelemetry,
+    AnalysisJobDispatcher jobQueue,
     ILogger<AnalysisController> logger) : ControllerBase
 {
     private const int AbsoluteRequestSizeLimitBytes = 50 * 1024 * 1024;
@@ -340,6 +341,67 @@ public sealed class AnalysisController(
         return NoContent();
     }
 
+    /// <summary>Requests an in-plugin server-side analysis run for one item (the AETHER "Server-Analyse" button).</summary>
+    [HttpPost("items/{itemId:guid}/media-sources/{mediaSourceId}/analyze")]
+    public ActionResult RequestServerAnalysis(Guid itemId, string mediaSourceId)
+    {
+        ApplyCorsHeaders();
+        if (!CanUpload())
+        {
+            return ProblemResult(StatusCodes.Status403Forbidden, "forbidden", "Upload permission required.");
+        }
+
+        if (!IsValidIdentity(mediaSourceId, AetherAlgorithm.Id, AetherAlgorithm.Version))
+        {
+            return ProblemResult(StatusCodes.Status400BadRequest, "invalid-identity", "Route identity is invalid.");
+        }
+
+        if (!CurrentConfiguration.ServerAnalysisEnabled)
+        {
+            return ProblemResult(StatusCodes.Status409Conflict, "server-analysis-disabled", "Server-side analysis is disabled.");
+        }
+
+        if (GetAccessibleMedia(itemId, mediaSourceId) is null)
+        {
+            return NotFoundProblem();
+        }
+
+        var status = jobQueue.Enqueue(itemId);
+        return Accepted(new { state = StateName(status.State), progress = status.Progress });
+    }
+
+    /// <summary>Gets the progress of a server-side analysis run for one item.</summary>
+    [HttpGet("items/{itemId:guid}/media-sources/{mediaSourceId}/analyze/status")]
+    public ActionResult GetServerAnalysisStatus(Guid itemId, string mediaSourceId)
+    {
+        ApplyCorsHeaders();
+        if (!CanUpload())
+        {
+            return ProblemResult(StatusCodes.Status403Forbidden, "forbidden", "Upload permission required.");
+        }
+
+        if (!IsValidIdentity(mediaSourceId, AetherAlgorithm.Id, AetherAlgorithm.Version))
+        {
+            return ProblemResult(StatusCodes.Status400BadRequest, "invalid-identity", "Route identity is invalid.");
+        }
+
+        if (GetAccessibleMedia(itemId, mediaSourceId) is null)
+        {
+            return NotFoundProblem();
+        }
+
+        var status = jobQueue.GetStatus(itemId);
+        return status is null
+            ? Ok(new { state = "idle", progress = 0.0 })
+            : Ok(new
+            {
+                state = StateName(status.State),
+                progress = status.Progress,
+                detail = status.Detail,
+                updatedAt = status.UpdatedAt
+            });
+    }
+
     /// <summary>Gets status for an explicit bounded selection.</summary>
     [HttpPost("analyses/query")]
     public async Task<ActionResult> QueryAnalyses([FromBody] BatchSelection? selection, CancellationToken cancellationToken)
@@ -584,6 +646,15 @@ public sealed class AnalysisController(
         && algorithmVersion.All(value => char.IsAsciiLetterOrDigit(value) || value is '.' or '_' or '-');
 
     private static bool IsValidDetail(string detail) => detail is "compact" or "balanced" or "full";
+
+    private static string StateName(AnalysisJobState state) => state switch
+    {
+        AnalysisJobState.Queued => "queued",
+        AnalysisJobState.Running => "running",
+        AnalysisJobState.Completed => "completed",
+        AnalysisJobState.Failed => "failed",
+        _ => "idle"
+    };
 
     private static IEnumerable<string> HeaderValues(IEnumerable<string?> values) => values
         .SelectMany(value => (value ?? string.Empty).Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries))

@@ -43,8 +43,44 @@ Version 0.1 implements the storage-plugin foundation:
 The plugin stores no video frames, thumbnails, source media, Jellyfin tokens or user passwords.
 It uses Jellyfin's process-owned SQLite runtime in production; the patched native SQLite bundle in
 the test project is isolated from the install archive to avoid native-library conflicts.
-Actual video analysis permanently remains an AETHER-client responsibility. Folder and multi-item
-checkbox selection are implemented by the client; the plugin never decodes media or starts jobs.
+
+Version **0.2** adds optional **in-plugin server-side analysis** (see below): the server can now
+compute analyses itself in addition to accepting client uploads. The client upload path is
+unchanged and remains fully supported; server-side analysis is enabled by default but can be
+switched off in the settings.
+
+## Server-side analysis (0.2)
+
+The plugin can run the **shared AETHER perception-engine** (the exact same visual + audio algorithm
+the browser client runs) directly on the server and store the result through its own repository —
+no HTTP upload and no auth round-trip. This means a title is analyzed once, on the always-on
+server, and every client instantly gets the cached, consistent result.
+
+How it works:
+
+- The analysis algorithm is bundled from the AETHER monorepo into a single
+  `aether-analysis-worker.cjs` (vendored under `worker/`, shipped next to the DLL). The plugin runs
+  it as `node aether-analysis-worker.cjs`, feeding it Jellyfin's own `ffmpeg`/`ffprobe`
+  (`IMediaEncoder`) — so no separate ffmpeg install is needed. **Node (18+) must be installed on the
+  Jellyfin server** (`apt install nodejs` or NodeSource); set its path in the settings if it is not
+  on the service `PATH`.
+- Three triggers feed one serial runner: a **scheduled task** (`AETHER: Analyze library`, runnable
+  from Dashboard → Scheduled Tasks, daily default trigger), an **after-scan hook** that analyzes new
+  or changed items, and an **analyze endpoint** the AETHER "Server-Analyse" button calls.
+- Storage uses the same validate → fingerprint-match → build-master → bounded-store path as the HTTP
+  `PUT`, under the canonical key `aether-visual`/`1.0.0` (matching `capabilities` and the client), so
+  server and client analyses share one cache. Stale analyses (algorithm-version key or media
+  fingerprint changed) are replaced.
+
+Endpoints (upload permission required, i.e. administrator or an allowed analyzer user id):
+
+```text
+POST /AetherAnalysis/v1/items/{itemId}/media-sources/{mediaSourceId}/analyze         -> 202 (queued)
+GET  /AetherAnalysis/v1/items/{itemId}/media-sources/{mediaSourceId}/analyze/status  -> {state, progress}
+```
+
+Folder and multi-item checkbox selection remain client features. When server-side analysis is
+disabled, the plugin never decodes media or starts jobs and behaves exactly like 0.1.
 
 See `docs/implementation-status.md` before deployment. The 0.1 test release passes fresh-install
 and restart smoke tests against Jellyfin 10.11.11 on ARM64 locally and x64 in CI. Target-LXC
@@ -62,11 +98,18 @@ dotnet test --configuration Release --no-restore --no-build
 tools/package-plugin.sh
 ```
 
-The installable artifact is `artifacts/package/aether-analysis-0.1.0.0.zip`. Its SHA-256 checksum
-and CycloneDX SBOM are generated beside it. The archive contains only
-`Jellyfin.Plugin.AetherAnalysis.dll`; do not copy
+The installable artifact is `artifacts/package/aether-analysis-0.2.0.0.zip`. Its SHA-256 checksum
+and CycloneDX SBOM are generated beside it. The archive contains
+`Jellyfin.Plugin.AetherAnalysis.dll` and the vendored `aether-analysis-worker.cjs`; do not copy
 test-native libraries or host framework assemblies into Jellyfin's plugin directory. Jellyfin
 10.11.11 supplies the exactly pinned runtime dependencies.
+
+To refresh the worker bundle after an analysis-algorithm change, rebuild it in the AETHER monorepo
+and vendor it before packaging:
+
+```bash
+AETHER_REPO=/path/to/AETHER_Codex_Starter_Kit tools/vendor-worker.sh
+```
 
 ## Install through Jellyfin
 

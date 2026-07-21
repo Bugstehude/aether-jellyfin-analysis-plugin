@@ -29,4 +29,11 @@
     <None Remove="Configuration/configPage.html" />
     <EmbeddedResource Include="Configuration/configPage.html" />
   </ItemGroup>
+
+  <!-- Vendored Node worker bundle (built from the AETHER monorepo's
+       server-analysis-worker via `pnpm build:plugin`, then vendor-worker.sh).
+       Copied next to the DLL so the plugin can run `node aether-analysis-worker.cjs`. -->
+  <ItemGroup>
+    <None Include="..\..\worker\aether-analysis-worker.cjs" Link="aether-analysis-worker.cjs" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
 </Project>

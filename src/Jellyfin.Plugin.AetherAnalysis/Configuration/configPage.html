@@ -28,6 +28,42 @@
             <label class="inputLabel inputLabelUnfocused" for="AllowedOrigins">Allowed browser origins (one per line)</label>
             <textarea id="AllowedOrigins" rows="4" placeholder="https://aether.example.test"></textarea>
           </div>
+
+          <h2>Server-side analysis</h2>
+          <p>The server runs the shared AETHER analysis (visual + audio) and stores results directly. Needs Node installed on this server; ffmpeg is taken from Jellyfin.</p>
+          <div class="checkboxContainer">
+            <label>
+              <input is="emby-checkbox" id="ServerAnalysisEnabled" type="checkbox">
+              <span>Enable server-side analysis (scheduled task, after-scan hook, and the AETHER button)</span>
+            </label>
+          </div>
+          <div class="checkboxContainer">
+            <label>
+              <input is="emby-checkbox" id="AutoAnalyzeOnScan" type="checkbox">
+              <span>Analyze new / changed items automatically after each library scan</span>
+            </label>
+          </div>
+          <div class="inputContainer">
+            <label class="inputLabel inputLabelUnfocused" for="NodePath">Node executable (PATH name or absolute path)</label>
+            <input id="NodePath" type="text" placeholder="node">
+          </div>
+          <div class="inputContainer">
+            <label class="inputLabel inputLabelUnfocused" for="AnalysisFps">Analysis frames per second</label>
+            <input id="AnalysisFps" type="number" min="1" max="10" step="1">
+          </div>
+          <div class="inputContainer">
+            <label class="inputLabel inputLabelUnfocused" for="AnalysisMaxWidth">Analysis frame width (px)</label>
+            <input id="AnalysisMaxWidth" type="number" min="16" max="1920" step="1">
+          </div>
+          <div class="inputContainer">
+            <label class="inputLabel inputLabelUnfocused" for="AnalysisTimeoutMinutes">Per-item worker timeout (minutes)</label>
+            <input id="AnalysisTimeoutMinutes" type="number" min="1" max="720" step="1">
+          </div>
+          <div class="inputContainer">
+            <label class="inputLabel inputLabelUnfocused" for="AnalysisLibraryIds">Libraries to analyze (one library id per line; empty = all)</label>
+            <textarea id="AnalysisLibraryIds" rows="3" placeholder="(all libraries)"></textarea>
+          </div>
+
           <button is="emby-button" type="submit" class="raised button-submit block"><span>Save</span></button>
         </form>
       </div>
@@ -46,6 +82,13 @@
           document.querySelector('#RetentionDays').value = config.RetentionDays ?? 0;
           document.querySelector('#CleanupIntervalHours').value = config.CleanupIntervalHours ?? 6;
           document.querySelector('#AllowedOrigins').value = (config.AllowedOrigins ?? []).join('\n');
+          document.querySelector('#ServerAnalysisEnabled').checked = config.ServerAnalysisEnabled !== false;
+          document.querySelector('#AutoAnalyzeOnScan').checked = config.AutoAnalyzeOnScan !== false;
+          document.querySelector('#NodePath').value = config.NodePath ?? 'node';
+          document.querySelector('#AnalysisFps').value = config.AnalysisFps ?? 2;
+          document.querySelector('#AnalysisMaxWidth').value = config.AnalysisMaxWidth ?? 480;
+          document.querySelector('#AnalysisTimeoutMinutes').value = config.AnalysisTimeoutMinutes ?? 60;
+          document.querySelector('#AnalysisLibraryIds').value = (config.AnalysisLibraryIds ?? []).join('\n');
         } finally {
           Dashboard.hideLoadingMsg();
         }
@@ -64,6 +107,14 @@
         config.RetentionDays = Number(document.querySelector('#RetentionDays').value);
         config.CleanupIntervalHours = Number(document.querySelector('#CleanupIntervalHours').value);
         config.AllowedOrigins = document.querySelector('#AllowedOrigins').value
+          .split(/\r?\n/).map(value => value.trim()).filter(Boolean);
+        config.ServerAnalysisEnabled = document.querySelector('#ServerAnalysisEnabled').checked;
+        config.AutoAnalyzeOnScan = document.querySelector('#AutoAnalyzeOnScan').checked;
+        config.NodePath = document.querySelector('#NodePath').value.trim() || 'node';
+        config.AnalysisFps = Number(document.querySelector('#AnalysisFps').value);
+        config.AnalysisMaxWidth = Number(document.querySelector('#AnalysisMaxWidth').value);
+        config.AnalysisTimeoutMinutes = Number(document.querySelector('#AnalysisTimeoutMinutes').value);
+        config.AnalysisLibraryIds = document.querySelector('#AnalysisLibraryIds').value
           .split(/\r?\n/).map(value => value.trim()).filter(Boolean);
         await ApiClient.updatePluginConfiguration(pluginId, config);
         Dashboard.processPluginConfigurationUpdateResult();

@@ -2,6 +2,27 @@
 
 All notable changes to implementation and canonical contracts are recorded here.
 
+## [0.2.0.0] — In-plugin server-side analysis
+
+### Added
+
+- In-plugin server-side analysis: the plugin runs the shared AETHER perception-engine (visual +
+  audio) via a bundled Node worker (`aether-analysis-worker.cjs`) using Jellyfin's own ffmpeg, and
+  stores results directly through the repository (no HTTP/auth round-trip), under the canonical
+  `aether-visual`/`1.0.0` key. Requires Node (18+) on the Jellyfin server.
+- Three triggers over one serial runner: an `AETHER: Analyze library` scheduled task (daily default
+  trigger, runnable from the dashboard), an after-scan hook for new/changed items, and
+  `POST …/analyze` + `GET …/analyze/status` endpoints for the AETHER "Server-Analyse" button.
+- Staleness replacement keyed on the algorithm version and the media fingerprint.
+- Settings: enable server-side analysis, auto-analyze after scan, Node path, sampling fps and frame
+  width, per-item worker timeout, and an optional library allow-list.
+- Vendored worker bundle shipped in the install archive next to the DLL; `tools/vendor-worker.sh`
+  refreshes it from the AETHER monorepo.
+
+### Fixed
+
+- Settings page now loads the current saved values on open (carried from 0.1.0.1).
+
 ## [Unreleased]
 
 ### Added
