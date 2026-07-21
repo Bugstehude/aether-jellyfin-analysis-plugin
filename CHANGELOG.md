@@ -2,6 +2,16 @@
 
 All notable changes to implementation and canonical contracts are recorded here.
 
+## [0.2.1.0] — Upgrade browser analyses to server
+
+### Changed
+
+- The scheduled task and the after-scan hook now also **replace** stored analyses that were
+  **not produced by the server** (a browser precompute is visual-only) with the richer server
+  analysis (visual + audio). Staleness therefore triggers on the media fingerprint **or** a
+  non-server producer. Once every stored analysis is server-produced this is a no-op. The manual
+  "Server-Analyse" button already always replaced.
+
 ## [0.2.0.0] — In-plugin server-side analysis
 
 ### Added

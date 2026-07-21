@@ -1,7 +1,7 @@
 ---
 name: "AETHER Analysis"
 guid: "ea32f6f5-de62-4784-9b60-4cfe664995ed"
-version: "0.2.0.0"
+version: "0.2.1.0"
 targetAbi: "10.11.11.0"
 framework: "net9.0"
 overview: "Persistent multi-resolution AETHER video analysis storage"
@@ -13,4 +13,4 @@ owner: "Bugstehude"
 artifacts:
   - "Jellyfin.Plugin.AetherAnalysis.dll"
   - "aether-analysis-worker.cjs"
-changelog: "0.2.0.0: in-plugin server-side analysis. The plugin now runs the shared AETHER perception-engine (visual + audio) on the server via a bundled Node worker and stores results directly — no upload/auth round-trip. Adds a scheduled task, an after-scan hook, and an analyze endpoint for the AETHER 'Server-Analyse' button, plus settings for Node path, sampling and libraries."
+changelog: "0.2.1.0: the scheduled task and after-scan hook now also REPLACE analyses that were not produced by the server (a browser precompute is visual-only) with the richer server analysis (visual + audio). Once every stored analysis is server-produced this is a no-op."

@@ -268,9 +268,34 @@ public sealed class ServerAnalysisRunner(
         }
 
         var key = new AnalysisKey(item.Id, mediaSourceId, AetherAlgorithm.Id, AetherAlgorithm.Version);
-        var metadata = await repository.GetMetadataAsync([key], cancellationToken).ConfigureAwait(false);
-        return !metadata.TryGetValue(key, out var record)
-            || !string.Equals(record.MediaFingerprint, media.Fingerprint, StringComparison.Ordinal);
+        var record = await repository.GetAsync(key, cancellationToken).ConfigureAwait(false);
+        if (record is null || !string.Equals(record.MediaFingerprint, media.Fingerprint, StringComparison.Ordinal))
+        {
+            // No analysis yet, or the media changed → (re)analyze.
+            return true;
+        }
+
+        // Upgrade rule: a stored analysis that was NOT produced by the server (a browser
+        // precompute is visual-only) is replaced with the richer server analysis (visual +
+        // audio, globally normalized). Once every record is server-produced this is a no-op.
+        return !IsServerProduced(record);
+    }
+
+    private static bool IsServerProduced(AnalysisRecord record)
+    {
+        try
+        {
+            var master = CompressionCodec.Decompress(record.CompressedDocument, record.UncompressedBytes);
+            using var document = JsonDocument.Parse(master);
+            return document.RootElement.TryGetProperty("producer", out var producer)
+                && producer.TryGetProperty("platform", out var platform)
+                && string.Equals(platform.GetString(), "server", StringComparison.Ordinal);
+        }
+        catch (Exception exception) when (exception is InvalidDataException or JsonException)
+        {
+            // Unreadable stored document → treat as replaceable so a clean analysis takes over.
+            return false;
+        }
     }
 
     private static IEnumerable<MediaSourceInfo> LocalSources(BaseItem item) =>
