@@ -1,7 +1,7 @@
 ---
 name: "AETHER Analysis"
 guid: "ea32f6f5-de62-4784-9b60-4cfe664995ed"
-version: "0.2.1.0"
+version: "0.2.1.1"
 targetAbi: "10.11.11.0"
 framework: "net9.0"
 overview: "Persistent multi-resolution AETHER video analysis storage"
@@ -13,4 +13,4 @@ owner: "Bugstehude"
 artifacts:
   - "Jellyfin.Plugin.AetherAnalysis.dll"
   - "aether-analysis-worker.cjs"
-changelog: "0.2.1.0: the scheduled task and after-scan hook now also REPLACE analyses that were not produced by the server (a browser precompute is visual-only) with the richer server analysis (visual + audio). Once every stored analysis is server-produced this is a no-op."
+changelog: "0.2.1.1: fix the settings page so it shows the currently saved values (the API returns config keys in camelCase; the page now reads them case-insensitively and saves without duplicate keys)."

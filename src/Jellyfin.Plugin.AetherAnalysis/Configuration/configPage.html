@@ -74,21 +74,33 @@
       const pluginId = 'ea32f6f5-de62-4784-9b60-4cfe664995ed';
       const page = document.querySelector('#AetherAnalysisConfigPage');
       const form = document.querySelector('#AetherAnalysisConfigForm');
+      // Jellyfin's GET /Plugins/{id}/Configuration serializes the config with
+      // camelCase keys, while the C# properties (and the PUT we send) are
+      // PascalCase. Reading `config.MaxStoredBytes` therefore returned undefined
+      // and left every field empty even though saving worked. Read both casings.
+      const get = (config, name, fallback) => {
+        const camel = name.charAt(0).toLowerCase() + name.slice(1);
+        const value = config == null ? undefined : (config[name] ?? config[camel]);
+        return value === undefined || value === null ? fallback : value;
+      };
       const loadConfiguration = async () => {
         Dashboard.showLoadingMsg();
         try {
           const config = await ApiClient.getPluginConfiguration(pluginId);
-          document.querySelector('#MaxStoredGiB').value = Math.max(1, Math.round(config.MaxStoredBytes / 1073741824));
-          document.querySelector('#RetentionDays').value = config.RetentionDays ?? 0;
-          document.querySelector('#CleanupIntervalHours').value = config.CleanupIntervalHours ?? 6;
-          document.querySelector('#AllowedOrigins').value = (config.AllowedOrigins ?? []).join('\n');
-          document.querySelector('#ServerAnalysisEnabled').checked = config.ServerAnalysisEnabled !== false;
-          document.querySelector('#AutoAnalyzeOnScan').checked = config.AutoAnalyzeOnScan !== false;
-          document.querySelector('#NodePath').value = config.NodePath ?? 'node';
-          document.querySelector('#AnalysisFps').value = config.AnalysisFps ?? 2;
-          document.querySelector('#AnalysisMaxWidth').value = config.AnalysisMaxWidth ?? 480;
-          document.querySelector('#AnalysisTimeoutMinutes').value = config.AnalysisTimeoutMinutes ?? 60;
-          document.querySelector('#AnalysisLibraryIds').value = (config.AnalysisLibraryIds ?? []).join('\n');
+          const maxBytes = get(config, 'MaxStoredBytes', 10 * 1073741824);
+          document.querySelector('#MaxStoredGiB').value = Math.max(1, Math.round(maxBytes / 1073741824));
+          document.querySelector('#RetentionDays').value = get(config, 'RetentionDays', 0);
+          document.querySelector('#CleanupIntervalHours').value = get(config, 'CleanupIntervalHours', 6);
+          document.querySelector('#AllowedOrigins').value = get(config, 'AllowedOrigins', []).join('\n');
+          document.querySelector('#ServerAnalysisEnabled').checked = get(config, 'ServerAnalysisEnabled', true) !== false;
+          document.querySelector('#AutoAnalyzeOnScan').checked = get(config, 'AutoAnalyzeOnScan', true) !== false;
+          document.querySelector('#NodePath').value = get(config, 'NodePath', 'node');
+          document.querySelector('#AnalysisFps').value = get(config, 'AnalysisFps', 2);
+          document.querySelector('#AnalysisMaxWidth').value = get(config, 'AnalysisMaxWidth', 480);
+          document.querySelector('#AnalysisTimeoutMinutes').value = get(config, 'AnalysisTimeoutMinutes', 60);
+          document.querySelector('#AnalysisLibraryIds').value = get(config, 'AnalysisLibraryIds', []).join('\n');
+        } catch (error) {
+          console.error('AETHER: failed to load plugin configuration', error);
         } finally {
           Dashboard.hideLoadingMsg();
         }
@@ -99,23 +111,32 @@
       // (current values were never loaded, while Save still worked).
       page.addEventListener('pageshow', loadConfiguration);
       loadConfiguration();
+      // Set PascalCase and drop any camelCase duplicate the GET returned, so the
+      // PUT payload carries exactly one key per setting (no ambiguous casing).
+      const set = (config, name, value) => {
+        const camel = name.charAt(0).toLowerCase() + name.slice(1);
+        if (camel !== name && Object.prototype.hasOwnProperty.call(config, camel)) {
+          delete config[camel];
+        }
+        config[name] = value;
+      };
       form.addEventListener('submit', async (event) => {
         event.preventDefault();
         Dashboard.showLoadingMsg();
         const config = await ApiClient.getPluginConfiguration(pluginId);
-        config.MaxStoredBytes = Number(document.querySelector('#MaxStoredGiB').value) * 1073741824;
-        config.RetentionDays = Number(document.querySelector('#RetentionDays').value);
-        config.CleanupIntervalHours = Number(document.querySelector('#CleanupIntervalHours').value);
-        config.AllowedOrigins = document.querySelector('#AllowedOrigins').value
-          .split(/\r?\n/).map(value => value.trim()).filter(Boolean);
-        config.ServerAnalysisEnabled = document.querySelector('#ServerAnalysisEnabled').checked;
-        config.AutoAnalyzeOnScan = document.querySelector('#AutoAnalyzeOnScan').checked;
-        config.NodePath = document.querySelector('#NodePath').value.trim() || 'node';
-        config.AnalysisFps = Number(document.querySelector('#AnalysisFps').value);
-        config.AnalysisMaxWidth = Number(document.querySelector('#AnalysisMaxWidth').value);
-        config.AnalysisTimeoutMinutes = Number(document.querySelector('#AnalysisTimeoutMinutes').value);
-        config.AnalysisLibraryIds = document.querySelector('#AnalysisLibraryIds').value
-          .split(/\r?\n/).map(value => value.trim()).filter(Boolean);
+        set(config, 'MaxStoredBytes', Number(document.querySelector('#MaxStoredGiB').value) * 1073741824);
+        set(config, 'RetentionDays', Number(document.querySelector('#RetentionDays').value));
+        set(config, 'CleanupIntervalHours', Number(document.querySelector('#CleanupIntervalHours').value));
+        set(config, 'AllowedOrigins', document.querySelector('#AllowedOrigins').value
+          .split(/\r?\n/).map(value => value.trim()).filter(Boolean));
+        set(config, 'ServerAnalysisEnabled', document.querySelector('#ServerAnalysisEnabled').checked);
+        set(config, 'AutoAnalyzeOnScan', document.querySelector('#AutoAnalyzeOnScan').checked);
+        set(config, 'NodePath', document.querySelector('#NodePath').value.trim() || 'node');
+        set(config, 'AnalysisFps', Number(document.querySelector('#AnalysisFps').value));
+        set(config, 'AnalysisMaxWidth', Number(document.querySelector('#AnalysisMaxWidth').value));
+        set(config, 'AnalysisTimeoutMinutes', Number(document.querySelector('#AnalysisTimeoutMinutes').value));
+        set(config, 'AnalysisLibraryIds', document.querySelector('#AnalysisLibraryIds').value
+          .split(/\r?\n/).map(value => value.trim()).filter(Boolean));
         await ApiClient.updatePluginConfiguration(pluginId, config);
         Dashboard.processPluginConfigurationUpdateResult();
       });

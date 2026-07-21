@@ -4,7 +4,7 @@
     <Company>AETHER</Company>
     <Product>AETHER Analysis for Jellyfin</Product>
     <Copyright>Copyright © 2026</Copyright>
-    <VersionPrefix>0.2.1.0</VersionPrefix>
+    <VersionPrefix>0.2.1.1</VersionPrefix>
     <LangVersion>13</LangVersion>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>

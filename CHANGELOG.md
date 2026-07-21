@@ -2,6 +2,14 @@
 
 All notable changes to implementation and canonical contracts are recorded here.
 
+## [0.2.1.1] — Settings page shows saved values
+
+### Fixed
+
+- The configuration page left all fields empty even though values were saved. Jellyfin's
+  `GET /Plugins/{id}/Configuration` returns the config with camelCase keys while the page read
+  PascalCase; it now reads case-insensitively and writes a single-cased payload on save.
+
 ## [0.2.1.0] — Upgrade browser analyses to server
 
 ### Changed
