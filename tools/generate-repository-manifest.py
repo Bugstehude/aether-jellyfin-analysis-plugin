@@ -48,7 +48,7 @@ def main() -> None:
             "versions": [
                 {
                     "version": version,
-                    "changelog": "Initial release for Jellyfin 10.11.11.",
+                    "changelog": read_scalar(build, "changelog"),
                     "targetAbi": read_scalar(build, "targetAbi"),
                     "sourceUrl": (
                         f"https://github.com/{REPOSITORY}/releases/download/"
