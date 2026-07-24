@@ -28,10 +28,22 @@ public sealed class ServerAnalysisRunner(
     ILogger<ServerAnalysisRunner> logger) : IDisposable
 {
     private static readonly JsonSerializerOptions SerializerOptions = new(JsonSerializerDefaults.Web);
+
+    // Serializes the per-source worker+store so the weak server never runs two analyses at once.
     private readonly SemaphoreSlim _gate = new(1, 1);
 
+    // Serializes whole background runs against each other (see AnalyzePendingAsync). Without it,
+    // the scheduled task and the after-scan hook could run concurrently and each iterate the full
+    // library — analyzing and storing every item twice, doubling a multi-hour run.
+    private readonly SemaphoreSlim _runGate = new(1, 1);
+    private int _pendingRun;
+
     /// <inheritdoc />
-    public void Dispose() => _gate.Dispose();
+    public void Dispose()
+    {
+        _gate.Dispose();
+        _runGate.Dispose();
+    }
 
     /// <summary>Enumerates the video items eligible for server-side analysis per configuration.</summary>
     public IReadOnlyList<BaseItem> SelectItems()
@@ -55,9 +67,43 @@ public sealed class ServerAnalysisRunner(
     /// <summary>
     /// Analyzes every eligible item that lacks a current analysis, reporting 0..100 percent.
     /// Shared by the scheduled task and the post-scan hook; already-current items are cheap
-    /// (a metadata lookup only, no worker run).
+    /// (a metadata lookup only, no worker run). Whole runs are serialized against each other:
+    /// at most one runs while a single follow-up waits; further concurrent triggers are redundant
+    /// (the waiting run re-scans the whole library) and are skipped, so no item is analyzed twice.
     /// </summary>
     public async Task AnalyzePendingAsync(IProgress<double>? percentProgress, CancellationToken cancellationToken)
+    {
+        if (!await _runGate.WaitAsync(0, cancellationToken).ConfigureAwait(false))
+        {
+            if (Interlocked.CompareExchange(ref _pendingRun, 1, 0) != 0)
+            {
+                logger.LogInformation(
+                    "AETHER background analysis is already running with one queued; skipping this trigger.");
+                percentProgress?.Report(100);
+                return;
+            }
+
+            try
+            {
+                await _runGate.WaitAsync(cancellationToken).ConfigureAwait(false);
+            }
+            finally
+            {
+                Interlocked.Exchange(ref _pendingRun, 0);
+            }
+        }
+
+        try
+        {
+            await RunPendingCoreAsync(percentProgress, cancellationToken).ConfigureAwait(false);
+        }
+        finally
+        {
+            _runGate.Release();
+        }
+    }
+
+    private async Task RunPendingCoreAsync(IProgress<double>? percentProgress, CancellationToken cancellationToken)
     {
         var items = SelectItems();
         if (items.Count == 0)

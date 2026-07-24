@@ -2,6 +2,18 @@
 
 All notable changes to implementation and canonical contracts are recorded here.
 
+## [0.2.1.5] — Stop double-analyzing every item
+
+### Fixed
+
+- The scheduled task and the after-scan hook both call `AnalyzePendingAsync`, but only the
+  per-source worker was serialized — not whole runs. When two runs overlapped (e.g. a library scan
+  finishing during the scheduled task), each iterated the full library and analyzed **and stored
+  every item twice**, doubling an already multi-hour run on a weak server. Whole runs are now
+  serialized: one runs while at most one follow-up waits, and any further concurrent trigger is
+  skipped (the waiting run re-scans everything, so nothing is missed). The waiting run re-selects
+  items after the active one finishes, so already-current items cost only a metadata lookup.
+
 ## [0.2.1.4] — Pick libraries from a list
 
 ### Changed
