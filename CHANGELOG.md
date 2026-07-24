@@ -2,6 +2,19 @@
 
 All notable changes to implementation and canonical contracts are recorded here.
 
+## [0.2.1.4] — Pick libraries from a list
+
+### Changed
+
+- The "Libraries to analyze" setting is now a checkbox list of the server's actual libraries
+  (loaded via `getVirtualFolders`) instead of a free-text field expecting collection-folder GUIDs.
+  Previously a mistyped or name-based entry failed `Guid.TryParse`, was silently discarded, and the
+  run fell back to **all** libraries — so a scope you thought you set was ignored. The stored value
+  is unchanged (an array of collection-folder ids); stored ids with no matching library are shown as
+  checked "(removed library …)" rows so a lookup blip never drops a selection.
+- The background-analysis start log now names the libraries in scope
+  (`… (libraries: Movies, Shows)` or `libraries: all`).
+
 ## [0.2.1.3] — Settings page actually runs its script
 
 ### Fixed

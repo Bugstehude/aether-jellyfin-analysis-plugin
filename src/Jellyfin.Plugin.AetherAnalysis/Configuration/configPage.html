@@ -77,8 +77,9 @@
             <input id="AnalysisTimeoutMinutes" type="number" min="1" max="720" step="1">
           </div>
           <div class="inputContainer">
-            <label class="inputLabel inputLabelUnfocused" for="AnalysisLibraryIds">Libraries to analyze (one library id per line; empty = all)</label>
-            <textarea id="AnalysisLibraryIds" rows="3" placeholder="(all libraries)"></textarea>
+            <label class="inputLabel inputLabelUnfocused">Libraries to analyze</label>
+            <div id="AnalysisLibraries" style="margin-top:0.4em;"></div>
+            <div class="fieldDescription">Nothing ticked = all libraries are analyzed.</div>
           </div>
 
           <button is="emby-button" type="submit" class="raised button-submit block"><span>Save</span></button>
@@ -100,6 +101,47 @@
         const value = config == null ? undefined : (config[name] ?? config[camel]);
         return value === undefined || value === null ? fallback : value;
       };
+      // Render one checkbox per real Jellyfin library (collection folder), so admins
+      // pick libraries instead of pasting collection-folder GUIDs. The stored value
+      // stays an array of ids; ids with no matching library are kept as checked rows
+      // so a transient lookup failure never silently drops a selection.
+      const librariesEl = document.querySelector('#AnalysisLibraries');
+      const renderLibraryChoices = async (selectedIds) => {
+        const selected = new Set((selectedIds || []).map(String));
+        librariesEl.textContent = 'Loading libraries…';
+        let folders;
+        try {
+          folders = await ApiClient.getVirtualFolders();
+        } catch (error) {
+          librariesEl.textContent = 'Could not load libraries — save still works with the previous selection.';
+          return;
+        }
+        librariesEl.textContent = '';
+        const known = new Set();
+        const addRow = (id, name, checked) => {
+          known.add(String(id));
+          const label = document.createElement('label');
+          label.style.display = 'block';
+          label.style.margin = '0.25em 0';
+          label.style.cursor = 'pointer';
+          const box = document.createElement('input');
+          box.type = 'checkbox';
+          box.className = 'aetherLibraryCheck';
+          box.value = String(id);
+          box.checked = checked;
+          box.style.marginRight = '0.5em';
+          label.appendChild(box);
+          const span = document.createElement('span');
+          span.textContent = name;
+          label.appendChild(span);
+          librariesEl.appendChild(label);
+        };
+        (folders || []).forEach(folder => addRow(folder.ItemId, folder.Name, selected.has(String(folder.ItemId))));
+        (selectedIds || []).map(String).forEach(id => {
+          if (!known.has(id)) { addRow(id, '(removed library ' + id + ')', true); }
+        });
+        if (!librariesEl.children.length) { librariesEl.textContent = 'No libraries found on this server.'; }
+      };
       const loadConfiguration = async () => {
         Dashboard.showLoadingMsg();
         try {
@@ -115,7 +157,7 @@
           document.querySelector('#AnalysisFps').value = get(config, 'AnalysisFps', 2);
           document.querySelector('#AnalysisMaxWidth').value = get(config, 'AnalysisMaxWidth', 480);
           document.querySelector('#AnalysisTimeoutMinutes').value = get(config, 'AnalysisTimeoutMinutes', 60);
-          document.querySelector('#AnalysisLibraryIds').value = get(config, 'AnalysisLibraryIds', []).join('\n');
+          await renderLibraryChoices(get(config, 'AnalysisLibraryIds', []));
         } catch (error) {
           console.error('AETHER: failed to load plugin configuration', error);
         } finally {
@@ -227,8 +269,8 @@
         set(config, 'AnalysisFps', Number(document.querySelector('#AnalysisFps').value));
         set(config, 'AnalysisMaxWidth', Number(document.querySelector('#AnalysisMaxWidth').value));
         set(config, 'AnalysisTimeoutMinutes', Number(document.querySelector('#AnalysisTimeoutMinutes').value));
-        set(config, 'AnalysisLibraryIds', document.querySelector('#AnalysisLibraryIds').value
-          .split(/\r?\n/).map(value => value.trim()).filter(Boolean));
+        set(config, 'AnalysisLibraryIds', Array.from(document.querySelectorAll('.aetherLibraryCheck'))
+          .filter(box => box.checked).map(box => box.value));
         await ApiClient.updatePluginConfiguration(pluginId, config);
         Dashboard.processPluginConfigurationUpdateResult();
       });

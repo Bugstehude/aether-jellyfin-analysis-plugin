@@ -71,8 +71,9 @@ public sealed class ServerAnalysisRunner(
         var source = percentProgress is null ? "scan" : "scheduled";
         activity.BeginRun(source, items.Count);
         logger.LogInformation(
-            "AETHER background analysis started: {Total} eligible item(s) to check.",
-            items.Count);
+            "AETHER background analysis started: {Total} eligible item(s) to check (libraries: {Scope}).",
+            items.Count,
+            DescribeLibraryScope());
 
         int analyzed = 0, stored = 0, failed = 0, skipped = 0, alreadyCurrent = 0;
 
@@ -383,6 +384,19 @@ public sealed class ServerAnalysisRunner(
 
     private static IEnumerable<string> LocalSourceIds(BaseItem item) =>
         LocalSources(item).Select(source => source.Id);
+
+    /// <summary>Human-readable description of the configured library scope for logging.</summary>
+    private string DescribeLibraryScope()
+    {
+        var ids = ParseGuids(Configuration.AnalysisLibraryIds);
+        if (ids.Length == 0)
+        {
+            return "all";
+        }
+
+        var names = ids.Select(id => libraryManager.GetItemById<BaseItem>(id)?.Name ?? id.ToString());
+        return string.Join(", ", names);
+    }
 
     private static Guid[] ParseGuids(string[]? values) => (values ?? [])
         .Select(value => Guid.TryParse(value, out var id) ? id : Guid.Empty)
