@@ -5,7 +5,7 @@
   <title>AETHER Analysis</title>
 </head>
 <body>
-  <div id="AetherAnalysisConfigPage" data-role="page" class="page type-interior pluginConfigurationPage">
+  <div id="AetherAnalysisConfigPage" data-role="page" class="page type-interior pluginConfigurationPage" data-require="emby-input,emby-button,emby-select,emby-checkbox">
     <div data-role="content">
       <div class="content-primary">
         <form id="AetherAnalysisConfigForm">
@@ -85,16 +85,16 @@
         </form>
       </div>
     </div>
-  </div>
   <script type="text/javascript">
     (() => {
       const pluginId = 'ea32f6f5-de62-4784-9b60-4cfe664995ed';
       const page = document.querySelector('#AetherAnalysisConfigPage');
       const form = document.querySelector('#AetherAnalysisConfigForm');
-      // Jellyfin's GET /Plugins/{id}/Configuration serializes the config with
-      // camelCase keys, while the C# properties (and the PUT we send) are
-      // PascalCase. Reading `config.MaxStoredBytes` therefore returned undefined
-      // and left every field empty even though saving worked. Read both casings.
+      // This script MUST live inside the .pluginConfigurationPage element: Jellyfin's
+      // view loader injects only that element's content and runs the scripts within it,
+      // so a <script> placed after the page div was silently dropped and never executed
+      // (the real cause of the "settings page is always empty" bug). Read config keys
+      // case-insensitively as a belt-and-suspenders against PascalCase/camelCase drift.
       const get = (config, name, fallback) => {
         const camel = name.charAt(0).toLowerCase() + name.slice(1);
         const value = config == null ? undefined : (config[name] ?? config[camel]);
@@ -234,5 +234,6 @@
       });
     })();
   </script>
+  </div>
 </body>
 </html>

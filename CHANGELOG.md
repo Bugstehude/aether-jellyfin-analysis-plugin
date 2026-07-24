@@ -2,6 +2,19 @@
 
 All notable changes to implementation and canonical contracts are recorded here.
 
+## [0.2.1.3] — Settings page actually runs its script
+
+### Fixed
+
+- The configuration page never showed saved values and could not persist changes, because its
+  `<script>` was placed **after** the `.pluginConfigurationPage` element instead of inside it.
+  Jellyfin's view loader injects only that element's content and executes the scripts within it,
+  so the page's script was silently dropped — neither the load-on-show nor the save handler ever
+  ran (which is why the two prior camelCase/`pageshow` fixes had no effect: they changed a script
+  that never executed). The script now lives inside the page element, and the element declares
+  `data-require` for its emby inputs like the official plugin template. This also lets the live
+  activity panel added in 0.2.1.2 run.
+
 ## [0.2.1.2] — Visible background analysis progress
 
 ### Added
