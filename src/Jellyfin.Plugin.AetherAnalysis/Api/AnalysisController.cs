@@ -27,6 +27,7 @@ public sealed class AnalysisController(
     AnalysisWriteCoordinator writeCoordinator,
     AnalysisOperationalTelemetry operationalTelemetry,
     AnalysisJobDispatcher jobQueue,
+    ServerAnalysisActivity serverAnalysisActivity,
     ILogger<AnalysisController> logger) : ControllerBase
 {
     private const int AbsoluteRequestSizeLimitBytes = 50 * 1024 * 1024;
@@ -542,6 +543,58 @@ public sealed class AnalysisController(
                 touchFailureCount = operational.TouchFailureCount,
                 lastTouchFailureAt = operational.LastTouchFailureAt
             }
+        });
+    }
+
+    /// <summary>Gets a live snapshot of what server-side analysis is doing (administrator only).</summary>
+    [HttpGet("activity")]
+    [Authorize(Roles = AdministratorRole)]
+    public ActionResult GetActivity()
+    {
+        ApplyCorsHeaders();
+        var snapshot = serverAnalysisActivity.Snapshot();
+        return Ok(new
+        {
+            enabled = CurrentConfiguration.ServerAnalysisEnabled,
+            autoAnalyzeOnScan = CurrentConfiguration.AutoAnalyzeOnScan,
+            running = snapshot.Running,
+            source = snapshot.Source,
+            runStartedAt = snapshot.RunStartedAt,
+            total = snapshot.TotalItems,
+            checkedCount = snapshot.Checked,
+            analyzed = snapshot.Analyzed,
+            stored = snapshot.Stored,
+            skipped = snapshot.Skipped,
+            failed = snapshot.Failed,
+            percent = snapshot.Percent,
+            current = snapshot.Current is null
+                ? null
+                : new
+                {
+                    itemId = snapshot.Current.ItemId,
+                    name = snapshot.Current.Name,
+                    startedAt = snapshot.Current.StartedAt
+                },
+            recent = snapshot.Recent.Select(entry => new
+            {
+                name = entry.Name,
+                outcome = entry.Outcome,
+                at = entry.At
+            }),
+            lastRun = snapshot.LastRun is null
+                ? null
+                : new
+                {
+                    source = snapshot.LastRun.Source,
+                    finishedAt = snapshot.LastRun.FinishedAt,
+                    cancelled = snapshot.LastRun.Cancelled,
+                    analyzed = snapshot.LastRun.Analyzed,
+                    stored = snapshot.LastRun.Stored,
+                    skipped = snapshot.LastRun.Skipped,
+                    failed = snapshot.LastRun.Failed,
+                    elapsedSeconds = snapshot.LastRun.ElapsedSeconds
+                },
+            updatedAt = snapshot.UpdatedAt
         });
     }
 

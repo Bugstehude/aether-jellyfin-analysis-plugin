@@ -1,7 +1,7 @@
 ---
 name: "AETHER Analysis"
 guid: "ea32f6f5-de62-4784-9b60-4cfe664995ed"
-version: "0.2.1.1"
+version: "0.2.1.2"
 targetAbi: "10.11.11.0"
 framework: "net9.0"
 overview: "Persistent multi-resolution AETHER video analysis storage"
@@ -13,4 +13,4 @@ owner: "Bugstehude"
 artifacts:
   - "Jellyfin.Plugin.AetherAnalysis.dll"
   - "aether-analysis-worker.cjs"
-changelog: "0.2.1.1: fix the settings page so it shows the currently saved values (the API returns config keys in camelCase; the page now reads them case-insensitively and saves without duplicate keys)."
+changelog: "0.2.1.2: see what the background analysis is doing — a live activity panel on the settings page (current item, progress, recent items, last-run summary) plus detailed per-item progress logging in the server log for the scheduled task and after-scan hook."

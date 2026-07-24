@@ -24,6 +24,7 @@ public sealed class ServerAnalysisRunner(
     MediaFingerprintService fingerprintService,
     AnalysisRepresentationService representationService,
     ServerAnalysisWorkerRunner worker,
+    ServerAnalysisActivity activity,
     ILogger<ServerAnalysisRunner> logger) : IDisposable
 {
     private static readonly JsonSerializerOptions SerializerOptions = new(JsonSerializerDefaults.Web);
@@ -61,9 +62,19 @@ public sealed class ServerAnalysisRunner(
         var items = SelectItems();
         if (items.Count == 0)
         {
+            logger.LogInformation("AETHER background analysis: no eligible video items found.");
             percentProgress?.Report(100);
             return;
         }
+
+        var startedAt = DateTimeOffset.UtcNow;
+        var source = percentProgress is null ? "scan" : "scheduled";
+        activity.BeginRun(source, items.Count);
+        logger.LogInformation(
+            "AETHER background analysis started: {Total} eligible item(s) to check.",
+            items.Count);
+
+        int analyzed = 0, stored = 0, failed = 0, skipped = 0, alreadyCurrent = 0;
 
         for (var i = 0; i < items.Count; i++)
         {
@@ -71,22 +82,77 @@ public sealed class ServerAnalysisRunner(
             var item = items[i];
             try
             {
-                if (await ItemNeedsAnalysisAsync(item, cancellationToken).ConfigureAwait(false))
+                if (!await ItemNeedsAnalysisAsync(item, cancellationToken).ConfigureAwait(false))
                 {
-                    await AnalyzeItemAsync(item.Id, null, cancellationToken).ConfigureAwait(false);
+                    alreadyCurrent++;
+                    activity.MarkAlreadyCurrent();
+                }
+                else
+                {
+                    analyzed++;
+                    logger.LogInformation(
+                        "AETHER [{Index}/{Total}] analyzing {Name} ({ItemId})…",
+                        i + 1,
+                        items.Count,
+                        item.Name,
+                        item.Id);
+
+                    var result = await AnalyzeItemAsync(item.Id, null, cancellationToken).ConfigureAwait(false);
+                    if (result.AnyStored)
+                    {
+                        stored++;
+                        logger.LogInformation(
+                            "AETHER [{Index}/{Total}] {Name}: stored.", i + 1, items.Count, item.Name);
+                    }
+                    else if (result.AnyFailed)
+                    {
+                        failed++;
+                        var detail = result.Sources.FirstOrDefault(s => s.Status == SourceAnalysisStatus.Failed)?.Detail ?? "error";
+                        logger.LogWarning(
+                            "AETHER [{Index}/{Total}] {Name}: failed ({Detail}).", i + 1, items.Count, item.Name, detail);
+                    }
+                    else
+                    {
+                        skipped++;
+                        logger.LogInformation(
+                            "AETHER [{Index}/{Total}] {Name}: skipped (no local source or media changed).",
+                            i + 1,
+                            items.Count,
+                            item.Name);
+                    }
                 }
             }
             catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
             {
+                activity.EndRun(cancelled: true);
+                logger.LogInformation(
+                    "AETHER background analysis cancelled after {Elapsed}: {Analyzed} analyzed ({Stored} stored, {Failed} failed) of {Total} checked.",
+                    DateTimeOffset.UtcNow - startedAt,
+                    analyzed,
+                    stored,
+                    failed,
+                    items.Count);
                 throw;
             }
             catch (Exception exception)
             {
+                failed++;
                 logger.LogError(exception, "AETHER analysis failed for item {ItemId}", item.Id);
             }
 
             percentProgress?.Report((i + 1) * 100.0 / items.Count);
         }
+
+        activity.EndRun(cancelled: false);
+        logger.LogInformation(
+            "AETHER background analysis finished in {Elapsed}: {Total} checked, {AlreadyCurrent} already current, {Analyzed} analyzed ({Stored} stored, {Skipped} skipped, {Failed} failed).",
+            DateTimeOffset.UtcNow - startedAt,
+            items.Count,
+            alreadyCurrent,
+            analyzed,
+            stored,
+            skipped,
+            failed);
     }
 
     /// <summary>True when the item has at least one local source lacking a current stored analysis.</summary>
@@ -115,22 +181,33 @@ public sealed class ServerAnalysisRunner(
             return new ItemAnalysisResult(itemId, []);
         }
 
-        var sources = LocalSources(item).ToArray();
-        var outcomes = new List<SourceAnalysisOutcome>(sources.Length);
-        for (var i = 0; i < sources.Length; i++)
+        activity.BeginItem(item.Id, item.Name);
+        try
         {
-            cancellationToken.ThrowIfCancellationRequested();
-            var source = sources[i];
-            var index = i;
-            var sourceProgress = progress is null
-                ? null
-                : new Progress<double>(fraction =>
-                    progress.Report((index + Math.Clamp(fraction, 0, 1)) / sources.Length));
-            outcomes.Add(await AnalyzeSourceAsync(item, source, sourceProgress, cancellationToken).ConfigureAwait(false));
-        }
+            var sources = LocalSources(item).ToArray();
+            var outcomes = new List<SourceAnalysisOutcome>(sources.Length);
+            for (var i = 0; i < sources.Length; i++)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                var source = sources[i];
+                var index = i;
+                var sourceProgress = progress is null
+                    ? null
+                    : new Progress<double>(fraction =>
+                        progress.Report((index + Math.Clamp(fraction, 0, 1)) / sources.Length));
+                outcomes.Add(await AnalyzeSourceAsync(item, source, sourceProgress, cancellationToken).ConfigureAwait(false));
+            }
 
-        progress?.Report(1.0);
-        return new ItemAnalysisResult(itemId, outcomes);
+            progress?.Report(1.0);
+            var result = new ItemAnalysisResult(itemId, outcomes);
+            activity.CompleteItem(item.Name, result.AnyStored ? "stored" : (result.AnyFailed ? "failed" : "skipped"));
+            return result;
+        }
+        catch
+        {
+            activity.AbandonItem();
+            throw;
+        }
     }
 
     private async Task<SourceAnalysisOutcome> AnalyzeSourceAsync(

@@ -42,6 +42,7 @@ public sealed class ServiceRegistrator : IPluginServiceRegistrator
         // In-plugin server-side analysis (option b): the plugin runs the shared
         // perception-engine worker and stores results directly, no HTTP/auth hop.
         serviceCollection.AddSingleton<ServerAnalysisWorkerRunner>();
+        serviceCollection.AddSingleton<ServerAnalysisActivity>();
         serviceCollection.AddSingleton<ServerAnalysisRunner>();
         serviceCollection.AddSingleton<AnalysisJobDispatcher>();
         serviceCollection.AddHostedService(provider => provider.GetRequiredService<AnalysisJobDispatcher>());

@@ -31,6 +31,23 @@
 
           <h2>Server-side analysis</h2>
           <p>The server runs the shared AETHER analysis (visual + audio) and stores results directly. Needs Node installed on this server; ffmpeg is taken from Jellyfin.</p>
+
+          <div id="AetherActivity" style="margin:0.5em 0 1.25em; padding:0.75em 1em; border:1px solid rgba(128,128,128,0.4); border-radius:6px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:1em;">
+              <strong>Live activity</strong>
+              <span id="AetherActivityState" style="opacity:0.85;">…</span>
+            </div>
+            <div id="AetherActivityBarWrap" style="height:6px; background:rgba(128,128,128,0.25); border-radius:3px; margin:0.6em 0; overflow:hidden; display:none;">
+              <div id="AetherActivityBar" style="height:100%; width:0%; background:#00a4dc; transition:width 0.4s ease;"></div>
+            </div>
+            <div id="AetherActivityCurrent" style="font-size:0.9em; opacity:0.95;"></div>
+            <div id="AetherActivitySummary" style="font-size:0.85em; opacity:0.75; margin-top:0.35em;"></div>
+            <details style="margin-top:0.5em;">
+              <summary style="cursor:pointer; font-size:0.85em;">Recently analyzed</summary>
+              <ul id="AetherActivityRecent" style="margin:0.4em 0 0; padding-left:1.2em; font-size:0.85em;"></ul>
+            </details>
+          </div>
+
           <div class="checkboxContainer">
             <label>
               <input is="emby-checkbox" id="ServerAnalysisEnabled" type="checkbox">
@@ -111,6 +128,81 @@
       // (current values were never loaded, while Save still worked).
       page.addEventListener('pageshow', loadConfiguration);
       loadConfiguration();
+
+      // Live server-analysis activity: poll the admin-only activity endpoint while the
+      // page is visible so admins can see what the background analysis is doing.
+      const activityUrl = ApiClient.getUrl('AetherAnalysis/v1/activity');
+      const timeAgo = (iso) => {
+        if (!iso) { return ''; }
+        const seconds = Math.max(0, Math.round((Date.now() - new Date(iso).getTime()) / 1000));
+        if (seconds < 60) { return seconds + 's ago'; }
+        const minutes = Math.round(seconds / 60);
+        if (minutes < 60) { return minutes + 'm ago'; }
+        return Math.round(minutes / 60) + 'h ago';
+      };
+      const duration = (totalSeconds) => {
+        const s = Math.max(0, Math.round(totalSeconds || 0));
+        if (s < 60) { return s + 's'; }
+        const m = Math.floor(s / 60);
+        if (m < 60) { return m + 'm ' + (s % 60) + 's'; }
+        return Math.floor(m / 60) + 'h ' + (m % 60) + 'm';
+      };
+      const renderActivity = (activity) => {
+        const stateEl = document.querySelector('#AetherActivityState');
+        const barWrap = document.querySelector('#AetherActivityBarWrap');
+        const bar = document.querySelector('#AetherActivityBar');
+        const currentEl = document.querySelector('#AetherActivityCurrent');
+        const summaryEl = document.querySelector('#AetherActivitySummary');
+        const recentEl = document.querySelector('#AetherActivityRecent');
+        const busy = activity.running || activity.current;
+        if (!activity.enabled) {
+          stateEl.textContent = 'disabled';
+        } else if (activity.running) {
+          stateEl.textContent = 'Running · ' + (activity.source || 'run') + ' · '
+            + activity.checkedCount + '/' + activity.total;
+        } else if (activity.current) {
+          stateEl.textContent = 'Analyzing…';
+        } else {
+          stateEl.textContent = 'Idle';
+        }
+        barWrap.style.display = busy && activity.total > 0 ? 'block' : 'none';
+        bar.style.width = Math.round(activity.percent || 0) + '%';
+        currentEl.textContent = activity.current
+          ? '▶ ' + activity.current.name + ' · ' + timeAgo(activity.current.startedAt)
+          : '';
+        const last = activity.lastRun;
+        summaryEl.textContent = last
+          ? 'Last run (' + last.source + (last.cancelled ? ', cancelled' : '') + '): '
+            + last.stored + ' stored · ' + last.skipped + ' skipped · ' + last.failed + ' failed · '
+            + duration(last.elapsedSeconds) + ' · ' + timeAgo(last.finishedAt)
+          : (activity.enabled ? 'No run recorded since the server started.' : 'Enable server-side analysis to use this.');
+        recentEl.textContent = '';
+        (activity.recent || []).forEach((entry) => {
+          const li = document.createElement('li');
+          li.textContent = entry.name + ' — ' + entry.outcome + ' · ' + timeAgo(entry.at);
+          recentEl.appendChild(li);
+        });
+      };
+      const pollActivity = async () => {
+        try {
+          const activity = await ApiClient.ajax({ type: 'GET', url: activityUrl, dataType: 'json' });
+          renderActivity(activity);
+        } catch (error) {
+          document.querySelector('#AetherActivityState').textContent = 'unavailable';
+        }
+      };
+      let activityTimer = null;
+      const startActivityPolling = () => {
+        if (activityTimer !== null) { return; }
+        pollActivity();
+        activityTimer = setInterval(pollActivity, 2000);
+      };
+      const stopActivityPolling = () => {
+        if (activityTimer !== null) { clearInterval(activityTimer); activityTimer = null; }
+      };
+      page.addEventListener('pageshow', startActivityPolling);
+      page.addEventListener('pagehide', stopActivityPolling);
+      startActivityPolling();
       // Set PascalCase and drop any camelCase duplicate the GET returned, so the
       // PUT payload carries exactly one key per setting (no ambiguous casing).
       const set = (config, name, value) => {

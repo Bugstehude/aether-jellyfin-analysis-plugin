@@ -2,6 +2,27 @@
 
 All notable changes to implementation and canonical contracts are recorded here.
 
+## [0.2.1.2] — Visible background analysis progress
+
+### Added
+
+- A **live activity panel** on the plugin settings page. It polls a new administrator-only
+  `GET /AetherAnalysis/v1/activity` endpoint (not part of the versioned client contract, like the
+  existing `analyze` endpoints) and shows what server-side analysis is doing right now: current
+  run source and progress bar, the item being analyzed, a running stored/skipped/failed tally, the
+  last (or cancelled) run summary, and the ten most recently analyzed items. Backed by a new
+  in-memory `ServerAnalysisActivity` singleton fed by the runner; purely diagnostic, reset on
+  restart, never persisted.
+
+### Changed
+
+- The background analysis path (`AETHER: Analyze library` scheduled task and the after-scan hook)
+  now logs its progress. Previously only the manual "Server-Analyse" button path logged a result,
+  so a multi-hour background run was almost silent in the server log. It now logs a start line with
+  the item count, one `AETHER [i/N] analyzing <name>` line per item that is actually analyzed plus
+  its per-item outcome (stored / skipped / failed), and a final summary — also emitted when the run
+  is cancelled — with elapsed time and stored/skipped/failed counts. No contract change.
+
 ## [0.2.1.1] — Settings page shows saved values
 
 ### Fixed
