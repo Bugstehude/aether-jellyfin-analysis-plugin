@@ -2,6 +2,18 @@
 
 All notable changes to implementation and canonical contracts are recorded here.
 
+## [0.2.2.1] — Sichtbarer Fortschritt statt scheinbarem Stillstand
+
+### Fixed
+
+- Der Fortschritt zählte nur ABGESCHLOSSENE Items. Ein langes erstes Video ließ den
+  Balken deshalb minutenlang auf 0 % stehen und der Lauf sah aus, als hinge er. Der
+  Batch-Pfad reicht jetzt den Fortschritt INNERHALB des Items durch (er wurde bisher
+  nur für den manuellen Knopf erfasst), und das laufende Item zählt anteilig in den
+  Gesamtwert.
+- Die Anzeige nannte gar keine Prozentzahl, nur „3/547" und einen Balken. Jetzt steht
+  der Prozentwert ausgeschrieben, dazu der Fortschritt des laufenden Videos.
+
 ## [0.2.2.0] — Centre-weighted palette (algorithm `aether-visual/1.1.0`)
 
 ### Changed

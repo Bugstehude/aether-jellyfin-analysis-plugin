@@ -22,6 +22,7 @@ public sealed class ServerAnalysisActivity
     private int _skipped;
     private int _failed;
     private ServerAnalysisCurrentItem? _current;
+    private double _currentProgress;
     private ServerAnalysisLastRun? _lastRun;
     private DateTimeOffset _updatedAt = DateTimeOffset.UtcNow;
 
@@ -50,6 +51,23 @@ public sealed class ServerAnalysisActivity
         lock (_gate)
         {
             _current = new ServerAnalysisCurrentItem(itemId, name, DateTimeOffset.UtcNow);
+            _currentProgress = 0;
+            Touch();
+        }
+    }
+
+    /// <summary>
+    /// Fortschritt INNERHALB des laufenden Items (0..1).
+    ///
+    /// Ohne diesen Wert stand die Anzeige während eines langen Videos minutenlang
+    /// bei 0 %, weil nur abgeschlossene Items gezählt wurden — der Lauf sah aus,
+    /// als hinge er.
+    /// </summary>
+    public void ReportItemProgress(double fraction)
+    {
+        lock (_gate)
+        {
+            _currentProgress = Math.Clamp(fraction, 0, 1);
             Touch();
         }
     }
@@ -85,6 +103,7 @@ public sealed class ServerAnalysisActivity
         lock (_gate)
         {
             _current = null;
+            _currentProgress = 0;
             Touch();
         }
     }
@@ -128,8 +147,11 @@ public sealed class ServerAnalysisActivity
     {
         lock (_gate)
         {
+            // Das laufende Item zählt anteilig mit, sonst springt der Balken nur
+            // beim Abschluss und steht dazwischen scheinbar still.
+            var effectiveChecked = _checked + (_current is null ? 0 : _currentProgress);
             var percent = _total > 0
-                ? Math.Clamp(_checked * 100.0 / _total, 0, 100)
+                ? Math.Clamp(effectiveChecked * 100.0 / _total, 0, 100)
                 : (_running ? 0 : 100);
             return new ServerAnalysisActivitySnapshot(
                 _running,
@@ -143,6 +165,7 @@ public sealed class ServerAnalysisActivity
                 _failed,
                 percent,
                 _current,
+                _currentProgress,
                 _recent.ToArray(),
                 _lastRun,
                 _updatedAt);
@@ -182,6 +205,7 @@ public sealed record ServerAnalysisActivitySnapshot(
     int Failed,
     double Percent,
     ServerAnalysisCurrentItem? Current,
+    double CurrentProgress,
     IReadOnlyList<ServerAnalysisRecentItem> Recent,
     ServerAnalysisLastRun? LastRun,
     DateTimeOffset UpdatedAt);

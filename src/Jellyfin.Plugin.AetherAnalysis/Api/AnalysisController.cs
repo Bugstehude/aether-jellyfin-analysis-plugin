@@ -576,7 +576,8 @@ public sealed class AnalysisController(
                 {
                     itemId = snapshot.Current.ItemId,
                     name = snapshot.Current.Name,
-                    startedAt = snapshot.Current.StartedAt
+                    startedAt = snapshot.Current.StartedAt,
+                    progress = snapshot.CurrentProgress
                 },
             recent = snapshot.Recent.Select(entry => new
             {

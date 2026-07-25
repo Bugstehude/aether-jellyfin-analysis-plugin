@@ -144,7 +144,11 @@ public sealed class ServerAnalysisRunner(
                         item.Name,
                         item.Id);
 
-                    var result = await AnalyzeItemAsync(item.Id, null, cancellationToken).ConfigureAwait(false);
+                    // Fortschritt INNERHALB des Items melden: bei einem langen
+                    // Video stand die Anzeige sonst minutenlang still.
+                    var itemProgress = new Progress<double>(activity.ReportItemProgress);
+                    var result = await AnalyzeItemAsync(item.Id, itemProgress, cancellationToken)
+                        .ConfigureAwait(false);
                     if (result.AnyStored)
                     {
                         stored++;
