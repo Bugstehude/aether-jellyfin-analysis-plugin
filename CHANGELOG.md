@@ -2,6 +2,31 @@
 
 All notable changes to implementation and canonical contracts are recorded here.
 
+## [0.2.2.2] — Warteschlange begrenzt, ungeprüfte Felder nicht mehr gespeichert
+
+### Fixed
+
+- Die Analyse-Warteschlange war **unbegrenzt** (`Channel.CreateUnbounded`), und die
+  Statustabelle wurde nie geleert. Wer Upload-Recht auf dem Server hat, konnte damit
+  beliebig viele jeweils minuten- bis stundenlange ffmpeg-Läufe aufstauen und den Server
+  über Stunden auslasten. Die Warteschlange fasst jetzt 64 Einträge; darüber hinaus
+  antwortet `POST …/analyze` mit **429** und `Retry-After`, statt still anzunehmen und nie
+  zu liefern. Abgeschlossene Statuseinträge werden nach einer Stunde verworfen.
+- Unbekannte Top-Level-Felder eines Uploads wurden **ungeprüft** ins gespeicherte Dokument
+  übernommen und später an jeden Leser des Items ausgeliefert — der Validator sieht sie
+  nicht. Übernommen wird jetzt nur noch, was der Vertrag kennt. Abschnitt 11.3 des
+  Konzepts deckt das ausdrücklich: Autoren dürfen sich nicht darauf verlassen, dass
+  unbekannte Felder ein erneutes Speichern überleben. Der AETHER-Client sendet keine
+  solchen Felder, für ihn ändert sich nichts.
+
+### Offen (bewusst nicht geändert)
+
+- Der Controller nutzt `[Authorize]` statt Jellyfins `DefaultAuthorization`-Policy. Deren
+  Handler erzwingt zusätzlich die Nutzer-Policy (deaktiviertes Konto, Zugriffszeitplan,
+  „Fernzugriff erlauben"). Der Policy-Name wird serverseitig aufgelöst und konnte hier
+  nicht gegen 10.11.11 verifiziert werden — ein falscher Name ergibt zur Laufzeit 500er.
+  Gehört gegen die laufende Instanz geprüft und dann gesetzt.
+
 ## [0.2.2.1] — Sichtbarer Fortschritt statt scheinbarem Stillstand
 
 ### Fixed

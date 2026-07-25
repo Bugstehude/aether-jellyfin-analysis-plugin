@@ -371,6 +371,15 @@ public sealed class AnalysisController(
         }
 
         var status = jobQueue.Enqueue(itemId);
+        if (status is null)
+        {
+            Response.Headers.RetryAfter = "60";
+            return ProblemResult(
+                StatusCodes.Status429TooManyRequests,
+                "analysis-queue-full",
+                "Too many analyses are already queued; try again later.");
+        }
+
         return Accepted(new { state = StateName(status.State), progress = status.Progress });
     }
 

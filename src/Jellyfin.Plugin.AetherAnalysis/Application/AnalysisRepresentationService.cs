@@ -50,14 +50,12 @@ public sealed class AnalysisRepresentationService
 
         CopyOptional(upload, root, "clientContentFingerprint");
         CopyOptional(upload, root, "audioFrames");
-        foreach (var property in upload)
-        {
-            if (!ReservedUploadProperties.Contains(property.Key))
-            {
-                root[property.Key] = property.Value?.DeepClone();
-            }
-        }
 
+        // Bewusst KEINE Übernahme unbekannter Top-Level-Felder: der Validator prüft
+        // sie nicht, sie würden also als ungeprüfte Daten gespeichert und später an
+        // jeden Leser des Items ausgeliefert. Der Vertrag (plugin-concept.md 11.3)
+        // erlaubt genau das: "Autoren dürfen sich nicht darauf verlassen, dass
+        // unbekannte Felder beim erneuten Speichern erhalten bleiben."
         return JsonSerializer.SerializeToUtf8Bytes(root, SerializerOptions);
     }
 
@@ -224,22 +222,6 @@ public sealed class AnalysisRepresentationService
         }
     }
 
-    private static readonly HashSet<string> ReservedUploadProperties = new(StringComparer.Ordinal)
-    {
-        "schemaVersion",
-        "createdAt",
-        "durationMs",
-        "sampling",
-        "producer",
-        "mediaFingerprintAtStart",
-        "clientContentFingerprint",
-        "frames",
-        "audioFrames",
-        "item",
-        "algorithm",
-        "storedAt",
-        "representation"
-    };
 }
 
 /// <summary>Serialized representation and its cache identity.</summary>

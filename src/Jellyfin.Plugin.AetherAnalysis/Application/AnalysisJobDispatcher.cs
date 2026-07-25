@@ -15,15 +15,27 @@ public sealed class AnalysisJobDispatcher(
     ServerAnalysisRunner runner,
     ILogger<AnalysisJobDispatcher> logger) : BackgroundService
 {
-    private readonly Channel<Guid> _channel = Channel.CreateUnbounded<Guid>(new UnboundedChannelOptions
+    /// <summary>Upper bound of items waiting for analysis; further requests are rejected.</summary>
+    private const int QueueCapacity = 64;
+
+    /// <summary>Finished status entries older than this are dropped so the table cannot grow without bound.</summary>
+    private static readonly TimeSpan FinishedStatusRetention = TimeSpan.FromHours(1);
+
+    // Begrenzt: eine unbegrenzte Warteschlange liesse jeden Aufrufer mit Upload-Recht
+    // beliebig viele (jeweils minuten- bis stundenlange) ffmpeg-Läufe aufstauen.
+    private readonly Channel<Guid> _channel = Channel.CreateBounded<Guid>(new BoundedChannelOptions(QueueCapacity)
     {
-        SingleReader = true
+        SingleReader = true,
+        FullMode = BoundedChannelFullMode.DropWrite
     });
 
     private readonly ConcurrentDictionary<Guid, AnalysisJobStatus> _status = new();
 
-    /// <summary>Queues an item for analysis; a no-op if it is already queued or running.</summary>
-    public AnalysisJobStatus Enqueue(Guid itemId)
+    /// <summary>
+    /// Queues an item for analysis; a no-op if it is already queued or running.
+    /// Returns <c>null</c> when the queue is full and the request was rejected.
+    /// </summary>
+    public AnalysisJobStatus? Enqueue(Guid itemId)
     {
         var queued = new AnalysisJobStatus(AnalysisJobState.Queued, 0, DateTimeOffset.UtcNow, null);
         var status = _status.AddOrUpdate(
@@ -33,12 +45,21 @@ public sealed class AnalysisJobDispatcher(
                 ? existing
                 : queued);
 
-        if (ReferenceEquals(status, queued))
+        if (!ReferenceEquals(status, queued))
         {
-            _channel.Writer.TryWrite(itemId);
+            return status;
         }
 
-        return status;
+        if (_channel.Writer.TryWrite(itemId))
+        {
+            return status;
+        }
+
+        // Nicht aufgenommen — den Queued-Eintrag zurücknehmen, sonst bliebe das Item
+        // dauerhaft als "queued" stehen, ohne dass je jemand daran arbeitet.
+        _status.TryRemove(new KeyValuePair<Guid, AnalysisJobStatus>(itemId, queued));
+        logger.LogWarning("AETHER analysis queue is full ({Capacity}); rejected item {ItemId}", QueueCapacity, itemId);
+        return null;
     }
 
     /// <summary>Gets the latest known status for an item, or null if never requested.</summary>
@@ -50,6 +71,7 @@ public sealed class AnalysisJobDispatcher(
     {
         await foreach (var itemId in _channel.Reader.ReadAllAsync(stoppingToken).ConfigureAwait(false))
         {
+            PruneFinishedStatus();
             _status[itemId] = new AnalysisJobStatus(AnalysisJobState.Running, 0, DateTimeOffset.UtcNow, null);
             var progress = new Progress<double>(fraction =>
                 _status[itemId] = new AnalysisJobStatus(
@@ -76,6 +98,20 @@ public sealed class AnalysisJobDispatcher(
             {
                 _status[itemId] = new AnalysisJobStatus(AnalysisJobState.Failed, 1, DateTimeOffset.UtcNow, "error");
                 logger.LogError(exception, "AETHER analysis job for item {ItemId} failed", itemId);
+            }
+        }
+    }
+
+    /// <summary>Drops long-finished entries so the status table stays bounded.</summary>
+    private void PruneFinishedStatus()
+    {
+        var cutoff = DateTimeOffset.UtcNow - FinishedStatusRetention;
+        foreach (var entry in _status)
+        {
+            if (entry.Value.State is AnalysisJobState.Completed or AnalysisJobState.Failed
+                && entry.Value.UpdatedAt < cutoff)
+            {
+                _status.TryRemove(entry);
             }
         }
     }
