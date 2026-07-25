@@ -68,7 +68,7 @@ How it works:
   from Dashboard → Scheduled Tasks, daily default trigger), an **after-scan hook** that analyzes new
   or changed items, and an **analyze endpoint** the AETHER "Server-Analyse" button calls.
 - Storage uses the same validate → fingerprint-match → build-master → bounded-store path as the HTTP
-  `PUT`, under the canonical key `aether-visual`/`1.0.0` (matching `capabilities` and the client), so
+  `PUT`, under the canonical key `aether-visual`/`1.1.0` (matching `capabilities` and the client), so
   server and client analyses share one cache. Stale analyses (algorithm-version key or media
   fingerprint changed) are replaced.
 

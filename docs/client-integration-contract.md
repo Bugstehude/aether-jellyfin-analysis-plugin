@@ -21,7 +21,7 @@ not silently select the entire library.
    `/AetherAnalysis/v1`. Do not configure a second origin or token for the plugin.
 2. Send the same native Jellyfin `Authorization` header used by the client for Jellyfin APIs.
 3. Call `GET /capabilities` once per authenticated server session.
-4. Require API `1.0`, schema `2`, algorithm `aether-visual@1.0.0` and the desired detail level.
+4. Require API `1.0`, schema `2`, algorithm `aether-visual@1.1.0` and the desired detail level.
 5. Honor the returned upload and batch limits. A client must not hard-code a larger value.
 
 Tokens must never be placed in URLs, analysis documents, telemetry or persistent analysis caches.
@@ -97,7 +97,7 @@ Consumers pin a tagged release or immutable commit of this repository. Their CI 
 - compare `contracts/contract.sha256` before generated clients are built;
 - validate upload fixtures against the pinned schema and the plugin Golden Files;
 - compile generated models from `contracts/openapi/aether-analysis-v1.yaml`;
-- verify that API v1, schema 2 and `aether-visual@1.0.0` are supported;
+- verify that API v1, schema 2 and `aether-visual@1.1.0` are supported;
 - run read, upload, stale-fingerprint and adaptive-detail contract tests;
 - fail when the pinned contract hash changes without regenerating client artifacts.
 

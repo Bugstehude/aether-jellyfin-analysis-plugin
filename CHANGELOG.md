@@ -2,6 +2,32 @@
 
 All notable changes to implementation and canonical contracts are recorded here.
 
+## [0.2.2.0] — Centre-weighted palette (algorithm `aether-visual/1.1.0`)
+
+### Changed
+
+- The vendored analysis worker now extracts dominant colours with the perception engine's
+  `centreBias` (0.75), matching what the AETHER app already does. On real footage ~25% of a frame is
+  near-black and that black sits at the **border** (37.7% of border pixels vs 1.0% of centre
+  pixels), so the palette described the surroundings rather than the subject: the dominant colour
+  measured as `rgb(7, 3, 6)` (luma 0.018) and now measures `rgb(74, 38, 38)` (luma 0.191). Server
+  analyses stayed on the old, duller palette and disagreed with locally analysed ones; they now
+  agree again.
+- The analysis algorithm version is bumped to **`1.1.0`** (`AetherAlgorithm.Version`, the
+  `capabilities` endpoint and the documented canonical key). The document schema is unchanged —
+  only the stored values differ — but the version is part of the storage key, so old analyses are
+  never served under the new key.
+
+### Operational consequence — a full re-analysis
+
+- **Every stored analysis is invalidated.** Nothing is served from the cache under
+  `aether-visual/1.1.0` until an item has been re-analyzed, and the scheduled task / after-scan
+  hook will walk the entire library again. On a weak server this is **hours** of background work
+  and elevated CPU/IO for the whole run. The old `1.0.0` records are not deleted by this upgrade;
+  they age out via the normal retention/storage bound, so peak storage is temporarily higher.
+- Clients must request `aether-visual@1.1.0`; a client still pinned to `1.0.0` will get cache
+  misses because `capabilities` no longer advertises `1.0.0`.
+
 ## [0.2.1.5] — Stop double-analyzing every item
 
 ### Fixed

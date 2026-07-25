@@ -15,5 +15,5 @@ public static class AetherAlgorithm
     public const string Id = "aether-visual";
 
     /// <summary>The algorithm version stored and advertised.</summary>
-    public const string Version = "1.0.0";
+    public const string Version = "1.1.0";
 }

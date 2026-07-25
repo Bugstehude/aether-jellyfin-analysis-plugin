@@ -46,7 +46,10 @@ public sealed class AnalysisController(
             apiVersion = "1.0",
             pluginVersion = Plugin.Instance?.Version.ToString() ?? "0.1.0",
             supportedAnalysisSchemas = new[] { 2 },
-            supportedAlgorithms = new[] { new { id = "aether-visual", versions = new[] { "1.0.0" } } },
+            supportedAlgorithms = new[]
+            {
+                new { id = AetherAlgorithm.Id, versions = new[] { AetherAlgorithm.Version } }
+            },
             supportedDetailLevels = new[] { "compact", "balanced", "full" },
             limits = new
             {
