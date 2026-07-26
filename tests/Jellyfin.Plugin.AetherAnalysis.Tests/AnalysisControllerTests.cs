@@ -4,6 +4,7 @@ using Jellyfin.Plugin.AetherAnalysis.Application;
 using Jellyfin.Plugin.AetherAnalysis.Infrastructure;
 using MediaBrowser.Controller.Entities;
 using MediaBrowser.Controller.Library;
+using MediaBrowser.Model.Dto;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -72,6 +73,28 @@ public sealed class AnalysisControllerTests
         var library = Substitute.For<ILibraryManager>();
         library.GetItemById<BaseItem>(Arg.Any<Guid>(), Arg.Any<Guid>()).Returns((BaseItem?)null);
         return library;
+    }
+
+    /// <summary>Eine Bibliothek, in der genau ein sichtbares Video liegt.</summary>
+    private static ILibraryManager LibraryWithVisibleItem()
+    {
+        var item = Substitute.For<BaseItem>();
+        item.GetMediaSources(false).Returns(new List<MediaSourceInfo>
+        {
+            new() { Id = "quelle-1", Path = "/media/film.mkv", RunTimeTicks = 600_000_000 },
+        });
+        var library = Substitute.For<ILibraryManager>();
+        library.GetItemById<BaseItem>(ItemId, UserId).Returns(item);
+        return library;
+    }
+
+    private static IAnalysisRepository RepositoryWith(AnalysisRecordMetadata metadata)
+    {
+        var repository = Substitute.For<IAnalysisRepository>();
+        repository
+            .GetMetadataAsync(Arg.Any<IReadOnlyCollection<AnalysisKey>>(), Arg.Any<CancellationToken>())
+            .Returns(new Dictionary<AnalysisKey, AnalysisRecordMetadata> { [metadata.Key] = metadata });
+        return repository;
     }
 
     private static int StatusOf(ActionResult result) => result switch
@@ -192,5 +215,75 @@ public sealed class AnalysisControllerTests
         var result = await controller.QueryAnalyses(selection: null, CancellationToken.None);
 
         Assert.Equal(StatusCodes.Status413PayloadTooLarge, StatusOf(result));
+    }
+
+    // --- Preconditions (der letzte offene Teil des P0-Punkts) ----------------
+
+    [Fact]
+    public async Task AnswersNotModifiedWhenTheClientAlreadyHasTheCurrentVersion()
+    {
+        // Ohne diesen Pfad lädt jeder Client bei jedem Start die vollständige
+        // Analyse neu — bei einem langen Film sind das Megabytes je Abruf.
+        var library = LibraryWithVisibleItem();
+        var key = new AnalysisKey(ItemId, "quelle-1", "aether-visual", "1.1.0");
+        var fingerprint = new MediaFingerprintService()
+            .Create(library.GetItemById<BaseItem>(ItemId, UserId)!, "quelle-1")!;
+        var metadata = new AnalysisRecordMetadata(
+            key, fingerprint.Fingerprint, DateTimeOffset.UnixEpoch, DateTimeOffset.UnixEpoch,
+            FrameCount: 1, StoredBytes: 128, Etag: "\"sha256-abc\"");
+
+        var controller = CreateController(library, RepositoryWith(metadata), userId: UserId);
+        // Erst holen, um das ETag zu erfahren, das der Server für diese
+        // Detailstufe bildet — es ist NICHT identisch mit dem gespeicherten.
+        await controller.GetAnalysis(ItemId, "quelle-1", "aether-visual", "1.1.0");
+        var serverEtag = controller.Response.Headers.ETag.ToString();
+        Assert.NotEmpty(serverEtag);
+
+        controller.HttpContext.Request.Headers.IfNoneMatch = serverEtag;
+        var result = await controller.GetAnalysis(ItemId, "quelle-1", "aether-visual", "1.1.0");
+
+        Assert.Equal(StatusCodes.Status304NotModified, StatusOf(result));
+    }
+
+    [Fact]
+    public async Task IgnoresAnEtagFromADifferentDetailLevel()
+    {
+        // Die Detailstufen liefern verschiedene Dokumente. Würde ein ETag über
+        // Stufen hinweg gelten, bekäme ein Client ein 304 auf etwas, das er
+        // nie geladen hat — und behielte dauerhaft die falsche Auflösung.
+        var library = LibraryWithVisibleItem();
+        var key = new AnalysisKey(ItemId, "quelle-1", "aether-visual", "1.1.0");
+        var fingerprint = new MediaFingerprintService()
+            .Create(library.GetItemById<BaseItem>(ItemId, UserId)!, "quelle-1")!;
+        var metadata = new AnalysisRecordMetadata(
+            key, fingerprint.Fingerprint, DateTimeOffset.UnixEpoch, DateTimeOffset.UnixEpoch,
+            FrameCount: 1, StoredBytes: 128, Etag: "\"sha256-abc\"");
+
+        var controller = CreateController(library, RepositoryWith(metadata), userId: UserId);
+        await controller.GetAnalysis(ItemId, "quelle-1", "aether-visual", "1.1.0", "compact");
+        var compactEtag = controller.Response.Headers.ETag.ToString();
+
+        controller.HttpContext.Request.Headers.IfNoneMatch = compactEtag;
+        var result = await controller.GetAnalysis(ItemId, "quelle-1", "aether-visual", "1.1.0", "full");
+
+        Assert.NotEqual(StatusCodes.Status304NotModified, StatusOf(result));
+    }
+
+    [Fact]
+    public async Task AnswersNotFoundWhenTheStoredAnalysisBelongsToAnotherFile()
+    {
+        // Der Fingerabdruck bindet eine Analyse an die konkrete Datei. Wurde
+        // die Datei ersetzt, darf die alte Analyse NICHT mehr ausgeliefert
+        // werden — sonst beschreibt sie einen Film, der nicht mehr da ist.
+        var library = LibraryWithVisibleItem();
+        var key = new AnalysisKey(ItemId, "quelle-1", "aether-visual", "1.1.0");
+        var metadata = new AnalysisRecordMetadata(
+            key, "sha256:ein-ganz-anderer-fingerabdruck", DateTimeOffset.UnixEpoch,
+            DateTimeOffset.UnixEpoch, FrameCount: 1, StoredBytes: 128, Etag: "\"sha256-abc\"");
+
+        var controller = CreateController(library, RepositoryWith(metadata), userId: UserId);
+        var result = await controller.GetAnalysis(ItemId, "quelle-1", "aether-visual", "1.1.0");
+
+        Assert.Equal(StatusCodes.Status404NotFound, StatusOf(result));
     }
 }
