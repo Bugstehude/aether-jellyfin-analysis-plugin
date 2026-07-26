@@ -26,7 +26,13 @@ public sealed class AnalysisJobDispatcher(
     private readonly Channel<Guid> _channel = Channel.CreateBounded<Guid>(new BoundedChannelOptions(QueueCapacity)
     {
         SingleReader = true,
-        FullMode = BoundedChannelFullMode.DropWrite
+        // Wait, NICHT DropWrite: bei DropWrite verwirft der Kanal den Auftrag
+        // still und `TryWrite` meldet trotzdem Erfolg — der Ablehnungspfad
+        // liefe nie an, das Item bliebe dauerhaft als "queued" stehen und ein
+        // erneuter Versuch käme wegen der Dedupe-Regel nie mehr durch. Mit Wait
+        // schlägt `TryWrite` bei vollem Kanal sofort fehl (es blockiert nicht,
+        // das täte nur `WriteAsync`), und der Aufrufer bekommt sein 429.
+        FullMode = BoundedChannelFullMode.Wait
     });
 
     private readonly ConcurrentDictionary<Guid, AnalysisJobStatus> _status = new();

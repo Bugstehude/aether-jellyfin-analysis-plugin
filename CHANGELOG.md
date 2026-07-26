@@ -2,6 +2,34 @@
 
 All notable changes to implementation and canonical contracts are recorded here.
 
+## [0.2.2.3] — Die Begrenzung hat nicht begrenzt, sondern verschluckt
+
+### Fixed
+
+- Die in 0.2.2.2 eingeführte Warteschlangen-Begrenzung nutzte
+  `BoundedChannelFullMode.DropWrite`. Das verwirft den Auftrag **still und meldet
+  trotzdem Erfolg** — der Ablehnungspfad lief also nie an: Statt der gewollten
+  429-Antwort bekam der Aufrufer „queued", das Item blieb dauerhaft in diesem
+  Zustand stehen, und ein erneuter Versuch kam wegen der Dedupe-Regel nie mehr
+  durch. Jetzt `Wait`, wo `TryWrite` bei vollem Kanal sofort fehlschlägt.
+  **Gefunden vom allerersten Test, der je für diese Klasse geschrieben wurde.**
+
+### Added
+
+- **32 neue Tests** (20 → 52). Der Schwerpunkt liegt dort, wo fremde Daten den
+  Server betreten und bisher nichts geprüft wurde:
+  - `AnalysisDocumentValidator`: jede Vertragsgrenze einzeln — Schema-Version,
+    Dauer, Zeitstempel aus der Zukunft, Abtastgrenzen, Produzent, Fingerabdruck-
+    Format, aufsteigende Zeitstempel, Messwerte außerhalb 0..1, Größenlimit und
+    kaputtes JSON. Inklusive der Gegenprobe, dass ein vertragskonformer Upload
+    auch durchkommt — ein Validator, der alles ablehnt, wäre ebenso kaputt wie
+    einer, der alles durchlässt, nur unauffälliger.
+  - Master-Dokument: unbekannte Felder werden verworfen, alle Vertragsfelder
+    bleiben erhalten, und die Identität (Item, Fingerabdruck, Algorithmus) kommt
+    vom SERVER — ein Upload kann sich nicht einem fremden Medium unterschieben.
+  - Warteschlange: Annahme, Dedupe, Ablehnung bei vollem Kanal, und dass ein
+    abgelehntes Item nicht als „queued" hängen bleibt.
+
 ## [0.2.2.2] — Warteschlange begrenzt, ungeprüfte Felder nicht mehr gespeichert
 
 ### Fixed
