@@ -2,6 +2,49 @@
 
 All notable changes to implementation and canonical contracts are recorded here.
 
+## [0.2.2.5] — Der Scan wartet nicht mehr auf uns
+
+### Fixed
+
+Am 26.07.2026 sah es so aus, als hätte das Plugin den ganzen Jellyfin-Server
+heruntergezogen, und ein Neustart half nicht. Der Log zeigt die Kette:
+
+```
+"Medien-Bibliothek scannen": Waiting on Task
+AETHER analysis failed … ObjectDisposedException: 'IServiceProvider'
+Error running post-scan task … ObjectDisposedException: 'SemaphoreSlim'
+"Medien-Bibliothek scannen": Timed out waiting for task to stop
+"Medien-Bibliothek scannen" Aborted after 67 minute(s) and 16 seconds
+Disposing "CoreAppHost"
+```
+
+Drei Fehler, die zusammen genau diesen Eindruck erzeugen:
+
+- **Der Post-Scan-Hook hielt den Bibliotheks-Scan auf, bis die GANZE Analyse
+  fertig war** — bei einer großen Bibliothek Stunden. Jellyfin bricht den Scan
+  irgendwann ab und fährt den Host herunter. Ein Scan darf nicht Stunden
+  dauern, nur weil wir daran hängen: die Arbeit wird jetzt angestoßen und der
+  Scan sofort freigegeben. Der Lauf ist gegen den geplanten Lauf ohnehin
+  serialisiert.
+- **Beim Herunterfahren lief die Schleife weiter.** Der allgemeine
+  Fehlerzweig fing die `ObjectDisposedException` des abgeräumten
+  Dienstanbieters als „ein Item fehlgeschlagen" ab und ging zum nächsten — bei
+  hunderten Items also hunderte Fehlversuche mitten im Herunterfahren. Ein
+  entsorgter Anbieter kommt nicht zurück; jetzt wird abgebrochen.
+- **Das Freigeben der Lauf-Sperre warf nach dem Abräumen** und riss den
+  Post-Scan-Task mit. Eine Sperre freizugeben, die niemand mehr braucht, ist
+  kein Fehler.
+
+Warum ein Neustart nicht half: Beim Hochfahren setzte derselbe Scan wieder an.
+
+### Changed
+
+- Die **Assembly-Version** wird wieder mit `build.yaml` mitgezogen. Sie stand
+  über drei Veröffentlichungen auf 0.2.2.1, während der Ordner schon 0.2.2.4
+  hieß — im Log stand dann `Loaded assembly … Version=0.2.2.1` aus dem
+  Verzeichnis `AETHER Analysis_0.2.2.4`. Wer eine Ausrollung prüfen will, hält
+  sie an dieser Stelle für fehlgeschlagen.
+
 ## [0.2.2.4] — Drei implementierte Endpunkte standen nicht im Vertrag
 
 ### Fixed

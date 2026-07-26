@@ -37,10 +37,16 @@ public sealed class ServerAnalysisRunner(
     // library — analyzing and storing every item twice, doubling a multi-hour run.
     private readonly SemaphoreSlim _runGate = new(1, 1);
     private int _pendingRun;
+    /// <summary>Gesetzt, sobald der Host uns abräumt — siehe Dispose.</summary>
+    private volatile bool _disposed;
 
     /// <inheritdoc />
     public void Dispose()
     {
+        // Reihenfolge zählt: ERST die Marke setzen, dann abräumen. Ein Lauf, der
+        // gerade mitten in der Schleife steckt, sieht die Marke und hört auf,
+        // statt in ein bereits entsorgtes Objekt zu greifen.
+        _disposed = true;
         _gate.Dispose();
         _runGate.Dispose();
     }
@@ -99,7 +105,19 @@ public sealed class ServerAnalysisRunner(
         }
         finally
         {
-            _runGate.Release();
+            // Fährt der Host herunter, während wir laufen, ist die Sperre beim
+            // Freigeben schon entsorgt — und die Ausnahme daraus riss zuletzt den
+            // ganzen Post-Scan-Task mit ("Error running post-scan task:
+            // ObjectDisposedException: SemaphoreSlim"). Das Freigeben einer
+            // Sperre, die niemand mehr braucht, ist kein Fehler.
+            try
+            {
+                _runGate.Release();
+            }
+            catch (ObjectDisposedException)
+            {
+                // Abgeräumt — nichts mehr zu tun.
+            }
         }
     }
 
@@ -126,6 +144,18 @@ public sealed class ServerAnalysisRunner(
         for (var i = 0; i < items.Count; i++)
         {
             cancellationToken.ThrowIfCancellationRequested();
+            if (_disposed)
+            {
+                // Wir werden abgeräumt: aufhören, bevor der nächste Zugriff in
+                // ein entsorgtes Objekt läuft.
+                activity.EndRun(cancelled: true);
+                logger.LogInformation(
+                    "AETHER background analysis stopped: the plugin is shutting down ({Analyzed} of {Total} checked).",
+                    i,
+                    items.Count);
+                return;
+            }
+
             var item = items[i];
             try
             {
@@ -184,6 +214,26 @@ public sealed class ServerAnalysisRunner(
                     failed,
                     items.Count);
                 throw;
+            }
+            catch (ObjectDisposedException exception)
+            {
+                // Der Host räumt gerade seine Dienste ab. Vorher fing der
+                // allgemeine Zweig darunter das ab, zählte es als "ein Item
+                // fehlgeschlagen" und lief zum NÄCHSTEN weiter — bei
+                // hunderten Items also hunderte Fehlversuche gegen einen
+                // bereits entsorgten Dienstanbieter, mitten im Herunterfahren.
+                // Genau das stand am 26.07. im Log, kurz bevor der Server ganz
+                // stehen blieb. Ein entsorgter Anbieter kommt nicht zurück:
+                // hier wird abgebrochen.
+                activity.EndRun(cancelled: true);
+                logger.LogWarning(
+                    exception,
+                    "AETHER background analysis stopped after {Elapsed}: the host is shutting down ({Analyzed} analyzed, {Stored} stored of {Total} checked).",
+                    DateTimeOffset.UtcNow - startedAt,
+                    analyzed,
+                    stored,
+                    items.Count);
+                return;
             }
             catch (Exception exception)
             {

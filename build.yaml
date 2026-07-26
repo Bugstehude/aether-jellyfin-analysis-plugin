@@ -1,7 +1,7 @@
 ---
 name: "AETHER Analysis"
 guid: "ea32f6f5-de62-4784-9b60-4cfe664995ed"
-version: "0.2.2.4"
+version: "0.2.2.5"
 targetAbi: "10.11.11.0"
 framework: "net9.0"
 overview: "Persistent multi-resolution AETHER video analysis storage"
@@ -13,4 +13,4 @@ owner: "Bugstehude"
 artifacts:
   - "Jellyfin.Plugin.AetherAnalysis.dll"
   - "aether-analysis-worker.cjs"
-changelog: "0.2.2.4: three implemented endpoints were missing from the OpenAPI contract — two of them actively used by the AETHER client. The contract hash was green because they were absent, not because they matched."
+changelog: "0.2.2.5: the post-scan hook no longer blocks the library scan. On 26.07. it held a scan for 67 minutes, Jellyfin aborted it, disposed the host — and our loop kept hammering disposed services. Looked exactly like the plugin taking the server down."
