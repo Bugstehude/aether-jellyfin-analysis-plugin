@@ -13,4 +13,4 @@ owner: "Bugstehude"
 artifacts:
   - "Jellyfin.Plugin.AetherAnalysis.dll"
   - "aether-analysis-worker.cjs"
-changelog: "0.2.2.3: the queue limit introduced in 0.2.2.2 silently DROPPED the request instead of rejecting it — found by the first test ever written for it. Plus 32 new tests for the upload validator and the stored master document."
+changelog: "0.2.2.3: the queue limit introduced in 0.2.2.2 silently DROPPED the request instead of rejecting it — found by the first test ever written for it. Plus 45 new tests (20 to 65) covering the upload validator, the stored master document and, for the first time, the HTTP surface including both documented security promises."

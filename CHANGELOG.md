@@ -16,7 +16,7 @@ All notable changes to implementation and canonical contracts are recorded here.
 
 ### Added
 
-- **32 neue Tests** (20 → 52). Der Schwerpunkt liegt dort, wo fremde Daten den
+- **45 neue Tests** (20 → 65). Der Schwerpunkt liegt dort, wo fremde Daten den
   Server betreten und bisher nichts geprüft wurde:
   - `AnalysisDocumentValidator`: jede Vertragsgrenze einzeln — Schema-Version,
     Dauer, Zeitstempel aus der Zukunft, Abtastgrenzen, Produzent, Fingerabdruck-
@@ -29,6 +29,16 @@ All notable changes to implementation and canonical contracts are recorded here.
     vom SERVER — ein Upload kann sich nicht einem fremden Medium unterschieben.
   - Warteschlange: Annahme, Dedupe, Ablehnung bei vollem Kanal, und dass ein
     abgelehntes Item nicht als „queued" hängen bleibt.
+  - **`AnalysisController`** (13 Endpunkte, vorher komplett ungetestet): beide
+    Sicherheitszusagen des README stehen jetzt unter Test. „404 ohne
+    Existenz-Leak" — ein Item, das der Nutzer nicht sehen darf, ergibt exakt
+    dieselbe Antwort wie ein Item, das es nicht gibt; ein abweichender
+    Statuscode verriete bereits dessen Existenz. „Schreibzugriffe nur für
+    Berechtigte" — die Server-Analyse, der teuerste Endpunkt überhaupt, weist
+    einen Nutzer ohne Upload-Recht ab, bevor irgendetwas geprüft oder gestartet
+    wird. Dazu: ungültige Routen-Identität wird vor jedem Datenzugriff
+    abgelehnt, und der einzige unauthentifizierte Pfad (CORS-Preflight) erteilt
+    keiner fremden Herkunft eine Freigabe.
 
 ## [0.2.2.2] — Warteschlange begrenzt, ungeprüfte Felder nicht mehr gespeichert
 
