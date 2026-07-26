@@ -211,6 +211,64 @@ paths:
           $ref: "#/components/responses/Forbidden"
         "503":
           $ref: "#/components/responses/Unavailable"
+  /items/{itemId}/media-sources/{mediaSourceId}/analyze:
+    post:
+      operationId: requestAetherServerAnalysis
+      tags: [Analyses]
+      summary: Ask the server to analyze this media source itself
+      description: >
+        Queues the item for the plugin's own server-side analysis (ffmpeg plus the
+        vendored AETHER worker). Requires upload permission and is refused with 403
+        otherwise, BEFORE anything is checked or started. The queue is bounded; once
+        it is full the request is rejected with 429 and a Retry-After header rather
+        than being accepted and silently dropped.
+      responses:
+        "202":
+          description: Queued (or already queued/running); poll the status endpoint
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          description: Server-side analysis is disabled in the plugin configuration
+        "429":
+          description: The analysis queue is full; retry after the advertised delay
+        "503":
+          $ref: "#/components/responses/Unavailable"
+  /items/{itemId}/media-sources/{mediaSourceId}/analyze/status:
+    get:
+      operationId: getAetherServerAnalysisStatus
+      tags: [Analyses]
+      summary: Poll the progress of a server-side analysis
+      responses:
+        "200":
+          description: Current state and progress for this item
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+  /activity:
+    get:
+      operationId: getAetherAnalysisActivity
+      tags: [Administration]
+      summary: What server-side analysis is doing right now
+      description: >
+        Purely diagnostic, administrator-only, in-memory and reset on restart. NOT
+        part of the versioned client contract — no client may depend on its shape.
+        Documented here because it exists and is reachable; an endpoint that is
+        implemented but absent from the contract makes the contract hash green for
+        the wrong reason.
+      responses:
+        "200":
+          description: Current run, per-item progress and the recently analyzed items
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
   /analyses/query:
     post:
       operationId: queryAetherAnalyses

@@ -1,7 +1,7 @@
 ---
 name: "AETHER Analysis"
 guid: "ea32f6f5-de62-4784-9b60-4cfe664995ed"
-version: "0.2.2.3"
+version: "0.2.2.4"
 targetAbi: "10.11.11.0"
 framework: "net9.0"
 overview: "Persistent multi-resolution AETHER video analysis storage"
@@ -13,4 +13,4 @@ owner: "Bugstehude"
 artifacts:
   - "Jellyfin.Plugin.AetherAnalysis.dll"
   - "aether-analysis-worker.cjs"
-changelog: "0.2.2.3: the queue limit introduced in 0.2.2.2 silently DROPPED the request instead of rejecting it — found by the first test ever written for it. Plus 48 new tests (20 to 68), closing a P0 release blocker covering the upload validator, the stored master document and, for the first time, the HTTP surface including both documented security promises."
+changelog: "0.2.2.4: three implemented endpoints were missing from the OpenAPI contract — two of them actively used by the AETHER client. The contract hash was green because they were absent, not because they matched."

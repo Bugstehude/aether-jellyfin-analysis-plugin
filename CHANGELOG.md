@@ -2,6 +2,20 @@
 
 All notable changes to implementation and canonical contracts are recorded here.
 
+## [0.2.2.4] — Drei implementierte Endpunkte standen nicht im Vertrag
+
+### Fixed
+
+- Die OpenAPI kannte sieben Pfade, der Controller implementiert zehn. `POST …/analyze`
+  und `GET …/analyze/status` **werden vom AETHER-Client aktiv genutzt**, `GET /activity`
+  von der Einstellungsseite des Plugins. Der Vertrags-Hash war grün, weil die drei
+  fehlten — nicht weil sie stimmten. Ein Vertrag, der schweigt, prüft nichts. Alle drei
+  sind jetzt beschrieben, samt der 403/429-Antworten, die sie tatsächlich geben; der
+  Hash ist neu gesetzt.
+- `GET /activity` ist dabei ausdrücklich als **nicht** Teil des versionierten
+  Client-Vertrags gekennzeichnet: rein diagnostisch, nur für Administratoren, im
+  Speicher, beim Neustart weg. Kein Client darf sich auf seine Form verlassen.
+
 ## [0.2.2.3] — Die Begrenzung hat nicht begrenzt, sondern verschluckt
 
 ### Fixed
