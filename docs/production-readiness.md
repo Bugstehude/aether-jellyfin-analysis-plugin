@@ -11,7 +11,12 @@ against the exact supported Jellyfin build. Passing unit tests alone is insuffic
 - [x] Hard storage ceiling plus scheduled/manual/upload-time retention and LRU cleanup.
 - [x] Persisted cleanup status and damped last-access writes.
 - [x] Corrupt-record isolation and operational error telemetry.
-- [ ] Controller-level authorization, CORS, precondition and malformed-payload integration tests.
+- [x] Controller-level authorization, CORS, precondition and malformed-payload integration tests.
+      *(v0.2.2.3: `AnalysisControllerTests` deckt Sichtbarkeit ohne Existenz-Leak,
+      Upload-Recht vor Ausfuehrung, CORS-Preflight gegen fremde Herkunft, ungueltige
+      Routen-Identitaet, ETag/If-None-Match je Detailstufe und den Fingerabdruck-Abgleich
+      bei ersetzter Datei ab; `AnalysisDocumentValidatorTests` jede einzelne
+      Vertragsgrenze eines Uploads.)*
 - [x] Fresh-install and restart smoke test on Jellyfin 10.11.11 (ARM64 local and x64 CI).
 - [ ] Upgrade and uninstall smoke test on the target Jellyfin 10.11.11 LXC.
 

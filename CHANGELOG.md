@@ -16,7 +16,9 @@ All notable changes to implementation and canonical contracts are recorded here.
 
 ### Added
 
-- **45 neue Tests** (20 → 65). Der Schwerpunkt liegt dort, wo fremde Daten den
+- **48 neue Tests** (20 → 68). Damit ist der P0-Blocker „Controller-level authorization, CORS, precondition and
+  malformed-payload integration tests“ aus `docs/production-readiness.md`
+  geschlossen. Der Schwerpunkt liegt dort, wo fremde Daten den
   Server betreten und bisher nichts geprüft wurde:
   - `AnalysisDocumentValidator`: jede Vertragsgrenze einzeln — Schema-Version,
     Dauer, Zeitstempel aus der Zukunft, Abtastgrenzen, Produzent, Fingerabdruck-
@@ -38,7 +40,10 @@ All notable changes to implementation and canonical contracts are recorded here.
     einen Nutzer ohne Upload-Recht ab, bevor irgendetwas geprüft oder gestartet
     wird. Dazu: ungültige Routen-Identität wird vor jedem Datenzugriff
     abgelehnt, und der einzige unauthentifizierte Pfad (CORS-Preflight) erteilt
-    keiner fremden Herkunft eine Freigabe.
+    keiner fremden Herkunft eine Freigabe. Dazu die Preconditions: ein ETag
+    gilt nur fuer die Detailstufe, fuer die es ausgestellt wurde, und eine
+    gespeicherte Analyse wird nicht mehr ausgeliefert, wenn die Datei
+    dahinter ersetzt wurde.
 
 ## [0.2.2.2] — Warteschlange begrenzt, ungeprüfte Felder nicht mehr gespeichert
 
