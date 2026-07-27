@@ -46,6 +46,9 @@ public sealed class AnalysisControllerTests
             // Kein Kontext-Factory nötig: keiner dieser Tests fasst das
             // Sprachpaket an, und ein Zugriff darauf würde sofort auffallen.
             new VoiceRecordingRepository(contextFactory: null!),
+            // Ein Verzeichnis, das es nicht gibt: keiner dieser Tests fasst die
+            // Reise-Tonspur an, und ein Zugriff darauf fiele sofort auf.
+            new JourneyTrackStore(Path.Combine(Path.GetTempPath(), "aether-tests-none")),
             new ServerAnalysisActivity(),
             NullLogger<AnalysisController>.Instance);
 

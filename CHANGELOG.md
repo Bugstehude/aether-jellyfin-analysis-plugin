@@ -2,6 +2,33 @@
 
 All notable changes to implementation and canonical contracts are recorded here.
 
+## [0.2.4.0] — Die lange Tonspur der „Reise" liegt auf dem Server
+
+### Added
+
+- Drei Endpunkte unter `/journey`: melden (ohne Laden), holen, ablegen, löschen.
+  Die „Reise" spielt EINE durchgehende Aufnahme ab Filmminute 1; bisher lag sie
+  nur in der IndexedDB des Browsers und musste auf der Quest erneut gewählt
+  werden.
+- **Eigener Endpunkt statt einer weiteren „Zeile".** Die Grenze von 8 MiB je
+  Zeile ist für gesprochene Sätze richtig und bleibt es — sie anzuheben hätte
+  jeder beliebigen Zeile erlaubt, den Vorrat zu sprengen.
+- **Eigene Ablage als Datei neben der Datenbank**, nicht als Zeile darin. Der
+  Sprachvorrat liegt in SQLite, weil die Datenbank klein genug bleiben soll, um
+  sie mitzusichern. Eine durchgehende Aufnahme von zwanzig Minuten und mehr
+  würde genau das kaputt machen.
+- Der Körper wird **direkt in die Datei geschrieben**, nicht erst in den
+  Arbeitsspeicher: bei 200 MiB kostet der Umweg das Doppelte davon an RAM, auf
+  einem Server, der nebenbei transkodiert. Abgebrochen wird, SOBALD die Grenze
+  fällt — nicht erst alles angenommen und dann abgelehnt.
+- Geschrieben wird über eine Nebendatei mit anschließendem Umbenennen: bricht
+  der Upload ab, bleibt die vorige Spur unversehrt stehen, statt gegen ein
+  halbes Stück eingetauscht zu werden. Ein Test hält genau das fest.
+- `GET /journey/track` beantwortet Bereichsanfragen. Ohne das lädt der Browser
+  bei jedem Sprung im Film die ganze Datei neu.
+- Grenze: 256 MiB. Groß genug für ein ganzes Stück, klein genug, dass ein
+  versehentlich gewähltes Videoformat nicht die Serverplatte füllt.
+
 ## [0.2.3.0] — Das Sprachpaket liegt auf dem Server
 
 ### Added

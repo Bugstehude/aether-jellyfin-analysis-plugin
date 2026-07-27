@@ -17,6 +17,8 @@ tags:
   - name: Contract
   - name: Analyses
   - name: Administration
+  - name: Voice
+  - name: Journey
 paths:
   /capabilities:
     get:
@@ -265,6 +267,72 @@ paths:
       responses:
         "200":
           description: Current run, per-item progress and the recently analyzed items
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+  /journey:
+    get:
+      operationId: getAetherJourneyTrackInfo
+      tags: [Journey]
+      summary: Report whether a journey track is stored, without loading it
+      description: >
+        The "Reise" experience plays ONE continuous recording from film minute 1.
+        It is a separate endpoint from the voice pack on purpose: the per-line
+        limit of 8 MiB is right for spoken sentences and stays that way — raising
+        it would have let any line blow up the pack. The track is also stored as
+        a file NEXT TO the plugin database rather than a row inside it, so that
+        backing up the database does not start carrying a whole piece of music.
+      responses:
+        "200":
+          description: Whether a track exists, with its size, type and timestamp
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+  /journey/track:
+    get:
+      operationId: getAetherJourneyTrack
+      tags: [Journey]
+      summary: Get the journey track's audio
+      description: >
+        Supports range requests: for a file of this length a browser fetches
+        excerpts, and without ranges it would re-download everything on each seek.
+      responses:
+        "200":
+          description: The audio, with the content type it was stored under
+        "206":
+          description: The requested byte range
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    put:
+      operationId: putAetherJourneyTrack
+      tags: [Journey]
+      summary: Store or replace the journey track
+      description: >
+        Requires upload permission. The body is the raw audio and is streamed
+        straight to disk — buffering it in memory first would cost twice its size
+        in RAM on a server that also transcodes. The upload is aborted as soon as
+        the limit is passed, and a previously stored track survives a failed
+        upload untouched.
+      responses:
+        "204":
+          description: Stored
+        "400":
+          description: The body is empty
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "413":
+          description: The track exceeds the size limit
+    delete:
+      operationId: deleteAetherJourneyTrack
+      tags: [Journey]
+      summary: Delete the journey track; idempotent
+      responses:
+        "204":
+          description: Deleted or already absent
         "401":
           $ref: "#/components/responses/Unauthorized"
         "403":

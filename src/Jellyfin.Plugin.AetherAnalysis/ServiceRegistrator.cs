@@ -33,6 +33,9 @@ public sealed class ServiceRegistrator : IPluginServiceRegistrator
         });
         serviceCollection.AddSingleton<IAnalysisRepository, AnalysisRepository>();
         serviceCollection.AddSingleton<VoiceRecordingRepository>();
+        serviceCollection.AddSingleton(_ => new JourneyTrackStore(
+            Plugin.Instance?.DataFolderPath
+                ?? throw new InvalidOperationException("AETHER plugin data path is not initialized.")));
         serviceCollection.AddSingleton<AnalysisDocumentValidator>();
         serviceCollection.AddSingleton<MediaFingerprintService>();
         serviceCollection.AddSingleton<AnalysisRepresentationService>();

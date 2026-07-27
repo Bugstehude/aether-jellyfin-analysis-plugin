@@ -28,6 +28,7 @@ public sealed class AnalysisController(
     AnalysisOperationalTelemetry operationalTelemetry,
     AnalysisJobDispatcher jobQueue,
     VoiceRecordingRepository voiceRecordings,
+    JourneyTrackStore journeyTracks,
     ServerAnalysisActivity serverAnalysisActivity,
     ILogger<AnalysisController> logger) : ControllerBase
 {
@@ -745,6 +746,94 @@ public sealed class AnalysisController(
         await voiceRecordings.UpsertAsync(key, contentType, content, cancellationToken).ConfigureAwait(false);
         logger.LogInformation(
             "AETHER voice line {LineId} stored ({Bytes} bytes).", key, content.Length);
+        return NoContent();
+    }
+
+    // --- Reise-Tonspur -----------------------------------------------------
+    // Eine EINZIGE lange Aufnahme, die ab Filmminute 1 mitläuft (ADR-016).
+    // Eigener Endpunkt statt einer weiteren "Zeile": die Grenze von 8 MiB je
+    // Zeile ist für gesprochene Sätze richtig und soll es bleiben — sie hier
+    // anzuheben hätte jeder beliebigen Zeile erlaubt, den Vorrat zu sprengen.
+    // Und die Ablage ist eine Datei neben der Datenbank, damit die Sicherung
+    // der Plugin-Datenbank nicht fortan ein ganzes Musikstück mitträgt.
+
+    /// <summary>Reports whether a journey track is stored, without loading it.</summary>
+    [HttpGet("journey")]
+    public ActionResult GetJourneyTrackInfo()
+    {
+        ApplyCorsHeaders();
+        var info = journeyTracks.GetInfo();
+        return Ok(new
+        {
+            present = info is not null,
+            contentType = info?.ContentType,
+            bytes = info?.Bytes,
+            updatedAt = info?.UpdatedAt,
+            limits = new { maxTrackBytes = JourneyTrackStore.MaxTrackBytes }
+        });
+    }
+
+    /// <summary>Gets the journey track's audio.</summary>
+    [HttpGet("journey/track")]
+    public ActionResult GetJourneyTrack()
+    {
+        ApplyCorsHeaders();
+        var info = journeyTracks.GetInfo();
+        var stream = info is null ? null : journeyTracks.OpenRead();
+        if (info is null || stream is null)
+        {
+            return NotFoundProblem();
+        }
+
+        Response.Headers.CacheControl = "private, no-cache";
+        // enableRangeProcessing: der Browser holt sich bei einer langen Datei
+        // gern nur Ausschnitte. Ohne das lädt er bei jedem Sprung alles neu.
+        return File(stream, info.ContentType, enableRangeProcessing: true);
+    }
+
+    /// <summary>Stores or replaces the journey track.</summary>
+    [HttpPut("journey/track")]
+    [RequestSizeLimit(JourneyTrackStore.MaxTrackBytes)]
+    public async Task<ActionResult> PutJourneyTrack(CancellationToken cancellationToken)
+    {
+        ApplyCorsHeaders();
+        if (!CanUpload())
+        {
+            return ProblemResult(StatusCodes.Status403Forbidden, "forbidden", "Upload permission required.");
+        }
+
+        var contentType = Request.ContentType is { Length: > 0 and <= 64 } declared ? declared : "audio/mpeg";
+        // Direkt in die Datei geschrieben, nicht erst in den Arbeitsspeicher:
+        // bei 200 MiB kostet der Umweg das Doppelte davon an RAM, auf einem
+        // Server, der nebenbei transkodiert.
+        var written = await journeyTracks.WriteAsync(Request.Body, contentType, cancellationToken)
+            .ConfigureAwait(false);
+        if (written is null)
+        {
+            return ProblemResult(
+                StatusCodes.Status413PayloadTooLarge, "payload-too-large", "The track exceeds the size limit.");
+        }
+
+        if (written == 0)
+        {
+            return ProblemResult(StatusCodes.Status400BadRequest, "empty-body", "The track is empty.");
+        }
+
+        logger.LogInformation("AETHER journey track stored ({Bytes} bytes).", written);
+        return NoContent();
+    }
+
+    /// <summary>Deletes the journey track; idempotent.</summary>
+    [HttpDelete("journey/track")]
+    public ActionResult DeleteJourneyTrack()
+    {
+        ApplyCorsHeaders();
+        if (!CanUpload())
+        {
+            return ProblemResult(StatusCodes.Status403Forbidden, "forbidden", "Upload permission required.");
+        }
+
+        journeyTracks.Delete();
         return NoContent();
     }
 
