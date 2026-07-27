@@ -38,7 +38,13 @@ against the exact supported Jellyfin build. Passing unit tests alone is insuffic
 - [x] Dependency vulnerability gate.
 - [ ] Automated dependency-license gate.
 - [ ] Tagged release workflow; rollback and backup procedure is documented.
-- [ ] Generated TypeScript client artifact and consumer contract-hash gate.
+- [~] Generated TypeScript client artifact and consumer contract-hash gate.
+      *(Teilweise: der AETHER-Client erklärt seine Routen seit 2026-07-27 an einer
+      Stelle (`jellyfin/plugin-endpoints.ts`) und prüft sie in
+      `plugin-contract.test.ts` gegen diese OpenAPI. Der Fall, der tatsächlich
+      eingetreten ist — ein aktiv genutzter Endpunkt fehlt im Vertrag — wird damit
+      gefangen; nachgewiesen mit einer Gegenprobe. Ein AUS dem Vertrag erzeugter
+      Client, der auch Nutzlasten und Statuscodes abdeckt, bleibt offen.)*
 - [ ] Real-server test for multiple media sources, file replacement and access isolation.
 
 ## P2 device validation
