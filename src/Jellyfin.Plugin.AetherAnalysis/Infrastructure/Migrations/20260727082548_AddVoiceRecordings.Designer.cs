@@ -3,6 +3,7 @@ using System;
 using Jellyfin.Plugin.AetherAnalysis.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Jellyfin.Plugin.AetherAnalysis.Infrastructure.Migrations
 {
     [DbContext(typeof(AnalysisDbContext))]
-    partial class AnalysisDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260727082548_AddVoiceRecordings")]
+    partial class AddVoiceRecordings
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.11");

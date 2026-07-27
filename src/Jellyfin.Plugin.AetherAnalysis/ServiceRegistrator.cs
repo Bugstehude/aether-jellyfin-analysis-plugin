@@ -32,6 +32,7 @@ public sealed class ServiceRegistrator : IPluginServiceRegistrator
             options.UseSqlite(connectionString);
         });
         serviceCollection.AddSingleton<IAnalysisRepository, AnalysisRepository>();
+        serviceCollection.AddSingleton<VoiceRecordingRepository>();
         serviceCollection.AddSingleton<AnalysisDocumentValidator>();
         serviceCollection.AddSingleton<MediaFingerprintService>();
         serviceCollection.AddSingleton<AnalysisRepresentationService>();

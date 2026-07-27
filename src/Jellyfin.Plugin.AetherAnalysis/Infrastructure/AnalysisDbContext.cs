@@ -11,6 +11,9 @@ public sealed class AnalysisDbContext(DbContextOptions<AnalysisDbContext> option
     /// <summary>Gets the singleton maintenance state.</summary>
     public DbSet<AnalysisMaintenanceState> MaintenanceStates => Set<AnalysisMaintenanceState>();
 
+    /// <summary>Gets the server-wide spoken lines of the „Sitzung" experience.</summary>
+    public DbSet<VoiceRecording> VoiceRecordings => Set<VoiceRecording>();
+
     /// <inheritdoc />
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -31,6 +34,12 @@ public sealed class AnalysisDbContext(DbContextOptions<AnalysisDbContext> option
         record.Property(value => value.Etag).HasMaxLength(96);
         record.HasIndex(value => value.LastAccessedAtUnixTimeMilliseconds);
         record.HasIndex(value => value.StoredAtUnixTimeMilliseconds);
+
+        var voice = modelBuilder.Entity<VoiceRecording>();
+        voice.ToTable("voice_recordings");
+        voice.HasKey(value => value.LineId);
+        voice.Property(value => value.LineId).HasMaxLength(64);
+        voice.Property(value => value.ContentType).HasMaxLength(64);
 
         var maintenance = modelBuilder.Entity<AnalysisMaintenanceState>();
         maintenance.ToTable("analysis_maintenance_state");

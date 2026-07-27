@@ -27,6 +27,7 @@ public sealed class AnalysisController(
     AnalysisWriteCoordinator writeCoordinator,
     AnalysisOperationalTelemetry operationalTelemetry,
     AnalysisJobDispatcher jobQueue,
+    VoiceRecordingRepository voiceRecordings,
     ServerAnalysisActivity serverAnalysisActivity,
     ILogger<AnalysisController> logger) : ControllerBase
 {
@@ -641,6 +642,155 @@ public sealed class AnalysisController(
             deletedBytes = result.DeletedBytes,
             storedBytesAfter = result.StoredBytesAfter
         });
+    }
+
+    // --- Sprachpaket der „Sitzung" -----------------------------------------
+    // Serverweit, nicht je Item: dieselben Sätze passen zu jedem Film. Der
+    // Grund für die Ablage überhaupt ist die Quest — dort Dateien zuzuordnen
+    // ist zäh, und die IndexedDB des Browsers ist je Gerät UND je Adresse
+    // getrennt. Über den Server sind die Aufnahmen einfach da.
+
+    /// <summary>Lists the server-wide spoken lines without their audio.</summary>
+    [HttpGet("voice")]
+    public async Task<ActionResult> ListVoiceRecordings(CancellationToken cancellationToken)
+    {
+        ApplyCorsHeaders();
+        var items = await voiceRecordings.ListAsync(cancellationToken).ConfigureAwait(false);
+        return Ok(new
+        {
+            lines = items.Select(item => new
+            {
+                lineId = item.LineId,
+                contentType = item.ContentType,
+                bytes = item.Bytes,
+                updatedAt = item.UpdatedAt
+            }),
+            limits = new
+            {
+                maxRecordingBytes = VoiceRecordingRepository.MaxRecordingBytes,
+                maxTotalBytes = VoiceRecordingRepository.MaxTotalBytes
+            }
+        });
+    }
+
+    /// <summary>Gets one spoken line's audio.</summary>
+    [HttpGet("voice/{lineId}")]
+    public async Task<ActionResult> GetVoiceRecording(string lineId, CancellationToken cancellationToken)
+    {
+        ApplyCorsHeaders();
+        if (!IsValidLineId(lineId))
+        {
+            return ProblemResult(StatusCodes.Status400BadRequest, "invalid-line-id", "Line id is invalid.");
+        }
+
+        var recording = await voiceRecordings.GetAsync(lineId.ToLowerInvariant(), cancellationToken)
+            .ConfigureAwait(false);
+        if (recording is null)
+        {
+            return NotFoundProblem();
+        }
+
+        Response.Headers.CacheControl = "private, no-cache";
+        return File(recording.Content, recording.ContentType);
+    }
+
+    /// <summary>Stores or replaces one spoken line.</summary>
+    [HttpPut("voice/{lineId}")]
+    [RequestSizeLimit(VoiceRecordingRepository.MaxRecordingBytes)]
+    public async Task<ActionResult> PutVoiceRecording(string lineId, CancellationToken cancellationToken)
+    {
+        ApplyCorsHeaders();
+        if (!CanUpload())
+        {
+            return ProblemResult(StatusCodes.Status403Forbidden, "forbidden", "Upload permission required.");
+        }
+
+        if (!IsValidLineId(lineId))
+        {
+            return ProblemResult(StatusCodes.Status400BadRequest, "invalid-line-id", "Line id is invalid.");
+        }
+
+        using var buffer = new MemoryStream();
+        await Request.Body.CopyToAsync(buffer, cancellationToken).ConfigureAwait(false);
+        var content = buffer.ToArray();
+        if (content.Length == 0)
+        {
+            return ProblemResult(StatusCodes.Status400BadRequest, "empty-body", "The recording is empty.");
+        }
+
+        if (content.Length > VoiceRecordingRepository.MaxRecordingBytes)
+        {
+            return ProblemResult(
+                StatusCodes.Status413PayloadTooLarge, "payload-too-large", "The recording exceeds the per-line limit.");
+        }
+
+        var key = lineId.ToLowerInvariant();
+        // Die Gesamtgrenze prüfen, aber OHNE die Zeile doppelt zu zählen, die
+        // gerade ersetzt wird — sonst könnte man dieselbe Aufnahme irgendwann
+        // nicht mehr überschreiben, obwohl sich am Gesamtumfang nichts ändert.
+        var existing = await voiceRecordings.GetAsync(key, cancellationToken).ConfigureAwait(false);
+        var total = await voiceRecordings.TotalBytesAsync(cancellationToken).ConfigureAwait(false);
+        var projected = total - (existing?.ContentLength ?? 0) + content.Length;
+        if (projected > VoiceRecordingRepository.MaxTotalBytes)
+        {
+            return ProblemResult(
+                StatusCodes.Status507InsufficientStorage,
+                "voice-storage-full",
+                "The voice pack would exceed the configured total size.");
+        }
+
+        var contentType = Request.ContentType is { Length: > 0 and <= 64 } declared
+            ? declared
+            : "audio/mpeg";
+        await voiceRecordings.UpsertAsync(key, contentType, content, cancellationToken).ConfigureAwait(false);
+        logger.LogInformation(
+            "AETHER voice line {LineId} stored ({Bytes} bytes).", key, content.Length);
+        return NoContent();
+    }
+
+    /// <summary>Deletes one spoken line; idempotent.</summary>
+    [HttpDelete("voice/{lineId}")]
+    public async Task<ActionResult> DeleteVoiceRecording(string lineId, CancellationToken cancellationToken)
+    {
+        ApplyCorsHeaders();
+        if (!CanUpload())
+        {
+            return ProblemResult(StatusCodes.Status403Forbidden, "forbidden", "Upload permission required.");
+        }
+
+        if (!IsValidLineId(lineId))
+        {
+            return ProblemResult(StatusCodes.Status400BadRequest, "invalid-line-id", "Line id is invalid.");
+        }
+
+        await voiceRecordings.DeleteAsync(lineId.ToLowerInvariant(), cancellationToken).ConfigureAwait(false);
+        return NoContent();
+    }
+
+    /// <summary>
+    /// Kennungen sind kleingeschriebene Wortmarken wie <c>fen-3</c>. Eng gefasst,
+    /// weil sie als Schlüssel in die Datenbank gehen: kein Punkt, kein Schrägstrich,
+    /// nichts, was einen Pfad ergeben könnte.
+    /// </summary>
+    private static bool IsValidLineId(string lineId)
+    {
+        if (lineId.Length is 0 or > 64)
+        {
+            return false;
+        }
+
+        foreach (var character in lineId)
+        {
+            var allowed = character is >= 'a' and <= 'z'
+                || character is >= '0' and <= '9'
+                || character == '-';
+            if (!allowed)
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /// <summary>Handles positive browser preflight requests.</summary>

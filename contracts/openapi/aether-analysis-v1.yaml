@@ -269,6 +269,77 @@ paths:
           $ref: "#/components/responses/Unauthorized"
         "403":
           $ref: "#/components/responses/Forbidden"
+  /voice:
+    get:
+      operationId: listAetherVoiceRecordings
+      tags: [Voice]
+      summary: List the server-wide spoken lines of the "Sitzung" experience
+      description: >
+        The voice pack is deliberately NOT tied to an item: the same spoken lines
+        fit every film. It exists on the server because the browser's IndexedDB is
+        separate per device AND per address — recordings made on a desktop were
+        simply absent in a headset, where assigning files is awkward.
+      responses:
+        "200":
+          description: The stored line ids with their size and timestamp, without audio
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+  /voice/{lineId}:
+    parameters:
+      - name: lineId
+        in: path
+        required: true
+        description: Lower-case line identifier such as `fen-3`
+        schema:
+          type: string
+          pattern: "^[a-z0-9-]{1,64}$"
+    get:
+      operationId: getAetherVoiceRecording
+      tags: [Voice]
+      summary: Get one spoken line's audio
+      responses:
+        "200":
+          description: The audio, with the content type it was stored under
+        "400":
+          description: The line id is not a valid identifier
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    put:
+      operationId: putAetherVoiceRecording
+      tags: [Voice]
+      summary: Store or replace one spoken line
+      description: >
+        Requires upload permission. The body is the raw audio; the request's
+        Content-Type is stored and replayed on GET. Per-line and total size limits
+        apply and are advertised by the list endpoint.
+      responses:
+        "204":
+          description: Stored
+        "400":
+          description: The line id is invalid or the body is empty
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "413":
+          description: The recording exceeds the per-line limit
+        "507":
+          description: The pack would exceed the configured total size
+    delete:
+      operationId: deleteAetherVoiceRecording
+      tags: [Voice]
+      summary: Delete one spoken line; idempotent
+      responses:
+        "204":
+          description: Deleted or already absent
+        "400":
+          description: The line id is not a valid identifier
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
   /analyses/query:
     post:
       operationId: queryAetherAnalyses

@@ -2,6 +2,30 @@
 
 All notable changes to implementation and canonical contracts are recorded here.
 
+## [0.2.3.0] — Das Sprachpaket liegt auf dem Server
+
+### Added
+
+- Die eingesprochenen Zeilen der „Sitzung" werden **serverweit** abgelegt statt
+  nur in der IndexedDB eines Browsers. Der Grund ist die Quest: die Browser-Ablage
+  ist je Gerät UND je Adresse getrennt, wer am Rechner einspricht, hatte im
+  Headset nichts — und dort Dateien zuzuordnen ist zäh. Einmal eingesprochen,
+  überall verfügbar.
+- Vier Endpunkte unter `/voice`: auflisten (ohne Audio), holen, ablegen, löschen.
+  Ablegen und Löschen brauchen Upload-Recht; Kennungen sind auf
+  `^[a-z0-9-]{1,64}$` begrenzt, weil sie als Schlüssel in die Datenbank gehen.
+- Grenzen: 8 MiB je Zeile, 64 MiB für den gesamten Vorrat. Beim Ersetzen wird die
+  vorhandene Zeile nicht doppelt gezählt — sonst ließe sich dieselbe Aufnahme
+  irgendwann nicht mehr überschreiben, obwohl sich am Gesamtumfang nichts ändert.
+
+### Hinweis zur Migration
+
+Die neue Tabelle wird **idempotent** angelegt (`CREATE TABLE IF NOT EXISTS`), wie
+schon die Basis-Migration. Eine Datenbank, die per `EnsureCreated` aus dem
+aktuellen Modell entstanden ist, enthält sie bereits; ein einfaches `CREATE TABLE`
+scheiterte dort und ließ die Migration mitten im Lauf stehen. Ein bestehender Test
+für genau diesen Übernahme-Pfad hat das sofort gemeldet.
+
 ## [0.2.2.5] — Der Scan wartet nicht mehr auf uns
 
 ### Fixed

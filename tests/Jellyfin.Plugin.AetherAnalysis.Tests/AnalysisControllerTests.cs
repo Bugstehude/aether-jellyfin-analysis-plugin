@@ -43,6 +43,9 @@ public sealed class AnalysisControllerTests
             new AnalysisWriteCoordinator(),
             new AnalysisOperationalTelemetry(),
             new AnalysisJobDispatcher(runner: null!, NullLogger<AnalysisJobDispatcher>.Instance),
+            // Kein Kontext-Factory nötig: keiner dieser Tests fasst das
+            // Sprachpaket an, und ein Zugriff darauf würde sofort auffallen.
+            new VoiceRecordingRepository(contextFactory: null!),
             new ServerAnalysisActivity(),
             NullLogger<AnalysisController>.Instance);
 
