@@ -20,6 +20,18 @@ against the exact supported Jellyfin build. Passing unit tests alone is insuffic
 - [x] Fresh-install and restart smoke test on Jellyfin 10.11.11 (ARM64 local and x64 CI).
 - [ ] Upgrade and uninstall smoke test on the target Jellyfin 10.11.11 LXC.
 
+### Bewusst gestrichen
+
+- **`DefaultAuthorization`-Policy statt `[Authorize]`.** Sachlich richtig: der
+  Handler von Jellyfin erzwingt zusätzlich deaktivierte Konten, Zugriffszeitpläne
+  und „Fernzugriff für diesen Nutzer erlauben". Der Betreiber hat entschieden
+  (2026-07-27), dass das hier keinen Nutzen hat: die Instanz läuft rein lokal,
+  ohne Fernzugriff und ohne weitere Nutzer, gegen die eine solche Policy schützen
+  würde. Der Wechsel trägt also kein Risiko ab, birgt aber eines — der Policy-Name
+  wird serverseitig aufgelöst, und ein falscher ergibt zur Laufzeit 500er auf
+  ALLEN Endpunkten. Wird der Server je von außen erreichbar oder bekommt weitere
+  Nutzer, gehört die Entscheidung neu getroffen.
+
 ## P1 release engineering
 
 - [x] Deterministic install archive with manifest, SHA-256 checksum and SBOM.
