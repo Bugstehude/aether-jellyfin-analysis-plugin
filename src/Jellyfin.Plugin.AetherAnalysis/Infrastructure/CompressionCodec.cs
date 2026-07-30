@@ -8,6 +8,13 @@ public static class CompressionCodec
     private const int CompressionQuality = 5;
     private const int WindowBits = 22;
 
+    /// <summary>
+    /// Largest accepted canonical document after decompression. Uploads are capped at 50 MiB;
+    /// the additional room covers the generated master representation without allowing corrupt
+    /// database metadata to request an unbounded allocation.
+    /// </summary>
+    public const int MaximumUncompressedBytes = 64 * 1024 * 1024;
+
     /// <summary>Compresses a JSON document using the contract's Brotli level.</summary>
     public static byte[] Compress(ReadOnlySpan<byte> source)
     {
@@ -24,6 +31,11 @@ public static class CompressionCodec
     /// <summary>Decompresses a JSON document with an explicit output bound.</summary>
     public static byte[] Decompress(ReadOnlySpan<byte> source, int uncompressedBytes)
     {
+        if (uncompressedBytes < 0 || uncompressedBytes > MaximumUncompressedBytes)
+        {
+            throw new InvalidDataException("Stored AETHER analysis document exceeds the decompression limit.");
+        }
+
         var destination = new byte[uncompressedBytes];
         if (!BrotliDecoder.TryDecompress(source, destination, out var written) || written != uncompressedBytes)
         {

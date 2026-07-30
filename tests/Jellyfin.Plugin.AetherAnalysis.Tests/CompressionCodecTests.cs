@@ -15,4 +15,13 @@ public sealed class CompressionCodecTests
         Assert.Equal(source, restored);
         Assert.True(compressed.Length < source.Length);
     }
+
+    [Theory]
+    [InlineData(-1)]
+    [InlineData(CompressionCodec.MaximumUncompressedBytes + 1)]
+    public void RejectsAnInvalidDeclaredOutputSizeBeforeAllocating(int uncompressedBytes)
+    {
+        Assert.Throws<InvalidDataException>(
+            () => CompressionCodec.Decompress(ReadOnlySpan<byte>.Empty, uncompressedBytes));
+    }
 }
