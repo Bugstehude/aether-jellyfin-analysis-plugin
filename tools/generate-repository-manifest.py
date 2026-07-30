@@ -55,7 +55,7 @@ def main() -> None:
                         f"v{version}/{archive_name}"
                     ),
                     "checksum": checksum,
-                    "timestamp": "2026-07-18T00:00:00Z",
+                    "timestamp": read_scalar(build, "timestamp"),
                 }
             ],
         }

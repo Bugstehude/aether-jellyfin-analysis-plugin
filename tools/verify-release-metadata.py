@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import re
+from datetime import datetime
 from pathlib import Path
 
 
@@ -30,6 +31,11 @@ def main() -> None:
         r"<VersionPrefix>\s*([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)\s*</VersionPrefix>",
         "assembly version",
     )
+    timestamp = read_version(
+        BUILD_MANIFEST,
+        r'^timestamp:\s*"([^"]+)"\s*$',
+        "release timestamp",
+    )
 
     if package_version != assembly_version:
         raise SystemExit(
@@ -37,7 +43,14 @@ def main() -> None:
             f"build.yaml={package_version}, Directory.Build.props={assembly_version}"
         )
 
-    print(f"Release metadata is consistent: {package_version}")
+    try:
+        parsed_timestamp = datetime.fromisoformat(timestamp.replace("Z", "+00:00"))
+    except ValueError as error:
+        raise SystemExit(f"Release timestamp is not ISO 8601: {timestamp}") from error
+    if parsed_timestamp.tzinfo is None:
+        raise SystemExit(f"Release timestamp must include a timezone: {timestamp}")
+
+    print(f"Release metadata is consistent: {package_version} at {timestamp}")
 
 
 if __name__ == "__main__":
