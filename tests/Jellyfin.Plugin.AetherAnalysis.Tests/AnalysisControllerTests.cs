@@ -32,7 +32,9 @@ public sealed class AnalysisControllerTests
         ILibraryManager libraryManager,
         IAnalysisRepository? repository = null,
         Guid? userId = null,
-        bool isAdministrator = false)
+        bool isAdministrator = false,
+        AnalysisWriteCoordinator? writeCoordinator = null,
+        JourneyTrackStore? journeyTracks = null)
     {
         var controller = new AnalysisController(
             libraryManager,
@@ -40,7 +42,7 @@ public sealed class AnalysisControllerTests
             new AnalysisDocumentValidator(),
             new MediaFingerprintService(),
             new AnalysisRepresentationService(),
-            new AnalysisWriteCoordinator(),
+            writeCoordinator ?? new AnalysisWriteCoordinator(),
             new AnalysisOperationalTelemetry(),
             new AnalysisJobDispatcher(runner: null!, NullLogger<AnalysisJobDispatcher>.Instance),
             // Kein Kontext-Factory nötig: keiner dieser Tests fasst das
@@ -48,7 +50,7 @@ public sealed class AnalysisControllerTests
             new VoiceRecordingRepository(contextFactory: null!),
             // Ein Verzeichnis, das es nicht gibt: keiner dieser Tests fasst die
             // Reise-Tonspur an, und ein Zugriff darauf fiele sofort auf.
-            new JourneyTrackStore(Path.Combine(Path.GetTempPath(), "aether-tests-none")),
+            journeyTracks ?? new JourneyTrackStore(Path.Combine(Path.GetTempPath(), "aether-tests-none")),
             new ServerAnalysisActivity(),
             NullLogger<AnalysisController>.Instance);
 
@@ -109,6 +111,42 @@ public sealed class AnalysisControllerTests
         StatusCodeResult statusCode => statusCode.StatusCode,
         _ => 0,
     };
+
+    [Theory]
+    [InlineData("text/html")]
+    [InlineData("application/javascript")]
+    public async Task RefusesNonAudioContentForStoredMedia(string contentType)
+    {
+        var controller = CreateController(EmptyLibrary(), isAdministrator: true);
+        controller.Request.ContentType = contentType;
+        controller.Request.Body = new MemoryStream([1, 2, 3]);
+
+        var voice = await controller.PutVoiceRecording("fen-3", CancellationToken.None);
+        var journey = await controller.PutJourneyTrack(CancellationToken.None);
+
+        Assert.Equal(StatusCodes.Status415UnsupportedMediaType, StatusOf(voice));
+        Assert.Equal(StatusCodes.Status415UnsupportedMediaType, StatusOf(journey));
+    }
+
+    [Fact]
+    public async Task SerializesJourneyWritesWithTheSharedWriteCoordinator()
+    {
+        var coordinator = new AnalysisWriteCoordinator();
+        using var heldLease = await coordinator.AcquireAsync(CancellationToken.None);
+        using var cancellation = new CancellationTokenSource();
+        var controller = CreateController(
+            EmptyLibrary(),
+            isAdministrator: true,
+            writeCoordinator: coordinator);
+        controller.Request.ContentType = "audio/webm; codecs=opus";
+        controller.Request.Body = new MemoryStream([1, 2, 3]);
+
+        var upload = controller.PutJourneyTrack(cancellation.Token);
+        Assert.False(upload.IsCompleted);
+
+        cancellation.Cancel();
+        await Assert.ThrowsAnyAsync<OperationCanceledException>(() => upload);
+    }
 
     [Fact]
     public async Task AnswersNotFoundForAnItemTheUserCannotSee()

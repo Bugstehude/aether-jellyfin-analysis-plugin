@@ -326,6 +326,8 @@ paths:
           $ref: "#/components/responses/Forbidden"
         "413":
           description: The track exceeds the size limit
+        "415":
+          description: The declared media type is not audio
     delete:
       operationId: deleteAetherJourneyTrack
       tags: [Journey]
@@ -393,6 +395,8 @@ paths:
           $ref: "#/components/responses/Forbidden"
         "413":
           description: The recording exceeds the per-line limit
+        "415":
+          description: The declared media type is not audio
         "507":
           description: The pack would exceed the configured total size
     delete:

@@ -692,6 +692,7 @@ public sealed class AnalysisController(
         }
 
         Response.Headers.CacheControl = "private, no-cache";
+        Response.Headers.XContentTypeOptions = "nosniff";
         return File(recording.Content, recording.ContentType);
     }
 
@@ -709,6 +710,15 @@ public sealed class AnalysisController(
         if (!IsValidLineId(lineId))
         {
             return ProblemResult(StatusCodes.Status400BadRequest, "invalid-line-id", "Line id is invalid.");
+        }
+
+        var contentType = NormalizeAudioContentType(Request.ContentType);
+        if (contentType is null)
+        {
+            return ProblemResult(
+                StatusCodes.Status415UnsupportedMediaType,
+                "invalid-media-type",
+                "The recording must declare an audio content type.");
         }
 
         using var buffer = new MemoryStream();
@@ -729,6 +739,7 @@ public sealed class AnalysisController(
         // Die Gesamtgrenze prüfen, aber OHNE die Zeile doppelt zu zählen, die
         // gerade ersetzt wird — sonst könnte man dieselbe Aufnahme irgendwann
         // nicht mehr überschreiben, obwohl sich am Gesamtumfang nichts ändert.
+        using var writeLease = await writeCoordinator.AcquireAsync(cancellationToken).ConfigureAwait(false);
         var existing = await voiceRecordings.GetAsync(key, cancellationToken).ConfigureAwait(false);
         var total = await voiceRecordings.TotalBytesAsync(cancellationToken).ConfigureAwait(false);
         var projected = total - (existing?.ContentLength ?? 0) + content.Length;
@@ -740,9 +751,6 @@ public sealed class AnalysisController(
                 "The voice pack would exceed the configured total size.");
         }
 
-        var contentType = Request.ContentType is { Length: > 0 and <= 64 } declared
-            ? declared
-            : "audio/mpeg";
         await voiceRecordings.UpsertAsync(key, contentType, content, cancellationToken).ConfigureAwait(false);
         logger.LogInformation(
             "AETHER voice line {LineId} stored ({Bytes} bytes).", key, content.Length);
@@ -786,6 +794,7 @@ public sealed class AnalysisController(
         }
 
         Response.Headers.CacheControl = "private, no-cache";
+        Response.Headers.XContentTypeOptions = "nosniff";
         // enableRangeProcessing: der Browser holt sich bei einer langen Datei
         // gern nur Ausschnitte. Ohne das lädt er bei jedem Sprung alles neu.
         return File(stream, info.ContentType, enableRangeProcessing: true);
@@ -802,10 +811,19 @@ public sealed class AnalysisController(
             return ProblemResult(StatusCodes.Status403Forbidden, "forbidden", "Upload permission required.");
         }
 
-        var contentType = Request.ContentType is { Length: > 0 and <= 64 } declared ? declared : "audio/mpeg";
+        var contentType = NormalizeAudioContentType(Request.ContentType);
+        if (contentType is null)
+        {
+            return ProblemResult(
+                StatusCodes.Status415UnsupportedMediaType,
+                "invalid-media-type",
+                "The track must declare an audio content type.");
+        }
+
         // Direkt in die Datei geschrieben, nicht erst in den Arbeitsspeicher:
         // bei 200 MiB kostet der Umweg das Doppelte davon an RAM, auf einem
         // Server, der nebenbei transkodiert.
+        using var writeLease = await writeCoordinator.AcquireAsync(cancellationToken).ConfigureAwait(false);
         var written = await journeyTracks.WriteAsync(Request.Body, contentType, cancellationToken)
             .ConfigureAwait(false);
         if (written is null)
@@ -825,7 +843,7 @@ public sealed class AnalysisController(
 
     /// <summary>Deletes the journey track; idempotent.</summary>
     [HttpDelete("journey/track")]
-    public ActionResult DeleteJourneyTrack()
+    public async Task<ActionResult> DeleteJourneyTrack(CancellationToken cancellationToken)
     {
         ApplyCorsHeaders();
         if (!CanUpload())
@@ -833,6 +851,7 @@ public sealed class AnalysisController(
             return ProblemResult(StatusCodes.Status403Forbidden, "forbidden", "Upload permission required.");
         }
 
+        using var writeLease = await writeCoordinator.AcquireAsync(cancellationToken).ConfigureAwait(false);
         journeyTracks.Delete();
         return NoContent();
     }
@@ -852,6 +871,7 @@ public sealed class AnalysisController(
             return ProblemResult(StatusCodes.Status400BadRequest, "invalid-line-id", "Line id is invalid.");
         }
 
+        using var writeLease = await writeCoordinator.AcquireAsync(cancellationToken).ConfigureAwait(false);
         await voiceRecordings.DeleteAsync(lineId.ToLowerInvariant(), cancellationToken).ConfigureAwait(false);
         return NoContent();
     }
@@ -880,6 +900,33 @@ public sealed class AnalysisController(
         }
 
         return true;
+    }
+
+    private static string? NormalizeAudioContentType(string? declared)
+    {
+        if (string.IsNullOrWhiteSpace(declared))
+        {
+            // Legacy clients did not always send the header. Keep their established default.
+            return "audio/mpeg";
+        }
+
+        var normalized = declared.Trim();
+        if (normalized.Length > 64)
+        {
+            return null;
+        }
+
+        var separator = normalized.IndexOf(';');
+        var mediaType = (separator < 0 ? normalized : normalized[..separator]).Trim();
+        if (!mediaType.StartsWith("audio/", StringComparison.OrdinalIgnoreCase)
+            || mediaType.Length == "audio/".Length
+            || mediaType.Any(character => !(char.IsAsciiLetterOrDigit(character)
+                || character is '/' or '.' or '+' or '-')))
+        {
+            return null;
+        }
+
+        return normalized;
     }
 
     /// <summary>Handles positive browser preflight requests.</summary>
