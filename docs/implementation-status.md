@@ -3,7 +3,7 @@
 This document distinguishes committed behavior from accepted design. It is updated with every
 implementation milestone so consumers never infer features from the architecture document alone.
 
-## Implemented in 0.1 development baseline
+## Implemented through 0.2.4.0
 
 - Exact Jellyfin 10.11.11, .NET 9 and EF Core 9.0.11 pins.
 - Server-owned SQLite runtime boundary plus patched, isolated native SQLite test runtime.
@@ -26,19 +26,21 @@ implementation milestone so consumers never infer features from the architecture
 - Absolute ASP.NET request-size limit and defensive null/identity/detail validation.
 - Corrupt-record isolation plus non-sensitive process-local failure counters in admin status.
 - Unit/Golden-File tests, NuGet vulnerability gate and public-repository CI.
-- Deterministic single-DLL archive and digest-pinned Jellyfin start/restart smoke harness.
+- Deterministic DLL-and-worker archive and digest-pinned Jellyfin start/restart smoke harness.
 - Reproducible Jellyfin catalog manifest tied to the versioned GitHub release archive.
+- Optional serialized server analysis through scheduled, post-scan and authorized API triggers.
+- Server-wide voice recordings and one range-enabled journey audio track with bounded storage.
 
 ## Accepted but not yet implemented
 
-- Library-scan invalidation hook and orphan cleanup.
+- Orphan cleanup for items or media sources removed from Jellyfin.
 - External importer for the transitional AETHER sidecar.
 - Generated TypeScript client package and automated consumer synchronization releases.
 - Target-LXC install/upgrade/uninstall acceptance, backup test and Quest 3S benchmark.
 
-Folder and multi-item analysis management is intentionally implemented by AETHER clients and is
-not an open plugin task. The plugin never decodes media or starts analysis jobs; see ADR 0004.
+Folder and multi-item selection remain AETHER client concerns. The optional server runner is
+described by ADR 0005; with server analysis disabled, the plugin remains a storage-only service.
 
-Version 0.1 is a test release: fresh installation, authenticated API access, storage initialization
-and restart pass against Jellyfin 10.11.11 on local ARM64 Docker and x64 CI. It must not be treated
-as production-ready until the target-LXC acceptance and the remaining P0 gates pass.
+Version 0.2.4.0 remains a test release. Fresh installation, authenticated API access, storage
+initialization and restart pass against Jellyfin 10.11.11 on local ARM64 Docker and x64 CI. It must
+not be treated as production-ready until target-LXC upgrade and uninstall acceptance pass.

@@ -21,9 +21,11 @@ outputs are not guaranteed to be byte-identical across operating systems.
 
 ## Data ownership
 
-The plugin creates `aether-analysis.sqlite` only inside its Jellyfin-assigned plugin data folder.
-It never modifies Jellyfin's library database. SQLite WAL and shared-memory side files can exist
-while Jellyfin is running.
+Inside its Jellyfin-assigned plugin data folder, the plugin creates `aether-analysis.sqlite`,
+optional `journey-track.bin` and `journey-track.type` files, and a transient
+`journey-track.bin.part` while a track is uploaded. It never modifies Jellyfin's library database
+or writes beside source media. SQLite WAL and shared-memory side files can exist while Jellyfin
+is running.
 
 ## Capacity
 
@@ -60,5 +62,6 @@ then restart. Replacing only the DLL after a database migration is not a support
 ## Uninstall
 
 Stop Jellyfin, remove the plugin through Jellyfin's supported plugin-management path, and retain or
-delete `aether-analysis.sqlite` according to the administrator's data-retention decision. Removing
-the plugin must never remove source media or Jellyfin library metadata.
+delete `aether-analysis.sqlite`, `journey-track.bin` and `journey-track.type` according to the
+administrator's data-retention decision. Removing the plugin must never remove source media or
+Jellyfin library metadata.

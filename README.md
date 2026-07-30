@@ -30,19 +30,20 @@ After an intentional OpenAPI or schema change, run `tools/contract-hash.sh` and 
 
 ## Current scope
 
-Version 0.1 implements the storage-plugin foundation:
+Version 0.2.4.0 includes the storage-plugin foundation:
 
 - authenticated capabilities and item-scoped analysis endpoints;
 - Jellyfin item-access checks that return 404 without leaking inaccessible item existence;
-- administrator-only writes for the initial implementation;
+- administrator or explicitly configured analyzer-user writes;
 - EF Core backed plugin-owned SQLite storage;
 - Brotli-compressed, bounded JSON documents with ETags;
 - a minimal configuration page and storage defaults;
 - contract and unit tests.
 
-The plugin stores no video frames, thumbnails, source media, Jellyfin tokens or user passwords.
-It uses Jellyfin's process-owned SQLite runtime in production; the patched native SQLite bundle in
-the test project is isolated from the install archive to avoid native-library conflicts.
+The plugin stores no decoded video frames, thumbnails, source videos, Jellyfin tokens or user
+passwords. Optional user-supplied voice and journey audio is kept inside the plugin data folder.
+The plugin uses Jellyfin's process-owned SQLite runtime in production; the patched native SQLite
+bundle in the test project is isolated from the install archive to avoid native-library conflicts.
 
 Version **0.2** adds optional **in-plugin server-side analysis** (see below): the server can now
 compute analyses itself in addition to accepting client uploads. The client upload path is
@@ -82,7 +83,7 @@ GET  /AetherAnalysis/v1/items/{itemId}/media-sources/{mediaSourceId}/analyze/sta
 Folder and multi-item checkbox selection remain client features. When server-side analysis is
 disabled, the plugin never decodes media or starts jobs and behaves exactly like 0.1.
 
-See `docs/implementation-status.md` before deployment. The 0.1 test release passes fresh-install
+See `docs/implementation-status.md` before deployment. The current test release passes fresh-install
 and restart smoke tests against Jellyfin 10.11.11 on ARM64 locally and x64 in CI. Target-LXC
 installation, upgrade, uninstall and backup/restore acceptance remain required before the release
 may be called production-ready.
@@ -98,7 +99,7 @@ dotnet test --configuration Release --no-restore --no-build
 tools/package-plugin.sh
 ```
 
-The installable artifact is `artifacts/package/aether-analysis-0.2.0.0.zip`. Its SHA-256 checksum
+The installable artifact is `artifacts/package/aether-analysis-<build.yaml version>.zip`. Its SHA-256 checksum
 and CycloneDX SBOM are generated beside it. The archive contains
 `Jellyfin.Plugin.AetherAnalysis.dll` and the vendored `aether-analysis-worker.cjs`; do not copy
 test-native libraries or host framework assemblies into Jellyfin's plugin directory. Jellyfin
@@ -150,7 +151,7 @@ can adopt databases created by the private 0.1 development build without deletin
 
 ## License and repository visibility
 
-The repository is public for the 0.1 test release so Jellyfin can fetch its repository manifest
+The repository is public so Jellyfin can fetch its repository manifest
 and install archive without GitHub credentials. The plugin links against Jellyfin's GPL-licensed
 assemblies and is therefore licensed under GPL-3.0-or-later. Public distribution must include
 corresponding source code and satisfy the license obligations. Making this repository private

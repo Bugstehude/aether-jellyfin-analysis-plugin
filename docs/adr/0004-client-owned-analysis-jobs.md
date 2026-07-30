@@ -1,7 +1,10 @@
 # ADR 0004: Analysis jobs are owned by AETHER clients
 
-- Status: accepted
+- Status: superseded by ADR 0005
 - Date: 2026-07-16
+
+This decision describes the 0.1 boundary. Version 0.2 introduced an optional plugin-owned worker;
+the current decision is recorded in ADR 0005.
 
 ## Decision
 
