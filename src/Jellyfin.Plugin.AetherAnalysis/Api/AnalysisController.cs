@@ -422,9 +422,14 @@ public sealed class AnalysisController(
     public async Task<ActionResult> QueryAnalyses([FromBody] BatchSelection? selection, CancellationToken cancellationToken)
     {
         ApplyCorsHeaders();
-        if (!IsValidBatch(selection))
+        if (IsOversizedBatch(selection))
         {
             return ProblemResult(StatusCodes.Status413PayloadTooLarge, "payload-too-large", "Batch selection exceeds limits.");
+        }
+
+        if (!IsValidBatch(selection))
+        {
+            return ProblemResult(StatusCodes.Status400BadRequest, "invalid-request", "Batch selection is invalid.");
         }
 
         var lookups = selection.Items.Select(selected =>
@@ -502,9 +507,14 @@ public sealed class AnalysisController(
             return ProblemResult(StatusCodes.Status403Forbidden, "forbidden", "Administrator permission required.");
         }
 
-        if (!IsValidBatch(selection))
+        if (IsOversizedBatch(selection))
         {
             return ProblemResult(StatusCodes.Status413PayloadTooLarge, "payload-too-large", "Batch selection exceeds limits.");
+        }
+
+        if (!IsValidBatch(selection))
+        {
+            return ProblemResult(StatusCodes.Status400BadRequest, "invalid-request", "Batch selection is invalid.");
         }
 
         using var writeLease = await writeCoordinator.AcquireAsync(cancellationToken).ConfigureAwait(false);
@@ -980,10 +990,14 @@ public sealed class AnalysisController(
     private bool IsValidBatch([NotNullWhen(true)] BatchSelection? selection) =>
         selection is not null
         && selection.Algorithm is not null
-        && !string.IsNullOrWhiteSpace(selection.Algorithm.Id)
-        && !string.IsNullOrWhiteSpace(selection.Algorithm.Version)
         && selection.Items is { Count: > 0 }
-        && selection.Items.Count <= EffectiveMaxBatchItems;
+        && selection.Items.Count <= EffectiveMaxBatchItems
+        && selection.Items.All(item => item is not null
+            && item.ItemId != Guid.Empty
+            && IsValidIdentity(item.MediaSourceId, selection.Algorithm.Id, selection.Algorithm.Version));
+
+    private static bool IsOversizedBatch(BatchSelection? selection) =>
+        selection?.Items?.Count > EffectiveMaxBatchItems;
 
     private static bool IsValidIdentity(string mediaSourceId, string algorithmId, string algorithmVersion) =>
         !string.IsNullOrWhiteSpace(mediaSourceId)

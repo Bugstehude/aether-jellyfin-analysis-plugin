@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using Jellyfin.Plugin.AetherAnalysis.Api;
 using Jellyfin.Plugin.AetherAnalysis.Application;
+using Jellyfin.Plugin.AetherAnalysis.Contracts;
 using Jellyfin.Plugin.AetherAnalysis.Infrastructure;
 using MediaBrowser.Controller.Entities;
 using MediaBrowser.Controller.Library;
@@ -250,15 +251,27 @@ public sealed class AnalysisControllerTests
     [Fact]
     public async Task RejectsABatchQueryWithoutABody()
     {
-        // Antwortet mit 413 statt 400 — der Endpunkt fasst „Auswahl ungültig"
-        // und „Auswahl zu groß" in einer Prüfung zusammen. Inhaltlich ist die
-        // Ablehnung richtig; der Statuscode ist hier bewusst festgehalten,
-        // damit eine spätere Änderung daran auffällt statt still den Vertrag
-        // zu verschieben.
         var controller = CreateController(EmptyLibrary(), userId: UserId);
         var result = await controller.QueryAnalyses(selection: null, CancellationToken.None);
 
-        Assert.Equal(StatusCodes.Status413PayloadTooLarge, StatusOf(result));
+        Assert.Equal(StatusCodes.Status400BadRequest, StatusOf(result));
+    }
+
+    [Fact]
+    public async Task RejectsNullOrMalformedBatchItemsInsteadOfThrowing()
+    {
+        var controller = CreateController(EmptyLibrary(), userId: UserId);
+        var algorithm = new AlgorithmSelection("aether-visual", "1.1.0");
+        var nullItem = new BatchSelection(algorithm, [null!]);
+        var invalidIdentity = new BatchSelection(
+            algorithm,
+            [new ItemSelection(UserId, new string('x', 129))]);
+
+        var nullResult = await controller.QueryAnalyses(nullItem, CancellationToken.None);
+        var invalidResult = await controller.QueryAnalyses(invalidIdentity, CancellationToken.None);
+
+        Assert.Equal(StatusCodes.Status400BadRequest, StatusOf(nullResult));
+        Assert.Equal(StatusCodes.Status400BadRequest, StatusOf(invalidResult));
     }
 
     // --- Preconditions (der letzte offene Teil des P0-Punkts) ----------------
