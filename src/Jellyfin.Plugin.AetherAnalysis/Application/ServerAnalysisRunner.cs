@@ -325,8 +325,7 @@ public sealed class ServerAnalysisRunner(
         CancellationToken cancellationToken)
     {
         var mediaSourceId = source.Id;
-        var media = fingerprintService.Create(item, mediaSourceId);
-        if (media is null || string.IsNullOrWhiteSpace(source.Path))
+        if (string.IsNullOrWhiteSpace(source.Path))
         {
             return new SourceAnalysisOutcome(mediaSourceId, SourceAnalysisStatus.Skipped, "no-local-source");
         }
@@ -334,6 +333,21 @@ public sealed class ServerAnalysisRunner(
         await _gate.WaitAsync(cancellationToken).ConfigureAwait(false);
         try
         {
+            // A scheduled run can decide an item is stale just before an ad-hoc
+            // request stores it. Re-check only after entering the shared worker
+            // gate, otherwise both serialized callers still perform the same
+            // hour-long analysis one after another.
+            if (!await NeedsAnalysisAsync(item, mediaSourceId, cancellationToken).ConfigureAwait(false))
+            {
+                return new SourceAnalysisOutcome(mediaSourceId, SourceAnalysisStatus.Skipped, "already-current");
+            }
+
+            var media = fingerprintService.Create(item, mediaSourceId);
+            if (media is null)
+            {
+                return new SourceAnalysisOutcome(mediaSourceId, SourceAnalysisStatus.Skipped, "no-local-source");
+            }
+
             string documentJson;
             try
             {
