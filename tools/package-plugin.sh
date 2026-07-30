@@ -41,7 +41,7 @@ TZ=UTC touch -t 198001010000 "$staging_dir/Jellyfin.Plugin.AetherAnalysis.dll" "
 rm -f "$archive" "$archive.sha256"
 (
   cd "$staging_dir"
-  zip -X -q "$archive" Jellyfin.Plugin.AetherAnalysis.dll "$worker_file"
+  TZ=UTC zip -X -q "$archive" Jellyfin.Plugin.AetherAnalysis.dll "$worker_file"
 )
 
 if command -v sha256sum >/dev/null 2>&1; then
