@@ -27,6 +27,8 @@ jobs:
         run: dotnet restore --locked-mode
       - name: Restore repository tools
         run: dotnet tool restore
+      - name: Verify release metadata
+        run: python3 tools/verify-release-metadata.py
       - name: Build
         run: dotnet build --configuration Release --no-restore
       - name: Verify formatting

@@ -3,6 +3,7 @@ set -euo pipefail
 
 root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 configuration="${CONFIGURATION:-Release}"
+python3 "$root/tools/verify-release-metadata.py"
 version="$(sed -n 's/^version: "\([^"]*\)"/\1/p' "$root/build.yaml")"
 publish_dir="$root/artifacts/plugin"
 package_dir="$root/artifacts/package"
