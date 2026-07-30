@@ -36,19 +36,25 @@ public sealed class ServerAnalysisRunner(
     // the scheduled task and the after-scan hook could run concurrently and each iterate the full
     // library — analyzing and storing every item twice, doubling a multi-hour run.
     private readonly SemaphoreSlim _runGate = new(1, 1);
+    private readonly CancellationTokenSource _lifetimeCancellation = new();
     private int _pendingRun;
+    private int _disposeState;
     /// <summary>Gesetzt, sobald der Host uns abräumt — siehe Dispose.</summary>
     private volatile bool _disposed;
 
     /// <inheritdoc />
     public void Dispose()
     {
-        // Reihenfolge zählt: ERST die Marke setzen, dann abräumen. Ein Lauf, der
-        // gerade mitten in der Schleife steckt, sieht die Marke und hört auf,
-        // statt in ein bereits entsorgtes Objekt zu greifen.
+        if (Interlocked.Exchange(ref _disposeState, 1) != 0)
+        {
+            return;
+        }
+
+        // Laufende Worker zuerst abbrechen. Die SemaphoreSlim-Instanzen werden
+        // absichtlich nicht entsorgt: noch aktive finally-Blöcke müssen sie
+        // freigeben können. Beide sind kleine, rein verwaltete Lebenszeitobjekte.
         _disposed = true;
-        _gate.Dispose();
-        _runGate.Dispose();
+        _lifetimeCancellation.Cancel();
     }
 
     /// <summary>Enumerates the video items eligible for server-side analysis per configuration.</summary>
@@ -79,7 +85,13 @@ public sealed class ServerAnalysisRunner(
     /// </summary>
     public async Task AnalyzePendingAsync(IProgress<double>? percentProgress, CancellationToken cancellationToken)
     {
-        if (!await _runGate.WaitAsync(0, cancellationToken).ConfigureAwait(false))
+        using var operationCancellation = CancellationTokenSource.CreateLinkedTokenSource(
+            cancellationToken,
+            _lifetimeCancellation.Token);
+        var operationToken = operationCancellation.Token;
+        operationToken.ThrowIfCancellationRequested();
+
+        if (!await _runGate.WaitAsync(0, operationToken).ConfigureAwait(false))
         {
             if (Interlocked.CompareExchange(ref _pendingRun, 1, 0) != 0)
             {
@@ -91,7 +103,7 @@ public sealed class ServerAnalysisRunner(
 
             try
             {
-                await _runGate.WaitAsync(cancellationToken).ConfigureAwait(false);
+                await _runGate.WaitAsync(operationToken).ConfigureAwait(false);
             }
             finally
             {
@@ -101,23 +113,11 @@ public sealed class ServerAnalysisRunner(
 
         try
         {
-            await RunPendingCoreAsync(percentProgress, cancellationToken).ConfigureAwait(false);
+            await RunPendingCoreAsync(percentProgress, operationToken).ConfigureAwait(false);
         }
         finally
         {
-            // Fährt der Host herunter, während wir laufen, ist die Sperre beim
-            // Freigeben schon entsorgt — und die Ausnahme daraus riss zuletzt den
-            // ganzen Post-Scan-Task mit ("Error running post-scan task:
-            // ObjectDisposedException: SemaphoreSlim"). Das Freigeben einer
-            // Sperre, die niemand mehr braucht, ist kein Fehler.
-            try
-            {
-                _runGate.Release();
-            }
-            catch (ObjectDisposedException)
-            {
-                // Abgeräumt — nichts mehr zu tun.
-            }
+            _runGate.Release();
         }
     }
 
@@ -276,6 +276,12 @@ public sealed class ServerAnalysisRunner(
         IProgress<double>? progress,
         CancellationToken cancellationToken)
     {
+        using var operationCancellation = CancellationTokenSource.CreateLinkedTokenSource(
+            cancellationToken,
+            _lifetimeCancellation.Token);
+        var operationToken = operationCancellation.Token;
+        operationToken.ThrowIfCancellationRequested();
+
         var item = libraryManager.GetItemById<BaseItem>(itemId);
         if (item is null)
         {
@@ -289,14 +295,14 @@ public sealed class ServerAnalysisRunner(
             var outcomes = new List<SourceAnalysisOutcome>(sources.Length);
             for (var i = 0; i < sources.Length; i++)
             {
-                cancellationToken.ThrowIfCancellationRequested();
+                operationToken.ThrowIfCancellationRequested();
                 var source = sources[i];
                 var index = i;
                 var sourceProgress = progress is null
                     ? null
                     : new Progress<double>(fraction =>
                         progress.Report((index + Math.Clamp(fraction, 0, 1)) / sources.Length));
-                outcomes.Add(await AnalyzeSourceAsync(item, source, sourceProgress, cancellationToken).ConfigureAwait(false));
+                outcomes.Add(await AnalyzeSourceAsync(item, source, sourceProgress, operationToken).ConfigureAwait(false));
             }
 
             progress?.Report(1.0);
