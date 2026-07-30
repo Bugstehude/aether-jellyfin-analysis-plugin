@@ -17,6 +17,7 @@ public sealed class ServerAnalysisRunnerTests
             new AnalysisDocumentValidator(),
             new MediaFingerprintService(),
             new AnalysisRepresentationService(),
+            new AnalysisWriteCoordinator(),
             worker: null!,
             new ServerAnalysisActivity(),
             NullLogger<ServerAnalysisRunner>.Instance);

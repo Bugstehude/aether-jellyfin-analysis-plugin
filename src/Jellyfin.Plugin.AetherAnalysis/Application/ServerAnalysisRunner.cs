@@ -23,6 +23,7 @@ public sealed class ServerAnalysisRunner(
     AnalysisDocumentValidator validator,
     MediaFingerprintService fingerprintService,
     AnalysisRepresentationService representationService,
+    AnalysisWriteCoordinator writeCoordinator,
     ServerAnalysisWorkerRunner worker,
     ServerAnalysisActivity activity,
     ILogger<ServerAnalysisRunner> logger) : IDisposable
@@ -424,6 +425,7 @@ public sealed class ServerAnalysisRunner(
                 ? now.AddDays(-EffectiveRetentionDays)
                 : (DateTimeOffset?)null;
 
+            using var writeLease = await writeCoordinator.AcquireAsync(cancellationToken).ConfigureAwait(false);
             var result = await repository.StoreBoundedAsync(
                 new AnalysisStoreRequest(record, [], false, EffectiveMaxStoredBytes, retentionCutoff, now),
                 cancellationToken).ConfigureAwait(false);
