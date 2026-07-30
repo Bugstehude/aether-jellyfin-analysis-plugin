@@ -31,9 +31,21 @@ if [[ -z "$archive" || ! -f "$archive" ]]; then
   exit 1
 fi
 
-mkdir -p "$scratch/config/plugins/AETHER Analysis"
-unzip -p "$archive" Jellyfin.Plugin.AetherAnalysis.dll > \
-  "$scratch/config/plugins/AETHER Analysis/Jellyfin.Plugin.AetherAnalysis.dll"
+archive_entries="$(unzip -Z1 "$archive" | LC_ALL=C sort)"
+expected_entries=$'Jellyfin.Plugin.AetherAnalysis.dll\naether-analysis-worker.cjs'
+if [[ "$archive_entries" != "$expected_entries" ]]; then
+  echo "Unexpected install archive contents:" >&2
+  echo "$archive_entries" >&2
+  exit 1
+fi
+
+plugin_dir="$scratch/config/plugins/AETHER Analysis"
+mkdir -p "$plugin_dir"
+unzip -q "$archive" -d "$plugin_dir"
+if [[ ! -s "$plugin_dir/Jellyfin.Plugin.AetherAnalysis.dll" || ! -s "$plugin_dir/aether-analysis-worker.cjs" ]]; then
+  echo "The complete plugin archive was not installed into the smoke-test directory." >&2
+  exit 1
+fi
 docker run --detach --name "$container" \
   --publish 127.0.0.1::8096 \
   --volume "$scratch/config:/config" \
