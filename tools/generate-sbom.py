@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import base64
+import hashlib
 import json
 import re
 import sys
@@ -14,6 +15,7 @@ from urllib.parse import quote
 ROOT = Path(__file__).resolve().parent.parent
 LOCKFILE = ROOT / "src/Jellyfin.Plugin.AetherAnalysis/packages.lock.json"
 BUILD_MANIFEST = ROOT / "build.yaml"
+WORKER = ROOT / "worker/aether-analysis-worker.cjs"
 
 
 def main() -> None:
@@ -49,6 +51,25 @@ def main() -> None:
             pass
         components.append(component)
 
+    if not WORKER.is_file():
+        raise SystemExit(f"Vendored worker is missing: {WORKER.relative_to(ROOT)}")
+    worker_hash = hashlib.sha256(WORKER.read_bytes()).hexdigest()
+    components.append(
+        {
+            "type": "file",
+            "bom-ref": f"file:aether-analysis-worker.cjs?sha256={worker_hash}",
+            "name": WORKER.name,
+            "hashes": [{"alg": "SHA-256", "content": worker_hash}],
+            "scope": "required",
+            "properties": [
+                {
+                    "name": "aether:asset-boundary",
+                    "value": "vendored executable worker; embedded in plugin archive",
+                }
+            ],
+        }
+    )
+
     version = version_match.group(1)
     document = {
         "bomFormat": "CycloneDX",
@@ -63,7 +84,10 @@ def main() -> None:
             },
             "properties": [
                 {"name": "aether:target-jellyfin", "value": "10.11.11"},
-                {"name": "aether:archive-contents", "value": "Jellyfin.Plugin.AetherAnalysis.dll"},
+                {
+                    "name": "aether:archive-contents",
+                    "value": "Jellyfin.Plugin.AetherAnalysis.dll,aether-analysis-worker.cjs",
+                },
             ],
         },
         "components": components,
