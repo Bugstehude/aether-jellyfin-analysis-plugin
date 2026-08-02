@@ -1,8 +1,8 @@
 ---
 name: "AETHER Analysis"
 guid: "ea32f6f5-de62-4784-9b60-4cfe664995ed"
-version: "0.2.5.0"
-timestamp: "2026-08-01T16:43:53Z"
+version: "0.2.5.1"
+timestamp: "2026-08-02T05:15:10Z"
 targetAbi: "10.11.11.0"
 framework: "net9.0"
 overview: "Persistent multi-resolution AETHER video analysis storage"
@@ -14,4 +14,4 @@ owner: "Bugstehude"
 artifacts:
   - "Jellyfin.Plugin.AetherAnalysis.dll"
   - "aether-analysis-worker.cjs"
-changelog: "0.2.5.0: a peer review's worth of hardening — audio content-type checks, decompression can no longer over-allocate from a corrupt size field, shutdown cancels workers instead of racing their disposal, batch uploads reject malformed items cleanly, the write lock now covers server-side analysis too, and release packaging is byte-reproducible across timezones. Previous: 0.2.4.0: the Reise experience can keep its one long track on the server, streamed straight to disk next to the database instead of into it."
+changelog: "0.2.5.1: hotfix — 0.2.5.0 referenced EF Core 9.0.18, but this package deliberately ships without its own EF Core runtime (ExcludeAssets=runtime, to avoid a second native SQLite in the server process) and relies on the exact version Jellyfin 10.11.11 already loads, which is 9.0.11. The mismatch disabled the plugin on load. Reverted to 9.0.11; no functional change from 0.2.5.0 otherwise. Previous: 0.2.5.0: a peer review's worth of hardening — audio content-type checks, decompression can no longer over-allocate from a corrupt size field, shutdown cancels workers instead of racing their disposal, batch uploads reject malformed items cleanly, the write lock now covers server-side analysis too, and release packaging is byte-reproducible across timezones."

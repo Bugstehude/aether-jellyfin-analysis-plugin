@@ -9,7 +9,7 @@
          0.2.2.4 hieß. Im Log stand dann "Loaded assembly ... Version=0.2.2.1"
          aus dem Verzeichnis "AETHER Analysis_0.2.2.4" — wer eine Ausrollung
          prüfen will, glaubt an dieser Stelle, sie sei fehlgeschlagen. -->
-    <VersionPrefix>0.2.5.0</VersionPrefix>
+    <VersionPrefix>0.2.5.1</VersionPrefix>
     <LangVersion>13</LangVersion>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
