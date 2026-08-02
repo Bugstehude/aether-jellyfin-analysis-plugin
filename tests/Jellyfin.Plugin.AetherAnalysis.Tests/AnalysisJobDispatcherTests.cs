@@ -89,3 +89,58 @@ public sealed class AnalysisJobDispatcherTests
         Assert.Null(CreateDispatcher().GetStatus(Guid.NewGuid()));
     }
 }
+
+/// <summary>
+/// Tests für <see cref="SynchronousProgress{T}"/>.
+///
+/// `System.Progress&lt;T&gt;` liefert seinen Callback über den zur Konstruktionszeit
+/// aktiven `SynchronizationContext` (hier: keiner, also den ThreadPool) NACHTRÄGLICH aus.
+/// In `AnalysisJobDispatcher.ExecuteAsync` konnte dadurch der letzte `progress.Report(1.0)`
+/// aus `AnalyzeItemAsync` erst NACH der finalen `Completed`-Zuweisung ausgeführt werden und
+/// sie zurück auf `Running/progress=1` überschreiben — ein Job blieb dann für immer als
+/// "läuft" stehen, obwohl er längst fertig war. Dieser Test belegt die Eigenschaft, die den
+/// Fix trägt: der Callback läuft synchron, im selben Aufruf, nicht später.
+/// </summary>
+public sealed class SynchronousProgressTests
+{
+    [Fact]
+    public void InvokesTheCallbackSynchronouslyDuringReport()
+    {
+        var invoked = false;
+        var progress = new SynchronousProgress<double>(_ => invoked = true);
+
+        progress.Report(1.0);
+
+        // Kein Warten, kein Yield — wäre der Callback (wie bei System.Progress<T>)
+        // nachträglich über den ThreadPool ausgeliefert worden, stünde er hier noch aus.
+        Assert.True(invoked);
+    }
+
+    [Fact]
+    public void DeliversValuesInCallOrder()
+    {
+        var received = new List<double>();
+        var progress = new SynchronousProgress<double>(received.Add);
+
+        progress.Report(0.0);
+        progress.Report(0.5);
+        progress.Report(1.0);
+
+        Assert.Equal([0.0, 0.5, 1.0], received);
+    }
+
+    [Fact]
+    public void CannotBeOverwrittenByALateArrivingReportAfterALaterWriteAlreadyHappened()
+    {
+        // Reproduziert das Muster aus AnalysisJobDispatcher.ExecuteAsync: ein Report
+        // gefolgt von einer weiteren, "finalen" Zuweisung MUSS in genau dieser
+        // Reihenfolge sichtbar sein — kein Nachlaufen des Reports danach.
+        var log = new List<string>();
+        var progress = new SynchronousProgress<double>(_ => log.Add("progress"));
+
+        progress.Report(1.0);
+        log.Add("completed");
+
+        Assert.Equal(["progress", "completed"], log);
+    }
+}

@@ -79,7 +79,14 @@ public sealed class AnalysisJobDispatcher(
         {
             PruneFinishedStatus();
             _status[itemId] = new AnalysisJobStatus(AnalysisJobState.Running, 0, DateTimeOffset.UtcNow, null);
-            var progress = new Progress<double>(fraction =>
+            // MUSS synchron berichten, nicht `System.Progress<T>`: dessen `Report` liefert
+            // seinen Callback über den zur Konstruktionszeit aktiven SynchronizationContext
+            // (hier keiner vorhanden -> ThreadPool) NACHTRÄGLICH aus. Der letzte
+            // `progress.Report(1.0)` in AnalyzeItemAsync konnte dadurch NACH der finalen
+            // Completed-Zuweisung unten laufen und sie zurück auf Running/progress=1
+            // überschreiben -- der Job blieb dann für immer "running" stehen, obwohl er
+            // längst fertig war (das Statusfeld, nicht der Job selbst, hing).
+            var progress = new SynchronousProgress<double>(fraction =>
                 _status[itemId] = new AnalysisJobStatus(
                     AnalysisJobState.Running,
                     Math.Clamp(fraction, 0, 1),
@@ -145,3 +152,16 @@ public sealed record AnalysisJobStatus(
     double Progress,
     DateTimeOffset UpdatedAt,
     string? Detail);
+
+/// <summary>
+/// An <see cref="IProgress{T}"/> that invokes its callback inline instead of marshaling it
+/// through a captured <see cref="SynchronizationContext"/> (or the thread pool) the way
+/// <see cref="Progress{T}"/> does. That deferred delivery is exactly what let a job's final
+/// `Report(1.0)` land after the dispatcher had already written its Completed status, silently
+/// reverting it back to Running forever -- see the comment at its call site.
+/// </summary>
+public sealed class SynchronousProgress<T>(Action<T> callback) : IProgress<T>
+{
+    /// <inheritdoc />
+    public void Report(T value) => callback(value);
+}

@@ -299,9 +299,13 @@ public sealed class ServerAnalysisRunner(
                 operationToken.ThrowIfCancellationRequested();
                 var source = sources[i];
                 var index = i;
+                // SynchronousProgress, nicht System.Progress<T>: Letzteres liefert seinen
+                // Callback über den ThreadPool nachtraeglich aus, was einen spaeten Aufruf
+                // nach Abschluss von AnalyzeItemAsync ermoeglichte -- siehe die Erklaerung
+                // bei AnalysisJobDispatcher.SynchronousProgress.
                 var sourceProgress = progress is null
                     ? null
-                    : new Progress<double>(fraction =>
+                    : new SynchronousProgress<double>(fraction =>
                         progress.Report((index + Math.Clamp(fraction, 0, 1)) / sources.Length));
                 outcomes.Add(await AnalyzeSourceAsync(item, source, sourceProgress, operationToken).ConfigureAwait(false));
             }
