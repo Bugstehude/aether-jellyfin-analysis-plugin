@@ -199,9 +199,24 @@
           });
         };
         (folders || []).forEach(folder => addRow(librariesEl, folder.ItemId, folder.Name, selected.has(String(folder.ItemId)), 0));
-        (selectedIds || []).map(String).forEach(id => {
-          if (!known.has(id)) { addRow(librariesEl, id, '(removed library ' + id + ')', true, 0); }
-        });
+        // A saved id not among the TOP-LEVEL libraries isn't necessarily removed — it's very
+        // likely a subfolder picked via ▸, which is only known once its parent has been
+        // expanded (lazy). Look those ids up directly instead of assuming they're gone; only
+        // fall back to "(removed library …)" for ids the server genuinely no longer has.
+        const unresolvedIds = (selectedIds || []).map(String).filter(id => !known.has(id));
+        if (unresolvedIds.length) {
+          let found = [];
+          try {
+            const result = await ApiClient.getItems(ApiClient.getCurrentUserId(), { Ids: unresolvedIds.join(',') });
+            found = result.Items || [];
+          } catch (error) {
+            found = [];
+          }
+          found.forEach(item => addRow(librariesEl, item.Id, item.Name, true, 0));
+          const foundIds = new Set(found.map(item => String(item.Id)));
+          unresolvedIds.filter(id => !foundIds.has(id))
+            .forEach(id => addRow(librariesEl, id, '(removed library ' + id + ')', true, 0));
+        }
         if (!librariesEl.children.length) { librariesEl.textContent = 'No libraries found on this server.'; }
       };
       const loadConfiguration = async () => {
