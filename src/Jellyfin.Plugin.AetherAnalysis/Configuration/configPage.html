@@ -79,7 +79,7 @@
           <div class="inputContainer">
             <label class="inputLabel inputLabelUnfocused">Libraries to analyze</label>
             <div id="AnalysisLibraries" style="margin-top:0.4em;"></div>
-            <div class="fieldDescription">Nothing ticked = all libraries are analyzed.</div>
+            <div class="fieldDescription">Nothing ticked = all libraries are analyzed. Tick a whole library, or click ▸ next to it to narrow the scope down to specific subfolders instead (leave the library itself unticked in that case).</div>
           </div>
 
           <button is="emby-button" type="submit" class="raised button-submit block"><span>Save</span></button>
@@ -105,6 +105,16 @@
       // pick libraries instead of pasting collection-folder GUIDs. The stored value
       // stays an array of ids; ids with no matching library are kept as checked rows
       // so a transient lookup failure never silently drops a selection.
+      //
+      // Subfolder narrowing (▸ next to a library): `AnalysisLibraryIds` is read by
+      // `ServerAnalysisRunner.SelectItems()` as `InternalItemsQuery.AncestorIds`, which
+      // Jellyfin resolves against the FULL item tree, not just top-level libraries — so
+      // a subfolder's item id works exactly like a library id, no server-side change
+      // needed. Fetched lazily via the existing `ApiClient.getItems` the rest of
+      // Jellyfin's own UI already uses for browsing, one level at a time, expanded
+      // recursively on click; every rendered checkbox shares the `aetherLibraryCheck`
+      // class regardless of depth, so the existing save handler already picks all of
+      // them up without any change there.
       const librariesEl = document.querySelector('#AnalysisLibraries');
       const renderLibraryChoices = async (selectedIds) => {
         const selected = new Set((selectedIds || []).map(String));
@@ -118,11 +128,25 @@
         }
         librariesEl.textContent = '';
         const known = new Set();
-        const addRow = (id, name, checked) => {
+        // depth drives indentation only; recursion has no depth cap (a folder tree is
+        // finite and each level is fetched lazily, only on click).
+        const addRow = (parentEl, id, name, checked, depth) => {
           known.add(String(id));
+          const row = document.createElement('div');
+          row.style.margin = '0.25em 0';
+
+          const toggle = document.createElement('span');
+          toggle.textContent = '▸';
+          toggle.title = 'Show subfolders';
+          toggle.style.display = 'inline-block';
+          toggle.style.width = '1.1em';
+          toggle.style.cursor = 'pointer';
+          toggle.style.userSelect = 'none';
+          toggle.style.opacity = '0.75';
+          row.appendChild(toggle);
+
           const label = document.createElement('label');
-          label.style.display = 'block';
-          label.style.margin = '0.25em 0';
+          label.style.display = 'inline';
           label.style.cursor = 'pointer';
           const box = document.createElement('input');
           box.type = 'checkbox';
@@ -134,11 +158,49 @@
           const span = document.createElement('span');
           span.textContent = name;
           label.appendChild(span);
-          librariesEl.appendChild(label);
+          row.appendChild(label);
+          row.style.marginLeft = (depth * 1.5) + 'em';
+          parentEl.appendChild(row);
+
+          const childrenEl = document.createElement('div');
+          parentEl.appendChild(childrenEl);
+          let loaded = false;
+          toggle.addEventListener('click', async () => {
+            if (loaded) {
+              const collapsed = childrenEl.style.display === 'none';
+              childrenEl.style.display = collapsed ? '' : 'none';
+              toggle.textContent = collapsed ? '▾' : '▸';
+              return;
+            }
+            loaded = true;
+            toggle.textContent = '▾';
+            childrenEl.textContent = 'Loading…';
+            let children;
+            try {
+              const result = await ApiClient.getItems(ApiClient.getCurrentUserId(), {
+                ParentId: id,
+                IncludeItemTypes: 'Folder',
+                Recursive: false,
+                SortBy: 'SortName',
+              });
+              children = result.Items || [];
+            } catch (error) {
+              childrenEl.textContent = 'Could not load subfolders.';
+              return;
+            }
+            childrenEl.textContent = '';
+            if (!children.length) {
+              childrenEl.textContent = '(no subfolders)';
+              childrenEl.style.marginLeft = ((depth + 1) * 1.5) + 'em';
+              childrenEl.style.opacity = '0.7';
+              return;
+            }
+            children.forEach(child => addRow(childrenEl, child.Id, child.Name, selected.has(String(child.Id)), depth + 1));
+          });
         };
-        (folders || []).forEach(folder => addRow(folder.ItemId, folder.Name, selected.has(String(folder.ItemId))));
+        (folders || []).forEach(folder => addRow(librariesEl, folder.ItemId, folder.Name, selected.has(String(folder.ItemId)), 0));
         (selectedIds || []).map(String).forEach(id => {
-          if (!known.has(id)) { addRow(id, '(removed library ' + id + ')', true); }
+          if (!known.has(id)) { addRow(librariesEl, id, '(removed library ' + id + ')', true, 0); }
         });
         if (!librariesEl.children.length) { librariesEl.textContent = 'No libraries found on this server.'; }
       };
