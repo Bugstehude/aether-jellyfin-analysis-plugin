@@ -352,10 +352,10 @@ public sealed class ServerAnalysisRunner(
                 return new SourceAnalysisOutcome(mediaSourceId, SourceAnalysisStatus.Skipped, "no-local-source");
             }
 
+            var timeout = TimeSpan.FromMinutes(Math.Clamp(Configuration.AnalysisTimeoutMinutes, 1, 720));
             string documentJson;
             try
             {
-                var timeout = TimeSpan.FromMinutes(Math.Clamp(Configuration.AnalysisTimeoutMinutes, 1, 720));
                 using var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
                 timeoutCts.CancelAfter(timeout);
                 documentJson = await worker.AnalyzeAsync(
@@ -371,7 +371,11 @@ public sealed class ServerAnalysisRunner(
             }
             catch (OperationCanceledException)
             {
-                return new SourceAnalysisOutcome(mediaSourceId, SourceAnalysisStatus.Failed, "worker-timeout");
+                // Bare "worker-timeout" gave no way to tell "the worker is genuinely stuck" from
+                // "the configured timeout is just too low for this file" apart in the log — the
+                // second case (an admin leaving the minutes field at its 1-minute floor, e.g. an
+                // empty/invalid value getting clamped) looks identical without the actual value.
+                return new SourceAnalysisOutcome(mediaSourceId, SourceAnalysisStatus.Failed, $"worker-timeout ({timeout.TotalMinutes:0}min)");
             }
             catch (ServerAnalysisWorkerException exception)
             {

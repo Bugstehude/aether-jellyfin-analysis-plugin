@@ -117,6 +117,15 @@
       const pluginId = 'ea32f6f5-de62-4784-9b60-4cfe664995ed';
       const page = document.querySelector('#AetherAnalysisConfigPage');
       const form = document.querySelector('#AetherAnalysisConfigForm');
+      // A focused <input type="number"> intercepts mouse-wheel scrolling and changes its
+      // OWN value instead of scrolling the page — a well-known browser footgun, not
+      // specific to this form. An admin typing a value and then scrolling down to reach
+      // Save (without an intervening click elsewhere) can silently drive the field down to
+      // its `min` before the click ever happens, with no visual cue that anything changed.
+      // Blurring on wheel hands scrolling back to the page immediately.
+      form.querySelectorAll('input[type="number"]').forEach((input) => {
+        input.addEventListener('wheel', () => input.blur(), { passive: true });
+      });
       // This script MUST live inside the .pluginConfigurationPage element: Jellyfin's
       // view loader injects only that element's content and runs the scripts within it,
       // so a <script> placed after the page div was silently dropped and never executed
