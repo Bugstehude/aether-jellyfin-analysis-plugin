@@ -12,6 +12,18 @@
           <h1>AETHER Analysis</h1>
           <p>Canonical persistent analysis storage. Source videos, decoded frames and tokens are never stored; optional voice and journey audio is kept in the plugin data folder.</p>
           <p>Restart Jellyfin after changing allowed browser origins.</p>
+
+          <div id="AetherStorage" style="margin:0.5em 0 1.25em; padding:0.75em 1em; border:1px solid rgba(128,128,128,0.4); border-radius:6px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:1em;">
+              <strong>Storage used</strong>
+              <span id="AetherStorageState" style="opacity:0.85;">…</span>
+            </div>
+            <div id="AetherStorageBarWrap" style="height:6px; background:rgba(128,128,128,0.25); border-radius:3px; margin:0.6em 0; overflow:hidden;">
+              <div id="AetherStorageBar" style="height:100%; width:0%; background:#00a4dc; transition:width 0.4s ease;"></div>
+            </div>
+            <div id="AetherStorageDetail" style="font-size:0.85em; opacity:0.75;"></div>
+          </div>
+
           <div class="inputContainer">
             <label class="inputLabel inputLabelUnfocused" for="MaxStoredGiB">Maximum storage (GiB)</label>
             <input id="MaxStoredGiB" type="number" min="1" max="1024" step="1" required>
@@ -289,6 +301,39 @@
       page.addEventListener('pageshow', loadConfiguration);
       loadConfiguration();
 
+      // --- Storage used -------------------------------------------------------------
+      // Unlike activity/chapter progress, storage doesn't change second to second — a
+      // fetch on every page view (not a running timer) is enough to notice well before
+      // hitting the configured cap, without polling for nothing while the page sits open.
+      const statusUrl = ApiClient.getUrl('AetherAnalysis/v1/status');
+      const storageStateEl = document.querySelector('#AetherStorageState');
+      const storageBar = document.querySelector('#AetherStorageBar');
+      const storageDetailEl = document.querySelector('#AetherStorageDetail');
+      const formatBytes = (bytes) => {
+        const gib = bytes / 1073741824;
+        return gib >= 1 ? gib.toFixed(2) + ' GiB' : (bytes / 1048576).toFixed(1) + ' MiB';
+      };
+      const loadStorageStatus = async () => {
+        try {
+          const status = await ApiClient.ajax({ type: 'GET', url: statusUrl, dataType: 'json' });
+          const percent = status.maxStoredBytes > 0
+            ? Math.min(100, (status.storedBytes / status.maxStoredBytes) * 100)
+            : 0;
+          storageBar.style.width = percent + '%';
+          // Amber past 80%, red past 95% — the whole point is noticing before hitting
+          // the cap, not just after retention/capacity cleanup has already kicked in.
+          storageBar.style.background = percent >= 95 ? '#e0523f' : (percent >= 80 ? '#e0a63f' : '#00a4dc');
+          storageStateEl.textContent = formatBytes(status.storedBytes) + ' / ' + formatBytes(status.maxStoredBytes)
+            + ' (' + percent.toFixed(1) + '%)';
+          storageDetailEl.textContent = status.recordCount + ' stored analys' + (status.recordCount === 1 ? 'is' : 'es')
+            + (status.lastCleanupAt ? ' · last cleanup ' + new Date(status.lastCleanupAt).toLocaleString() : ' · no cleanup run yet');
+        } catch (error) {
+          storageStateEl.textContent = 'unavailable';
+        }
+      };
+      page.addEventListener('pageshow', loadStorageStatus);
+      loadStorageStatus();
+
       // Live server-analysis activity: poll the admin-only activity endpoint while the
       // page is visible so admins can see what the background analysis is doing.
       const activityUrl = ApiClient.getUrl('AetherAnalysis/v1/activity');
@@ -455,6 +500,7 @@
           .filter(box => box.checked).map(box => box.value));
         await ApiClient.updatePluginConfiguration(pluginId, config);
         Dashboard.processPluginConfigurationUpdateResult();
+        await loadStorageStatus(); // the cap the bar is measured against may have just changed
       });
     })();
   </script>
