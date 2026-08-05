@@ -53,6 +53,9 @@ public sealed class ServiceRegistrator : IPluginServiceRegistrator
         serviceCollection.AddSingleton<IScheduledTask, ServerAnalysisScheduledTask>();
         serviceCollection.AddSingleton<ILibraryPostScanTask, ServerAnalysisPostScanTask>();
 
+        // Chapter-marker generation from already-stored scene-cut analysis (no re-analysis).
+        serviceCollection.AddSingleton<ChapterGenerator>();
+
         serviceCollection.AddHostedService<AnalysisDatabaseInitializer>();
         serviceCollection.AddHostedService<AnalysisCleanupWorker>();
     }

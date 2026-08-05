@@ -84,6 +84,20 @@
 
           <button is="emby-button" type="submit" class="raised button-submit block"><span>Save</span></button>
         </form>
+
+        <h2>Chapter markers</h2>
+        <p>Writes real Jellyfin chapter markers from each item's already-stored scene-cut analysis (no re-analysis) — uses the library scope above. Items without a stored analysis are skipped, not errored.</p>
+        <div class="checkboxContainer">
+          <label>
+            <input is="emby-checkbox" id="ChapterOverwriteExisting" type="checkbox">
+            <span>Overwrite items that already have chapters (off by default — some media ships with real, studio-authored chapters)</span>
+          </label>
+        </div>
+        <button is="emby-button" type="button" id="GenerateChaptersButton" class="raised block"><span>Generate chapter markers</span></button>
+        <div id="ChapterBarWrap" style="height:6px; background:rgba(128,128,128,0.25); border-radius:3px; margin:0.6em 0; overflow:hidden; display:none;">
+          <div id="ChapterBar" style="height:100%; width:0%; background:#00a4dc; transition:width 0.4s ease;"></div>
+        </div>
+        <div id="ChapterState" style="font-size:0.9em; opacity:0.85; margin-top:0.4em;">Never run yet.</div>
       </div>
     </div>
   <script type="text/javascript">
@@ -354,6 +368,65 @@
       page.addEventListener('pageshow', startActivityPolling);
       page.addEventListener('pagehide', stopActivityPolling);
       startActivityPolling();
+
+      // --- Chapter markers --------------------------------------------------------
+      const chapterGenerateUrl = ApiClient.getUrl('AetherAnalysis/v1/chapters/generate');
+      const chapterStatusUrl = ApiClient.getUrl('AetherAnalysis/v1/chapters/status');
+      const chapterStateEl = document.querySelector('#ChapterState');
+      const chapterBarWrap = document.querySelector('#ChapterBarWrap');
+      const chapterBar = document.querySelector('#ChapterBar');
+      const renderChapterState = (status) => {
+        if (status.running) {
+          chapterBarWrap.style.display = status.total > 0 ? 'block' : 'none';
+          chapterBar.style.width = status.total > 0 ? Math.round((status.checkedCount / status.total) * 100) + '%' : '0%';
+          chapterStateEl.textContent = 'Running… ' + status.checkedCount + '/' + status.total;
+        } else {
+          chapterBarWrap.style.display = 'none';
+          if (status.lastError) {
+            chapterStateEl.textContent = 'Last run failed: ' + status.lastError;
+          } else if (status.lastFinishedAt) {
+            chapterStateEl.textContent = status.created + ' item(s) got new chapters, '
+              + status.skippedHadChapters + ' skipped (already had chapters), '
+              + status.skippedNotAnalyzed + ' skipped (not yet analyzed) · last run '
+              + new Date(status.lastFinishedAt).toLocaleString();
+          } else {
+            chapterStateEl.textContent = 'Never run yet.';
+          }
+        }
+      };
+      let chapterTimer = null;
+      const pollChapterStatus = async () => {
+        try {
+          const status = await ApiClient.ajax({ type: 'GET', url: chapterStatusUrl, dataType: 'json' });
+          renderChapterState(status);
+          if (status.running) {
+            // Starts its own interval rather than relying only on the button's click
+            // handler — otherwise a page reload while a run was already in progress
+            // left this page frozen on the single initial poll, forever.
+            if (chapterTimer === null) { chapterTimer = setInterval(pollChapterStatus, 1000); }
+          } else if (chapterTimer !== null) {
+            clearInterval(chapterTimer);
+            chapterTimer = null;
+          }
+        } catch (error) {
+          chapterStateEl.textContent = 'unavailable';
+        }
+      };
+      document.querySelector('#GenerateChaptersButton').addEventListener('click', async () => {
+        try {
+          await ApiClient.ajax({
+            type: 'POST',
+            url: chapterGenerateUrl,
+            data: JSON.stringify({ overwriteExisting: document.querySelector('#ChapterOverwriteExisting').checked }),
+            contentType: 'application/json',
+          });
+        } catch (error) {
+          chapterStateEl.textContent = 'Could not start: ' + (error && error.message ? error.message : 'unknown error');
+          return;
+        }
+        await pollChapterStatus();
+      });
+      pollChapterStatus();
       // Set PascalCase and drop any camelCase duplicate the GET returned, so the
       // PUT payload carries exactly one key per setting (no ambiguous casing).
       const set = (config, name, value) => {
