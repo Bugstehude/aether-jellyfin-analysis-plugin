@@ -13,7 +13,7 @@
     <PackageReference Include="NSubstitute" Version="5.3.0" />
     <!-- Tests run outside Jellyfin and therefore supply their own patched
          native SQLite runtime. This package is intentionally test-only. -->
-    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="3.0.3" />
+    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="3.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.11">
