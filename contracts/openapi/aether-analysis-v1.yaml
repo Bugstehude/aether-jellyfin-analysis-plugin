@@ -19,6 +19,7 @@ tags:
   - name: Administration
   - name: Voice
   - name: Journey
+  - name: Presets
 paths:
   /capabilities:
     get:
@@ -412,6 +413,86 @@ paths:
           $ref: "#/components/responses/Unauthorized"
         "403":
           $ref: "#/components/responses/Forbidden"
+  /presets:
+    get:
+      operationId: listAetherManualPresets
+      tags: [Presets]
+      summary: List the calling user's manual-panel presets
+      description: >
+        Presets are personal, unlike the voice pack and journey track: the response is
+        scoped to the calling Jellyfin user and never includes another user's presets.
+        This is the plugin's first per-user storage — the user id comes from the
+        `Jellyfin-UserId` auth claim, the same one `AnalysisController` already reads.
+      responses:
+        "200":
+          description: The calling user's presets, newest first
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ManualPreset"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+  /presets/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: >-
+          Client-generated identifier (e.g. a UUID), matching how local-only presets
+          already get an id in `manual-presets-store.ts`.
+        schema:
+          type: string
+          pattern: "^[A-Za-z0-9-]{1,128}$"
+    put:
+      operationId: putAetherManualPreset
+      tags: [Presets]
+      summary: Create or replace one preset, scoped to the calling user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/manual-preset-v1.schema.json"
+      responses:
+        "204":
+          description: Stored
+        "400":
+          description: The preset id is invalid
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "422":
+          description: The request body does not match the preset shape
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+        "507":
+          description: The per-user preset count limit has been reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+    delete:
+      operationId: deleteAetherManualPreset
+      tags: [Presets]
+      summary: Delete one preset, scoped to the calling user; idempotent
+      responses:
+        "204":
+          description: Deleted or already absent
+        "400":
+          description: The preset id is invalid
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
   /analyses/query:
     post:
       operationId: queryAetherAnalyses
@@ -857,5 +938,24 @@ components:
             - invalid-request
             - storage-limit-exceeded
             - analysis-unavailable
+            - invalid-preset-id
+            - invalid-preset
+            - preset-storage-full
         traceId:
           type: string
+    ManualPreset:
+      type: object
+      required: [id, name, snapshot, updatedAtUnixTimeMilliseconds]
+      properties:
+        id:
+          type: string
+          minLength: 1
+          maxLength: 128
+        name:
+          type: string
+          minLength: 1
+          maxLength: 200
+        snapshot:
+          $ref: "../schemas/manual-preset-v1.schema.json#/$defs/snapshot"
+        updatedAtUnixTimeMilliseconds:
+          type: integer

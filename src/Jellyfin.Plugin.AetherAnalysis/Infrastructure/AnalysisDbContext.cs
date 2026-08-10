@@ -14,6 +14,9 @@ public sealed class AnalysisDbContext(DbContextOptions<AnalysisDbContext> option
     /// <summary>Gets the server-wide spoken lines of the „Sitzung" experience.</summary>
     public DbSet<VoiceRecording> VoiceRecordings => Set<VoiceRecording>();
 
+    /// <summary>Gets stored manual-panel presets, scoped per Jellyfin user.</summary>
+    public DbSet<ManualPreset> ManualPresets => Set<ManualPreset>();
+
     /// <inheritdoc />
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -40,6 +43,12 @@ public sealed class AnalysisDbContext(DbContextOptions<AnalysisDbContext> option
         voice.HasKey(value => value.LineId);
         voice.Property(value => value.LineId).HasMaxLength(64);
         voice.Property(value => value.ContentType).HasMaxLength(64);
+
+        var preset = modelBuilder.Entity<ManualPreset>();
+        preset.ToTable("manual_presets");
+        preset.HasKey(value => new { value.UserId, value.Id });
+        preset.Property(value => value.Id).HasMaxLength(128);
+        preset.Property(value => value.Name).HasMaxLength(200);
 
         var maintenance = modelBuilder.Entity<AnalysisMaintenanceState>();
         maintenance.ToTable("analysis_maintenance_state");

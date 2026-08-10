@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aether.invalid/contracts/schemas/manual-preset-v1.schema.json",
+  "title": "AETHER ManualPresetV1",
+  "description": "Body of PUT /AetherAnalysis/v1/presets/{id}. The stored/returned form additionally carries id (route parameter on write, response field on read) and updatedAtUnixTimeMilliseconds (server-assigned).",
+  "type": "object",
+  "required": ["name", "snapshot"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "snapshot": {
+      "$ref": "#/$defs/snapshot"
+    }
+  },
+  "$defs": {
+    "snapshot": {
+      "type": "object",
+      "required": ["knobs", "rimColor"],
+      "properties": {
+        "knobs": {
+          "type": "object",
+          "description": "Open-ended: the knob set grows over time, so no fixed key list is enforced here.",
+          "additionalProperties": {
+            "type": "number"
+          }
+        },
+        "rimColor": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": {
+            "type": "number"
+          }
+        }
+      }
+    }
+  }
+}
