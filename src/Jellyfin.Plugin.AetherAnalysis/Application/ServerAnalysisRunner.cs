@@ -362,6 +362,7 @@ public sealed class ServerAnalysisRunner(
                     source.Path,
                     Math.Clamp(Configuration.AnalysisFps, 1, 10),
                     Math.Clamp(Configuration.AnalysisMaxWidth, 16, 1920),
+                    Math.Clamp(Configuration.AnalysisFfmpegThreads, 0, 16),
                     progress,
                     timeoutCts.Token).ConfigureAwait(false);
             }

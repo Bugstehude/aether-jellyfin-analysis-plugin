@@ -46,4 +46,7 @@ public sealed class PluginConfiguration : BasePluginConfiguration
 
     /// <summary>Gets or sets the per-item worker timeout in minutes.</summary>
     public int AnalysisTimeoutMinutes { get; set; } = 60;
+
+    /// <summary>Gets or sets the ffmpeg decode/filter thread cap for server-side analysis; 0 leaves ffmpeg's own auto-detection.</summary>
+    public int AnalysisFfmpegThreads { get; set; }
 }

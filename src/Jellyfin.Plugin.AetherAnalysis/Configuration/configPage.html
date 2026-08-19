@@ -89,6 +89,11 @@
             <input id="AnalysisTimeoutMinutes" type="number" min="1" max="720" step="1">
           </div>
           <div class="inputContainer">
+            <label class="inputLabel inputLabelUnfocused" for="AnalysisFfmpegThreads">ffmpeg decode thread cap (0 = automatic)</label>
+            <input id="AnalysisFfmpegThreads" type="number" min="0" max="16" step="1">
+            <div class="fieldDescription">Caps ffmpeg's decode/scale threads for server-side analysis. Useful to raise (e.g. 2-4) for large 4K sources, especially on the scheduled overnight run; 0 leaves ffmpeg's own auto-detection.</div>
+          </div>
+          <div class="inputContainer">
             <label class="inputLabel inputLabelUnfocused">Libraries to analyze</label>
             <div id="AnalysisLibraries" style="margin-top:0.4em;"></div>
             <div class="fieldDescription">Nothing ticked = all libraries are analyzed. Tick a whole library, or click ▸ next to it to narrow the scope down to specific subfolders instead (leave the library itself unticked in that case).</div>
@@ -296,6 +301,7 @@
           document.querySelector('#AnalysisFps').value = get(config, 'AnalysisFps', 2);
           document.querySelector('#AnalysisMaxWidth').value = get(config, 'AnalysisMaxWidth', 480);
           document.querySelector('#AnalysisTimeoutMinutes').value = get(config, 'AnalysisTimeoutMinutes', 60);
+          document.querySelector('#AnalysisFfmpegThreads').value = get(config, 'AnalysisFfmpegThreads', 0);
           await renderLibraryChoices(get(config, 'AnalysisLibraryIds', []));
         } catch (error) {
           console.error('AETHER: failed to load plugin configuration', error);
@@ -505,6 +511,7 @@
         set(config, 'AnalysisFps', Number(document.querySelector('#AnalysisFps').value));
         set(config, 'AnalysisMaxWidth', Number(document.querySelector('#AnalysisMaxWidth').value));
         set(config, 'AnalysisTimeoutMinutes', Number(document.querySelector('#AnalysisTimeoutMinutes').value));
+        set(config, 'AnalysisFfmpegThreads', Number(document.querySelector('#AnalysisFfmpegThreads').value));
         set(config, 'AnalysisLibraryIds', Array.from(document.querySelectorAll('.aetherLibraryCheck'))
           .filter(box => box.checked).map(box => box.value));
         await ApiClient.updatePluginConfiguration(pluginId, config);

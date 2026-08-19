@@ -35,6 +35,7 @@ public sealed class ServerAnalysisWorkerRunner(
         string inputPath,
         int fps,
         int maxWidth,
+        int ffmpegThreads,
         IProgress<double>? progress,
         CancellationToken cancellationToken)
     {
@@ -65,6 +66,11 @@ public sealed class ServerAnalysisWorkerRunner(
         startInfo.ArgumentList.Add(fps.ToString(CultureInfo.InvariantCulture));
         startInfo.ArgumentList.Add("--width");
         startInfo.ArgumentList.Add(maxWidth.ToString(CultureInfo.InvariantCulture));
+        if (ffmpegThreads > 0)
+        {
+            startInfo.ArgumentList.Add("--threads");
+            startInfo.ArgumentList.Add(ffmpegThreads.ToString(CultureInfo.InvariantCulture));
+        }
 
         // Hand the worker Jellyfin's bundled ffmpeg/ffprobe so no separate install is needed.
         var encoderPath = mediaEncoder.EncoderPath;
