@@ -17,8 +17,8 @@ against the exact supported Jellyfin build. Passing unit tests alone is insuffic
       Routen-Identitaet, ETag/If-None-Match je Detailstufe und den Fingerabdruck-Abgleich
       bei ersetzter Datei ab; `AnalysisDocumentValidatorTests` jede einzelne
       Vertragsgrenze eines Uploads.)*
-- [x] Fresh-install and restart smoke test on Jellyfin 10.11.11 (ARM64 local and x64 CI).
-- [ ] Upgrade and uninstall smoke test on the target Jellyfin 10.11.11 LXC.
+- [x] Fresh-install and restart smoke test on Jellyfin 12.0.0 (x64 local and CI).
+- [ ] Upgrade and uninstall smoke test on the target Jellyfin 12.0.0 LXC.
 
 ### Bewusst gestrichen
 

@@ -19,8 +19,8 @@ updates:
     # Hand auf 10.0.11 angehoben im Zuge der Jellyfin-12.0-Kompatibilität.
     #
     # Die Testprojekte hängen mit drin, weil sie gegen dieselbe Version testen
-    # sollen, die auch ausgeliefert wird — ein Test gegen SQLite 10 sagt nichts
-    # über einen Server aus, der 9.0.11 lädt.
+    # sollen, die auch ausgeliefert wird — ein Test gegen eine neuere SQLite-Version
+    # sagt nichts über die hier festgelegte Server-Laufzeit aus.
     #
     # Anheben nur von Hand, zusammen mit einer neuen Jellyfin-Ziel-ABI.
     ignore:

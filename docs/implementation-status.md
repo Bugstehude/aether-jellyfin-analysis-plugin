@@ -3,9 +3,14 @@
 This document distinguishes committed behavior from accepted design. It is updated with every
 implementation milestone so consumers never infer features from the architecture document alone.
 
-## Implemented through 0.2.4.0
+## Compatibility update 0.3.0.0
 
-- Exact Jellyfin 10.11.11, .NET 9 and EF Core 9.0.11 pins.
+- Exact Jellyfin 12.0.0, .NET 10 and EF Core 10.0.11 pins.
+- Fresh-install, authentication, database initialization and restart smoke test on x64.
+- Client API and stored analysis format unchanged; see [compatibility.md](compatibility.md).
+
+## Foundation implemented through 0.2.4.0
+
 - Server-owned SQLite runtime boundary plus patched, isolated native SQLite test runtime.
 - Canonical OpenAPI, schema version 2 JSON Schemas and Golden Files.
 - Native Jellyfin authentication with item visibility checks and non-leaking 404 responses.
@@ -41,6 +46,6 @@ implementation milestone so consumers never infer features from the architecture
 Folder and multi-item selection remain AETHER client concerns. The optional server runner is
 described by ADR 0005; with server analysis disabled, the plugin remains a storage-only service.
 
-Version 0.2.4.0 remains a test release. Fresh installation, authenticated API access, storage
-initialization and restart pass against Jellyfin 10.11.11 on local ARM64 Docker and x64 CI. It must
+Version 0.3.0.0 remains a test release. Fresh installation, authenticated API access, storage
+initialization and restart pass against Jellyfin 12.0.0 on local x64 Docker and x64 CI. It must
 not be treated as production-ready until target-LXC upgrade and uninstall acceptance pass.

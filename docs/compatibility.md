@@ -2,12 +2,12 @@
 
 | Component | Pinned version | Policy |
 | --- | --- | --- |
-| Jellyfin Server | 10.11.11 | Exact ABI target |
-| Jellyfin Web | 10.11.11 | Test target for dashboard and CORS |
-| Jellyfin build | 10.11.11 | Exact integration-test image |
-| .NET target framework | net9.0 | Required by Jellyfin 10.11.x |
-| .NET SDK | 9.0.304, roll-forward disabled | Reproducible local/CI build |
-| EF Core SQLite Core | 9.0.11 | Matches Jellyfin 10.11.11; server owns native runtime |
+| Jellyfin Server | 12.0.0 | Exact ABI target |
+| Jellyfin Web | 12.0.0 | Test target for dashboard and CORS |
+| Jellyfin build | 12.0.0 | Exact integration-test image |
+| .NET target framework | net10.0 | Required by Jellyfin 12.0 |
+| .NET SDK | 10.0.400, roll-forward disabled | Reproducible local/CI build |
+| EF Core SQLite Core | 10.0.11 | Matches Jellyfin 12.0.0; server owns native runtime |
 | SQLite test bundle | SQLitePCLRaw 3.0.3 | Patched native runtime isolated to tests |
 | HTTP API | `/AetherAnalysis/v1` | URL contract version |
 | Analysis document | `schemaVersion: 2` | Canonical document schema |
@@ -19,3 +19,9 @@ authorization, persistence and installation smoke tests pass against the target 
 The plugin uses a separate, plugin-owned SQLite database through EF Core. It never adds tables to
 or executes raw SQL against Jellyfin's main database. The install archive intentionally contains
 no native SQLite binary; see `docs/security.md` for the process ownership boundary.
+
+Plugin **0.3.0.0 requires Jellyfin 12.0.0**; it cannot load on Jellyfin 10.11.11.
+Plugin 0.2.9.0 remains the version for Jellyfin 10.11.11. The HTTP API and stored
+analysis format are unchanged. Fresh-install/authentication/database initialization
+and restart are covered by the Docker smoke test on x64; target-system upgrade,
+backup/restore and dashboard acceptance remain deployment checks.

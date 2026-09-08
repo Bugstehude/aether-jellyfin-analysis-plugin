@@ -2,6 +2,16 @@
 
 All notable changes to implementation and canonical contracts are recorded here.
 
+## [0.3.0.0] — 2026-09-08
+
+- Jellyfin 12.0.0 compatibility: .NET 10, SDK 10.0.400 and host-provided EF Core
+  10.0.11; Jellyfin 10.11.11 installations must stay on plugin 0.2.9.0.
+- Client API, analysis format and plugin behavior remain unchanged.
+- Updated lockfiles, CI, package metadata and SBOM; Docker smoke authentication
+  retries temporary startup failures and reports unexpected HTTP errors immediately.
+- Verified fresh installation, authenticated endpoints, database initialization and
+  restart on Jellyfin 12.0.0. Target-system upgrade/restore acceptance remains open.
+
 ## [0.2.4.0] — Die lange Tonspur der „Reise" liegt auf dem Server
 
 ### Added

@@ -127,8 +127,13 @@ authenticate() {
       --header "Authorization: $auth_identity" \
       --header 'Content-Type: application/json' \
       --data-binary "@$scratch/auth-request.json" \
-      "http://127.0.0.1:${port}/Users/AuthenticateByName")"
+      "http://127.0.0.1:${port}/Users/AuthenticateByName" || true)"
     [[ "$http_code" == "200" ]] && break
+    # Retry only loading/transport failures; invalid credentials and other
+    # unexpected HTTP responses should fail immediately with server logs.
+    if [[ "$http_code" != "503" && "$http_code" != "000" ]]; then
+      fail_with_logs "Jellyfin rejected smoke-test authentication (HTTP $http_code)."
+    fi
     if ! docker inspect --format '{{.State.Running}}' "$container" | grep -q true; then
       fail_with_logs "Jellyfin stopped before smoke-test authentication succeeded."
     fi

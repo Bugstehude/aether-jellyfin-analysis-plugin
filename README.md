@@ -1,6 +1,6 @@
 # AETHER Analysis for Jellyfin
 
-Canonical source repository for the AETHER analysis plugin targeting **Jellyfin 10.11.11**.
+Canonical source repository for the AETHER analysis plugin targeting **Jellyfin 12.0.0**.
 The repository is the canonical source of truth for the plugin and for every AETHER client that
 reads or writes persistent video analyses.
 
@@ -29,6 +29,9 @@ After an intentional OpenAPI or schema change, run `tools/contract-hash.sh` and 
 `contracts/contract.sha256` in the same commit. CI rejects stale contract identities.
 
 ## Current scope
+
+Version **0.3.0.0 requires Jellyfin 12.0.0**. For Jellyfin 10.11.11, use plugin
+0.2.9.0. The compatibility update preserves the client API and stored analysis format.
 
 Version 0.2.4.0 includes the storage-plugin foundation:
 
@@ -84,13 +87,13 @@ Folder and multi-item checkbox selection remain client features. When server-sid
 disabled, the plugin never decodes media or starts jobs and behaves exactly like 0.1.
 
 See `docs/implementation-status.md` before deployment. The current test release passes fresh-install
-and restart smoke tests against Jellyfin 10.11.11 on ARM64 locally and x64 in CI. Target-LXC
+and restart smoke tests against Jellyfin 12.0.0 on x64 locally and in CI. Target-LXC
 installation, upgrade, uninstall and backup/restore acceptance remain required before the release
 may be called production-ready.
 
 ## Build
 
-Requirements: .NET SDK 9 and network access to NuGet.
+Requirements: .NET SDK 10.0.400 and network access to NuGet.
 
 ```bash
 dotnet restore --locked-mode
@@ -103,7 +106,7 @@ The installable artifact is `artifacts/package/aether-analysis-<build.yaml versi
 and CycloneDX SBOM are generated beside it. The archive contains
 `Jellyfin.Plugin.AetherAnalysis.dll` and the vendored `aether-analysis-worker.cjs`; do not copy
 test-native libraries or host framework assemblies into Jellyfin's plugin directory. Jellyfin
-10.11.11 supplies the exactly pinned runtime dependencies.
+12.0.0 supplies the exactly pinned runtime dependencies.
 
 To refresh the worker bundle after an analysis-algorithm change, rebuild it in the AETHER monorepo
 and vendor it before packaging:
@@ -128,7 +131,7 @@ repository cannot serve this unauthenticated URL; for private long-term operatio
 `manifest.json` and the referenced release ZIP on a public HTTPS endpoint and update `sourceUrl`
 accordingly.
 
-The package references are pinned to Jellyfin 10.11.11. Do not upgrade them independently of
+The package references are pinned to Jellyfin 12.0.0. Do not upgrade them independently of
 the target-server compatibility matrix and an integration test against that exact server build.
 
 ## Database migrations
