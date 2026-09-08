@@ -2,7 +2,7 @@
 set -euo pipefail
 
 root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-image="${JELLYFIN_IMAGE:-jellyfin/jellyfin:10.11.11@sha256:aefb67e6a7ff1debdd154a78a7bbb780fd0c873d8639210a7f6a2016ad2b35db}"
+image="${JELLYFIN_IMAGE:-jellyfin/jellyfin:12.0@sha256:97150310f89f908abbf6fa9640ccc36f9bfa9e5e987775db310b3b70c2d11602}"
 archive="${1:-$(find "$root/artifacts/package" -maxdepth 1 -name 'aether-analysis-*.zip' -print -quit)}"
 container="aether-jellyfin-smoke-${RANDOM}-${RANDOM}"
 scratch="$(mktemp -d)"
@@ -68,8 +68,8 @@ if [[ "$ready" != "true" ]]; then
   fail_with_logs "Jellyfin did not become ready within 120 seconds."
 fi
 
-if ! jq -e '(.Version // .version) == "10.11.11"' "$scratch/system-info.json" >/dev/null; then
-  fail_with_logs "The smoke container is not running Jellyfin 10.11.11."
+if ! jq -e '(.Version // .version) == "12.0.0"' "$scratch/system-info.json" >/dev/null; then
+  fail_with_logs "The smoke container is not running Jellyfin 12.0.0."
 fi
 capabilities_status=""
 for _ in $(seq 1 60); do
@@ -114,13 +114,28 @@ jq -n --arg username "$username" --arg password "$password" \
   '{Username: $username, Pw: $password}' > "$scratch/auth-request.json"
 authenticate() {
   local response_file="$1"
-  if ! curl --connect-timeout 2 --max-time 5 --fail --silent \
-    --request POST \
-    --header "Authorization: $auth_identity" \
-    --header 'Content-Type: application/json' \
-    --data-binary "@$scratch/auth-request.json" \
-    "http://127.0.0.1:${port}/Users/AuthenticateByName" > "$response_file"; then
-    fail_with_logs "Jellyfin rejected smoke-test authentication."
+  local http_code=""
+  # Jellyfin 12.0 keeps Kestrel accepting connections (System/Info/Public
+  # answers) for a bit before the rest of the API is done wiring up; during
+  # that window AuthenticateByName can still answer 503 "Server is loading"
+  # instead of the 200 it gives once ready. Retry instead of failing on the
+  # first response, mirroring the readiness loops used elsewhere here.
+  for _ in $(seq 1 60); do
+    http_code="$(curl --connect-timeout 2 --max-time 5 --silent \
+      --output "$response_file" --write-out '%{http_code}' \
+      --request POST \
+      --header "Authorization: $auth_identity" \
+      --header 'Content-Type: application/json' \
+      --data-binary "@$scratch/auth-request.json" \
+      "http://127.0.0.1:${port}/Users/AuthenticateByName")"
+    [[ "$http_code" == "200" ]] && break
+    if ! docker inspect --format '{{.State.Running}}' "$container" | grep -q true; then
+      fail_with_logs "Jellyfin stopped before smoke-test authentication succeeded."
+    fi
+    sleep 2
+  done
+  if [[ "$http_code" != "200" ]]; then
+    fail_with_logs "Jellyfin rejected smoke-test authentication (last HTTP $http_code)."
   fi
 
   access_token="$(jq -r '.AccessToken' "$response_file")"
@@ -196,4 +211,4 @@ curl --connect-timeout 2 --max-time 5 --fail --silent \
   "http://127.0.0.1:${port}/AetherAnalysis/v1/status" \
   | jq -e '.service == "ready" and .databaseSchemaVersion == 2' >/dev/null
 
-echo "Jellyfin 10.11.11 authenticated the final AETHER archive, initialized storage and survived restart."
+echo "Jellyfin 12.0 authenticated the final AETHER archive, initialized storage and survived restart."
