@@ -13,6 +13,11 @@ dotnet_diagnostic.CA1822.severity = none
 dotnet_diagnostic.CA1848.severity = none
 dotnet_diagnostic.CA1859.severity = none
 dotnet_diagnostic.CA1861.severity = none
+# New with the .NET 10 SDK (pulled in by the Jellyfin 12.0 retarget). Its
+# suggested fix is LoggerMessage source generators, which CA1848 above
+# already opts this codebase out of; the flagged calls here are boxed
+# Guid/int arguments on non-hot paths, not worth the delegate ceremony.
+dotnet_diagnostic.CA1873.severity = none
 
 [*.{json,jsonl,yml,yaml,md}]
 indent_style = space

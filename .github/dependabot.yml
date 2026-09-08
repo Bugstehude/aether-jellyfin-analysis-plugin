@@ -11,15 +11,16 @@ updates:
     # Diese Pakete sind ABSICHTLICH festgenagelt und dürfen nicht angehoben
     # werden — auch nicht als Patch. Das Plugin liefert bewusst keine eigene
     # EF-Core- und SQLite-Laufzeit mit, sondern läuft auf exakt der, die
-    # Jellyfin 10.11.11 bereits im Prozess geladen hat (9.0.11). Eine
+    # Jellyfin 12.0.0 bereits im Prozess geladen hat (EF Core 10.0.11). Eine
     # Abweichung deaktiviert das Plugin beim Laden, ohne dass der Build oder
     # die Tests etwas davon merken: genau das ist als 0.2.5.0 ausgeliefert und
     # in 0.2.5.1 zurückgenommen worden, und Dependabot hat denselben Vorschlag
-    # danach erneut geöffnet (dotnet-patches → EF Core 9.0.18).
+    # danach erneut geöffnet (dotnet-patches → EF Core 9.0.18). Zuletzt von
+    # Hand auf 10.0.11 angehoben im Zuge der Jellyfin-12.0-Kompatibilität.
     #
     # Die Testprojekte hängen mit drin, weil sie gegen dieselbe Version testen
-    # sollen, die auch ausgeliefert wird — ein Test gegen SQLite 10 sagt nichts
-    # über einen Server aus, der 9.0.11 lädt.
+    # sollen, die auch ausgeliefert wird — ein Test gegen eine neuere SQLite-Version
+    # sagt nichts über die hier festgelegte Server-Laufzeit aus.
     #
     # Anheben nur von Hand, zusammen mit einer neuen Jellyfin-Ziel-ABI.
     ignore:

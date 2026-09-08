@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <RootNamespace>Jellyfin.Plugin.AetherAnalysis</RootNamespace>
     <AssemblyName>Jellyfin.Plugin.AetherAnalysis</AssemblyName>
     <Description>Persistent multi-resolution AETHER video analysis for Jellyfin.</Description>
@@ -11,16 +11,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Jellyfin.Controller" Version="10.11.11">
+    <PackageReference Include="Jellyfin.Controller" Version="12.0.0">
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
-    <PackageReference Include="Jellyfin.Model" Version="10.11.11">
+    <PackageReference Include="Jellyfin.Model" Version="12.0.0">
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
-    <!-- Jellyfin 10.11.11 owns the process-wide SQLite native runtime. Using
+    <!-- Jellyfin 12.0.0 owns the process-wide SQLite native runtime. Using
          the Core provider prevents the plugin package from bringing a second,
          conflicting native e_sqlite3 binary into the server process. -->
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="9.0.11">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="10.0.11">
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
   </ItemGroup>

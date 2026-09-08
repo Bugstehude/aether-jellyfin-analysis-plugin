@@ -25,7 +25,7 @@ def main() -> None:
         raise SystemExit("Unable to read plugin version from build.yaml")
 
     lock = json.loads(LOCKFILE.read_text())
-    dependencies = lock["dependencies"]["net9.0"]
+    dependencies = lock["dependencies"]["net10.0"]
     components: list[dict[str, object]] = []
     for name, package in sorted(dependencies.items(), key=lambda item: item[0].lower()):
         resolved = package.get("resolved")
@@ -83,7 +83,7 @@ def main() -> None:
                 "version": version,
             },
             "properties": [
-                {"name": "aether:target-jellyfin", "value": "10.11.11"},
+                {"name": "aether:target-jellyfin", "value": "12.0.0"},
                 {
                     "name": "aether:archive-contents",
                     "value": "Jellyfin.Plugin.AetherAnalysis.dll,aether-analysis-worker.cjs",

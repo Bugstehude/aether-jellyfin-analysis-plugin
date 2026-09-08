@@ -6,7 +6,7 @@
 
 **Datum:** 2026-07-16
 
-**Zielsystem:** Jellyfin 10.11.11 mit AETHER Desktop/Web und Meta Quest als Clients
+**Zielsystem:** Jellyfin 12.0.0 mit AETHER Desktop/Web und Meta Quest als Clients
 
 ## 1. Zweck dieses Dokuments
 
@@ -1517,7 +1517,7 @@ nicht erlaubte und fehlende Origins sowie echte Preflight-Requests abdecken.
 - C#- und TypeScript-Modelle aus Golden Files gegentesten.
 - Contract-Artefakte aus diesem Repository als gemeinsame Source of Truth für beide
   AETHER-Projekte veröffentlichen.
-- Jellyfin 10.11.11 als exakte Zielversion und ABI pinnen.
+- Jellyfin 12.0.0 als exakte Zielversion und ABI pinnen.
 
 ### Phase B – Read/Write Plugin
 
@@ -1566,7 +1566,7 @@ nicht erlaubte und fehlende Origins sowie echte Preflight-Requests abdecken.
 ### 26.2 Noch im realen Zielsystem zu validieren
 
 1. Installationsform und Backupablauf des konkreten Jellyfin-LXC.
-2. Welche nativen Jellyfin-10.11.11-Metadaten im realen Bestand zuverlässig für einen starken
+2. Welche nativen Jellyfin-12.0.0-Metadaten im realen Bestand zuverlässig für einen starken
    Media-Source-Fingerprint verfügbar sind.
 3. Ob zusätzlich ein Client-Content-Fingerprint erzeugt wird und welcher Algorithmus dafür gilt.
 4. Welche Benutzer-IDs zusätzlich zu Administratoren als Analyzer freigeschaltet werden.
@@ -1591,5 +1591,5 @@ optionale Freischaltung oder den produktiven Rollout.
 - Jellyfin Plugin Template: <https://github.com/jellyfin/jellyfin-plugin-template>
 - Jellyfin Plugin Documentation: <https://jellyfin.org/docs/general/server/plugins/>
 
-Die Plugin-Pakete sind auf Jellyfin 10.11.11 gepinnt. Änderungen daran folgen ausschließlich der
+Die Plugin-Pakete sind auf Jellyfin 12.0.0 gepinnt. Änderungen daran folgen ausschließlich der
 Kompatibilitätsmatrix und einem Integrationstest gegen die exakt gleiche Serverversion.
