@@ -2,6 +2,22 @@
 
 All notable changes to implementation and canonical contracts are recorded here.
 
+## [0.3.1.0] — 2026-09-12
+
+### Added
+
+- Serverweiter Katalog vermessener Geräteklassen unter `/device-profiles`
+  (Vertrag `aether.device-quality-profile` v1, Schema als Kopie aus `aether/contract`):
+  `GET`/`PUT /device-profiles/{client}/{ladder}/{deviceIdentifier}` und
+  `GET /device-profiles` (Liste). Ein Client (Web oder tvOS) vermisst sich einmal
+  selbst und legt das Ergebnis unter Client + Treppe + Geräteklasse ab; ein weiteres
+  Gerät derselben Klasse beginnt sofort mit der richtigen Startstufe, und das Profil
+  überlebt die Neuinstallation des Clients. Serverweit wie Sprachpaket und
+  Reise-Tonspur, nicht je Nutzer wie die Presets. Der Server nimmt nur
+  vollständige `release`-Läufe an (kein `interrupted`), prüft Pflichtfelder und
+  Pfad-Identität und gibt den Körper byteidentisch zurück; letzte Schreibung gewinnt.
+- EF-Migration `AddDeviceQualityProfiles`; OpenAPI und `contract.sha256` aktualisiert.
+
 ## [0.3.0.0] — 2026-09-08
 
 - Jellyfin 12.0.0 compatibility: .NET 10, SDK 10.0.400 and host-provided EF Core
@@ -328,13 +344,6 @@ Warum ein Neustart nicht half: Beim Hochfahren setzte derselbe Scan wieder an.
 
 ### Added
 
-- Server-wide measured device-profile catalog under `/device-profiles`
-  (`aether.device-quality-profile` v1): a client (web or tvOS) vermisst sich selbst
-  einmal und legt das Ergebnis unter Client+Treppe+Geräteklasse ab, damit ein weiteres
-  Gerät derselben Klasse sofort mit der richtigen Startstufe beginnt. Serverweit wie
-  Sprachpaket und Reise-Tonspur, NICHT je Nutzer wie die Presets — das Profil gehört
-  zur Geräteklasse, nicht zum Menschen. Last-Write-Wins ohne Historie; nur `release`-
-  Builds und nicht abgebrochene Läufe werden aufgenommen.
 - Canonical schema version 2 analysis contract.
 - Jellyfin 10.11.11 and EF Core 9.0.11 compatibility pin.
 - Initial plugin, storage and API skeleton.
