@@ -20,6 +20,7 @@ tags:
   - name: Voice
   - name: Journey
   - name: Presets
+  - name: DeviceProfiles
 paths:
   /capabilities:
     get:
@@ -493,6 +494,105 @@ paths:
                 $ref: "#/components/schemas/Problem"
         "401":
           $ref: "#/components/responses/Unauthorized"
+  /device-profiles:
+    get:
+      operationId: listAetherDeviceProfiles
+      tags: [DeviceProfiles]
+      summary: List the server-wide measured device-profile catalog
+      description: >
+        A profile belongs to the DEVICE CLASS (`device.identifier`, e.g. `AppleTV14,1` or a
+        stable web renderer fingerprint), not to the calling user — like the voice pack and
+        journey track, and unlike presets. Summaries omit the stored document; fetch one key
+        to get it.
+      responses:
+        "200":
+          description: Stored profile summaries, newest write first
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DeviceProfileSummary"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+  /device-profiles/{client}/{ladder}/{deviceIdentifier}:
+    parameters:
+      - name: client
+        in: path
+        required: true
+        schema:
+          enum: [tvos, web]
+      - name: ladder
+        in: path
+        required: true
+        description: Quality-ladder identifier, e.g. `tvos-7` (QualityLadder) or `web-7` (QUALITY_STEPS).
+        schema:
+          type: string
+          pattern: "^[a-z]+-[0-9]+$"
+      - name: deviceIdentifier
+        in: path
+        required: true
+        description: >-
+          Device-class identifier, e.g. `AppleTV14,1` (comma allowed: Apple writes its product
+          identifiers that way) or a web renderer fingerprint.
+        schema:
+          type: string
+          pattern: "^[A-Za-z0-9,._-]{1,200}$"
+    get:
+      operationId: getAetherDeviceProfile
+      tags: [DeviceProfiles]
+      summary: Get one stored device profile
+      description: The response body is returned byte-identical to how it was stored.
+      responses:
+        "200":
+          description: The stored profile
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/device-quality-profile-v1.schema.json"
+        "400":
+          description: A route segment is invalid
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          description: No profile is stored for this key
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+    put:
+      operationId: putAetherDeviceProfile
+      tags: [DeviceProfiles]
+      summary: Store or replace one device profile; last write wins, no history
+      description: >
+        Requires the body's `client`, `ladder` and `device.identifier` to match the route,
+        `device.build` to equal `release`, and `run.interrupted` to be false — a debug,
+        benchmark or aborted self-run must not enter the shared catalog and pull down the
+        startStepIndex other devices of the same class would be offered.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/device-quality-profile-v1.schema.json"
+      responses:
+        "204":
+          description: Stored
+        "400":
+          description: >-
+            The route is invalid, or the body is not an object, exceeds 256 KiB, misdeclares
+            its schema or version, disagrees with the route identity, is not a release build,
+            is an interrupted run, or is missing required fields
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
   /analyses/query:
     post:
       operationId: queryAetherAnalyses
@@ -941,6 +1041,9 @@ components:
             - invalid-preset-id
             - invalid-preset
             - preset-storage-full
+            - invalid-device-profile-route
+            - invalid-device-profile
+            - device-profile-not-found
         traceId:
           type: string
     ManualPreset:
@@ -959,3 +1062,38 @@ components:
           $ref: "../schemas/manual-preset-v1.schema.json#/$defs/snapshot"
         updatedAtUnixTimeMilliseconds:
           type: integer
+    DeviceProfileSummary:
+      type: object
+      required:
+        - client
+        - ladder
+        - deviceIdentifier
+        - deviceDescription
+        - mode
+        - finishedAt
+        - entries
+        - storedAt
+      properties:
+        client:
+          enum: [tvos, web]
+        ladder:
+          type: string
+        deviceIdentifier:
+          type: string
+        deviceDescription:
+          type: string
+        mode:
+          type: string
+        finishedAt:
+          type: string
+          description: Mirrored `run.finishedAt`, unparsed.
+        entries:
+          type: integer
+          description: Length of the stored `entries` array.
+        fallbackStartStepIndex:
+          type: integer
+          nullable: true
+        storedAt:
+          type: string
+          format: date-time
+          description: Server-assigned write timestamp; determines catalog order.

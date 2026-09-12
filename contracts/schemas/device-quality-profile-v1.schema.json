@@ -1,0 +1,174 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://aether.local/contract/device-quality-profile.schema.json",
+  "title": "AETHER Geräteprofil (device-quality-profile)",
+  "description": "Das Profil, das ein Client nach einem Selbstlauf (Erlebnis × Qualitätsstufe) über sich selbst schreibt und beim nächsten Start liest. Gemeinsamer Vertrag für den Web-Client (packages/performance-engine) und den tvOS-Client (aether-tv, Sources/AetherBenchmark). Die Bedeutung einer Stufenzahl hängt an `ladder`; ein Profil greift nur bei gleichem client, ladder, Gerät, Ausgabeklasse und Takt. Optionale Felder werden weggelassen, nie als null geschrieben. Ein automatisch erzeugtes Profil ist immer notReviewed und darf einen sichtgeprüften Katalogwert nie nach oben übersteuern.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schemaVersion",
+    "client",
+    "ladder",
+    "ladderSteps",
+    "device",
+    "output",
+    "source",
+    "run",
+    "entries"
+  ],
+  "properties": {
+    "schema": { "const": "aether.device-quality-profile" },
+    "schemaVersion": { "const": 1 },
+    "client": { "enum": ["tvos", "web"] },
+    "ladder": {
+      "type": "string",
+      "description": "Kennung der Qualitätstreppe, z. B. tvos-7 (QualityLadder) oder web-7 (QUALITY_STEPS).",
+      "pattern": "^[a-z]+-[0-9]+$"
+    },
+    "ladderSteps": { "type": "integer", "minimum": 1 },
+    "device": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["identifier", "description", "operatingSystem", "appVersion", "build"],
+      "properties": {
+        "identifier": {
+          "type": "string",
+          "description": "tvOS: Produktkennung (AppleTV14,1). Web: stabiler Fingerabdruck aus Renderer, Bildschirm und Pixelverhältnis."
+        },
+        "description": { "type": "string" },
+        "operatingSystem": { "type": "string" },
+        "appVersion": { "type": "string" },
+        "build": { "enum": ["debug", "release", "benchmark"] }
+      }
+    },
+    "output": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["width", "height", "refreshHz", "pixelClass", "refreshClass", "frameBudgetMs"],
+      "properties": {
+        "width": { "type": "integer", "minimum": 0 },
+        "height": { "type": "integer", "minimum": 0 },
+        "refreshHz": { "type": "number", "minimum": 0 },
+        "pixelClass": { "$ref": "#/definitions/pixelClass" },
+        "refreshClass": { "enum": ["hz50", "hz60"] },
+        "frameBudgetMs": { "type": "number", "minimum": 0 }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["label", "codec", "width", "height", "framesPerSecond", "hdrClass", "pixelClass", "origin"],
+      "properties": {
+        "label": { "type": "string" },
+        "codec": { "type": "string" },
+        "width": { "type": "integer", "minimum": 0 },
+        "height": { "type": "integer", "minimum": 0 },
+        "framesPerSecond": { "type": "number", "minimum": 0 },
+        "bitDepth": { "type": "integer", "minimum": 1 },
+        "hdrClass": { "enum": ["sdr", "hdr10", "hlg", "dolbyVision", "unknown"] },
+        "pixelClass": { "$ref": "#/definitions/pixelClass" },
+        "origin": { "enum": ["jellyfin", "http", "file", "unknown"] },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "jellyfinItemID": { "type": "string" },
+        "jellyfinMediaSourceID": { "type": "string" },
+        "analysis": {
+          "enum": ["document", "motionPreview"],
+          "description": "document = Erlebnisse aus echter Voranalyse gespeist; motionPreview = konstante Bewegungsvorschau der Kalibrierbühne. Fehlt: motionPreview."
+        }
+      }
+    },
+    "run": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "mode",
+        "startedAt",
+        "finishedAt",
+        "warmupSeconds",
+        "measurementSeconds",
+        "policy",
+        "plannedCombinations",
+        "measuredCombinations",
+        "failedCombinations",
+        "interrupted"
+      ],
+      "properties": {
+        "id": { "type": "string" },
+        "mode": { "enum": ["schnell", "vollstaendig", "referenz"] },
+        "startedAt": { "type": "string" },
+        "finishedAt": { "type": "string" },
+        "warmupSeconds": { "type": "number", "minimum": 0 },
+        "measurementSeconds": { "type": "number", "minimum": 0 },
+        "policy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "minimumWarmupSeconds",
+            "minimumMeasurementSeconds",
+            "maximumFrameP95BudgetMultiplier",
+            "maximumGPUP95BudgetMultiplier",
+            "minimumDeliveredFrameRatio",
+            "requireVisualAcceptance",
+            "requireFormalBuild"
+          ],
+          "properties": {
+            "minimumWarmupSeconds": { "type": "number" },
+            "minimumMeasurementSeconds": { "type": "number" },
+            "maximumFrameP95BudgetMultiplier": { "type": "number" },
+            "maximumGPUP95BudgetMultiplier": { "type": "number" },
+            "minimumDeliveredFrameRatio": { "type": "number" },
+            "requireVisualAcceptance": { "type": "boolean" },
+            "requireFormalBuild": { "type": "boolean" }
+          }
+        },
+        "plannedCombinations": { "type": "integer", "minimum": 0 },
+        "measuredCombinations": { "type": "integer", "minimum": 0 },
+        "failedCombinations": { "type": "integer", "minimum": 0 },
+        "thermalHighest": { "type": "string" },
+        "driftGpuP50Ms": { "type": "number" },
+        "interrupted": { "type": "boolean" }
+      }
+    },
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["experienceID", "status", "testedSteps", "visualVerdict", "evidence"],
+        "properties": {
+          "experienceID": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+          "status": { "enum": ["measured", "noPassingStep", "incomplete"] },
+          "startStepIndex": { "type": "integer", "minimum": 0 },
+          "lowestPassingStep": { "type": "integer", "minimum": 0 },
+          "highestFailingStep": { "type": "integer", "minimum": 0 },
+          "testedSteps": { "type": "array", "items": { "type": "integer", "minimum": 0 } },
+          "visualVerdict": { "enum": ["accepted", "rejected", "notReviewed"] },
+          "evidence": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["runIDs"],
+            "properties": {
+              "runIDs": { "type": "array", "items": { "type": "string" } },
+              "frameP95Ms": { "type": "number", "minimum": 0 },
+              "gpuP95Ms": { "type": "number", "minimum": 0 },
+              "deliveredFrames": { "type": "integer", "minimum": 0 }
+            }
+          }
+        }
+      }
+    },
+    "fallbackStartStepIndex": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Konservativste Startstufe aller gemessenen Erlebnisse — für Erlebnisse ohne eigenen Eintrag. Fehlt, wenn kein Erlebnis eine Stufe bestand."
+    }
+  },
+  "definitions": {
+    "pixelClass": {
+      "enum": ["hd", "uhd"],
+      "description": "hd: max(Breite, Höhe) <= 2560, sonst uhd."
+    }
+  }
+}

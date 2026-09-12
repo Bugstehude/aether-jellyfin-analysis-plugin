@@ -328,6 +328,13 @@ Warum ein Neustart nicht half: Beim Hochfahren setzte derselbe Scan wieder an.
 
 ### Added
 
+- Server-wide measured device-profile catalog under `/device-profiles`
+  (`aether.device-quality-profile` v1): a client (web or tvOS) vermisst sich selbst
+  einmal und legt das Ergebnis unter Client+Treppe+Geräteklasse ab, damit ein weiteres
+  Gerät derselben Klasse sofort mit der richtigen Startstufe beginnt. Serverweit wie
+  Sprachpaket und Reise-Tonspur, NICHT je Nutzer wie die Presets — das Profil gehört
+  zur Geräteklasse, nicht zum Menschen. Last-Write-Wins ohne Historie; nur `release`-
+  Builds und nicht abgebrochene Läufe werden aufgenommen.
 - Canonical schema version 2 analysis contract.
 - Jellyfin 10.11.11 and EF Core 9.0.11 compatibility pin.
 - Initial plugin, storage and API skeleton.
