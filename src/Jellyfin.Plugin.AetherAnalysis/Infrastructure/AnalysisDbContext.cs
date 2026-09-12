@@ -17,6 +17,9 @@ public sealed class AnalysisDbContext(DbContextOptions<AnalysisDbContext> option
     /// <summary>Gets stored manual-panel presets, scoped per Jellyfin user.</summary>
     public DbSet<ManualPreset> ManualPresets => Set<ManualPreset>();
 
+    /// <summary>Gets the server-wide measured device-profile catalog.</summary>
+    public DbSet<DeviceQualityProfile> DeviceQualityProfiles => Set<DeviceQualityProfile>();
+
     /// <inheritdoc />
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -49,6 +52,17 @@ public sealed class AnalysisDbContext(DbContextOptions<AnalysisDbContext> option
         preset.HasKey(value => new { value.UserId, value.Id });
         preset.Property(value => value.Id).HasMaxLength(128);
         preset.Property(value => value.Name).HasMaxLength(200);
+
+        var deviceProfile = modelBuilder.Entity<DeviceQualityProfile>();
+        deviceProfile.ToTable("device_quality_profiles");
+        deviceProfile.HasKey(value => new { value.Client, value.Ladder, value.DeviceIdentifier });
+        deviceProfile.Property(value => value.Client).HasMaxLength(16);
+        deviceProfile.Property(value => value.Ladder).HasMaxLength(32);
+        deviceProfile.Property(value => value.DeviceIdentifier).HasMaxLength(200);
+        deviceProfile.Property(value => value.DeviceDescription).HasMaxLength(512);
+        deviceProfile.Property(value => value.Mode).HasMaxLength(32);
+        deviceProfile.Property(value => value.FinishedAt).HasMaxLength(64);
+        deviceProfile.HasIndex(value => value.StoredAtUnixTimeMilliseconds);
 
         var maintenance = modelBuilder.Entity<AnalysisMaintenanceState>();
         maintenance.ToTable("analysis_maintenance_state");

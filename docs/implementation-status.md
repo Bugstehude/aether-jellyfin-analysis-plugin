@@ -35,6 +35,8 @@ implementation milestone so consumers never infer features from the architecture
 - Reproducible Jellyfin catalog manifest tied to the versioned GitHub release archive.
 - Optional serialized server analysis through scheduled, post-scan and authorized API triggers.
 - Server-wide voice recordings and one range-enabled journey audio track with bounded storage.
+- Server-wide measured device-profile catalog (`aether.device-quality-profile` v1) under
+  `/device-profiles`, keyed by client/ladder/device class, EF Core-backed, last-write-wins.
 
 ## Accepted but not yet implemented
 
