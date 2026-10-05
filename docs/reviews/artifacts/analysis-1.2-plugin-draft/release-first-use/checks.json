@@ -3,19 +3,19 @@
   "measurementVersion": "1.2.0",
   "status": "local-release-checks-passed-ci-and-first-live-use-pending",
   "tests": {
-    "passed": 378,
+    "passed": 380,
     "failed": 0,
     "skipped": 0,
     "realOfflineWorkerCases": 6,
-    "trxSha256": "1483fafae1821781a0075d64673262cda43eef21d2f73ee392f5688b2861b50c"
+    "trxSha256": "41cb7f4a4042e1d336b09f184a07e23ec415f1cb4350c93ded24970fbd53388d"
   },
   "worker": {
     "status": "release-fresh-components-with-stable-master",
     "algorithm": "aether-visual/1.2.0",
     "workerPath": "aether-analysis-1.2-worker.cjs",
-    "workerSha256": "a9a032b295e1f39b97ab21c545c5b6043aa5149c373b6ff85f1f49b046a0d7cc",
-    "producerRevision": "sha256:c32d0318eb9be1c4190eede941396ce93917c756d984fd3c4bdb20ad88a8843d",
-    "bytes": 68508,
+    "workerSha256": "567d784d809b699188861c503a6b4bc64c199d90fa2976f480a51c6756b1114c",
+    "producerRevision": "sha256:5f763e85fca83a8e14972cbd5c55ec761651d92a4d30f3d673bb2658d3cc1701",
+    "bytes": 68563,
     "esbuildVersion": "0.24.2",
     "nodeVersion": "v26.9.0",
     "sources": {
@@ -54,7 +54,14 @@
       "packages/server-analysis-worker/src/draft-video-decode.ts": "53556b71ea6128ed12805ece452c2c643d633f19516d4c0d28d11b3e1cc98ce9",
       "packages/server-analysis-worker/src/draft-video-time.ts": "31a422a444fed302f33652499aec0b4514231df9e0298a653b3dfdcffa5fed2f",
       "packages/server-analysis-worker/src/draft-video.ts": "5db4673fcbf223685dd82efc448520c3d04fc74a8229b0e220d5c26cef680f70",
-      "plugin-draft-main.ts": "28c02466758f0fd97694479e47b62a48c32f71ddfe4e6dfebcf5d31a68372bf6"
+      "plugin-draft-main.ts": "28c02466758f0fd97694479e47b62a48c32f71ddfe4e6dfebcf5d31a68372bf6",
+      "release-build-transforms": "7af83bd3645684c34cea9bc18705fa2c9c1217d9b6d82a1d09283bc245e05123"
+    },
+    "transforms": {
+      "packages/server-analysis-worker/src/draft-storage-job.ts": {
+        "recipe": "release-ffmpeg-thread-cap-v1",
+        "sha256": "6a46e6ca130bd018e0bc1d630899da6c45ef8a4718b4982a84e323490dba0d7c"
+      }
     },
     "componentAlgorithm": "aether-visual/1.2.0-draft",
     "sourceCommit": "1b4ea3bfe09468e63ef6b37a5e4fada747962404"
@@ -78,7 +85,7 @@
     "src/Jellyfin.Plugin.AetherAnalysis/Api/DeviceProfilesController.cs": "0fcf201b1cd4ccda956095ce8624bf850c069189511e24a6ceb351faf9548aa3",
     "src/Jellyfin.Plugin.AetherAnalysis/Api/PresetsController.cs": "5229570072b2b2f720dc0613c2c64e7a626ec4213508acc9f3dc7c955f2ed744",
     "src/Jellyfin.Plugin.AetherAnalysis/Application/AetherAlgorithm.cs": "7ff6463421c851744c56bda8cc7ca736b8aca889439e966c07d40696c8a7a22b",
-    "src/Jellyfin.Plugin.AetherAnalysis/Application/Analysis12WorkerBundle.cs": "c626116235ba093302884ef01dce6c76f8a5e979f3b0596603998fad89bc39d1",
+    "src/Jellyfin.Plugin.AetherAnalysis/Application/Analysis12WorkerBundle.cs": "acdc7a45c83698451be2dc04133effe97398a13aaa5c2d95ee7e7e20942526b5",
     "src/Jellyfin.Plugin.AetherAnalysis/Application/AnalysisDocumentValidator.cs": "ccf4fcd67604b5943a56cd77090211669755d52538279d2726b11eb05d259527",
     "src/Jellyfin.Plugin.AetherAnalysis/Application/AnalysisJobDispatcher.cs": "a0c226638b1cd9c3ba466c45e05e24ab329c8ce4a308ff6feff0b68a0cb8d5cd",
     "src/Jellyfin.Plugin.AetherAnalysis/Application/AnalysisOperationalTelemetry.cs": "668678b2ddcb64a8e5b9d61258ca62f69ca074e7e20d36c38a0b143d4d771df5",
@@ -96,7 +103,7 @@
     "src/Jellyfin.Plugin.AetherAnalysis/Application/Draft/DraftJellyfinSourceResolver.cs": "a2a27053e0958c94d56775ec30e1617725abe8e0be308d7394e00c9283b66da6",
     "src/Jellyfin.Plugin.AetherAnalysis/Application/Draft/DraftServerAnalysisRunner.cs": "819b2eae03d3c0d69114e0e0f4ab75d4a8258f362df9c2f59124878eff082f04",
     "src/Jellyfin.Plugin.AetherAnalysis/Application/Draft/DraftSourceTrackMapper.cs": "163aecd6481e0815606e974474822956d230360936264e9a45d01ad1cf494230",
-    "src/Jellyfin.Plugin.AetherAnalysis/Application/Draft/DraftWorkerProcessRunner.cs": "8ac730b746cf5e1a6c7d57c01c4376cb42fdb4d1bf4325524868cfdbe324b4b0",
+    "src/Jellyfin.Plugin.AetherAnalysis/Application/Draft/DraftWorkerProcessRunner.cs": "22cbc1b6ec63f5db1df9bd7bd522f954de5baf48f1442f536fc82c382acac91b",
     "src/Jellyfin.Plugin.AetherAnalysis/Application/Draft/PackedDenseAudioDraftCodec.cs": "9ade1313022f221e7a5f2d390aa9da86131728fc5fe7aa9fe16971059715eb46",
     "src/Jellyfin.Plugin.AetherAnalysis/Application/MediaFingerprintService.cs": "798badcda6b0b8385643a3e2861044b3bf5ffcc6f19df778d1cd011e35bbeb4a",
     "src/Jellyfin.Plugin.AetherAnalysis/Application/SceneCutClassifier.cs": "972ecba7238b62f74ec573121eb10f77e397a1e692e53152d374debd595d099a",
@@ -153,7 +160,7 @@
     "tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftBoundedProcessTests.cs": "23c590d12caf3bff9d3712399e32d3b84fc72525463b572c22f8bd2e691701b1",
     "tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftConsumerProfileTests.cs": "bd330000dedba3613d8db5421974147a07dd20640fc25521391cc8641d758c47",
     "tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftJellyfinSourceResolverTests.cs": "df5aeea9765a006b185f8aadc674fff57a7a00c4ada854923f2f98d0fb25fd4c",
-    "tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftServerAnalysisRunnerTests.cs": "d71053a66e2cbed4167abe64416caedcd477b24e570845c5853964771e63df53",
+    "tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftServerAnalysisRunnerTests.cs": "4d48d76080bc34fa55c9cea64281abf99dbb9ad781be7f303f829ba1f35053f4",
     "tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftSourceTrackMapperTests.cs": "05afe125e2be71376422a954ab7a5a26303a6509b6696789dc160dbb4e124f0e",
     "tests/Jellyfin.Plugin.AetherAnalysis.Tests/Jellyfin.Plugin.AetherAnalysis.Tests.csproj": "0ea7b363d0895513144be2130f8152bead8518ecbb9657086a8715c6cefbf268",
     "tests/Jellyfin.Plugin.AetherAnalysis.Tests/JourneyTrackStoreTests.cs": "65c62d38b9e131a89cf22e7093afc49016f462a2d1295cc527fcb88ec5e43fad",
@@ -170,7 +177,7 @@
     "tests/Jellyfin.Plugin.AetherAnalysis.Tests/Usings.cs": "50436eb3a60162e0cfad749eddfb06f8908f821a90ca44532df946a53e071359",
     "tests/Jellyfin.Plugin.AetherAnalysis.Tests/VoiceRecordingRepositoryTests.cs": "8a995024567b1a8d300a030d86d493ceaedada69e75ff2d7e4a592bdff71ddd7",
     "tests/Jellyfin.Plugin.AetherAnalysis.Tests/packages.lock.json": "3b9e251e2711e45ee8effe1ba990fe81a53e2d925135a44a7349b4ae5191501d",
-    "tools/build-draft-worker.mjs": "976eb4b53fe402b5461d91351a0cde80463a2b146ad21468b8ceada1b6f9401e",
+    "tools/build-draft-worker.mjs": "11a2c8bc3ae0dd623bbb7b058f07475f83fb1ccc9ee7d74f2ff87b844392260f",
     "tools/contract-hash.sh": "3caf9e100480736bd30ce9b7449ad6760785e60be4147b2e07717d82e5e7e284",
     "tools/generate-repository-manifest.py": "a0d88f10b0e2a6db082f1a27ec80be6529271720db776146e7827f4ce10a8396",
     "tools/generate-sbom.py": "89eac68ead92af6dcb0e6628bc34da50f95f0113ae7772581eea503b282707dc",
@@ -178,9 +185,9 @@
     "tools/smoke-jellyfin.sh": "338fcf572c5428f161bae4f05c200c66d0d96d284b9c7add3a2d205b3f9f7bda",
     "tools/vendor-worker.sh": "f190c9d450970e165ce357e069057b97453570981c77a392f77858be528872a9",
     "tools/verify-release-metadata.py": "a223d7b0a97bb6372920aeea71281f7670c85311c87299284cfeb2e3bf20f442",
-    "worker/aether-analysis-1.2-worker.cjs": "a9a032b295e1f39b97ab21c545c5b6043aa5149c373b6ff85f1f49b046a0d7cc",
+    "worker/aether-analysis-1.2-worker.cjs": "567d784d809b699188861c503a6b4bc64c199d90fa2976f480a51c6756b1114c",
     "worker/aether-analysis-worker.cjs": "ba3dbd021c396ba88c70bc9bd445294ccfac7e839b8888210e43dcef2b1743e8",
-    "worker/analysis-1.2-worker-manifest.json": "6e727ada04636eb87b9db98413731fa266432d08257e278cc828e26550dcafa9",
+    "worker/analysis-1.2-worker-manifest.json": "79e5850d0807e3d0bfb7ba9efe69a2a971704e37c4d27962b45b6ea5bee52d28",
     "contracts/contract.sha256": "9722729d98d3688e81d1b9ba98205f73db6912822a631d762e147b7a02fba266",
     "contracts/examples/invalid/non-monotonic-timestamps.json": "fc029e3b7d173c07f15cd981d19f37d5d30f65596ec6c3b5b269577c89d8f188",
     "contracts/examples/invalid/null-required-values.json": "540ba266bb1162c68bc6c46c3f40e76b6a65d91042f43d935b6e453a52ae6910",
@@ -199,6 +206,7 @@
     "contracts/schemas/device-quality-profile-v1.schema.json": "a177feb2d6153a4327b5451bd09bed52867980ece41e588f9208ebaef27c4a35",
     "contracts/schemas/manual-preset-v1.schema.json": "09f6e811b348635d763bc52aaca516b35e0554c69b3147c442bcef399805c469",
     "build.yaml": "22c0b190b55f39664f68353986d847bb2e405d5dc27a30654d1f3fb8c3b526f6",
-    "Directory.Build.props": "54a77ceb9a47b86cd4aead734e925dbbd8d3ca3ab865ef876b524236918e7e94"
+    "Directory.Build.props": "54a77ceb9a47b86cd4aead734e925dbbd8d3ca3ab865ef876b524236918e7e94",
+    "tests/Jellyfin.Plugin.AetherAnalysis.Tests/Analysis12WorkerBundleTests.cs": "23541b3e212aff6744b881fa629fb785fcb3c8b2cce2c44b9287129b68df9657"
   }
 }

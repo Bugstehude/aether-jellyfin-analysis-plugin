@@ -2,9 +2,9 @@
   "status": "release-fresh-components-with-stable-master",
   "algorithm": "aether-visual/1.2.0",
   "workerPath": "aether-analysis-1.2-worker.cjs",
-  "workerSha256": "a9a032b295e1f39b97ab21c545c5b6043aa5149c373b6ff85f1f49b046a0d7cc",
-  "producerRevision": "sha256:c32d0318eb9be1c4190eede941396ce93917c756d984fd3c4bdb20ad88a8843d",
-  "bytes": 68508,
+  "workerSha256": "567d784d809b699188861c503a6b4bc64c199d90fa2976f480a51c6756b1114c",
+  "producerRevision": "sha256:5f763e85fca83a8e14972cbd5c55ec761651d92a4d30f3d673bb2658d3cc1701",
+  "bytes": 68563,
   "esbuildVersion": "0.24.2",
   "nodeVersion": "v26.9.0",
   "sources": {
@@ -43,7 +43,14 @@
     "packages/server-analysis-worker/src/draft-video-decode.ts": "53556b71ea6128ed12805ece452c2c643d633f19516d4c0d28d11b3e1cc98ce9",
     "packages/server-analysis-worker/src/draft-video-time.ts": "31a422a444fed302f33652499aec0b4514231df9e0298a653b3dfdcffa5fed2f",
     "packages/server-analysis-worker/src/draft-video.ts": "5db4673fcbf223685dd82efc448520c3d04fc74a8229b0e220d5c26cef680f70",
-    "plugin-draft-main.ts": "28c02466758f0fd97694479e47b62a48c32f71ddfe4e6dfebcf5d31a68372bf6"
+    "plugin-draft-main.ts": "28c02466758f0fd97694479e47b62a48c32f71ddfe4e6dfebcf5d31a68372bf6",
+    "release-build-transforms": "7af83bd3645684c34cea9bc18705fa2c9c1217d9b6d82a1d09283bc245e05123"
+  },
+  "transforms": {
+    "packages/server-analysis-worker/src/draft-storage-job.ts": {
+      "recipe": "release-ffmpeg-thread-cap-v1",
+      "sha256": "6a46e6ca130bd018e0bc1d630899da6c45ef8a4718b4982a84e323490dba0d7c"
+    }
   },
   "componentAlgorithm": "aether-visual/1.2.0-draft",
   "sourceCommit": "1b4ea3bfe09468e63ef6b37a5e4fada747962404"

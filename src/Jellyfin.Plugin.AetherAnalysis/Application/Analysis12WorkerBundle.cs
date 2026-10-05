@@ -35,7 +35,7 @@ public static class Analysis12WorkerBundle
             Fps: Math.Clamp(configuration.AnalysisFps, 1, 4), Width: Math.Clamp(configuration.AnalysisMaxWidth, 16, 1920),
             Timeout: TimeSpan.FromMinutes(Math.Clamp(configuration.AnalysisTimeoutMinutes, 1, 720)),
             MaximumStoredBytes: Math.Clamp(configuration.MaxStoredBytes, 1024 * 1024, 1024L * 1024 * 1024 * 1024),
-            TargetVersion: AetherAlgorithm.Version);
+            TargetVersion: AetherAlgorithm.Version, FfmpegThreads: Math.Clamp(configuration.AnalysisFfmpegThreads, 0, 16));
         DraftWorkerProcessRunner.ValidateSettings(settings);
         return settings;
     }

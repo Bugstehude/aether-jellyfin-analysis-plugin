@@ -19,7 +19,8 @@ public sealed record DraftWorkerSettings(
     int Width = 480,
     TimeSpan? Timeout = null,
     long MaximumStoredBytes = 10L * 1024 * 1024 * 1024,
-    string TargetVersion = DraftAnalysisMasterBuilder.AlgorithmVersion);
+    string TargetVersion = DraftAnalysisMasterBuilder.AlgorithmVersion,
+    int FfmpegThreads = 0);
 
 /// <summary>Probe and fresh Full-component execution for the experimental server adapter.</summary>
 public interface IDraftWorkerProcessRunner
@@ -44,7 +45,7 @@ public sealed class DraftWorkerProcessRunner : IDraftWorkerProcessRunner
             throw new InvalidDataException("draft-execution-disabled");
         }
 
-        if (settings.TargetVersion is not ("1.2.0-draft" or "1.2.0")
+        if (settings.FfmpegThreads is < 0 or > 16 || settings.TargetVersion is not ("1.2.0-draft" or "1.2.0")
             || string.IsNullOrWhiteSpace(settings.NodePath) || string.IsNullOrWhiteSpace(settings.FfmpegPath)
             || string.IsNullOrWhiteSpace(settings.FfprobePath) || !Path.IsPathFullyQualified(settings.WorkerPath)
             || !IsDigest(settings.WorkerSha256) || settings.ProducerRevision.Length != 71
@@ -156,6 +157,7 @@ public sealed class DraftWorkerProcessRunner : IDraftWorkerProcessRunner
         {
             ["AETHER_FFMPEG"] = settings.FfmpegPath,
             ["AETHER_FFPROBE"] = settings.FfprobePath,
+            ["AETHER_FFMPEG_THREADS"] = Number(settings.FfmpegThreads),
             ["TMPDIR"] = directory,
             ["TMP"] = directory,
             ["TEMP"] = directory

@@ -468,6 +468,7 @@ public sealed class DraftServerAnalysisRunnerTests
             ProducerRevision = manifest["producerRevision"]!.GetValue<string>(),
             FfmpegPath = manifest["ffmpegPath"]!.GetValue<string>(),
             FfprobePath = manifest["ffprobePath"]!.GetValue<string>(),
+            FfmpegThreads = 4,
             Timeout = TimeSpan.FromMinutes(2)
         };
         using var runner = new DraftServerAnalysisRunner(hostResolver, new DraftWorkerProcessRunner(), fixture.Repository,
