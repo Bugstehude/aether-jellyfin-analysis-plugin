@@ -4,15 +4,17 @@ All notable changes to implementation and canonical contracts are recorded here.
 
 ## Unreleased
 
+## [0.4.1.0] (2026-10-05)
+
 - F64 codec decode rejects sample counts beyond the left FFT padding
   (`validSamples <= min(2048, 2048 + windowStartSample)`), matching the Aether reader.
 - 1.2 server runs log the actual FFmpeg/FFprobe paths and `-version` lines once per change, and
   failure warnings include fixed validator codes. `tools/capture-server-toolchain.sh` records the
   server toolchain and can run the Aether video regression with exactly these binaries.
 - Fix 1.2 compositions for sources with a declared video stream duration (e.g. MP4). The bundled
-  worker declared `coverageEndBasis: video-stream-end`, which the host rejects. The component
-  worker is rebuilt from Aether `3ae4964`: cut coverage always ends at the last selected source
-  PTS, and F64 records honour the left-padding sample rule on write and read.
+  worker declared `coverageEndBasis: video-stream-end`, which the host rejects. Since Aether
+  `3ae4964` cut coverage always ends at the last selected source PTS, and F64 records honour the
+  left-padding sample rule on write and read.
 - The component worker is rebuilt from Aether `5ae57ec`, which also computes the scaled frame size
   with exact integers (854×480 is measured at 480 instead of 478 px). Such sources are now retained
   by the routine instead of being re-measured on every run. Sources narrower than the configured
