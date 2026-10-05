@@ -1,0 +1,192 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="e83fb64a-967c-456a-afe7-33b8e0451814" name="@MB-JVV9WT2VJM 2026-10-05 23:09:42" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-05T23:09:42.9245570+02:00" queuing="2026-10-05T23:09:42.9245570+02:00" start="2026-10-05T23:09:39.5726080+02:00" finish="2026-10-05T23:09:48.1656410+02:00" />
+  <TestSettings name="default" id="16562691-cdcd-49b6-9a58-4c3a4b732cc0">
+    <Deployment runDeploymentRoot="_MB-JVV9WT2VJM_2026-10-05_23_09_42" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="58ef7d2e-3406-4395-a5b3-3254517b293c" testId="488228de-ec1c-10cf-3069-1ac8655c64c3" testName="Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(profile: &quot;available&quot;, targetVersion: &quot;1.2.0-draft&quot;)" computerName="MB-JVV9WT2VJM" duration="00:00:01.3856225" startTime="2026-10-05T23:09:46.7540680+02:00" endTime="2026-10-05T23:09:48.1393630+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="58ef7d2e-3406-4395-a5b3-3254517b293c">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.Equal() Failure: Values differ
+Expected: AlreadyCurrent
+Actual:   Stored</Message>
+          <StackTrace>   at Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(String profile, String targetVersion) in /Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftServerAnalysisRunnerTests.cs:line 493
+   at Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(String profile, String targetVersion) in /Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftServerAnalysisRunnerTests.cs:line 499
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="69fca69e-7cde-4b9e-a16d-dcafab63ad35" testId="940ac5ef-11ed-0ef6-b056-0a81646cd7b6" testName="Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(profile: &quot;no-track&quot;, targetVersion: &quot;1.2.0&quot;)" computerName="MB-JVV9WT2VJM" duration="00:00:01.0560563" startTime="2026-10-05T23:09:44.6620660+02:00" endTime="2026-10-05T23:09:45.7175510+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="69fca69e-7cde-4b9e-a16d-dcafab63ad35">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.Equal() Failure: Values differ
+Expected: AlreadyCurrent
+Actual:   Stored</Message>
+          <StackTrace>   at Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(String profile, String targetVersion) in /Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftServerAnalysisRunnerTests.cs:line 493
+   at Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(String profile, String targetVersion) in /Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftServerAnalysisRunnerTests.cs:line 499
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="14f8a25c-5ba0-426a-9d7b-c1733d3e4059" testId="d107670a-94e7-bd84-fb59-ab893366e853" testName="Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(profile: &quot;second-default&quot;, targetVersion: &quot;1.2.0&quot;)" computerName="MB-JVV9WT2VJM" duration="00:00:01.9755549" startTime="2026-10-05T23:09:40.0361700+02:00" endTime="2026-10-05T23:09:42.0190900+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="14f8a25c-5ba0-426a-9d7b-c1733d3e4059">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.Equal() Failure: Values differ
+Expected: AlreadyCurrent
+Actual:   Stored</Message>
+          <StackTrace>   at Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(String profile, String targetVersion) in /Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftServerAnalysisRunnerTests.cs:line 493
+   at Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(String profile, String targetVersion) in /Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftServerAnalysisRunnerTests.cs:line 499
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="972ab198-350d-4d3e-bd00-201c0b0c4206" testId="b03b3a08-a4bd-d713-e900-25e633576761" testName="Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(profile: &quot;available&quot;, targetVersion: &quot;1.2.0&quot;)" computerName="MB-JVV9WT2VJM" duration="00:00:01.3520678" startTime="2026-10-05T23:09:42.0246340+02:00" endTime="2026-10-05T23:09:43.3717490+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="972ab198-350d-4d3e-bd00-201c0b0c4206">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.Equal() Failure: Values differ
+Expected: AlreadyCurrent
+Actual:   Stored</Message>
+          <StackTrace>   at Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(String profile, String targetVersion) in /Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftServerAnalysisRunnerTests.cs:line 493
+   at Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(String profile, String targetVersion) in /Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftServerAnalysisRunnerTests.cs:line 499
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="2e816cea-8af2-48d8-a814-64b7d1537771" testId="75d47d75-2f01-4d1d-dd70-8e01d1d6e9c8" testName="Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(profile: &quot;no-track&quot;, targetVersion: &quot;1.2.0-draft&quot;)" computerName="MB-JVV9WT2VJM" duration="00:00:01.0347814" startTime="2026-10-05T23:09:45.7180700+02:00" endTime="2026-10-05T23:09:46.7534940+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2e816cea-8af2-48d8-a814-64b7d1537771">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.Equal() Failure: Values differ
+Expected: AlreadyCurrent
+Actual:   Stored</Message>
+          <StackTrace>   at Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(String profile, String targetVersion) in /Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftServerAnalysisRunnerTests.cs:line 493
+   at Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(String profile, String targetVersion) in /Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftServerAnalysisRunnerTests.cs:line 499
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="31e5632e-8abc-401d-ae4f-22b1ad342e8c" testId="3bde27f0-0355-d725-d49d-69d732c6d243" testName="Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(profile: &quot;second-default&quot;, targetVersion: &quot;1.2.0-draft&quot;)" computerName="MB-JVV9WT2VJM" duration="00:00:01.2889332" startTime="2026-10-05T23:09:43.3734120+02:00" endTime="2026-10-05T23:09:44.6611420+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="31e5632e-8abc-401d-ae4f-22b1ad342e8c">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.Equal() Failure: Values differ
+Expected: AlreadyCurrent
+Actual:   Stored</Message>
+          <StackTrace>   at Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(String profile, String targetVersion) in /Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftServerAnalysisRunnerTests.cs:line 493
+   at Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(String profile, String targetVersion) in /Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftServerAnalysisRunnerTests.cs:line 499
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(profile: &quot;available&quot;, targetVersion: &quot;1.2.0&quot;)" storage="/users/marc.bauer/developer/aether-jellyfin-analysis-plugin/tests/jellyfin.plugin.aetheranalysis.tests/bin/debug/net10.0/jellyfin.plugin.aetheranalysis.tests.dll" id="b03b3a08-a4bd-d713-e900-25e633576761">
+      <Execution id="972ab198-350d-4d3e-bd00-201c0b0c4206" />
+      <TestMethod codeBase="/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/tests/Jellyfin.Plugin.AetherAnalysis.Tests/bin/Debug/net10.0/Jellyfin.Plugin.AetherAnalysis.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests" name="RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter" />
+    </UnitTest>
+    <UnitTest name="Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(profile: &quot;no-track&quot;, targetVersion: &quot;1.2.0&quot;)" storage="/users/marc.bauer/developer/aether-jellyfin-analysis-plugin/tests/jellyfin.plugin.aetheranalysis.tests/bin/debug/net10.0/jellyfin.plugin.aetheranalysis.tests.dll" id="940ac5ef-11ed-0ef6-b056-0a81646cd7b6">
+      <Execution id="69fca69e-7cde-4b9e-a16d-dcafab63ad35" />
+      <TestMethod codeBase="/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/tests/Jellyfin.Plugin.AetherAnalysis.Tests/bin/Debug/net10.0/Jellyfin.Plugin.AetherAnalysis.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests" name="RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter" />
+    </UnitTest>
+    <UnitTest name="Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(profile: &quot;second-default&quot;, targetVersion: &quot;1.2.0&quot;)" storage="/users/marc.bauer/developer/aether-jellyfin-analysis-plugin/tests/jellyfin.plugin.aetheranalysis.tests/bin/debug/net10.0/jellyfin.plugin.aetheranalysis.tests.dll" id="d107670a-94e7-bd84-fb59-ab893366e853">
+      <Execution id="14f8a25c-5ba0-426a-9d7b-c1733d3e4059" />
+      <TestMethod codeBase="/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/tests/Jellyfin.Plugin.AetherAnalysis.Tests/bin/Debug/net10.0/Jellyfin.Plugin.AetherAnalysis.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests" name="RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter" />
+    </UnitTest>
+    <UnitTest name="Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(profile: &quot;available&quot;, targetVersion: &quot;1.2.0-draft&quot;)" storage="/users/marc.bauer/developer/aether-jellyfin-analysis-plugin/tests/jellyfin.plugin.aetheranalysis.tests/bin/debug/net10.0/jellyfin.plugin.aetheranalysis.tests.dll" id="488228de-ec1c-10cf-3069-1ac8655c64c3">
+      <Execution id="58ef7d2e-3406-4395-a5b3-3254517b293c" />
+      <TestMethod codeBase="/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/tests/Jellyfin.Plugin.AetherAnalysis.Tests/bin/Debug/net10.0/Jellyfin.Plugin.AetherAnalysis.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests" name="RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter" />
+    </UnitTest>
+    <UnitTest name="Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(profile: &quot;second-default&quot;, targetVersion: &quot;1.2.0-draft&quot;)" storage="/users/marc.bauer/developer/aether-jellyfin-analysis-plugin/tests/jellyfin.plugin.aetheranalysis.tests/bin/debug/net10.0/jellyfin.plugin.aetheranalysis.tests.dll" id="3bde27f0-0355-d725-d49d-69d732c6d243">
+      <Execution id="31e5632e-8abc-401d-ae4f-22b1ad342e8c" />
+      <TestMethod codeBase="/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/tests/Jellyfin.Plugin.AetherAnalysis.Tests/bin/Debug/net10.0/Jellyfin.Plugin.AetherAnalysis.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests" name="RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter" />
+    </UnitTest>
+    <UnitTest name="Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(profile: &quot;no-track&quot;, targetVersion: &quot;1.2.0-draft&quot;)" storage="/users/marc.bauer/developer/aether-jellyfin-analysis-plugin/tests/jellyfin.plugin.aetheranalysis.tests/bin/debug/net10.0/jellyfin.plugin.aetheranalysis.tests.dll" id="75d47d75-2f01-4d1d-dd70-8e01d1d6e9c8">
+      <Execution id="2e816cea-8af2-48d8-a814-64b7d1537771" />
+      <TestMethod codeBase="/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/tests/Jellyfin.Plugin.AetherAnalysis.Tests/bin/Debug/net10.0/Jellyfin.Plugin.AetherAnalysis.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests" name="RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="488228de-ec1c-10cf-3069-1ac8655c64c3" executionId="58ef7d2e-3406-4395-a5b3-3254517b293c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="940ac5ef-11ed-0ef6-b056-0a81646cd7b6" executionId="69fca69e-7cde-4b9e-a16d-dcafab63ad35" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d107670a-94e7-bd84-fb59-ab893366e853" executionId="14f8a25c-5ba0-426a-9d7b-c1733d3e4059" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b03b3a08-a4bd-d713-e900-25e633576761" executionId="972ab198-350d-4d3e-bd00-201c0b0c4206" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="75d47d75-2f01-4d1d-dd70-8e01d1d6e9c8" executionId="2e816cea-8af2-48d8-a814-64b7d1537771" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3bde27f0-0355-d725-d49d-69d732c6d243" executionId="31e5632e-8abc-401d-ae4f-22b1ad342e8c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Ergebnisse nicht in einer Liste" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="Alle geladenen Ergebnisse" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="6" executed="6" passed="0" failed="6" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.5+1b188a7b0a (64-bit .NET 10.0.11)
+[xUnit.net 00:00:00.05]   Discovering: Jellyfin.Plugin.AetherAnalysis.Tests
+[xUnit.net 00:00:00.09]   Discovered:  Jellyfin.Plugin.AetherAnalysis.Tests
+[xUnit.net 00:00:00.10]   Starting:    Jellyfin.Plugin.AetherAnalysis.Tests
+[xUnit.net 00:00:02.09]       Assert.Equal() Failure: Values differ
+[xUnit.net 00:00:02.09]       Expected: AlreadyCurrent
+[xUnit.net 00:00:02.09]       Actual:   Stored
+[xUnit.net 00:00:02.09]       Stack Trace:
+[xUnit.net 00:00:02.09]         /Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftServerAnalysisRunnerTests.cs(493,0): at Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(String profile, String targetVersion)
+[xUnit.net 00:00:02.09]         /Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftServerAnalysisRunnerTests.cs(499,0): at Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(String profile, String targetVersion)
+[xUnit.net 00:00:02.09]         --- End of stack trace from previous location ---
+[xUnit.net 00:00:03.44]       Assert.Equal() Failure: Values differ
+[xUnit.net 00:00:03.44]       Expected: AlreadyCurrent
+[xUnit.net 00:00:03.44]       Actual:   Stored
+[xUnit.net 00:00:03.44]       Stack Trace:
+[xUnit.net 00:00:03.44]         /Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftServerAnalysisRunnerTests.cs(493,0): at Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(String profile, String targetVersion)
+[xUnit.net 00:00:03.44]         /Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftServerAnalysisRunnerTests.cs(499,0): at Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(String profile, String targetVersion)
+[xUnit.net 00:00:03.44]         --- End of stack trace from previous location ---
+[xUnit.net 00:00:04.73]       Assert.Equal() Failure: Values differ
+[xUnit.net 00:00:04.73]       Expected: AlreadyCurrent
+[xUnit.net 00:00:04.73]       Actual:   Stored
+[xUnit.net 00:00:04.73]       Stack Trace:
+[xUnit.net 00:00:04.73]         /Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftServerAnalysisRunnerTests.cs(493,0): at Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(String profile, String targetVersion)
+[xUnit.net 00:00:04.73]         /Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftServerAnalysisRunnerTests.cs(499,0): at Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(String profile, String targetVersion)
+[xUnit.net 00:00:04.73]         --- End of stack trace from previous location ---
+[xUnit.net 00:00:05.79]       Assert.Equal() Failure: Values differ
+[xUnit.net 00:00:05.79]       Expected: AlreadyCurrent
+[xUnit.net 00:00:05.79]       Actual:   Stored
+[xUnit.net 00:00:05.79]       Stack Trace:
+[xUnit.net 00:00:05.79]         /Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftServerAnalysisRunnerTests.cs(493,0): at Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(String profile, String targetVersion)
+[xUnit.net 00:00:05.79]         /Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftServerAnalysisRunnerTests.cs(499,0): at Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(String profile, String targetVersion)
+[xUnit.net 00:00:05.79]         --- End of stack trace from previous location ---
+[xUnit.net 00:00:06.83]       Assert.Equal() Failure: Values differ
+[xUnit.net 00:00:06.83]       Expected: AlreadyCurrent
+[xUnit.net 00:00:06.83]       Actual:   Stored
+[xUnit.net 00:00:06.83]       Stack Trace:
+[xUnit.net 00:00:06.83]         /Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftServerAnalysisRunnerTests.cs(493,0): at Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(String profile, String targetVersion)
+[xUnit.net 00:00:06.83]         /Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftServerAnalysisRunnerTests.cs(499,0): at Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(String profile, String targetVersion)
+[xUnit.net 00:00:06.83]         --- End of stack trace from previous location ---
+[xUnit.net 00:00:08.21]       Assert.Equal() Failure: Values differ
+[xUnit.net 00:00:08.21]       Expected: AlreadyCurrent
+[xUnit.net 00:00:08.21]       Actual:   Stored
+[xUnit.net 00:00:08.21]       Stack Trace:
+[xUnit.net 00:00:08.21]         /Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftServerAnalysisRunnerTests.cs(493,0): at Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(String profile, String targetVersion)
+[xUnit.net 00:00:08.21]         /Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftServerAnalysisRunnerTests.cs(499,0): at Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(String profile, String targetVersion)
+[xUnit.net 00:00:08.21]         --- End of stack trace from previous location ---
+[xUnit.net 00:00:08.21]   Finished:    Jellyfin.Plugin.AetherAnalysis.Tests
+</StdOut>
+    </Output>
+    <RunInfos>
+      <RunInfo computerName="MB-JVV9WT2VJM" outcome="Error" timestamp="2026-10-05T23:09:42.0207720+02:00">
+        <Text>[xUnit.net 00:00:02.09]     Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(profile: "second-default", targetVersion: "1.2.0") [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="MB-JVV9WT2VJM" outcome="Error" timestamp="2026-10-05T23:09:43.3721650+02:00">
+        <Text>[xUnit.net 00:00:03.44]     Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(profile: "available", targetVersion: "1.2.0") [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="MB-JVV9WT2VJM" outcome="Error" timestamp="2026-10-05T23:09:44.6615820+02:00">
+        <Text>[xUnit.net 00:00:04.73]     Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(profile: "second-default", targetVersion: "1.2.0-draft") [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="MB-JVV9WT2VJM" outcome="Error" timestamp="2026-10-05T23:09:45.7178790+02:00">
+        <Text>[xUnit.net 00:00:05.79]     Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(profile: "no-track", targetVersion: "1.2.0") [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="MB-JVV9WT2VJM" outcome="Error" timestamp="2026-10-05T23:09:46.7542660+02:00">
+        <Text>[xUnit.net 00:00:06.83]     Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(profile: "no-track", targetVersion: "1.2.0-draft") [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="MB-JVV9WT2VJM" outcome="Error" timestamp="2026-10-05T23:09:48.1397110+02:00">
+        <Text>[xUnit.net 00:00:08.21]     Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(profile: "available", targetVersion: "1.2.0-draft") [FAIL]</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+</TestRun>

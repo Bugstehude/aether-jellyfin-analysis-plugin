@@ -13,8 +13,12 @@ All notable changes to implementation and canonical contracts are recorded here.
   worker declared `coverageEndBasis: video-stream-end`, which the host rejects. The component
   worker is rebuilt from Aether `3ae4964`: cut coverage always ends at the last selected source
   PTS, and F64 records honour the left-padding sample rule on write and read.
-  New worker SHA-256 `a3dcfa605e0b20326ba9d7cd8ae539c1306630463ad561ff8de8192cda31827c`,
-  producer revision `sha256:4bcbc8808ab09df9d6bc3bab0c4a8c382e053e918704bb1551d193382eff26e0`.
+- The component worker is rebuilt from Aether `5ae57ec`, which also computes the scaled frame size
+  with exact integers (854×480 is measured at 480 instead of 478 px). Such sources are now retained
+  by the routine instead of being re-measured on every run. Sources narrower than the configured
+  width keep their own width and are still re-measured each run (known limitation).
+  Worker SHA-256 `2bf65464adbd05dd38ccf558b29a0d475ab032268b57b0ec769905a5b678c02c`,
+  producer revision `sha256:49ef7d3311998f3c15fbcf616bf6a247ea9ea3c48e2596cd3b6a3f817b99c7fd`.
 
 ## [0.4.0.1] (2026-10-05)
 
