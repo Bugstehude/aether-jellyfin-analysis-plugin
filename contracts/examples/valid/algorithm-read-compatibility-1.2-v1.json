@@ -1,0 +1,11 @@
+{
+  "id": "aether-visual",
+  "versions": ["1.2.0"],
+  "preferredVersion": "1.2.0",
+  "compatibleReadVersions": ["1.1.0", "1.0.0"],
+  "readCompatibility": [
+    { "readerVersion": "1.2.0", "analysisVersions": ["1.2.0", "1.1.0", "1.0.0"] },
+    { "readerVersion": "1.1.0", "analysisVersions": ["1.1.0", "1.0.0"] },
+    { "readerVersion": "1.0.0", "analysisVersions": ["1.0.0", "1.1.0"] }
+  ]
+}

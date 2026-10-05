@@ -32,8 +32,11 @@
 
   <!-- Vendored Node worker bundle (built from the AETHER monorepo's
        server-analysis-worker via `pnpm build:plugin`, then vendor-worker.sh).
-       Copied next to the DLL so the plugin can run `node aether-analysis-worker.cjs`. -->
+       Both bundles ship side by side. The legacy default stays pinned while the
+       1.2 bundle and its source/runtime pin manifest are available to opt-in callers. -->
   <ItemGroup>
     <None Include="..\..\worker\aether-analysis-worker.cjs" Link="aether-analysis-worker.cjs" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\worker\aether-analysis-1.2-worker.cjs" Link="aether-analysis-1.2-worker.cjs" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\worker\analysis-1.2-worker-manifest.json" Link="analysis-1.2-worker-manifest.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>

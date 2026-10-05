@@ -32,6 +32,8 @@ public sealed class ChapterGenerator(
     // Cancels any in-flight run on Dispose (host/plugin shutdown), same pattern as
     // DuplicateScanner — GenerateAsync is started fire-and-forget from the controller.
     private readonly CancellationTokenSource _lifetimeCancellation = new();
+    private readonly MediaFingerprintService _fingerprintService = new();
+    private readonly AnalysisDocumentValidator _validator = new();
 
     /// <summary>Current/last run status, polled by the config page.</summary>
     public ChapterGenerationStatus Status { get; } = new();
@@ -174,17 +176,22 @@ public sealed class ChapterGenerator(
     {
         foreach (var mediaSourceId in LocalSourceIds(item))
         {
-            var key = new AnalysisKey(item.Id, mediaSourceId, AetherAlgorithm.Id, AetherAlgorithm.Version);
-            var record = await repository.GetAsync(key, cancellationToken).ConfigureAwait(false);
-            if (record is null)
+            var media = _fingerprintService.Create(item, mediaSourceId);
+            if (media is null)
+            {
+                continue;
+            }
+
+            var stored = await AnalysisVersionPolicy.ReadAsync(repository, media, _validator, allowCompatible: true, cancellationToken)
+                .ConfigureAwait(false);
+            if (stored is null)
             {
                 continue;
             }
 
             try
             {
-                var master = CompressionCodec.Decompress(record.CompressedDocument, record.UncompressedBytes);
-                return ExtractFrames(master);
+                return ExtractFrames(stored.Master);
             }
             catch (Exception exception) when (exception is InvalidDataException or JsonException)
             {

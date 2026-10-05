@@ -1,0 +1,93 @@
+{
+  "status": "offline-composition-profile-only-not-production-release",
+  "pluginBaseCommit": "ca7cfa23130cba0868346297a0de00a4172cd836",
+  "pluginWorkingTree": "dirty-uncommitted",
+  "producerRevision": "sha256:8ddc99b791acc18b70aba15237c909024a69364637f2b776fb9a48f96a758e3b",
+  "producerFilesVerified": 43,
+  "mediaIdentity": "fictitious offline snapshot and fingerprint, not Jellyfin authority",
+  "sourceGenerator": "ffmpeg -f lavfi -i testsrc2=size=640x360:rate=25:duration=2 -f lavfi -i sine=frequency=440:sample_rate=22050:duration=2 -c:v libx264 -preset ultrafast -c:a flac neutral.mkv",
+  "note": "Bitexact wire expectations bind the checked-in measured components. Regenerating media with another FFmpeg build can change measurement bytes. Synthetic foreign metadata was added for roundtrip testing. Group reuse and other audio profiles are not implemented. No plugin long-source RSS benchmark.",
+  "tests": {
+    "pluginRelease": 224,
+    "newContextCompositionCases": 52,
+    "wireCases": 12,
+    "format": "passed"
+  },
+  "files": [
+    {
+      "path": "src/Jellyfin.Plugin.AetherAnalysis/Application/Draft/DraftAnalysisArtifactValidator.cs",
+      "bytes": 29926,
+      "sha256": "cf0726ddaa40606f1cff9635dbe9e178f2ace46747d8aa2da341edc2a49b4735"
+    },
+    {
+      "path": "src/Jellyfin.Plugin.AetherAnalysis/Application/Draft/DraftAnalysisMasterBuilder.cs",
+      "bytes": 12236,
+      "sha256": "f4b93fddbf2c0d0cac62aea4b62e73c25b61128c7ca5fafcec3bd6524a708aa5"
+    },
+    {
+      "path": "src/Jellyfin.Plugin.AetherAnalysis/Application/Draft/DraftAnalysisCompositionSession.cs",
+      "bytes": 14404,
+      "sha256": "94e6ea318e3a938bc8173e1de40b6e707b5407eeca09688a4f94538d5d7fb2b7"
+    },
+    {
+      "path": "src/Jellyfin.Plugin.AetherAnalysis/Application/Draft/PackedDenseAudioDraftCodec.cs",
+      "bytes": 8438,
+      "sha256": "9ade1313022f221e7a5f2d390aa9da86131728fc5fe7aa9fe16971059715eb46"
+    },
+    {
+      "path": "tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftAnalysisCompositionTests.cs",
+      "bytes": 28846,
+      "sha256": "01ff89d1fe17156572227b30d3ef3a4ee30686d73269ba9b01cb45cb90ad7b9d"
+    },
+    {
+      "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/audio-full-v2.json",
+      "bytes": 12011,
+      "sha256": "205c9a6f397e1d58df3d8e55e16e53d9e476fffc9ae6b19c8e653a446d6b6ca0"
+    },
+    {
+      "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/video-full-v2.json",
+      "bytes": 5725,
+      "sha256": "172246179c84646a785a510ff8593bbdc0bd93989654d3a560c614e9041da810"
+    },
+    {
+      "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/composed-full.json",
+      "bytes": 19088,
+      "sha256": "91f187ab6ee2c09fd6df45c9d4b3488ce4abed91b5d926a4f03700ca891d4b4c"
+    },
+    {
+      "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/composed-balanced.json",
+      "bytes": 15015,
+      "sha256": "189f354d47f94643eeaad2d7a16e6524b3abd4d3f6979f623bf25af2a0817da0"
+    },
+    {
+      "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/composed-compact.json",
+      "bytes": 12485,
+      "sha256": "4becc2d149b343db97fd432c53166d107f0dd53fa14a3cd264aa93aa8fc4d5cd"
+    },
+    {
+      "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/composition-wire-expected.json",
+      "bytes": 11344,
+      "sha256": "1c50b5bd1d76574fc9462cac74bac95e09d68301fbfed4c0956fda03835c02f5"
+    },
+    {
+      "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/packed-f64-golden.json",
+      "bytes": 52802,
+      "sha256": "9173d1a39fae5cdef25eb76e4c9b06087c6186bca26ad69d20404ac58e4081f1"
+    },
+    {
+      "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/desktop-interop-result.json",
+      "bytes": 1204,
+      "sha256": "167fac2721090945de21484dec3f947748e5834604c03f305c0b365e1c39a980"
+    },
+    {
+      "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/analysis-job-artifact-v2.schema.json",
+      "bytes": 39779,
+      "sha256": "1777951ca126fded0515ba4489a91eda63b7bb4b8a24b6e14e363153038ee750"
+    },
+    {
+      "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/packed-dense-audio-f64.schema.json",
+      "bytes": 1363,
+      "sha256": "c1bed075108df6c2f4299cff24d8eec70afa616a4232f6dba380426b7cdc5a21"
+    }
+  ]
+}

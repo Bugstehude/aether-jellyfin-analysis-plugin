@@ -7,4 +7,7 @@ public sealed record AlgorithmSelection(string Id, string Version);
 public sealed record ItemSelection(Guid ItemId, string MediaSourceId);
 
 /// <summary>Explicit bounded analysis selection.</summary>
-public sealed record BatchSelection(AlgorithmSelection Algorithm, IReadOnlyList<ItemSelection> Items);
+public sealed record BatchSelection(
+    AlgorithmSelection Algorithm,
+    IReadOnlyList<ItemSelection> Items,
+    bool AllowCompatible = false);

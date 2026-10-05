@@ -23,7 +23,7 @@ public sealed class AnalysisJobDispatcher(
 
     // Begrenzt: eine unbegrenzte Warteschlange liesse jeden Aufrufer mit Upload-Recht
     // beliebig viele (jeweils minuten- bis stundenlange) ffmpeg-Läufe aufstauen.
-    private readonly Channel<Guid> _channel = Channel.CreateBounded<Guid>(new BoundedChannelOptions(QueueCapacity)
+    private readonly Channel<AnalysisJobRequest> _channel = Channel.CreateBounded<AnalysisJobRequest>(new BoundedChannelOptions(QueueCapacity)
     {
         SingleReader = true,
         // Wait, NICHT DropWrite: bei DropWrite verwirft der Kanal den Auftrag
@@ -35,17 +35,23 @@ public sealed class AnalysisJobDispatcher(
         FullMode = BoundedChannelFullMode.Wait
     });
 
-    private readonly ConcurrentDictionary<Guid, AnalysisJobStatus> _status = new();
+    private readonly ConcurrentDictionary<(Guid ItemId, string? MediaSourceId), AnalysisJobStatus> _status = new();
 
     /// <summary>
     /// Queues an item for analysis; a no-op if it is already queued or running.
     /// Returns <c>null</c> when the queue is full and the request was rejected.
     /// </summary>
-    public AnalysisJobStatus? Enqueue(Guid itemId)
+    public AnalysisJobStatus? Enqueue(Guid itemId) => EnqueueCore(new AnalysisJobRequest(itemId, null, false));
+
+    /// <summary>Queues only the requested media source, optionally recalculating it.</summary>
+    public AnalysisJobStatus? Enqueue(Guid itemId, string mediaSourceId, bool recalculate = false) =>
+        EnqueueCore(new AnalysisJobRequest(itemId, mediaSourceId, recalculate));
+
+    private AnalysisJobStatus? EnqueueCore(AnalysisJobRequest request)
     {
         var queued = new AnalysisJobStatus(AnalysisJobState.Queued, 0, DateTimeOffset.UtcNow, null);
         var status = _status.AddOrUpdate(
-            itemId,
+            request.Key,
             queued,
             (_, existing) => existing.State is AnalysisJobState.Queued or AnalysisJobState.Running
                 ? existing
@@ -56,29 +62,33 @@ public sealed class AnalysisJobDispatcher(
             return status;
         }
 
-        if (_channel.Writer.TryWrite(itemId))
+        if (_channel.Writer.TryWrite(request))
         {
             return status;
         }
 
         // Nicht aufgenommen — den Queued-Eintrag zurücknehmen, sonst bliebe das Item
         // dauerhaft als "queued" stehen, ohne dass je jemand daran arbeitet.
-        _status.TryRemove(new KeyValuePair<Guid, AnalysisJobStatus>(itemId, queued));
-        logger.LogWarning("AETHER analysis queue is full ({Capacity}); rejected item {ItemId}", QueueCapacity, itemId);
+        _status.TryRemove(new KeyValuePair<(Guid, string?), AnalysisJobStatus>(request.Key, queued));
+        logger.LogWarning("AETHER analysis queue is full ({Capacity}); rejected item {ItemId}", QueueCapacity, request.ItemId);
         return null;
     }
 
     /// <summary>Gets the latest known status for an item, or null if never requested.</summary>
     public AnalysisJobStatus? GetStatus(Guid itemId) =>
-        _status.TryGetValue(itemId, out var status) ? status : null;
+        _status.TryGetValue((itemId, null), out var status) ? status : null;
+
+    /// <summary>Gets status for the concrete requested media source.</summary>
+    public AnalysisJobStatus? GetStatus(Guid itemId, string mediaSourceId) =>
+        _status.TryGetValue((itemId, mediaSourceId), out var status) ? status : null;
 
     /// <inheritdoc />
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        await foreach (var itemId in _channel.Reader.ReadAllAsync(stoppingToken).ConfigureAwait(false))
+        await foreach (var request in _channel.Reader.ReadAllAsync(stoppingToken).ConfigureAwait(false))
         {
             PruneFinishedStatus();
-            _status[itemId] = new AnalysisJobStatus(AnalysisJobState.Running, 0, DateTimeOffset.UtcNow, null);
+            _status[request.Key] = new AnalysisJobStatus(AnalysisJobState.Running, 0, DateTimeOffset.UtcNow, null);
             // MUSS synchron berichten, nicht `System.Progress<T>`: dessen `Report` liefert
             // seinen Callback über den zur Konstruktionszeit aktiven SynchronizationContext
             // (hier keiner vorhanden -> ThreadPool) NACHTRÄGLICH aus. Der letzte
@@ -87,7 +97,7 @@ public sealed class AnalysisJobDispatcher(
             // überschreiben -- der Job blieb dann für immer "running" stehen, obwohl er
             // längst fertig war (das Statusfeld, nicht der Job selbst, hing).
             var progress = new SynchronousProgress<double>(fraction =>
-                _status[itemId] = new AnalysisJobStatus(
+                _status[request.Key] = new AnalysisJobStatus(
                     AnalysisJobState.Running,
                     Math.Clamp(fraction, 0, 1),
                     DateTimeOffset.UtcNow,
@@ -95,13 +105,14 @@ public sealed class AnalysisJobDispatcher(
 
             try
             {
-                var result = await runner.AnalyzeItemAsync(itemId, progress, stoppingToken).ConfigureAwait(false);
+                var result = await runner.AnalyzeItemAsync(
+                    request.ItemId, progress, stoppingToken, request.MediaSourceId, request.Recalculate).ConfigureAwait(false);
                 var detail = result.Sources.Count == 0
                     ? "no-local-source"
-                    : (result.AnyStored ? "stored" : (result.AnyFailed ? result.Sources.First(s => s.Status == SourceAnalysisStatus.Failed).Detail : "already-current"));
+                    : (result.AnyStored ? "stored" : (result.AnyFailed ? result.Sources.First(s => s.Status == SourceAnalysisStatus.Failed).Detail : result.Sources[0].Detail ?? "already-current"));
                 var state = result.AnyFailed && !result.AnyStored ? AnalysisJobState.Failed : AnalysisJobState.Completed;
-                _status[itemId] = new AnalysisJobStatus(state, 1, DateTimeOffset.UtcNow, detail);
-                logger.LogInformation("AETHER analysis for item {ItemId} finished: {Detail}", itemId, detail);
+                _status[request.Key] = new AnalysisJobStatus(state, 1, DateTimeOffset.UtcNow, detail);
+                logger.LogInformation("AETHER analysis for item {ItemId} finished: {Detail}", request.ItemId, detail);
             }
             catch (OperationCanceledException) when (stoppingToken.IsCancellationRequested)
             {
@@ -109,8 +120,8 @@ public sealed class AnalysisJobDispatcher(
             }
             catch (Exception exception)
             {
-                _status[itemId] = new AnalysisJobStatus(AnalysisJobState.Failed, 1, DateTimeOffset.UtcNow, "error");
-                logger.LogError(exception, "AETHER analysis job for item {ItemId} failed", itemId);
+                _status[request.Key] = new AnalysisJobStatus(AnalysisJobState.Failed, 1, DateTimeOffset.UtcNow, "error");
+                logger.LogError(exception, "AETHER analysis job for item {ItemId} failed", request.ItemId);
             }
         }
     }
@@ -127,6 +138,11 @@ public sealed class AnalysisJobDispatcher(
                 _status.TryRemove(entry);
             }
         }
+    }
+
+    private sealed record AnalysisJobRequest(Guid ItemId, string? MediaSourceId, bool Recalculate)
+    {
+        public (Guid ItemId, string? MediaSourceId) Key => (ItemId, MediaSourceId);
     }
 }
 

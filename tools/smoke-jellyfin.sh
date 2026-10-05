@@ -32,7 +32,7 @@ if [[ -z "$archive" || ! -f "$archive" ]]; then
 fi
 
 archive_entries="$(unzip -Z1 "$archive" | LC_ALL=C sort)"
-expected_entries=$'Jellyfin.Plugin.AetherAnalysis.dll\naether-analysis-worker.cjs'
+expected_entries=$'Jellyfin.Plugin.AetherAnalysis.dll\naether-analysis-1.2-worker.cjs\naether-analysis-worker.cjs\nanalysis-1.2-worker-manifest.json'
 if [[ "$archive_entries" != "$expected_entries" ]]; then
   echo "Unexpected install archive contents:" >&2
   echo "$archive_entries" >&2
@@ -42,7 +42,8 @@ fi
 plugin_dir="$scratch/config/plugins/AETHER Analysis"
 mkdir -p "$plugin_dir"
 unzip -q "$archive" -d "$plugin_dir"
-if [[ ! -s "$plugin_dir/Jellyfin.Plugin.AetherAnalysis.dll" || ! -s "$plugin_dir/aether-analysis-worker.cjs" ]]; then
+if [[ ! -s "$plugin_dir/Jellyfin.Plugin.AetherAnalysis.dll" || ! -s "$plugin_dir/aether-analysis-worker.cjs" \
+  || ! -s "$plugin_dir/aether-analysis-1.2-worker.cjs" || ! -s "$plugin_dir/analysis-1.2-worker-manifest.json" ]]; then
   echo "The complete plugin archive was not installed into the smoke-test directory." >&2
   exit 1
 fi
@@ -156,7 +157,9 @@ if ! curl --connect-timeout 2 --max-time 5 --fail --silent \
   "http://127.0.0.1:${port}/AetherAnalysis/v1/capabilities" > "$scratch/capabilities.json"; then
   fail_with_logs "The authenticated AETHER capabilities endpoint failed."
 fi
-if ! jq -e '.apiVersion == "1.0" and (.supportedAnalysisSchemas | index(2)) != null' \
+if ! jq -e '.apiVersion == "1.0" and (.supportedAnalysisSchemas | index(2)) != null
+  and .supportedAlgorithms[0].preferredVersion == "1.2.0"
+  and .supportedAlgorithms[0].compatibleReadVersions == ["1.1.0", "1.0.0"]' \
   "$scratch/capabilities.json" >/dev/null; then
   fail_with_logs "The AETHER capabilities response did not match the client contract."
 fi

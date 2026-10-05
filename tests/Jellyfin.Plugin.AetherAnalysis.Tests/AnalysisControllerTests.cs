@@ -1,6 +1,9 @@
 using System.Security.Claims;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using Jellyfin.Plugin.AetherAnalysis.Api;
 using Jellyfin.Plugin.AetherAnalysis.Application;
+using Jellyfin.Plugin.AetherAnalysis.Application.Draft;
 using Jellyfin.Plugin.AetherAnalysis.Contracts;
 using Jellyfin.Plugin.AetherAnalysis.Infrastructure;
 using MediaBrowser.Controller.Entities;
@@ -112,6 +115,63 @@ public sealed class AnalysisControllerTests
         StatusCodeResult statusCode => statusCode.StatusCode,
         _ => 0,
     };
+
+    private static object? Property(object value, string name) =>
+        value.GetType().GetProperty(name)?.GetValue(value);
+
+    private static object FirstBatchItem(ActionResult result)
+    {
+        var body = Assert.IsType<OkObjectResult>(result).Value!;
+        var items = Assert.IsAssignableFrom<IEnumerable<object>>(Property(body, "items"));
+        return Assert.Single(items);
+    }
+
+    private static AnalysisRecordMetadata Metadata(string version, string fingerprint) => new(
+        new AnalysisKey(ItemId, "quelle-1", "aether-visual", version), fingerprint,
+        DateTimeOffset.UnixEpoch, DateTimeOffset.UnixEpoch, 12, 128, $"\"etag-{version}\"");
+
+    private static BatchSelection OneItem(bool allowCompatible = false, string requestedVersion = "1.1.0") => new(
+        new AlgorithmSelection("aether-visual", requestedVersion),
+        [new ItemSelection(ItemId, "quelle-1")], allowCompatible);
+
+    private static AnalysisRecord RecordFor(MediaFingerprint media, string version)
+    {
+        var upload = JsonNode.Parse(
+            """
+            {
+              "schemaVersion": 2,
+              "createdAt": "2026-01-01T00:00:00Z",
+              "durationMs": 60000,
+              "sampling": { "intervalMs": 500, "frameWidth": 480, "frameHeight": 270, "colorSpace": "srgb" },
+              "producer": { "name": "aether", "version": "1.0.0", "platform": "browser" },
+              "mediaFingerprintAtStart": "placeholder",
+              "frames": [
+                { "timestampMs": 0, "luminance": 0.1, "contrast": 0.2, "saturation": 0.3, "motionEnergy": 0.4, "sceneCutProbability": 0.1, "palette": [] }
+              ]
+            }
+            """)!.AsObject();
+        upload["mediaFingerprintAtStart"] = media.Fingerprint;
+        var document = new AnalysisRepresentationService().BuildMaster(
+            upload, media, "aether-visual", version, DateTimeOffset.UnixEpoch);
+        var compressed = CompressionCodec.Compress(document);
+        return new AnalysisRecord
+        {
+            ItemId = media.ItemId,
+            MediaSourceId = media.MediaSourceId,
+            AlgorithmId = "aether-visual",
+            AlgorithmVersion = version,
+            MediaFingerprint = media.Fingerprint,
+            FingerprintQuality = media.FingerprintQuality,
+            Etag = "\"legacy-master\"",
+            CompressedDocument = compressed,
+            UncompressedBytes = document.Length,
+            FrameCount = 1,
+            SourceIntervalMs = 500,
+            CreatedAt = DateTimeOffset.UnixEpoch,
+            StoredAt = DateTimeOffset.UnixEpoch,
+            LastAccessedAt = DateTimeOffset.UnixEpoch
+        };
+    }
 
     [Theory]
     [InlineData("text/html")]
@@ -342,5 +402,266 @@ public sealed class AnalysisControllerTests
         var result = await controller.GetAnalysis(ItemId, "quelle-1", "aether-visual", "1.1.0");
 
         Assert.Equal(StatusCodes.Status404NotFound, StatusOf(result));
+    }
+
+    [Fact]
+    public async Task BatchQueryUsesOnlyTheExactVersionByDefault()
+    {
+        var library = LibraryWithVisibleItem();
+        var fingerprint = new MediaFingerprintService()
+            .Create(library.GetItemById<BaseItem>(ItemId, UserId)!, "quelle-1")!.Fingerprint;
+        var repository = RepositoryWith(Metadata("1.0.0", fingerprint));
+        var controller = CreateController(library, repository, userId: UserId);
+
+        var result = await controller.QueryAnalyses(OneItem(), CancellationToken.None);
+
+        Assert.Equal("missing", Property(FirstBatchItem(result), "status"));
+    }
+
+    [Fact]
+    public async Task BatchQueryReadsCompatibleVersionOnlyWhenRequestedAndReportsItsIdentity()
+    {
+        var library = LibraryWithVisibleItem();
+        var fingerprint = new MediaFingerprintService()
+            .Create(library.GetItemById<BaseItem>(ItemId, UserId)!, "quelle-1")!.Fingerprint;
+        var repository = RepositoryWith(Metadata("1.0.0", fingerprint));
+        var controller = CreateController(library, repository, userId: UserId);
+
+        var result = await controller.QueryAnalyses(OneItem(allowCompatible: true), CancellationToken.None);
+        var item = FirstBatchItem(result);
+
+        Assert.Equal("available", Property(item, "status"));
+        var algorithm = Property(item, "algorithm")!;
+        Assert.Equal("aether-visual", Property(algorithm, "id"));
+        Assert.Equal("1.0.0", Property(algorithm, "version"));
+    }
+
+    [Fact]
+    public async Task OlderReaderCanOptInToReadingNewerStoredVersion()
+    {
+        var library = LibraryWithVisibleItem();
+        var fingerprint = new MediaFingerprintService()
+            .Create(library.GetItemById<BaseItem>(ItemId, UserId)!, "quelle-1")!.Fingerprint;
+        var repository = RepositoryWith(Metadata("1.1.0", fingerprint));
+        var controller = CreateController(library, repository, userId: UserId);
+
+        var exact = await controller.QueryAnalyses(OneItem(requestedVersion: "1.0.0"), CancellationToken.None);
+        var compatible = await controller.QueryAnalyses(
+            OneItem(allowCompatible: true, requestedVersion: "1.0.0"), CancellationToken.None);
+
+        Assert.Equal("missing", Property(FirstBatchItem(exact), "status"));
+        Assert.Equal("1.1.0", Property(Property(FirstBatchItem(compatible), "algorithm")!, "version"));
+    }
+
+    [Fact]
+    public async Task BatchQueryPrefersCurrentVersionWhenBothFingerprintsMatch()
+    {
+        var library = LibraryWithVisibleItem();
+        var fingerprint = new MediaFingerprintService()
+            .Create(library.GetItemById<BaseItem>(ItemId, UserId)!, "quelle-1")!.Fingerprint;
+        var current = Metadata("1.1.0", fingerprint);
+        var legacy = Metadata("1.0.0", fingerprint);
+        var repository = Substitute.For<IAnalysisRepository>();
+        repository.GetMetadataAsync(Arg.Any<IReadOnlyCollection<AnalysisKey>>(), Arg.Any<CancellationToken>())
+            .Returns(new Dictionary<AnalysisKey, AnalysisRecordMetadata> { [legacy.Key] = legacy, [current.Key] = current });
+        var controller = CreateController(library, repository, userId: UserId);
+
+        var result = await controller.QueryAnalyses(OneItem(allowCompatible: true), CancellationToken.None);
+
+        Assert.Equal("1.1.0", Property(Property(FirstBatchItem(result), "algorithm")!, "version"));
+    }
+
+    [Fact]
+    public async Task BatchQueryUsesMatchingLegacyWhenCurrentIsStale()
+    {
+        var library = LibraryWithVisibleItem();
+        var fingerprint = new MediaFingerprintService()
+            .Create(library.GetItemById<BaseItem>(ItemId, UserId)!, "quelle-1")!.Fingerprint;
+        var current = Metadata("1.1.0", "sha256:stale");
+        var legacy = Metadata("1.0.0", fingerprint);
+        var repository = Substitute.For<IAnalysisRepository>();
+        repository.GetMetadataAsync(Arg.Any<IReadOnlyCollection<AnalysisKey>>(), Arg.Any<CancellationToken>())
+            .Returns(new Dictionary<AnalysisKey, AnalysisRecordMetadata> { [legacy.Key] = legacy, [current.Key] = current });
+        var controller = CreateController(library, repository, userId: UserId);
+
+        var result = await controller.QueryAnalyses(OneItem(allowCompatible: true), CancellationToken.None);
+        var item = FirstBatchItem(result);
+
+        Assert.Equal("available", Property(item, "status"));
+        Assert.Equal("1.0.0", Property(Property(item, "algorithm")!, "version"));
+    }
+
+    [Fact]
+    public async Task BatchQueryDoesNotReadAnUnadvertisedVersion()
+    {
+        var library = LibraryWithVisibleItem();
+        var fingerprint = new MediaFingerprintService()
+            .Create(library.GetItemById<BaseItem>(ItemId, UserId)!, "quelle-1")!.Fingerprint;
+        var repository = RepositoryWith(Metadata("0.9.0", fingerprint));
+        var controller = CreateController(library, repository, userId: UserId);
+
+        var result = await controller.QueryAnalyses(OneItem(allowCompatible: true), CancellationToken.None);
+
+        Assert.Equal("missing", Property(FirstBatchItem(result), "status"));
+    }
+
+    [Fact]
+    public async Task BatchQueryReportsStaleWhenCandidatesExistButFingerprintsDoNotMatch()
+    {
+        var library = LibraryWithVisibleItem();
+        var repository = RepositoryWith(Metadata("1.0.0", "sha256:old"));
+        var controller = CreateController(library, repository, userId: UserId);
+
+        var result = await controller.QueryAnalyses(OneItem(allowCompatible: true), CancellationToken.None);
+        var item = FirstBatchItem(result);
+
+        Assert.Equal("stale", Property(item, "status"));
+        Assert.Equal("media-changed", Property(item, "reason"));
+    }
+
+    [Fact]
+    public async Task BatchQueryConcealsInaccessibleItemsAsMissing()
+    {
+        var repository = Substitute.For<IAnalysisRepository>();
+        var controller = CreateController(EmptyLibrary(), repository, userId: UserId);
+
+        var result = await controller.QueryAnalyses(OneItem(allowCompatible: true), CancellationToken.None);
+
+        Assert.Equal("missing", Property(FirstBatchItem(result), "status"));
+        await repository.DidNotReceive().GetMetadataAsync(
+            Arg.Any<IReadOnlyCollection<AnalysisKey>>(), Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task ExactHeadCanReadLegacyWhileCurrentGetRemainsMissing()
+    {
+        var library = LibraryWithVisibleItem();
+        var fingerprint = new MediaFingerprintService()
+            .Create(library.GetItemById<BaseItem>(ItemId, UserId)!, "quelle-1")!.Fingerprint;
+        var repository = RepositoryWith(Metadata("1.0.0", fingerprint));
+        var media = new MediaFingerprintService()
+            .Create(library.GetItemById<BaseItem>(ItemId, UserId)!, "quelle-1")!;
+        repository.GetAsync(Arg.Any<AnalysisKey>(), Arg.Any<CancellationToken>())
+            .Returns(RecordFor(media, "1.0.0"));
+        var controller = CreateController(library, repository, userId: UserId);
+
+        var legacyGet = await controller.GetAnalysis(ItemId, "quelle-1", "aether-visual", "1.0.0");
+        var legacyHead = await controller.HeadAnalysis(ItemId, "quelle-1", "aether-visual", "1.0.0");
+        var currentGet = await controller.GetAnalysis(ItemId, "quelle-1", "aether-visual", "1.1.0");
+
+        Assert.IsType<FileContentResult>(legacyGet);
+        Assert.Equal(StatusCodes.Status204NoContent, StatusOf(legacyHead));
+        Assert.Equal(StatusCodes.Status404NotFound, StatusOf(currentGet));
+    }
+
+    [Fact]
+    public void CapabilitiesExposeCurrentAndCompatibleReadVersionsSeparately()
+    {
+        var controller = CreateController(EmptyLibrary(), userId: UserId);
+        var body = Assert.IsType<OkObjectResult>(controller.GetCapabilities()).Value!;
+        var algorithms = Assert.IsAssignableFrom<IEnumerable<object>>(Property(body, "supportedAlgorithms"));
+        var algorithm = Assert.Single(algorithms);
+
+        Assert.Equal("1.2.0", Property(algorithm, "preferredVersion"));
+        Assert.Contains("1.2.0", Assert.IsAssignableFrom<IEnumerable<string>>(Property(algorithm, "versions")));
+        Assert.Equal(new[] { "1.1.0", "1.0.0" }, Assert.IsAssignableFrom<IEnumerable<string>>(Property(algorithm, "compatibleReadVersions")));
+        Assert.NotEmpty(Assert.IsAssignableFrom<IEnumerable<object>>(Property(algorithm, "readCompatibility")));
+        Assert.DoesNotContain(AetherAlgorithm.ReadCompatibility.Where(row => row.ReaderVersion != "1.2.0"),
+            row => row.AnalysisVersions.Contains("1.2.0"));
+    }
+
+    [Theory]
+    [InlineData("full", 100)]
+    [InlineData("balanced", 40)]
+    [InlineData("compact", 20)]
+    public async Task Stable12HttpRepresentationKeepsMeasuredGroupsAndMatchesHeadEtag(string detail, int expectedPoints)
+    {
+        var library = LibraryWithVisibleItem();
+        var item = library.GetItemById<BaseItem>(ItemId, UserId)!;
+        item.Id = ItemId;
+        item.GetMediaSources(false)[0].RunTimeTicks = TimeSpan.FromSeconds(2).Ticks;
+        var media = new MediaFingerprintService().Create(item, "quelle-1")!;
+        JsonObject Component(string mode)
+        {
+            var node = JsonNode.Parse(File.ReadAllBytes(Path.Combine(AppContext.BaseDirectory, "draft", mode + "-full-v2.json")))!.AsObject();
+            node["snapshot"]!["itemId"] = ItemId.ToString();
+            node["snapshot"]!["mediaSourceId"] = media.MediaSourceId;
+            node["snapshot"]!["sourceFingerprint"] = media.Fingerprint;
+            if (node["video"] is JsonObject video) video["mediaFingerprintAtStart"] = media.Fingerprint;
+            foreach (var group in node["signalProvenance"]!.AsObject()) group.Value!["sourceFingerprint"] = media.Fingerprint;
+            if (node["video"] is JsonObject videoComponent) videoComponent["signalProvenance"] = node["signalProvenance"]!.DeepClone();
+            return node;
+        }
+
+        var audio = Component("audio");
+        var video = Component("video");
+        var context = new DraftArtifactContext(ItemId, media.MediaSourceId, media.Fingerprint, media.DurationMs,
+            1, null, audio["producerRevision"]!.GetValue<string>(), TargetVersion: "1.2.0");
+        var master = DraftAnalysisMasterBuilder.Build(JsonSerializer.SerializeToUtf8Bytes(audio),
+            JsonSerializer.SerializeToUtf8Bytes(video), context, media, DateTimeOffset.UtcNow);
+        var record = RecordFor(media, "1.2.0");
+        record.CompressedDocument = CompressionCodec.Compress(master);
+        record.UncompressedBytes = master.Length;
+        record.Etag = AnalysisRepresentationService.CreateEtag(master);
+        var key = new AnalysisKey(ItemId, media.MediaSourceId, "aether-visual", "1.2.0");
+        var repository = RepositoryWith(Metadata("1.2.0", media.Fingerprint) with { Etag = record.Etag });
+        repository.GetAsync(key, Arg.Any<CancellationToken>()).Returns(record);
+        var controller = CreateController(library, repository, userId: UserId);
+
+        Assert.Equal(StatusCodes.Status204NoContent, StatusOf(await controller.HeadAnalysis(ItemId, media.MediaSourceId,
+            "aether-visual", "1.2.0", detail)));
+        var headEtag = controller.Response.Headers.ETag.ToString();
+        var get = Assert.IsType<FileContentResult>(await controller.GetAnalysis(ItemId, media.MediaSourceId,
+            "aether-visual", "1.2.0", detail));
+        using var output = JsonDocument.Parse(get.FileContents);
+        var root = output.RootElement;
+        Assert.Equal("1.2.0", root.GetProperty("algorithm").GetProperty("version").GetString());
+        Assert.Equal(detail, root.GetProperty("representation").GetProperty("detail").GetString());
+        Assert.Equal(expectedPoints, root.GetProperty("packedDenseAudioFrames").GetProperty("pointCount").GetInt32());
+        Assert.Equal(4, root.GetProperty("audioFrames").GetArrayLength());
+        Assert.True(root.TryGetProperty("cutEvents", out _));
+        Assert.Equal(headEtag, controller.Response.Headers.ETag.ToString());
+        Assert.Equal("1.2.0-draft", root.GetProperty("signalProvenance").GetProperty("denseAudio").GetProperty("algorithmVersion").GetString());
+    }
+
+    [Fact]
+    public async Task Stable12CannotBeCreatedByRelabelingAnUnverifiedUpload()
+    {
+        var controller = CreateController(EmptyLibrary(), userId: UserId, isAdministrator: true);
+        var result = await controller.PutAnalysis(ItemId, "quelle-1", "aether-visual", "1.2.0", default, default);
+        Assert.Equal(StatusCodes.Status422UnprocessableEntity, StatusOf(result));
+    }
+
+    [Fact]
+    public async Task CompatibleReaderGoldenFilesMatchTheRuntimeContract()
+    {
+        var root = Path.Combine(AppContext.BaseDirectory, "contracts", "examples", "valid");
+        var options = new JsonSerializerOptions(JsonSerializerDefaults.Web);
+        var request = JsonSerializer.Deserialize<BatchSelection>(
+            File.ReadAllText(Path.Combine(root, "compatible-reader-query-v1.json")), options)!;
+        var library = LibraryWithVisibleItem();
+        var fingerprint = new MediaFingerprintService()
+            .Create(library.GetItemById<BaseItem>(ItemId, UserId)!, "quelle-1")!.Fingerprint;
+        var controller = CreateController(library, RepositoryWith(Metadata("1.1.0", fingerprint)), userId: UserId);
+
+        var response = Assert.IsType<OkObjectResult>(await controller.QueryAnalyses(request, CancellationToken.None));
+        var expected = JsonNode.Parse(File.ReadAllText(Path.Combine(root, "compatible-reader-status-v1.json")));
+        var actual = JsonSerializer.SerializeToNode(response.Value, options);
+        Assert.True(JsonNode.DeepEquals(expected, actual));
+
+        var capabilities = Assert.IsType<OkObjectResult>(controller.GetCapabilities()).Value!;
+        var algorithm = Assert.Single(Assert.IsAssignableFrom<IEnumerable<object>>(Property(capabilities, "supportedAlgorithms")));
+        var expectedAlgorithm = JsonNode.Parse(File.ReadAllText(Path.Combine(root, "algorithm-read-compatibility-1.2-v1.json")));
+        Assert.True(JsonNode.DeepEquals(expectedAlgorithm, JsonSerializer.SerializeToNode(algorithm, options)));
+    }
+
+    [Fact]
+    public async Task DeleteRejectsCompatibleSelectionEvenForAdministrator()
+    {
+        var controller = CreateController(EmptyLibrary(), userId: UserId, isAdministrator: true);
+
+        var result = await controller.DeleteSelected(OneItem(allowCompatible: true), CancellationToken.None);
+
+        Assert.Equal(StatusCodes.Status400BadRequest, StatusOf(result));
     }
 }

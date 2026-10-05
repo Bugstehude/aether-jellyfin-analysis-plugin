@@ -1,0 +1,853 @@
+{
+  "date": "2026-10-05",
+  "status": "accepted-isolated-desktop-and-tv-synchronized-reader-preparation-not-release",
+  "scope": "source and contract review, independent hash verification; no test or build rerun",
+  "pins": [
+    {
+      "path": "/Users/Marc.Bauer/Developer/Aether/docs/reviews/2026-10-05-analysis-1.2-synchronized-reader-results.md",
+      "bytes": 16294,
+      "sha256": "5c889075bf9a435b8de82e7fa4e2971ea3ac0822829c5bab9747c23872e76811"
+    },
+    {
+      "path": "/Users/Marc.Bauer/Developer/Aether/docs/reviews/2026-10-05-analysis-1.2-synchronized-reader-plugin-response-prompt.md",
+      "bytes": 4546,
+      "sha256": "cbc8a39dfaf74268fd7492f7c1898ab27edef41046a08b1bc397da7150bd7db9"
+    },
+    {
+      "path": "/Users/Marc.Bauer/Developer/Aether/docs/reviews/artifacts/analysis-1.2-synchronized-reader/checks.json",
+      "bytes": 23507,
+      "sha256": "ca1febdddb69b6a2add92b3bc3124bfc1372071152f3bdbacfbfcc11136ebc9a"
+    },
+    {
+      "path": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/docs/reviews/2026-10-05-analysis-1.2-synchronized-reader-acceptance.md",
+      "bytes": 6239,
+      "sha256": "05f16d095da2ff399eea8c705589bbda27a409df69d6b65e9195796beef7d662"
+    },
+    {
+      "path": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/docs/reviews/2026-10-05-analysis-1.2-aether-player-integration-worker-prompt.md",
+      "bytes": 3978,
+      "sha256": "ec7f2f78c6a0723860aecc719292333d7c118e193b1880c153d88b6d67d3f9ec"
+    },
+    {
+      "path": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/docs/reviews/2026-10-05-analysis-1.2-tv-rollout-preparation-acceptance.md",
+      "bytes": 4000,
+      "sha256": "b5c17c82248b359988f755e65328ebee52561858c85e0d281dfa2da9c96f4ecb"
+    },
+    {
+      "path": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/docs/reviews/artifacts/analysis-1.2-plugin-draft/tv-rollout-preparation-acceptance.json",
+      "bytes": 34213,
+      "sha256": "d5b8e8acf03b0ebb5c29a7d1a89dd9c9ec6e4e2252ea7ce34dea0c8e3840b2ff"
+    }
+  ],
+  "hashScopeClarification": {
+    "routineManifestField": "checks.activeContractHash",
+    "meaning": "OpenAPI and JSON-schema bundle digest, not Markdown file digest",
+    "openApiSchemaBundleSha256": "d07b7140ec4985a88f286d44986d914175bff89c2bd36bdc899e0664faf184af",
+    "calculation": "SHA256 of the concatenated five lowercase hex file SHA256 values, each followed by LF; OpenAPI first, schemas sorted by path",
+    "bundleFilePins": [
+      {
+        "path": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/contracts/openapi/aether-analysis-v1.yaml",
+        "bytes": 38654,
+        "sha256": "92cbcac8ce55dbda40decb4517f0b9190a9cc8b43190f2a5009ee26a66ba74a3"
+      },
+      {
+        "path": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/contracts/schemas/analysis-document-v2.schema.json",
+        "bytes": 2752,
+        "sha256": "601464719973ed2c62963dea903877c76f421a225cd126f28f36b7df0204c4e4"
+      },
+      {
+        "path": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/contracts/schemas/analysis-upload-v2.schema.json",
+        "bytes": 4742,
+        "sha256": "f6ff34c3deb5feb6b92b8405f57a1cf4ee372147389e9d6df3f86d5867cfe8ac"
+      },
+      {
+        "path": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/contracts/schemas/device-quality-profile-v1.schema.json",
+        "bytes": 9876,
+        "sha256": "a177feb2d6153a4327b5451bd09bed52867980ece41e588f9208ebaef27c4a35"
+      },
+      {
+        "path": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/contracts/schemas/manual-preset-v1.schema.json",
+        "bytes": 1178,
+        "sha256": "09f6e811b348635d763bc52aaca516b35e0554c69b3147c442bcef399805c469"
+      }
+    ],
+    "hashTool": {
+      "path": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/tools/contract-hash.sh",
+      "bytes": 956,
+      "sha256": "3caf9e100480736bd30ce9b7449ad6760785e60be4147b2e07717d82e5e7e284"
+    },
+    "expectedBundleHashFile": {
+      "path": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/contracts/contract.sha256",
+      "bytes": 65,
+      "sha256": "9722729d98d3688e81d1b9ba98205f73db6912822a631d762e147b7a02fba266"
+    },
+    "versionDocument": {
+      "path": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/docs/analysis-version-contract.md",
+      "bytes": 7357,
+      "sha256": "e276dd9389832ea2ba33327c7ac383a3c5085152c6be9dbf70b490818e4d0bff"
+    },
+    "fieldWireDocument": {
+      "path": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/docs/analysis-1.2-contract.md",
+      "bytes": 10600,
+      "sha256": "9cc69f0ed067c565b57625ff311cc81bd18fec0cfea94491a28bce053e7d0864"
+    },
+    "versionMarkdownIncludedInBundle": false,
+    "actualMismatch": false,
+    "historicalManifestRewritten": false
+  },
+  "desktopChecksSnapshot": {
+    "date": "2026-10-05",
+    "status": "isolated-synchronized-reader-preparation-not-release",
+    "git": {
+      "head": "ff4b51d2a2b135c0bdf3a31f37162f469bce2ab8",
+      "branch": "experiment/analysis-1.2",
+      "workingTreeDirty": true
+    },
+    "productionAlgorithm": "aether-visual/1.1.0",
+    "draftAlgorithm": "aether-visual/1.2.0-draft",
+    "gate12": false,
+    "activeMatrixChanged": false,
+    "plannedReaderVersion": "1.2.0",
+    "plannedSyntheticDirection": [
+      "1.2.0",
+      "1.1.0",
+      "1.0.0"
+    ],
+    "plannedCapabilitiesPublished": false,
+    "sourceScopeRevision": {
+      "sha256": "4b44bfc2d6a6ecbcae20c39ac8dd0eb820c663c1c44c5935c8972a0274ba2afa",
+      "scope": "sorted path/hash JSON pairs for the 14 reader/runtime/test files listed here; not a Worker Producerrevision or release pin"
+    },
+    "sourcePins": [
+      {
+        "path": "apps/desktop-web/src/jellyfin/synchronized-analysis-policy.ts",
+        "bytes": 1789,
+        "sha256": "3f333e44c743acece194a1267f48e8661e4ca4be1ce7ecfd242dd5ed56fa0c54"
+      },
+      {
+        "path": "apps/desktop-web/src/jellyfin/synchronized-analysis-client.ts",
+        "bytes": 9769,
+        "sha256": "bc83f8735981ec737ed0fdbb3d114ed8d400d32b5be9ef109a039c1b5ed4981e"
+      },
+      {
+        "path": "apps/desktop-web/src/jellyfin/synchronized-analysis-client.test.ts",
+        "bytes": 17000,
+        "sha256": "bf5dfa07ef74a9e40d1596ebe087d2fc8ac5ea45f51b51bec6e04d36cb75304d"
+      },
+      {
+        "path": "apps/desktop-web/src/analysis/synchronized-analysis-cache.ts",
+        "bytes": 1137,
+        "sha256": "bfdcccd2fb69700049a27c67ce094eb15781adc30e6bd72ba706788eaed2b0f2"
+      },
+      {
+        "path": "apps/desktop-web/src/analysis/synchronized-indexeddb-cache.ts",
+        "bytes": 4302,
+        "sha256": "2b69fcb6ea2102a73b3b0ee53d284e2ddbc02ddaf503bccfd05fc931ced67ad3"
+      },
+      {
+        "path": "apps/desktop-web/src/analysis/synchronized-indexeddb-cache.test.ts",
+        "bytes": 6256,
+        "sha256": "1bc2a9816eb84237f20bb6f95f2e8c5e48b4dbb1b436abc35dcd4a238188dcae"
+      },
+      {
+        "path": "apps/desktop-web/src/analysis/synchronized-replay-reader.ts",
+        "bytes": 1767,
+        "sha256": "d2ef7424700d43128898e58b0237a9544e746b7143f55147baabc043e3a34a87"
+      },
+      {
+        "path": "apps/desktop-web/src/analysis/synchronized-reader-fallback.test.ts",
+        "bytes": 15552,
+        "sha256": "129b3a1dfc5fd24f7618439a6204b6e5937015dc71c539ecbde5cba1a390a8c6"
+      },
+      {
+        "path": "apps/desktop-web/src/analysis/precomputed-analysis-resolver.ts",
+        "bytes": 6912,
+        "sha256": "09469b82ae991e79194265a30d6838a084bb64d5961a1bcb0b53192af365baac"
+      },
+      {
+        "path": "apps/desktop-web/src/analysis/analysis-controller.ts",
+        "bytes": 38153,
+        "sha256": "6c9d5b15ec0a8bc6c65770dddd52013147ca3e3fe4f31be542f3964ac2be1a35"
+      },
+      {
+        "path": "apps/desktop-web/src/jellyfin/jellyfin-browser.ts",
+        "bytes": 37044,
+        "sha256": "053978bde615d8e333c4792e7d6211a8a8c5c7f39e85814c07256947246344ea"
+      },
+      {
+        "path": "apps/desktop-web/src/jellyfin/plugin-analysis-client.ts",
+        "bytes": 25668,
+        "sha256": "a91a803cf1e735c3ff04ddf9eac9302d2bcdf159a10a09da3200efd98d59d96c"
+      },
+      {
+        "path": "apps/desktop-web/src/jellyfin/plugin-endpoints.ts",
+        "bytes": 3501,
+        "sha256": "1ad4e3462a1d1973394c3f9d08aae95630c648c5cc6bf4445c767788778e7df1"
+      },
+      {
+        "path": "apps/desktop-web/src/jellyfin/plugin-contract.test.ts",
+        "bytes": 5637,
+        "sha256": "18fcfa45f109c0d60d2a27c4deed816e3f81c3b980f5445435ab27240a429f5d"
+      }
+    ],
+    "unchangedAcceptedSources": [
+      {
+        "path": "apps/desktop-web/src/analysis/draft-replay-adapter.ts",
+        "bytes": 14750,
+        "sha256": "c0e21d85503d4499c6f5bd3504fb716c1843987376740f189292ea657eeb5643"
+      },
+      {
+        "path": "apps/desktop-web/src/analysis/draft-signal-consumer.ts",
+        "bytes": 6454,
+        "sha256": "815bf9083dcc9e94a046009738ed7fcb208f7ea54da9da65b1e8ceff45e2385d"
+      },
+      {
+        "path": "apps/desktop-web/src/analysis/effect-analysis-signals.ts",
+        "bytes": 612,
+        "sha256": "78675a23262d653dfae473dbd17577facf82fa279007ca05ae160832a0c95f55"
+      },
+      {
+        "path": "apps/desktop-web/src/render/render-controller.ts",
+        "bytes": 150630,
+        "sha256": "42d71a19e420efd49582b663cb695427a15f8882168c60da98dbd852b50380b1"
+      },
+      {
+        "path": "packages/analysis-cache/src/draft-analysis.ts",
+        "bytes": 34281,
+        "sha256": "d7bb9e00878262b120b0ec2095f67828415a5b7a921ff6f5d4978a55aef03ce4"
+      },
+      {
+        "path": "packages/analysis-cache/src/draft-packed-f64.ts",
+        "bytes": 16811,
+        "sha256": "e8148b4cd2a8ca30a0a0575938ecdf06fd0c4f022466be361bc43d6cce15a979"
+      },
+      {
+        "path": "apps/desktop-web/analysis-lab-plugin.ts",
+        "bytes": 3435,
+        "sha256": "a87f2a73a49535b4f4322fd1ccd1d58c87c5236867dfe3fbef985837ac8598a2"
+      },
+      {
+        "path": "apps/desktop-web/src/lab/analysis-lab.ts",
+        "bytes": 9472,
+        "sha256": "0d596a8bec442bf9ee823b494cc74c1c931455940798c5f44a6011dd147a7351"
+      },
+      {
+        "path": "apps/desktop-web/src/lab/analysis-lab.css",
+        "bytes": 670,
+        "sha256": "c6e0c9b7fba6ae3b50fc69e14be0fb86c196f300e34a56a154ba18ec69e969a4"
+      },
+      {
+        "path": "tools/benchmarks/prepare-analysis-preview.ts",
+        "bytes": 4191,
+        "sha256": "5876a106e33bdfab437bafb6b862fa1a9f6f20536a2feab55888bb48f21c7500"
+      }
+    ],
+    "unchangedAcceptedFixtures": [
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-host-contract/available-balanced.json",
+        "bytes": 15019,
+        "sha256": "e914f5f3371fe74648e5971ab9cdbb253a4e76b80146601f72f60890f6cfb6d0"
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-host-contract/available-compact.json",
+        "bytes": 12499,
+        "sha256": "517a0c043051b21b6a392d1d0a5a285a6a3bd80cebf84d649b53d830f09003f0"
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-host-contract/available-full.json",
+        "bytes": 19092,
+        "sha256": "60fcab8f6f47ceed093fc49807481ab4dd8714e8ed67a8fbfb10fbcaf5b1cc9c"
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-host-contract/no-track-balanced.json",
+        "bytes": 7992,
+        "sha256": "cab9300a156a0b7dd7fcf4af61ef43d087cae09fda0747e53ab1f755c83f9d87"
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-host-contract/no-track-compact.json",
+        "bytes": 6830,
+        "sha256": "e93fc63f1159723b450d8db5bc152b9f780cc0578384b9ab217da20716725c90"
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-host-contract/no-track-full.json",
+        "bytes": 7989,
+        "sha256": "60f1f178f03ba3f255952b7da1a3a69755493c893bbac4c552480f6cc4d95297"
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-host-contract/second-default-balanced.json",
+        "bytes": 15021,
+        "sha256": "9297bf0ad9a4507d82a2106f0476a74fe62474c022f5f709d2249f28a72363a8"
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-host-contract/second-default-compact.json",
+        "bytes": 12501,
+        "sha256": "aae07edfc26b502878a8aecfc613217c4119fd249f61197b3381d22a8cb7c33c"
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-host-contract/second-default-full.json",
+        "bytes": 19094,
+        "sha256": "78dad2f33e8671e865fe6e57b3559c97497d72073aab334f9d505a3467c672b0"
+      }
+    ],
+    "originalInputs": [
+      {
+        "path": "docs/design/plugin-contracts/example-valid.json",
+        "bytes": 1160,
+        "sha256": "e5ffe35ef0bceba423c10c525b961b9252f3db0ec43568616343e7da8d4fca2c"
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-host-contract/legacy-example-1.1.json",
+        "bytes": 1160,
+        "sha256": "38454e22ce6bc74eee14a214650dc1194db6f6325d4d5a63d8ee2c9b978b049b"
+      },
+      {
+        "path": "packages/analysis-cache/src/__fixtures__/packed-f64-golden.json",
+        "bytes": 52802,
+        "sha256": "9173d1a39fae5cdef25eb76e4c9b06087c6186bca26ad69d20404ac58e4081f1"
+      }
+    ],
+    "pluginRoutineManifest": {
+      "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/routine-migration-manifest.json",
+      "bytes": 17864,
+      "sha256": "34078d74c28b1f2685287c089e458ea0e823578e1a73b04b73d9388bd14c8772"
+    },
+    "verifiedPluginPins": [
+      {
+        "path": "docs/analysis-1.2-contract.md",
+        "bytes": 10600,
+        "sha256": "9cc69f0ed067c565b57625ff311cc81bd18fec0cfea94491a28bce053e7d0864"
+      },
+      {
+        "path": "src/Jellyfin.Plugin.AetherAnalysis/Application/AnalysisWorkerExecutionGate.cs",
+        "bytes": 1101,
+        "sha256": "e8d6a4722d8199cec2865c8326be6e84c82691ed3d83e7590bebca15a6c573a3"
+      },
+      {
+        "path": "src/Jellyfin.Plugin.AetherAnalysis/Application/Draft/DraftAnalysisArtifactValidator.cs",
+        "bytes": 38052,
+        "sha256": "37d82e6a214d3b6a515c0553bf9c9f2319f462923a03d91c018c332d5fc9206c"
+      },
+      {
+        "path": "src/Jellyfin.Plugin.AetherAnalysis/Application/Draft/DraftAnalysisCompositionSession.cs",
+        "bytes": 14604,
+        "sha256": "327e1ca5b34fff552293c28a0eb49b9643eb58bde8a1ad795ec965e70fffd076"
+      },
+      {
+        "path": "src/Jellyfin.Plugin.AetherAnalysis/Application/Draft/DraftAnalysisMasterBuilder.cs",
+        "bytes": 13106,
+        "sha256": "80ca324bbb09a8491e94deac957c29796dcedd2cc96daf776f33c7566d540b59"
+      },
+      {
+        "path": "src/Jellyfin.Plugin.AetherAnalysis/Application/Draft/DraftBoundedProcess.cs",
+        "bytes": 13697,
+        "sha256": "dacb87d78a84db74fcdb7521383e612bc7cebe8011f20e2dc6ca95271e2d8e99"
+      },
+      {
+        "path": "src/Jellyfin.Plugin.AetherAnalysis/Application/Draft/DraftJellyfinSourceResolver.cs",
+        "bytes": 3685,
+        "sha256": "a2a27053e0958c94d56775ec30e1617725abe8e0be308d7394e00c9283b66da6"
+      },
+      {
+        "path": "src/Jellyfin.Plugin.AetherAnalysis/Application/Draft/DraftServerAnalysisRunner.cs",
+        "bytes": 10369,
+        "sha256": "71d4288b9c89f92addf2b321584c4b08a4662d2b119a69fbb8b4ae2aa2e67a0a"
+      },
+      {
+        "path": "src/Jellyfin.Plugin.AetherAnalysis/Application/Draft/DraftSourceTrackMapper.cs",
+        "bytes": 11962,
+        "sha256": "163aecd6481e0815606e974474822956d230360936264e9a45d01ad1cf494230"
+      },
+      {
+        "path": "src/Jellyfin.Plugin.AetherAnalysis/Application/Draft/DraftWorkerProcessRunner.cs",
+        "bytes": 8438,
+        "sha256": "2d4a4e60e41f04b7fab060ad0ae336fc7138b389689339fe0222265459255782"
+      },
+      {
+        "path": "src/Jellyfin.Plugin.AetherAnalysis/Application/Draft/PackedDenseAudioDraftCodec.cs",
+        "bytes": 8438,
+        "sha256": "9ade1313022f221e7a5f2d390aa9da86131728fc5fe7aa9fe16971059715eb46"
+      },
+      {
+        "path": "src/Jellyfin.Plugin.AetherAnalysis/Application/ServerAnalysisRunner.cs",
+        "bytes": 26725,
+        "sha256": "80cebb5308e837ae8b28406ba0e4456e0f12452afaea253f585cc19243dc81f6"
+      },
+      {
+        "path": "src/Jellyfin.Plugin.AetherAnalysis/Configuration/PluginConfiguration.cs",
+        "bytes": 3490,
+        "sha256": "282d4405ecbe809c7756e2dfe4533dd6b4b5562b94c18eaf510d73d384fb4130"
+      },
+      {
+        "path": "src/Jellyfin.Plugin.AetherAnalysis/ServiceRegistrator.cs",
+        "bytes": 4903,
+        "sha256": "9eb0de315cf7ab17105ac88cab2f04bcb4db051f3227d33a857c8591ac9c1e6d"
+      },
+      {
+        "path": "tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftAnalysisCompositionTests.cs",
+        "bytes": 31761,
+        "sha256": "ec2ec154ddf6e3be0e8948089506f4019a81c1821ca84132f08be2a1e82f355f"
+      },
+      {
+        "path": "tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftBoundedProcessTests.cs",
+        "bytes": 7070,
+        "sha256": "23c590d12caf3bff9d3712399e32d3b84fc72525463b572c22f8bd2e691701b1"
+      },
+      {
+        "path": "tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftConsumerProfileTests.cs",
+        "bytes": 11158,
+        "sha256": "bd330000dedba3613d8db5421974147a07dd20640fc25521391cc8641d758c47"
+      },
+      {
+        "path": "tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftJellyfinSourceResolverTests.cs",
+        "bytes": 8335,
+        "sha256": "df5aeea9765a006b185f8aadc674fff57a7a00c4ada854923f2f98d0fb25fd4c"
+      },
+      {
+        "path": "tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftServerAnalysisRunnerTests.cs",
+        "bytes": 27777,
+        "sha256": "9be13b09755f5c975980279fea6cc3cde127d38f4ba2cf0f694d7a8c330ed7ce"
+      },
+      {
+        "path": "tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftSourceTrackMapperTests.cs",
+        "bytes": 11179,
+        "sha256": "05afe125e2be71376422a954ab7a5a26303a6509b6696789dc160dbb4e124f0e"
+      },
+      {
+        "path": "tests/Jellyfin.Plugin.AetherAnalysis.Tests/ServerAnalysisRunnerTests.cs",
+        "bytes": 13827,
+        "sha256": "2db5a679438e7e556a1174f7b532053219077c2d5db6cb5fcc4a03175f589c6d"
+      },
+      {
+        "path": "tools/build-draft-worker.mjs",
+        "bytes": 4287,
+        "sha256": "976eb4b53fe402b5461d91351a0cde80463a2b146ad21468b8ceada1b6f9401e"
+      },
+      {
+        "path": "src/Jellyfin.Plugin.AetherAnalysis/Application/Draft/DraftAnalysisMigrationPlanner.cs",
+        "bytes": 4547,
+        "sha256": "4cfacb4b027c3e097a69fc32ae220e1fec864956030a2887e61781c4f76d315e"
+      },
+      {
+        "path": "tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftAnalysisMigrationPlannerTests.cs",
+        "bytes": 14790,
+        "sha256": "fc86c83eac4f37e4066076404dc9986f76d184f9ba1118035a152ae4e9e1a822"
+      },
+      {
+        "path": "tests/Jellyfin.Plugin.AetherAnalysis.Tests/Jellyfin.Plugin.AetherAnalysis.Tests.csproj",
+        "bytes": 3041,
+        "sha256": "0ea7b363d0895513144be2130f8152bead8518ecbb9657086a8715c6cefbf268"
+      },
+      {
+        "path": "docs/reviews/2026-10-05-analysis-1.2-aether-synchronized-rollout-worker-prompt.md",
+        "bytes": 2894,
+        "sha256": "3a14ed627800651efc8ea0f4ed1501047880106ee567b847fb6ddecf72049bc9"
+      },
+      {
+        "path": "docs/reviews/2026-10-05-analysis-1.2-routine-migration-results.md",
+        "bytes": 7295,
+        "sha256": "caafe45686c2980adbf1e394437c6a3ec7022ea27c22cd9222f693098065a322"
+      },
+      {
+        "path": "docs/reviews/2026-10-05-analysis-1.2-synchronized-rollout-plan.md",
+        "bytes": 5717,
+        "sha256": "b78573427f5befcac2906e202812220b04efa77b079f8c757df56aa3134af3dc"
+      },
+      {
+        "path": "docs/reviews/2026-10-05-analysis-1.2-tv-synchronized-rollout-worker-prompt.md",
+        "bytes": 2873,
+        "sha256": "b8ecf4cc762b7204d5b8eb2156a2e06690a938b4846a7f1542b3ba728f51fdd2"
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/available-balanced.json",
+        "bytes": 15019,
+        "sha256": "e914f5f3371fe74648e5971ab9cdbb253a4e76b80146601f72f60890f6cfb6d0"
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/available-compact.json",
+        "bytes": 12499,
+        "sha256": "517a0c043051b21b6a392d1d0a5a285a6a3bd80cebf84d649b53d830f09003f0"
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/available-full.json",
+        "bytes": 19092,
+        "sha256": "60fcab8f6f47ceed093fc49807481ab4dd8714e8ed67a8fbfb10fbcaf5b1cc9c"
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/no-track-balanced.json",
+        "bytes": 7992,
+        "sha256": "cab9300a156a0b7dd7fcf4af61ef43d087cae09fda0747e53ab1f755c83f9d87"
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/no-track-compact.json",
+        "bytes": 6830,
+        "sha256": "e93fc63f1159723b450d8db5bc152b9f780cc0578384b9ab217da20716725c90"
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/no-track-full.json",
+        "bytes": 7989,
+        "sha256": "60f1f178f03ba3f255952b7da1a3a69755493c893bbac4c552480f6cc4d95297"
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/second-default-balanced.json",
+        "bytes": 15021,
+        "sha256": "9297bf0ad9a4507d82a2106f0476a74fe62474c022f5f709d2249f28a72363a8"
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/second-default-compact.json",
+        "bytes": 12501,
+        "sha256": "aae07edfc26b502878a8aecfc613217c4119fd249f61197b3381d22a8cb7c33c"
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/second-default-full.json",
+        "bytes": 19094,
+        "sha256": "78dad2f33e8671e865fe6e57b3559c97497d72073aab334f9d505a3467c672b0"
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/routine-migration/available-balanced.json",
+        "bytes": 15019,
+        "sha256": "84d6460ba8000e22a592859308316ce8c56965cccc861f648011471bf5340ac0"
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/routine-migration/available-compact.json",
+        "bytes": 12499,
+        "sha256": "82806d63e49dc483a2639399525517d95a62d72b9a3c64369d279149e6edb3ae"
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/routine-migration/available-full.json",
+        "bytes": 19092,
+        "sha256": "77a23c0f0d0992f49ecc5890b84190b4bd84fd8b82d0da65d1fdb4f2c5c1d41a"
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/routine-migration/no-track-balanced.json",
+        "bytes": 7992,
+        "sha256": "2f78b61c734ea4ef78bcba8eeed59043917faa69135b1350807810ce9657d337"
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/routine-migration/no-track-compact.json",
+        "bytes": 6830,
+        "sha256": "51da2b29b587a35342278b2bdea642e21a11562c941a3ebd39336e816c76bc03"
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/routine-migration/no-track-full.json",
+        "bytes": 7989,
+        "sha256": "96146a1d20a842d03ea37efb93eaf14de8e02e925ad04ead5b2fc3dedc93a3c2"
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/routine-migration/second-default-balanced.json",
+        "bytes": 15021,
+        "sha256": "624f865ac17555903b0354b63b186874eb99055bab949abe853421178366158b"
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/routine-migration/second-default-compact.json",
+        "bytes": 12501,
+        "sha256": "9e49d59e00a624c3bbf5d602adcbb4f7a4e63099eb543cf00f885c2904ff3fd9"
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/routine-migration/second-default-full.json",
+        "bytes": 19094,
+        "sha256": "69d671021cb113b59bdddacd01a72904a31c8e18e7582bd46ae430f27fb31eba"
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/integration-manifest.json",
+        "bytes": 10983,
+        "sha256": "424208dcb5f8e671a686e710852b6d3c10db32d696cbdbbddbe060d7f09275d9"
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/routine-migration/release-tests.trx",
+        "bytes": 587222,
+        "sha256": "dc5e8ab0a309416c32baa6148239b46c102d678732cced618f738e0dfedb9f3d"
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/routine-migration/tv-tail-addendum-audit.json",
+        "bytes": 41172,
+        "sha256": "4c8267a9abbefe9f503a2ed42c44d0ca3e366aa12a9bb13e44939b9613d06668"
+      }
+    ],
+    "pluginTestsReportedAndTrxPinned": 368,
+    "pluginTestsRerunHere": false,
+    "checks": {
+      "repositoryTests": {
+        "passed": 2008,
+        "skipped": 17,
+        "passedFiles": 126,
+        "skippedFiles": 1,
+        "skipReasons": {
+          "externalContractPathUnset": 16,
+          "benchmarkExplicitlyDisabled": 1
+        }
+      },
+      "focusedTests": {
+        "passed": 93,
+        "files": 8,
+        "newNegotiationTests": 16,
+        "newFallbackTests": 7,
+        "newCacheTests": 6,
+        "fileCounts": {
+          "tools/benchmarks/analysis-host-contract-artifacts.test.ts": 17,
+          "apps/desktop-web/src/analysis/draft-legacy-compatibility.test.ts": 8,
+          "apps/desktop-web/src/analysis/draft-replay-adapter.test.ts": 10,
+          "apps/desktop-web/src/analysis/draft-signal-consumer.test.ts": 10,
+          "apps/desktop-web/src/analysis/synchronized-indexeddb-cache.test.ts": 6,
+          "apps/desktop-web/src/analysis/synchronized-reader-fallback.test.ts": 7,
+          "apps/desktop-web/src/jellyfin/plugin-contract.test.ts": 19,
+          "apps/desktop-web/src/jellyfin/synchronized-analysis-client.test.ts": 16
+        }
+      },
+      "typecheck": "passed",
+      "scopedEslint": "passed",
+      "scopedFormat": "passed",
+      "diffCheck": "passed",
+      "webBuild": "passed",
+      "macRelativeWebBuild": "passed",
+      "postBudgetAssertionNegotiationTests": {
+        "passed": 16,
+        "files": 1
+      }
+    },
+    "productionBuilds": [
+      {
+        "kind": "web",
+        "artifactPins": [
+          {
+            "path": "assets/analysis.worker-DY7MzzNY.js",
+            "bytes": 10196,
+            "sha256": "a66fa0d871267c196dbe5a6aed409c25f4ffef686a1ed9ecdc61160211ead8a0"
+          },
+          {
+            "path": "assets/index-Bmqc8NkH.js",
+            "bytes": 518999,
+            "sha256": "298a440da27368f5beca0585a6ad03de6f0abdfa1c256e911fd468771ddd5c8e"
+          }
+        ],
+        "absentMarkers": {
+          "1.2.0": true,
+          "packed-f64": true,
+          "hann-linear": true,
+          "aether-analysis-synchronized-cache": true,
+          "aether-synchronized-reader": true,
+          "denseAudioFrames": true
+        },
+        "scope": "static build inspection, not a running player/device proof"
+      },
+      {
+        "kind": "mac-relative-web",
+        "artifactPins": [
+          {
+            "path": "assets/analysis.worker-DY7MzzNY.js",
+            "bytes": 10196,
+            "sha256": "a66fa0d871267c196dbe5a6aed409c25f4ffef686a1ed9ecdc61160211ead8a0"
+          },
+          {
+            "path": "assets/index-BmGXt_n6.js",
+            "bytes": 519024,
+            "sha256": "62d8318e56e272cbc4a4e794812fc170362a04837fc245177f3dc4ea0881c8ed"
+          }
+        ],
+        "absentMarkers": {
+          "1.2.0": true,
+          "packed-f64": true,
+          "hann-linear": true,
+          "aether-analysis-synchronized-cache": true,
+          "aether-synchronized-reader": true,
+          "denseAudioFrames": true
+        },
+        "scope": "static build inspection, not a running player/device proof"
+      }
+    ],
+    "budget": {
+      "clientDecodedDocumentBytes": 33554432,
+      "pluginMaximumDefaultBytes": 52428800,
+      "decodedBodyLimitTested": true,
+      "contentLengthLimitTested": true,
+      "documentLimitIsRssProof": false,
+      "aggregateIndexedDbLimitImplemented": false,
+      "detailSilentlyChanged": false,
+      "longBenchmarkRepeated": false
+    },
+    "playerIntegration": {
+      "httpFactoriesUnified": true,
+      "mainPlayerUsesNewReplayReader": false,
+      "newMethodsDefault": false,
+      "nativeTrackProof": false,
+      "liveJellyfinProof": false,
+      "hearingAndVisualAcceptance": false,
+      "targetDeviceAcceptance": false
+    },
+    "newMediaBrowserOrHardwareAccess": false,
+    "pushDeployOrVendorUpdate": false,
+    "limitations": [
+      "native heard-track and multi-source mapping",
+      "actual player PTS/seek/pause/rate/bypass integration",
+      "live auth/CORS/HEAD/query negotiation",
+      "audio/visual calibration and target devices",
+      "whole decoder-tree/plugin/browser RSS and aggregate cache sizing",
+      "final shared release identity and capability approval"
+    ],
+    "pluginActiveContract": {
+      "path": "docs/analysis-version-contract.md",
+      "bytes": 7357,
+      "sha256": "e276dd9389832ea2ba33327c7ac383a3c5085152c6be9dbf70b490818e4d0bff",
+      "routineManifestReportedSha256": "d07b7140ec4985a88f286d44986d914175bff89c2bd36bdc899e0664faf184af",
+      "matchesRoutineManifest": false,
+      "currentContentScope": "production1.1, explicit1.0<->1.1 matrix, no1.2 release",
+      "resolution": "Plugin worker must reconcile historical/incorrect active-contract pin"
+    }
+  },
+  "desktopAudit": {
+    "date": "2026-10-05",
+    "audit": "read-only; no tests run; no edits to either repository",
+    "inputs": [
+      "/Users/Marc.Bauer/Developer/Aether/docs/reviews/2026-10-05-analysis-1.2-synchronized-reader-results.md",
+      "/Users/Marc.Bauer/Developer/Aether/docs/reviews/2026-10-05-analysis-1.2-synchronized-reader-plugin-response-prompt.md",
+      "/Users/Marc.Bauer/Developer/Aether/docs/reviews/artifacts/analysis-1.2-synchronized-reader/checks.json"
+    ],
+    "pinVerification": {
+      "aetherCurrentReaderSources": {
+        "count": 14,
+        "matches": 14,
+        "mismatches": 0
+      },
+      "aetherAcceptedUnchangedSources": {
+        "count": 10,
+        "matches": 10,
+        "mismatches": 0
+      },
+      "aetherAcceptedUnchangedFixtures": {
+        "count": 9,
+        "matches": 9,
+        "mismatches": 0
+      },
+      "aetherOriginalInputs": {
+        "count": 3,
+        "matches": 3,
+        "mismatches": 0
+      },
+      "pluginRoutineManifest": {
+        "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/routine-migration-manifest.json",
+        "bytes": 17864,
+        "sha256": "34078d74c28b1f2685287c089e458ea0e823578e1a73b04b73d9388bd14c8772",
+        "matches": true
+      },
+      "pluginPins": {
+        "count": 50,
+        "matches": 50,
+        "mismatches": 0
+      },
+      "sourceScopeRevision": {
+        "sha256": "4b44bfc2d6a6ecbcae20c39ac8dd0eb820c663c1c44c5935c8972a0274ba2afa",
+        "meaning": "sorted path/hash pairs over the 14 listed Aether reader/runtime/test files; not a worker producer revision or release pin"
+      }
+    },
+    "contractHashFinding": {
+      "reportedD07": "d07b7140ec4985a88f286d44986d914175bff89c2bd36bdc899e0664faf184af",
+      "d07Scope": "aggregate hash of SHA-256 hex digests, newline-terminated, for contracts/openapi/aether-analysis-v1.yaml followed by sorted contracts/schemas/*.json files; matches contracts/contract.sha256 and tools/contract-hash.sh output",
+      "independentlyRecomputedD07": "d07b7140ec4985a88f286d44986d914175bff89c2bd36bdc899e0664faf184af",
+      "reportedE276": "e276dd9389832ea2ba33327c7ac383a3c5085152c6be9dbf70b490818e4d0bff",
+      "e276Scope": "SHA-256 of docs/analysis-version-contract.md bytes",
+      "conclusion": "These hashes cover different scopes. The alleged mismatch is a scope-labeling/interpretation issue, not evidence of a stale contract pin. The Aether results should clarify that activeContractHash refers to the API/OpenAPI plus schema aggregate, while e276 is the separate explanatory Markdown file hash. The Markdown content continues to state production 1.1 and compatibility 1.0<->1.1."
+    },
+    "testEvidence": {
+      "aetherRepositoryRun": {
+        "reportedPassed": 2008,
+        "reportedSkipped": 17,
+        "reportedPassedFiles": 126,
+        "reportedSkippedFiles": 1,
+        "skipBreakdown": {
+          "externalContractPathUnset": 16,
+          "benchmarkExplicitlyDisabled": 1
+        },
+        "evidenceStatus": "counts and per-file counts are recorded in checks.json and summarized in results.md; no Aether raw run log/TRX is pinned there, so this audit did not independently confirm that run"
+      },
+      "aetherFocusedRun": {
+        "reportedPassed": 93,
+        "reportedFiles": 8,
+        "reportedFileBreakdown": {
+          "tools/benchmarks/analysis-host-contract-artifacts.test.ts": 17,
+          "apps/desktop-web/src/analysis/draft-legacy-compatibility.test.ts": 8,
+          "apps/desktop-web/src/analysis/draft-replay-adapter.test.ts": 10,
+          "apps/desktop-web/src/analysis/draft-signal-consumer.test.ts": 10,
+          "apps/desktop-web/src/analysis/synchronized-indexeddb-cache.test.ts": 6,
+          "apps/desktop-web/src/analysis/synchronized-reader-fallback.test.ts": 7,
+          "apps/desktop-web/src/jellyfin/plugin-contract.test.ts": 19,
+          "apps/desktop-web/src/jellyfin/synchronized-analysis-client.test.ts": 16
+        },
+        "sumOfRecordedFileCounts": 93,
+        "postBudgetAssertionRerunReported": {
+          "passed": 16,
+          "files": 1
+        },
+        "evidenceStatus": "recorded in checks.json; no raw Aether test log/TRX pinned"
+      },
+      "pluginRoutineRun": {
+        "reportedAndPinned": 368,
+        "trx": "docs/reviews/artifacts/analysis-1.2-plugin-draft/routine-migration/release-tests.trx",
+        "bytes": 587222,
+        "sha256": "dc5e8ab0a309416c32baa6148239b46c102d678732cced618f738e0dfedb9f3d",
+        "trxCounters": {
+          "total": 368,
+          "executed": 368,
+          "passed": 368,
+          "failed": 0,
+          "error": 0,
+          "timeout": 0,
+          "notExecuted": 0
+        },
+        "auditStatus": "TRX hash and counters independently checked; plugin tests were not rerun in this audit"
+      }
+    },
+    "buildEvidence": {
+      "status": "checks.json records production web and mac-relative web build results plus output asset byte/hash pins and static marker absence",
+      "limitations": "static build artifact inspection only; no running player/device proof. Build outputs are described by pins in the report and were not rerun by this read-only audit"
+    },
+    "scopeAndClaims": {
+      "production": "aether-visual/1.1.0",
+      "activeReadMatrix": "1.0<->1.1",
+      "draftIdentity": "aether-visual/1.2.0-draft",
+      "readerGate12": false,
+      "plannedReaderDirection": [
+        "1.2.0",
+        "1.1.0",
+        "1.0.0"
+      ],
+      "limitationsExplicitlyRetained": [
+        "native heard-track mapping",
+        "main player/replay/effect integration",
+        "live Jellyfin auth/CORS/ETag negotiation",
+        "browser/WKWebView and aggregate-cache resource measurements",
+        "hearing/visual/device acceptance",
+        "shared producer/release identity and capability approval"
+      ],
+      "overallAssessment": "Pin counts and claimed scope boundaries are internally consistent and actual file pins match. Test count strength differs: Aether run totals are report-only in this artifact, while the separate plugin 368 count is supported by the pinned TRX. No production activation is claimed."
+    }
+  },
+  "testEvidenceScope": {
+    "desktopRepositoryPassedReported": 2008,
+    "desktopRepositorySkippedReported": 17,
+    "desktopFocusedPassedReported": 93,
+    "desktopRunsOverlap": true,
+    "desktopRawTestLogPinned": false,
+    "tvTargetedLogConfirmed": 48,
+    "historicalPluginTrxConfirmed": 368,
+    "testsRerunHere": false
+  },
+  "production": {
+    "algorithm": "aether-visual/1.1.0",
+    "matrix": "1.0↔1.1",
+    "gate12": false,
+    "draft": "1.2.0-draft"
+  },
+  "nextIsolatedDesktopWork": [
+    "actual main player replay and planning wiring",
+    "shared request cancellation and overall deadline",
+    "aggregate remote cache limits"
+  ],
+  "furtherTvNegotiationOrCodecTaskRequired": false,
+  "releaseGatesOpen": [
+    "native heard-track proof",
+    "live Jellyfin",
+    "auditory and visual acceptance",
+    "target-device and long-source resources",
+    "final shared producer and release pins"
+  ],
+  "pluginRuntimeChangedInThisReview": false
+}

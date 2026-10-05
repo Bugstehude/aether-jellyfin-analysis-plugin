@@ -1,0 +1,7 @@
+{
+  "algorithm": { "id": "aether-visual", "version": "1.0.0" },
+  "allowCompatible": true,
+  "items": [
+    { "itemId": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee", "mediaSourceId": "quelle-1" }
+  ]
+}

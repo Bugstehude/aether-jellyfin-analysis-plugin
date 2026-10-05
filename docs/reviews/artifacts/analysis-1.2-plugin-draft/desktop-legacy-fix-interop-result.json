@@ -1,0 +1,70 @@
+{
+  "status": "all-details-valid-with-unchanged-independent-legacy-audio",
+  "source": "/Users/Marc.Bauer/Developer/Aether/packages/analysis-cache/src/draft-analysis.ts",
+  "sourceSha256": "d7bb9e00878262b120b0ec2095f67828415a5b7a921ff6f5d4978a55aef03ce4",
+  "results": [
+    {
+      "detail": "full",
+      "bytes": 19088,
+      "sha256": "91f187ab6ee2c09fd6df45c9d4b3488ce4abed91b5d926a4f03700ca891d4b4c",
+      "diagnostics": [],
+      "rawExact": true,
+      "groups": [
+        "timebase",
+        "audio",
+        "cuts"
+      ],
+      "legacyCount": 4,
+      "legacyTimesMs": [
+        0,
+        500,
+        1000,
+        1500
+      ],
+      "legacyAudioFramesUnchanged": true,
+      "wireExact": true
+    },
+    {
+      "detail": "balanced",
+      "bytes": 15015,
+      "sha256": "189f354d47f94643eeaad2d7a16e6524b3abd4d3f6979f623bf25af2a0817da0",
+      "diagnostics": [],
+      "rawExact": true,
+      "groups": [
+        "timebase",
+        "audio",
+        "cuts"
+      ],
+      "legacyCount": 4,
+      "legacyTimesMs": [
+        0,
+        500,
+        1000,
+        1500
+      ],
+      "legacyAudioFramesUnchanged": true,
+      "wireExact": true
+    },
+    {
+      "detail": "compact",
+      "bytes": 12560,
+      "sha256": "595c82877a3ae32482e21fc1db6af9a1c1e7e6a55315df55f950d0068a8f82ed",
+      "diagnostics": [],
+      "rawExact": true,
+      "groups": [
+        "timebase",
+        "audio",
+        "cuts"
+      ],
+      "legacyCount": 4,
+      "legacyTimesMs": [
+        0,
+        500,
+        1000,
+        1500
+      ],
+      "legacyAudioFramesUnchanged": true,
+      "wireExact": true
+    }
+  ]
+}

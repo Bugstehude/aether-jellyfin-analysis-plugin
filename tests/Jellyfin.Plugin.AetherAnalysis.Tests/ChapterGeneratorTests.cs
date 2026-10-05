@@ -1,4 +1,3 @@
-using System.Text;
 using Jellyfin.Plugin.AetherAnalysis.Application;
 using Jellyfin.Plugin.AetherAnalysis.Infrastructure;
 using MediaBrowser.Controller.Chapters;
@@ -24,10 +23,12 @@ public sealed class ChapterGeneratorTests : IDisposable
     // A real file: ChapterGenerator's LocalSourceIds filters sources via File.Exists, same as
     // the sibling ServerAnalysisRunner — a fake path would silently look like "no local source".
     private readonly string _mediaPath = Path.Combine(Path.GetTempPath(), "aether-chapter-tests-" + Guid.NewGuid() + ".mkv");
+    private readonly MediaFingerprint _media;
 
     public ChapterGeneratorTests()
     {
         File.WriteAllBytes(_mediaPath, [0]);
+        _media = new MediaFingerprintService().Create(MakeVideo(ItemId), MediaSourceId)!;
     }
 
     public void Dispose()
@@ -45,32 +46,15 @@ public sealed class ChapterGeneratorTests : IDisposable
         item.Name = "Film";
         item.GetMediaSources(enablePathSubstitution: false).Returns(new List<MediaSourceInfo>
         {
-            new() { Id = MediaSourceId, Path = _mediaPath, IsRemote = false },
+            new() { Id = MediaSourceId, Path = _mediaPath, IsRemote = false, RunTimeTicks = TimeSpan.FromMinutes(1).Ticks },
         });
         return item;
     }
 
-    private static AnalysisRecord MakeRecord(IEnumerable<(long TimestampMs, double SceneCutProbability)> frames)
-    {
-        var framesJson = string.Join(
-            ",",
-            frames.Select(f => $"{{\"timestampMs\":{f.TimestampMs},\"sceneCutProbability\":{f.SceneCutProbability.ToString(System.Globalization.CultureInfo.InvariantCulture)}}}"));
-        var json = $"{{\"frames\":[{framesJson}]}}";
-        var bytes = Encoding.UTF8.GetBytes(json);
-        var compressed = CompressionCodec.Compress(bytes);
-        return new AnalysisRecord
-        {
-            ItemId = ItemId,
-            MediaSourceId = MediaSourceId,
-            AlgorithmId = AetherAlgorithm.Id,
-            AlgorithmVersion = AetherAlgorithm.Version,
-            MediaFingerprint = "sha256:whatever",
-            FingerprintQuality = "high",
-            Etag = "\"abc\"",
-            CompressedDocument = compressed,
-            UncompressedBytes = bytes.Length
-        };
-    }
+    private AnalysisRecord MakeRecord(
+        IEnumerable<(long TimestampMs, double SceneCutProbability)> frames,
+        string version = AetherAlgorithm.Version) => StoredAnalysisTestData.Create(
+            _media, version, frames: frames);
 
     private static (ChapterGenerator Generator, ILibraryManager LibraryManager, IAnalysisRepository Repository, IChapterManager ChapterManager) Create()
     {
@@ -169,6 +153,37 @@ public sealed class ChapterGeneratorTests : IDisposable
         Assert.Equal(0, generator.Status.Created);
         Assert.Equal(0, generator.Status.SkippedHadChapters);
         Assert.Equal(0, generator.Status.SkippedNotAnalyzed);
+        chapterManager.DidNotReceive().SaveChapters(Arg.Any<Video>(), Arg.Any<IReadOnlyList<ChapterInfo>>());
+    }
+
+    [Fact]
+    public async Task CompatibleOlderAnalysisGeneratesChaptersWithoutNewAnalysis()
+    {
+        var (generator, libraryManager, repository, chapterManager) = Create();
+        var video = MakeVideo(ItemId);
+        libraryManager.GetItemList(Arg.Any<InternalItemsQuery>()).Returns([video]);
+        repository.GetAsync(new AnalysisKey(ItemId, MediaSourceId, AetherAlgorithm.Id, "1.0.0"), Arg.Any<CancellationToken>())
+            .Returns(MakeRecord([(0, 0.1), (10_000, 0.9), (20_000, 0.1)], "1.0.0"));
+
+        await generator.GenerateAsync(overwriteExisting: false, CancellationToken.None);
+
+        Assert.Equal(1, generator.Status.Created);
+        chapterManager.Received(1).SaveChapters(video, Arg.Is<IReadOnlyList<ChapterInfo>>(chapters => chapters.Count == 2));
+    }
+
+    [Fact]
+    public async Task StaleAnalysisCannotGenerateChaptersForChangedMedia()
+    {
+        var (generator, libraryManager, repository, chapterManager) = Create();
+        var video = MakeVideo(ItemId);
+        var record = MakeRecord([(10_000, 0.9)]);
+        record.MediaFingerprint = "sha256:" + new string('a', 64);
+        libraryManager.GetItemList(Arg.Any<InternalItemsQuery>()).Returns([video]);
+        repository.GetAsync(Arg.Any<AnalysisKey>(), Arg.Any<CancellationToken>()).Returns(record);
+
+        await generator.GenerateAsync(overwriteExisting: false, CancellationToken.None);
+
+        Assert.Equal(1, generator.Status.SkippedNotAnalyzed);
         chapterManager.DidNotReceive().SaveChapters(Arg.Any<Video>(), Arg.Any<IReadOnlyList<ChapterInfo>>());
     }
 }

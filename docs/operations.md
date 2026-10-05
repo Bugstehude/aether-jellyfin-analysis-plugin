@@ -34,6 +34,12 @@ configuration. Scheduled and manual cleanup apply retention first and then least
 eviction. The admin status endpoint reports record count, compressed bytes, configured ceiling,
 latest cleanup and non-sensitive operational counters.
 
+During a server replacement the readable source analysis is temporarily protected from retention
+and LRU. Both old and new results must fit for a version upgrade to commit. If they cannot fit,
+the result is rejected and the source retained. Protection ends with the job, after which normal
+cleanup rules apply. Routine jobs update older algorithm versions serially within configured
+libraries. Client-compatible reads continue to use the old version until a new result is stored.
+
 ## Consistent LXC/container backup
 
 1. Stop Jellyfin cleanly so SQLite checkpoints its WAL.

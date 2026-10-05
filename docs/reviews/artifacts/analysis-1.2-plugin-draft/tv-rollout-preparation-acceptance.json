@@ -1,0 +1,719 @@
+{
+  "date": "2026-10-05",
+  "status": "accepted-isolated-tv-synchronized-rollout-preparation",
+  "scope": "read-only source, input, archive and logged targeted-test review; no suite rerun",
+  "pins": [
+    {
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/docs/reviews/2026-10-05-tv-synchronized-rollout-preparation.md",
+      "bytes": 8147,
+      "sha256": "0c0d74494cb280e9e15d06f27c43fcfc36633f5a0c0da5822527ea8924d3e527"
+    },
+    {
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/docs/reviews/artifacts/tv-synchronized-rollout-2026-10-05/source-manifest.json",
+      "bytes": 22076,
+      "sha256": "847252425c79a2ee3f002aeac1368cc460120e002f30c78b991896c284f40518"
+    },
+    {
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/docs/reviews/artifacts/tv-synchronized-rollout-2026-10-05/validation-results.json",
+      "bytes": 2565,
+      "sha256": "0a06a7e59dfdad15e1a33a12552cc7b03cda7a3eb4d7b6b955a7cc691acb4d70"
+    },
+    {
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/docs/reviews/artifacts/tv-synchronized-rollout-2026-10-05/targeted-tests.log",
+      "bytes": 16267,
+      "sha256": "0280ac6244639c89dc72a1b459994b04a08a2e5b9779754419562b21605e898a"
+    },
+    {
+      "path": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/docs/reviews/2026-10-05-analysis-1.2-tv-rollout-preparation-acceptance.md",
+      "bytes": 4000,
+      "sha256": "b5c17c82248b359988f755e65328ebee52561858c85e0d281dfa2da9c96f4ecb"
+    }
+  ],
+  "sourceManifestSnapshot": {
+    "status": "synchronized-reader-rollout-preparation-test-matrix-only",
+    "date": "2026-10-05",
+    "tvBaseCommit": "99e72a54ee0cb4b624747b35913958b941866373",
+    "workingTree": "dirty-uncommitted-main",
+    "inputs": [
+      {
+        "path": "../aether-jellyfin-analysis-plugin/docs/analysis-1.2-contract.md",
+        "bytes": 10600,
+        "sha256": "9cc69f0ed067c565b57625ff311cc81bd18fec0cfea94491a28bce053e7d0864"
+      },
+      {
+        "path": "../aether-jellyfin-analysis-plugin/docs/analysis-version-contract.md",
+        "bytes": 7357,
+        "sha256": "e276dd9389832ea2ba33327c7ac383a3c5085152c6be9dbf70b490818e4d0bff"
+      },
+      {
+        "path": "../aether-jellyfin-analysis-plugin/docs/reviews/2026-10-05-analysis-1.2-tv-synchronized-rollout-worker-prompt.md",
+        "bytes": 2873,
+        "sha256": "b8ecf4cc762b7204d5b8eb2156a2e06690a938b4846a7f1542b3ba728f51fdd2"
+      },
+      {
+        "path": "../aether-jellyfin-analysis-plugin/docs/reviews/2026-10-05-analysis-1.2-synchronized-rollout-plan.md",
+        "bytes": 5717,
+        "sha256": "b78573427f5befcac2906e202812220b04efa77b079f8c757df56aa3134af3dc"
+      },
+      {
+        "path": "../aether-jellyfin-analysis-plugin/docs/reviews/2026-10-05-analysis-1.2-routine-migration-results.md",
+        "bytes": 7295,
+        "sha256": "caafe45686c2980adbf1e394437c6a3ec7022ea27c22cd9222f693098065a322"
+      },
+      {
+        "path": "../aether-jellyfin-analysis-plugin/docs/reviews/artifacts/analysis-1.2-plugin-draft/routine-migration-manifest.json",
+        "bytes": 17864,
+        "sha256": "34078d74c28b1f2685287c089e458ea0e823578e1a73b04b73d9388bd14c8772"
+      }
+    ],
+    "sources": [
+      {
+        "path": "App/AetherTV/Audio/StageAudioProcessor.swift",
+        "bytes": 52668,
+        "sha256": "9884a0e250a4ab1c6f72cbe3f2efa168bb0dff8a1c6d589bb4f9a795c5563b29"
+      },
+      {
+        "path": "App/AetherTV/Jellyfin/JellyfinAnalysisSupply.swift",
+        "bytes": 9809,
+        "sha256": "329e6508257e1f04b7ea56caf48e1c5232f8a11cb2d5950427837b78e918f928"
+      },
+      {
+        "path": "App/AetherTV/Render/VideoStage.swift",
+        "bytes": 139657,
+        "sha256": "4c9664c381a38636d425b36e65ba60cc63257999f8d349052298b265fd789ec4"
+      },
+      {
+        "path": "Sources/AetherAnalysis/AetherAnalysis.swift",
+        "bytes": 443,
+        "sha256": "9b989743c259bf56dacad4bca78c71cb9b819fcb0a6ac9ee17814961dc4aa804"
+      },
+      {
+        "path": "Sources/AetherAnalysis/AnalysisAudioSignals.swift",
+        "bytes": 4363,
+        "sha256": "c011216cacf90503e60dbad8108538d7e1b9844ebc315b91eeda284c4389c2be"
+      },
+      {
+        "path": "Sources/AetherAnalysis/AnalysisCutSignals.swift",
+        "bytes": 3835,
+        "sha256": "8ef494e030a42d321a2445da869afc8ea94b54a29d9753c7e23cc1493301d144"
+      },
+      {
+        "path": "Sources/AetherAnalysis/AnalysisDocument.swift",
+        "bytes": 6787,
+        "sha256": "be96245d5e4f047b93f5d1e9728158f2fd398dd7aadfc1b18ff650a9e227a14e"
+      },
+      {
+        "path": "Sources/AetherAnalysis/AnalysisDocumentCoding.swift",
+        "bytes": 12875,
+        "sha256": "bcde36dbc60a3a6c1b3dc648a96d7a6c99265142ee1391ea80c9bd44663ef7a6"
+      },
+      {
+        "path": "Sources/AetherAnalysis/AnalysisDocumentDecoder.swift",
+        "bytes": 9289,
+        "sha256": "91df7a672cb864223b227af4dd2b24f2e231f940f3a9f5d6cfe8876b86c12daa"
+      },
+      {
+        "path": "Sources/AetherAnalysis/AnalysisEventCursor.swift",
+        "bytes": 2156,
+        "sha256": "3ba79f22e15ac47a36b1dc37827fff29b1aca4c9990ec60ce5b069f1eacbc9a1"
+      },
+      {
+        "path": "Sources/AetherAnalysis/AnalysisExtensionValidation.swift",
+        "bytes": 26775,
+        "sha256": "fc7dca24af6dd7aca304f9bfa728c1411208c099ed5a0731236767cd1a5d2780"
+      },
+      {
+        "path": "Sources/AetherAnalysis/AnalysisExtensions.swift",
+        "bytes": 9274,
+        "sha256": "e3ca6809d30019bf8cff180aba4cfb6fedf992c1d05a276ba352812649610544"
+      },
+      {
+        "path": "Sources/AetherAnalysis/AnalysisPackedDenseAudioFrames.swift",
+        "bytes": 7628,
+        "sha256": "4a200e72db18be708ffed7adf6cb75a239a68234e75fdb25aeca59ff05ec63be"
+      },
+      {
+        "path": "Sources/AetherAnalysis/AnalysisPlaybackSignals.swift",
+        "bytes": 2657,
+        "sha256": "c979b02e23a0197444b766386736530730f2acf815d230f28d01f1e6483caa63"
+      },
+      {
+        "path": "Sources/AetherAnalysis/AnalysisSHA256.swift",
+        "bytes": 3526,
+        "sha256": "122085d670b60dd96888d999e60d7c6a030b06486f8982865ff3b1a82e1d507b"
+      },
+      {
+        "path": "Sources/AetherAnalysis/AnalysisSignalCoding.swift",
+        "bytes": 8048,
+        "sha256": "b20573b095fa2524a18daf687535dc1bd1b06259cab3ea5462cc1e763e429436"
+      },
+      {
+        "path": "Sources/AetherAnalysis/AnalysisTimeline.swift",
+        "bytes": 13631,
+        "sha256": "dc679bb52ee3f6852017bd37d2e71f30da270949c35da1b754640b58910a89aa"
+      },
+      {
+        "path": "Sources/AetherJellyfin/JellyfinRequests.swift",
+        "bytes": 19460,
+        "sha256": "58234b3452a02f21ff067d22dd5c33aafda8ecc15420699e4355a88983d708b3"
+      },
+      {
+        "path": "Sources/AetherJellyfin/JellyfinResponses.swift",
+        "bytes": 21856,
+        "sha256": "5778d7286ba3c9ef83ff7206423db0970f6d722c1756e2e213f304caa90e39dd"
+      },
+      {
+        "path": "Sources/AetherJellyfin/JellyfinSession.swift",
+        "bytes": 12984,
+        "sha256": "d4249f3d0429b3ee29c2ddf45d21be756b240449ecf45c2390db1c30b4b6d64e"
+      },
+      {
+        "path": "Sources/AetherSupply/AnalysisReadPolicy.swift",
+        "bytes": 1753,
+        "sha256": "f95c5a936c698ebc996dd6316687f3952ccc288159a7c991ba45942b4a4ba159"
+      },
+      {
+        "path": "Sources/AetherSupply/AnalysisSupply.swift",
+        "bytes": 34595,
+        "sha256": "2c623c0749070a64b040b4b9ea32bfee6f2d34d6c1216913ecb0794205cf0a4b"
+      },
+      {
+        "path": "Sources/AetherSupply/BoundedHTTPBody.swift",
+        "bytes": 1220,
+        "sha256": "2d1adf53f2ba0b4156044e98f9528ba999c80d6b177d811bb8d98961c80abca3"
+      },
+      {
+        "path": "Sources/AetherSupply/DeviceProfileSupply.swift",
+        "bytes": 2787,
+        "sha256": "15da4545a058fb289a871170e8cd7f5e10785d700d23cb8214fe5fc66fbc165e"
+      },
+      {
+        "path": "Sources/AetherSupply/DocumentStore.swift",
+        "bytes": 6826,
+        "sha256": "9181da53bcd2bf550579e3bb543e566cad6e481eccadbd699810cb4e0a9b22b5"
+      },
+      {
+        "path": "Tests/AetherAnalysisTests/LegacyRolloutSessionTests.swift",
+        "bytes": 11625,
+        "sha256": "9ed137a1cd2ed756dc6bf6901bc10a4f4a30d696e4b18f2e065f53e5a767ca2a"
+      },
+      {
+        "path": "Tests/AetherSupplyTests/SynchronizedRolloutTests.swift",
+        "bytes": 23439,
+        "sha256": "9a48bf8e1fdc44ba7043fbd8a1e904a5f593dd8a30b2dcbb5711e8af6083731b"
+      }
+    ],
+    "legacyFixtures": [
+      {
+        "source": {
+          "path": "../Aether/docs/design/plugin-contracts/example-valid.json",
+          "bytes": 1160,
+          "sha256": "e5ffe35ef0bceba423c10c525b961b9252f3db0ec43568616343e7da8d4fca2c"
+        },
+        "imported": {
+          "path": "Tests/AetherAnalysisTests/Fixtures/LegacyRollout/legacy-example-1.0.json",
+          "bytes": 1160,
+          "sha256": "e5ffe35ef0bceba423c10c525b961b9252f3db0ec43568616343e7da8d4fca2c"
+        },
+        "byteEqual": true,
+        "scope": "original contract/structure example, not production measurement"
+      },
+      {
+        "source": {
+          "path": "../Aether/docs/reviews/artifacts/analysis-1.2-host-contract/legacy-example-1.1.json",
+          "bytes": 1160,
+          "sha256": "38454e22ce6bc74eee14a214650dc1194db6f6325d4d5a63d8ee2c9b978b049b"
+        },
+        "imported": {
+          "path": "Tests/AetherAnalysisTests/Fixtures/LegacyRollout/legacy-example-1.1.json",
+          "bytes": 1160,
+          "sha256": "38454e22ce6bc74eee14a214650dc1194db6f6325d4d5a63d8ee2c9b978b049b"
+        },
+        "byteEqual": true,
+        "scope": "original contract/structure example, not production measurement"
+      }
+    ],
+    "archivedPreviousSupply": {
+      "path": "docs/reviews/artifacts/tv-synchronized-rollout-2026-10-05/previous-AnalysisSupply.swift",
+      "bytes": 34562,
+      "sha256": "75ce6aa5e9b9e06cdda93526aff95199d19284b37753926b2847b80ba62aef9a"
+    },
+    "historicalFilesVerifiedUnchanged": 77,
+    "unchangedHistoricalFiles": [
+      {
+        "path": "Tests/AetherAnalysisTests/Fixtures/ConsumerProfiles/eof-cut-pending-full.json",
+        "sha256": "4f608d1333f43764b757f09e7192fa91a73551ea553858321aa860941cdfcdd5"
+      },
+      {
+        "path": "Tests/AetherAnalysisTests/Fixtures/ConsumerProfiles/nominal-duration-real-end-full.json",
+        "sha256": "488fc382dcc194ecc0db3273897fb7ff1b02759f2dc29f2aff4bc536f84d3540"
+      },
+      {
+        "path": "Tests/AetherAnalysisTests/Fixtures/ConsumerProfiles/vfr-source-times-full.json",
+        "sha256": "dc7d3fd56a7400845c3016d507dc096866e9851a1ae8f874760a488a2193c6fb"
+      },
+      {
+        "path": "Tests/AetherAnalysisTests/Fixtures/ConsumerProfiles/video-start-offset-full.json",
+        "sha256": "7bd5eab77f784e410f75a2fe72a81f861e7f62910688b5cdc78212070b529fc4"
+      },
+      {
+        "path": "Tests/AetherAnalysisTests/Fixtures/HostIntegration/available-balanced.json",
+        "sha256": "e914f5f3371fe74648e5971ab9cdbb253a4e76b80146601f72f60890f6cfb6d0"
+      },
+      {
+        "path": "Tests/AetherAnalysisTests/Fixtures/HostIntegration/available-compact.json",
+        "sha256": "517a0c043051b21b6a392d1d0a5a285a6a3bd80cebf84d649b53d830f09003f0"
+      },
+      {
+        "path": "Tests/AetherAnalysisTests/Fixtures/HostIntegration/available-full.json",
+        "sha256": "60fcab8f6f47ceed093fc49807481ab4dd8714e8ed67a8fbfb10fbcaf5b1cc9c"
+      },
+      {
+        "path": "Tests/AetherAnalysisTests/Fixtures/HostIntegration/no-track-balanced.json",
+        "sha256": "cab9300a156a0b7dd7fcf4af61ef43d087cae09fda0747e53ab1f755c83f9d87"
+      },
+      {
+        "path": "Tests/AetherAnalysisTests/Fixtures/HostIntegration/no-track-compact.json",
+        "sha256": "e93fc63f1159723b450d8db5bc152b9f780cc0578384b9ab217da20716725c90"
+      },
+      {
+        "path": "Tests/AetherAnalysisTests/Fixtures/HostIntegration/no-track-full.json",
+        "sha256": "60f1f178f03ba3f255952b7da1a3a69755493c893bbac4c552480f6cc4d95297"
+      },
+      {
+        "path": "Tests/AetherAnalysisTests/Fixtures/HostIntegration/second-default-balanced.json",
+        "sha256": "9297bf0ad9a4507d82a2106f0476a74fe62474c022f5f709d2249f28a72363a8"
+      },
+      {
+        "path": "Tests/AetherAnalysisTests/Fixtures/HostIntegration/second-default-compact.json",
+        "sha256": "aae07edfc26b502878a8aecfc613217c4119fd249f61197b3381d22a8cb7c33c"
+      },
+      {
+        "path": "Tests/AetherAnalysisTests/Fixtures/HostIntegration/second-default-full.json",
+        "sha256": "78dad2f33e8671e865fe6e57b3559c97497d72073aab334f9d505a3467c672b0"
+      },
+      {
+        "path": "Tests/AetherAnalysisTests/Fixtures/LegacyRollout/legacy-example-1.1.json",
+        "sha256": "38454e22ce6bc74eee14a214650dc1194db6f6325d4d5a63d8ee2c9b978b049b"
+      },
+      {
+        "path": "Tests/AetherAnalysisTests/Fixtures/available.json",
+        "sha256": "8c4b2e8f8504cd7f958a45bca00c9f3fa75d228e0049d3357b65450541a1acf1"
+      },
+      {
+        "path": "Tests/AetherAnalysisTests/Fixtures/composed-balanced.json",
+        "sha256": "189f354d47f94643eeaad2d7a16e6524b3abd4d3f6979f623bf25af2a0817da0"
+      },
+      {
+        "path": "Tests/AetherAnalysisTests/Fixtures/composed-compact.json",
+        "sha256": "595c82877a3ae32482e21fc1db6af9a1c1e7e6a55315df55f950d0068a8f82ed"
+      },
+      {
+        "path": "Tests/AetherAnalysisTests/Fixtures/composed-full.json",
+        "sha256": "91f187ab6ee2c09fd6df45c9d4b3488ce4abed91b5d926a4f03700ca891d4b4c"
+      },
+      {
+        "path": "Tests/AetherAnalysisTests/Fixtures/composition-wire-expected.json",
+        "sha256": "1c50b5bd1d76574fc9462cac74bac95e09d68301fbfed4c0956fda03835c02f5"
+      },
+      {
+        "path": "Tests/AetherAnalysisTests/Fixtures/cuts-with-eof.json",
+        "sha256": "0106a6c8919add94dbebbc09cde7365459c86b0af4a373f19ded61ab8871de00"
+      },
+      {
+        "path": "Tests/AetherAnalysisTests/Fixtures/no-track.json",
+        "sha256": "6c3c75b1b8a0db1b613df79284f99867f69384bd9f452db98883f75f16830b6b"
+      },
+      {
+        "path": "Tests/AetherAnalysisTests/Fixtures/packed-f64-golden.json",
+        "sha256": "9173d1a39fae5cdef25eb76e4c9b06087c6186bca26ad69d20404ac58e4081f1"
+      },
+      {
+        "path": "Tests/AetherAnalysisTests/Fixtures/partial-audio.json",
+        "sha256": "56a5526c3eb3b14940407d505f27633f38bf33d909dc6ad2b3e6a0892a7c2f71"
+      },
+      {
+        "path": "Tests/AetherAnalysisTests/Fixtures/silence.json",
+        "sha256": "d9e81cad6c7cdc89733aefc56b47b3a8a4abe9ab9c468a569ae195cacb67457f"
+      },
+      {
+        "path": "docs/reviews/2026-10-03-aether-tv-handover.md",
+        "sha256": "0261475b14648636c658d0cc30221d40da5ba3783864a5540c38407c89a5f61f"
+      },
+      {
+        "path": "docs/reviews/2026-10-03-tv-analysis-1.2.0-orchestrator-prompt.md",
+        "sha256": "3042994b407e9f5e74f754d57f73e5178fc5af6a4e52184a74d8bb132c35ac08"
+      },
+      {
+        "path": "docs/reviews/2026-10-03-tv-analysis-1.2.0-requirements.md",
+        "sha256": "4d5581d48f7f20ee78c858df9efb8cf3111d5f751f799e6760dfb707669c0171"
+      },
+      {
+        "path": "docs/reviews/2026-10-04-tv-analysis-negotiation-and-draft-integration.md",
+        "sha256": "8ea6b792546448502da623a0135e76fcc3ba7a0c2835837a34f4879f1bcb3f15"
+      },
+      {
+        "path": "docs/reviews/2026-10-04-tv-analysis-orchestrator-return.md",
+        "sha256": "fa3f25123558b07fded2a4ffe7a2dde017d0e159f04542be6e17fa2d249f5a98"
+      },
+      {
+        "path": "docs/reviews/2026-10-04-tv-composition-interop-orchestrator-return.md",
+        "sha256": "dc7d5f0e6014a85553ca015da272bf61c5a3066197a5ddf783a6ba62fd5c1e9f"
+      },
+      {
+        "path": "docs/reviews/2026-10-04-tv-composition-interop-results.md",
+        "sha256": "a33ec48eadc86b58855bf3cfb290210d67b7574f6d851eec34c07d185dbc8c6e"
+      },
+      {
+        "path": "docs/reviews/2026-10-04-tv-contract-adaptation-orchestrator-return.md",
+        "sha256": "763ae9c4b3451a9f22c6828f90a5da4e5a9bb9619d03958792afb6e1fc23fca8"
+      },
+      {
+        "path": "docs/reviews/2026-10-04-tv-contract-adaptation-results.md",
+        "sha256": "ebcf5ef410eff201a4b80206e3fcddc2e73e51808c9baaaeea432606d91a3173"
+      },
+      {
+        "path": "docs/reviews/2026-10-04-tv-full-peaks-correction-results.md",
+        "sha256": "1446593dffd6d728d76a2ac8221a334507833f3068bf10ef0fddb52cc48d3bea"
+      },
+      {
+        "path": "docs/reviews/2026-10-04-tv-legacy-audio-fixture-results.md",
+        "sha256": "a94ebc27d553c9cfe3f93016bb79428ca4302af9059116d21a65e1e479b035d8"
+      },
+      {
+        "path": "docs/reviews/2026-10-04-tv-measured-tail-clarification.md",
+        "sha256": "5604478a1f24407c74e47fe13f378104fa5976150d42a6febf459eee04f7f162"
+      },
+      {
+        "path": "docs/reviews/2026-10-04-tv-packed-f64-orchestrator-return.md",
+        "sha256": "c9c679d4f1f94a0b892306d4703de090f906f2545b3290d7600cd29bbbb407a3"
+      },
+      {
+        "path": "docs/reviews/2026-10-04-tv-packed-f64-reader-results.md",
+        "sha256": "ebed6c266c496786a062853519010534e28eecfce37eba41bd1a6d392eb6e51a"
+      },
+      {
+        "path": "docs/reviews/2026-10-04-tv-playback-signal-integration.md",
+        "sha256": "9dbff01e5eab79ddda7d5015c7994150df27902d42c643eaa943eaadd4d9f09d"
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-consumer-2026-10-03/generate-fixtures.py",
+        "sha256": "25f04da2beb72bfee8ddea84bf376557a9979ad2c9d0b3f0125857e04e2f2969"
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-consumer-2026-10-03/main.swift",
+        "sha256": "bc991cbe04160e9735bbfc599daf49ac036e11be7c88a36d9cb5b30cdff87054"
+      },
+      {
+        "path": "docs/reviews/artifacts/tv-analysis-draft-2026-10-03/README.md",
+        "sha256": "da61f90aeac3dd19ed48cb973b0e5d347a662b0752aeb6302e016e50bc63f33b"
+      },
+      {
+        "path": "docs/reviews/artifacts/tv-analysis-draft-2026-10-03/generate-fixtures.py",
+        "sha256": "194600d477d0aae88022e512329ac1f58c255bc2de97b5366126aeca928f3bd5"
+      },
+      {
+        "path": "docs/reviews/artifacts/tv-analysis-draft-2026-10-03/main.swift",
+        "sha256": "aaf685642da21f1687d2fbbfeb1f4dea04538d1c574698693dd06b7b26d24840"
+      },
+      {
+        "path": "docs/reviews/artifacts/tv-analysis-draft-2026-10-03/measure.py",
+        "sha256": "9d58b0b85e51b05324466516aa2444960b0959b8421ac9783c6899fad5dac553"
+      },
+      {
+        "path": "docs/reviews/artifacts/tv-analysis-draft-2026-10-03/runs.json",
+        "sha256": "af7b1df77fe34aee4f6242ea29f13f51c5668140ddfe0a65199e16d0a716c53c"
+      },
+      {
+        "path": "docs/reviews/artifacts/tv-analysis-draft-2026-10-03/summary.json",
+        "sha256": "49abc1737ec00720ad218054b0241342841ad38c21455a585db6b8e4ab25b350"
+      },
+      {
+        "path": "docs/reviews/artifacts/tv-composition-interop-2026-10-04/import-results.json",
+        "sha256": "278d078a0c16aa432594c1c3e0582cabcb01669fa0b96d734e2d30effa46e97e"
+      },
+      {
+        "path": "docs/reviews/artifacts/tv-composition-interop-2026-10-04/input-manifest.json",
+        "sha256": "f50aaef00ca2ad739fb3e8b575390b2031e9cbab81d7b441672ca86fb6750ecf"
+      },
+      {
+        "path": "docs/reviews/artifacts/tv-composition-interop-2026-10-04/main.swift",
+        "sha256": "05f5f9df283d27b7f86483b9ab9d8f1b78c42d3fa5cbe5a26d27eb93dd86014c"
+      },
+      {
+        "path": "docs/reviews/artifacts/tv-composition-interop-2026-10-04/proof-manifest.json",
+        "sha256": "5ab6b9397945ad3cf3437631c6a088cc285786f7c13cbba29746407c9de7894b"
+      },
+      {
+        "path": "docs/reviews/artifacts/tv-composition-interop-2026-10-04/source-manifest.json",
+        "sha256": "f594bbcc2af6a1e7444981aa02a433c1858cff78e30de7a64b0fd5917d8734da"
+      },
+      {
+        "path": "docs/reviews/artifacts/tv-composition-interop-2026-10-04/validation-results.json",
+        "sha256": "c2d8d5f088f6626cae37fc2680fc539784324ea93bf1b65e0a2264de5be5d2a0"
+      },
+      {
+        "path": "docs/reviews/artifacts/tv-contract-adaptation-2026-10-04/legacy-reader-main.swift",
+        "sha256": "ca4c13b8d5a3fa0f12a2dcefc2812dba12a710774919bfdb40bca5b188a1af97"
+      },
+      {
+        "path": "docs/reviews/artifacts/tv-contract-adaptation-2026-10-04/legacy-reader-results.json",
+        "sha256": "979272de68254e489c11faa2d8dcda638145f94db98a0be777a7abef586a0320"
+      },
+      {
+        "path": "docs/reviews/artifacts/tv-contract-adaptation-2026-10-04/source-manifest.json",
+        "sha256": "5a6ff82202e58f6eb449d150aae1e4b2a64d004e6c1f57ea9b1148964ab1a7d8"
+      },
+      {
+        "path": "docs/reviews/artifacts/tv-contract-adaptation-2026-10-04/validation-results.json",
+        "sha256": "70a4b5b4bfd969a19b599a090765f7a00091ef4ae083b2cb111279a95ab42dbc"
+      },
+      {
+        "path": "docs/reviews/artifacts/tv-legacy-audio-fixture-2026-10-04/import-results.json",
+        "sha256": "d666c43d85e41c249f58ec8c60ea7ce37624d56b0169962da7b9c90a9fec1dc1"
+      },
+      {
+        "path": "docs/reviews/artifacts/tv-legacy-audio-fixture-2026-10-04/input-manifest.json",
+        "sha256": "40e85fc606b8f913292848be75b3075fbfb16f5f696eb2fdb4fa84f8ad63d545"
+      },
+      {
+        "path": "docs/reviews/artifacts/tv-legacy-audio-fixture-2026-10-04/previous-composed-compact.json",
+        "sha256": "4becc2d149b343db97fd432c53166d107f0dd53fa14a3cd264aa93aa8fc4d5cd"
+      },
+      {
+        "path": "docs/reviews/artifacts/tv-legacy-audio-fixture-2026-10-04/proof-manifest.json",
+        "sha256": "0796c3b6d3223a8d7ec0bf11f82abc8d80c809d885766299ee2f71e470f9632d"
+      },
+      {
+        "path": "docs/reviews/artifacts/tv-legacy-audio-fixture-2026-10-04/reader-source-manifest.json",
+        "sha256": "f594bbcc2af6a1e7444981aa02a433c1858cff78e30de7a64b0fd5917d8734da"
+      },
+      {
+        "path": "docs/reviews/artifacts/tv-legacy-audio-fixture-2026-10-04/validation-results.json",
+        "sha256": "74d8424dece1864e29363e7cea5c1b8d5f5e9951fa23d9a8f6a605f4002b4627"
+      },
+      {
+        "path": "docs/reviews/artifacts/tv-measured-tail-clarification-2026-10-04/addendum-manifest.json",
+        "sha256": "551f1f416a54190467376127197e3f89cb09ec415320c2c951ff5fe6f8d8da9c"
+      },
+      {
+        "path": "docs/reviews/artifacts/tv-measured-tail-clarification-2026-10-04/component-timeline-tests.log",
+        "sha256": "60c6861927e141bf87492a560d49796ee88ec687ff785385ec21f24905244762"
+      },
+      {
+        "path": "docs/reviews/artifacts/tv-measured-tail-clarification-2026-10-04/previous-ComponentTimelineTests.swift",
+        "sha256": "0747e8d3e5fd37e87721500aee01545c2b070c5b7ddf2635c2ae40aebf8452f2"
+      },
+      {
+        "path": "docs/reviews/artifacts/tv-packed-f64-2026-10-04/README.md",
+        "sha256": "e9090b787ac16b0ce8d47cb67c4b9879f42de4cabd97bccfaaa22ea0bb22b41b"
+      },
+      {
+        "path": "docs/reviews/artifacts/tv-packed-f64-2026-10-04/generate-fixtures.py",
+        "sha256": "70d0d54c65c7c688b2201827b83169265478c3aec118dcf7ff17fa165d7479fe"
+      },
+      {
+        "path": "docs/reviews/artifacts/tv-packed-f64-2026-10-04/input-contract-manifest.json",
+        "sha256": "22098b50e8099c544315e5c28b99add635efb4e5aac02f35d681b3e5e4c80c5b"
+      },
+      {
+        "path": "docs/reviews/artifacts/tv-packed-f64-2026-10-04/main.swift",
+        "sha256": "a7ec748d326ed2615c30bd68f560ab65e35030e9195bb1fd5d74e700d28926da"
+      },
+      {
+        "path": "docs/reviews/artifacts/tv-packed-f64-2026-10-04/measure.py",
+        "sha256": "35ecaaea157c429879535f0a64e37e9664a63833324699f6d7a11de8e8ebdf73"
+      },
+      {
+        "path": "docs/reviews/artifacts/tv-packed-f64-2026-10-04/portable/main.swift",
+        "sha256": "0781d2072feb13ab2ddb3a127398ef66068dcdc9de78e569a512f9b4acffed33"
+      },
+      {
+        "path": "docs/reviews/artifacts/tv-packed-f64-2026-10-04/runs.json",
+        "sha256": "c14cc4724a4c97388e558643bc2ddabf932300e457fab46c2c7bf4685b5faec7"
+      },
+      {
+        "path": "docs/reviews/artifacts/tv-packed-f64-2026-10-04/source-manifest.json",
+        "sha256": "7594304f7c38f5f3495faa952768c664da021b9db59b8cea5942fd404e5bdcdd"
+      },
+      {
+        "path": "docs/reviews/artifacts/tv-packed-f64-2026-10-04/summary.json",
+        "sha256": "1b40d7ef90968209ae9c351e74230a40ded511f57bc45be2d925c32488ca7b32"
+      },
+      {
+        "path": "docs/reviews/artifacts/tv-playback-signals-2026-10-04/source-manifest.json",
+        "sha256": "ab0f5263ae0ace7a786d7b734d2ee5a5de482af9ef362dd9bc062bfdcf618bcc"
+      },
+      {
+        "path": "docs/reviews/artifacts/tv-playback-signals-2026-10-04/validation-results.json",
+        "sha256": "ab50407b45cd4f16f0b7005ca5630d6ee1f2161331f468d7f5a61e4f9449346d"
+      }
+    ]
+  },
+  "audit": {
+    "manifest_bytes": 22076,
+    "manifest_sha256": "847252425c79a2ee3f002aeac1368cc460120e002f30c78b991896c284f40518",
+    "validation_bytes": 2565,
+    "validation_sha256": "0a06a7e59dfdad15e1a33a12552cc7b03cda7a3eb4d7b6b955a7cc691acb4d70",
+    "manifestSources": {
+      "count": 27,
+      "ok": 27,
+      "mismatches": []
+    },
+    "inputs": {
+      "count": 6,
+      "ok": 6,
+      "mismatches": []
+    },
+    "legacyFixtures": [
+      {
+        "source": {
+          "path": "/Users/Marc.Bauer/Developer/Aether/docs/design/plugin-contracts/example-valid.json",
+          "exists": true,
+          "bytes": 1160,
+          "sha256": "e5ffe35ef0bceba423c10c525b961b9252f3db0ec43568616343e7da8d4fca2c",
+          "expected_bytes": 1160,
+          "expected_sha256": "e5ffe35ef0bceba423c10c525b961b9252f3db0ec43568616343e7da8d4fca2c",
+          "ok": true
+        },
+        "imported": {
+          "path": "/Users/Marc.Bauer/Developer/aether-tv/Tests/AetherAnalysisTests/Fixtures/LegacyRollout/legacy-example-1.0.json",
+          "exists": true,
+          "bytes": 1160,
+          "sha256": "e5ffe35ef0bceba423c10c525b961b9252f3db0ec43568616343e7da8d4fca2c",
+          "expected_bytes": 1160,
+          "expected_sha256": "e5ffe35ef0bceba423c10c525b961b9252f3db0ec43568616343e7da8d4fca2c",
+          "ok": true
+        },
+        "actual_byte_equal": true
+      },
+      {
+        "source": {
+          "path": "/Users/Marc.Bauer/Developer/Aether/docs/reviews/artifacts/analysis-1.2-host-contract/legacy-example-1.1.json",
+          "exists": true,
+          "bytes": 1160,
+          "sha256": "38454e22ce6bc74eee14a214650dc1194db6f6325d4d5a63d8ee2c9b978b049b",
+          "expected_bytes": 1160,
+          "expected_sha256": "38454e22ce6bc74eee14a214650dc1194db6f6325d4d5a63d8ee2c9b978b049b",
+          "ok": true
+        },
+        "imported": {
+          "path": "/Users/Marc.Bauer/Developer/aether-tv/Tests/AetherAnalysisTests/Fixtures/LegacyRollout/legacy-example-1.1.json",
+          "exists": true,
+          "bytes": 1160,
+          "sha256": "38454e22ce6bc74eee14a214650dc1194db6f6325d4d5a63d8ee2c9b978b049b",
+          "expected_bytes": 1160,
+          "expected_sha256": "38454e22ce6bc74eee14a214650dc1194db6f6325d4d5a63d8ee2c9b978b049b",
+          "ok": true
+        },
+        "actual_byte_equal": true
+      }
+    ],
+    "archivedPreviousSupply": {
+      "path": "docs/reviews/artifacts/tv-synchronized-rollout-2026-10-05/previous-AnalysisSupply.swift",
+      "bytes": 34562,
+      "sha256": "75ce6aa5e9b9e06cdda93526aff95199d19284b37753926b2847b80ba62aef9a",
+      "ok": true
+    },
+    "historicalFiles": {
+      "expected_count": 77,
+      "count": 77,
+      "matches": 77,
+      "mismatches": []
+    },
+    "testLog": {
+      "actual_bytes": 16267,
+      "expected_bytes": 16267,
+      "actual_sha256": "0280ac6244639c89dc72a1b459994b04a08a2e5b9779754419562b21605e898a",
+      "expected_sha256": "0280ac6244639c89dc72a1b459994b04a08a2e5b9779754419562b21605e898a",
+      "pin_ok": true,
+      "case_result_lines": 48,
+      "passed_lines": 48,
+      "failed_lines": 0,
+      "summary_lines": [
+        "\t Executed 7 tests, with 0 failures (0 unexpected) in 0.021 (0.021) seconds",
+        "\t Executed 8 tests, with 0 failures (0 unexpected) in 0.020 (0.021) seconds",
+        "\t Executed 5 tests, with 0 failures (0 unexpected) in 0.206 (0.207) seconds",
+        "\t Executed 1 test, with 0 failures (0 unexpected) in 0.116 (0.116) seconds",
+        "\t Executed 5 tests, with 0 failures (0 unexpected) in 0.005 (0.005) seconds",
+        "\t Executed 10 tests, with 0 failures (0 unexpected) in 0.069 (0.070) seconds",
+        "\t Executed 12 tests, with 0 failures (0 unexpected) in 0.005 (0.005) seconds",
+        "\t Executed 48 tests, with 0 failures (0 unexpected) in 0.442 (0.446) seconds",
+        "\t Executed 48 tests, with 0 failures (0 unexpected) in 0.442 (0.448) seconds"
+      ],
+      "claimed_swiftTests": 48,
+      "claimed_failures": 0,
+      "claimed_newTests": 15,
+      "tail": "litaet]' started.\nTest Case '-[AetherSupplyTests.VersionNegotiationTests testUnbekannteVersionInServermatrixAktiviertKeineKompatibilitaet]' passed (0.000 seconds).\nTest Case '-[AetherSupplyTests.VersionNegotiationTests testUnterstuetztAuchDenExplizitenReader10InRichtung11]' started.\nTest Case '-[AetherSupplyTests.VersionNegotiationTests testUnterstuetztAuchDenExplizitenReader10InRichtung11]' passed (0.000 seconds).\nTest Case '-[AetherSupplyTests.VersionNegotiationTests testVerwendetDieVomQueryGewaehltVersionUndPrueftAlleIdentitaeten]' started.\nTest Case '-[AetherSupplyTests.VersionNegotiationTests testVerwendetDieVomQueryGewaehltVersionUndPrueftAlleIdentitaeten]' passed (0.001 seconds).\nTest Suite 'VersionNegotiationTests' passed at 2026-10-05 07:19:58.786.\n\t Executed 12 tests, with 0 failures (0 unexpected) in 0.005 (0.005) seconds\nTest Suite 'AetherTVCorePackageTests.xctest' passed at 2026-10-05 07:19:58.786.\n\t Executed 48 tests, with 0 failures (0 unexpected) in 0.442 (0.446) seconds\nTest Suite 'Selected tests' passed at 2026-10-05 07:19:58.786.\n\t Executed 48 tests, with 0 failures (0 unexpected) in 0.442 (0.448) seconds\n◇ Test run started.\n↳ Testing Library Version: 1902\n↳ Target Platform: arm64e-apple-macos14.0\n✔ Test run with 0 tests in 0 suites passed after 0.001 seconds.\n"
+    },
+    "productionClaims": {
+      "productionAlgorithm": "aether-visual/1.1.0",
+      "productionDirections": [
+        "1.0.0 -> 1.0.0/1.1.0",
+        "1.1.0 -> 1.1.0/1.0.0"
+      ],
+      "isolatedSyntheticDirection": "1.2.0 -> 1.2.0/1.1.0/1.0.0",
+      "draftIdentity": "aether-visual/1.2.0-draft",
+      "gate12": false,
+      "draftInNegotiatedPolicy": false,
+      "maximumDocumentBytes": 33554432,
+      "defaultDetail": "balanced",
+      "cacheBytes": 268435456,
+      "cacheLogicalEntries": 40
+    },
+    "policyExcerpt": "import AetherJellyfin\n\n/// Local, explicitly reviewed directions. Server rows can restrict these,\n/// never expand them through SemVer or a draft suffix transformation.\n/// Internal injection is used only by isolated rollout tests. The public\n/// supply initializer always installs the unchanged production policy.\nstruct AnalysisReadPolicy: Sendable {\n    struct Direction: Sendable {\n        let reader: PluginAlgorithm\n        let analyses: [PluginAlgorithm]\n    }\n\n    let directions: [Direction]\n\n    static let production: AnalysisReadPolicy = {\n        // Keep these accepted directions explicit. Adding a future reader to\n        // another allowlist must not authorize older readers to consume it.\n        let legacy = [PluginAlgorithm(id: \"aether-visual\", version: \"1.1.0\"),\n            PluginAlgorithm(id: \"aether-visual\", version: \"1.0.0\")]\n        return AnalysisReadPolicy(directions: legacy.map {\n            Direction(reader: $0, analyses: legacy)\n        })\n    }()\n\n    func supports(_ reader: PluginAlgorithm) -> Bool {\n        directions.contains { $0.reader == reader }\n    }\n\n    func analyses(for reader: PluginAlgorithm) -> [PluginAlgorithm] {\n        directions.first { $0.reader == reader }?.analyses ?? []\n    }\n\n    func allows(_ analysis: PluginAlgorithm, for reader: PluginAlgorithm) -> Bool {\n        analysis.id == reader.id && analyses(for: reader).contains(analysis)\n    }\n\n    func advertisedVersions(_ versions: [String], for reader: PluginAlgorithm) -> [String]? {\n        guard versions.first == reader.version,\n            Set(versions).count == versions.count,\n            versions.allSatisfy({ allows(.init(id: reader.id, version: $0), for: reader) })\n        else { return nil }\n        return versions\n    }\n}\n",
+    "supplyInitializerLines": [
+      "    public init(",
+      "    public init(attempts: Int = 3, firstDelayMs: Int = 400, maxDelayMs: Int = 3200) {",
+      "    public init(",
+      "        self.init(transport: transport, session: session, policy: policy,",
+      "                  store: store, readPolicy: .production, sleep: sleep)",
+      "    init(",
+      "            reader: .init(id: reader.id, version: reader.version), selected: identity,",
+      "                record.reader == .init(id: reader.id, version: reader.version),",
+      "                record.selected == .init(id: selected.id, version: selected.version),"
+    ]
+  },
+  "acceptedBehavior": {
+    "syntheticReader": "1.2.0",
+    "syntheticStoredVersions": [
+      "1.2.0",
+      "1.1.0",
+      "1.0.0"
+    ],
+    "actualIdentityPreserved": [
+      "query",
+      "HEAD",
+      "GET",
+      "raw cache",
+      "selection marker"
+    ],
+    "publicPolicy": "production 1.0/1.1 only",
+    "draftNegotiation": false,
+    "targetedTests": 48,
+    "newTests": 15,
+    "fullSuiteRerun": false,
+    "stable12Body": "fresh synthetic minimal legacy basis, no measured extension groups",
+    "originalLegacyExamples": "one frame and no audio each",
+    "legacyAudioTests": "explicit synthetic variants, not historical production sample",
+    "historicalCoreTestCountNotAdded": 638
+  },
+  "production": {
+    "algorithm": "aether-visual/1.1.0",
+    "matrix": "1.0↔1.1",
+    "gate12": false,
+    "activated": false
+  },
+  "pending": [
+    "Aether synchronized rollout return",
+    "native heard-track proof",
+    "actual player integration",
+    "live Jellyfin",
+    "auditory and visual acceptance",
+    "target device and long-source resources",
+    "final producer and release pins",
+    "separate TV visual mirror"
+  ],
+  "furtherTVNegotiationOrCodecTaskRequired": false,
+  "pluginRuntimeChangedInThisReview": false
+}

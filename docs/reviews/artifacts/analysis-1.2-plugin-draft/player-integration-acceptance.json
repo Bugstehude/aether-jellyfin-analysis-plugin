@@ -1,0 +1,1222 @@
+{
+  "date": "2026-10-05",
+  "status": "accepted-isolated-aether-main-player-cancellation-cache-integration-not-release",
+  "pins": [
+    {
+      "path": "/Users/Marc.Bauer/Developer/Aether/docs/reviews/2026-10-05-analysis-1.2-player-integration-results.md",
+      "bytes": 12324,
+      "sha256": "8388acbd6dce19e3343f691a18220819181546400f33b53f93012d86e53dc4cb"
+    },
+    {
+      "path": "/Users/Marc.Bauer/Developer/Aether/docs/reviews/2026-10-05-analysis-1.2-player-integration-plugin-response-prompt.md",
+      "bytes": 4554,
+      "sha256": "dc3884a0928d221388839c892373fbb7c75311020a4b90cb667f0f404da0869d"
+    },
+    {
+      "path": "/Users/Marc.Bauer/Developer/Aether/docs/reviews/artifacts/analysis-1.2-player-integration/checks.json",
+      "bytes": 40943,
+      "sha256": "b33417934a2dc0edae51c7672f80ba7bbe5e06d13077140752ead9191b6ab42b"
+    },
+    {
+      "path": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/docs/reviews/2026-10-05-analysis-1.2-player-integration-acceptance.md",
+      "bytes": 6634,
+      "sha256": "27a0ceefb1bc87e8254f4ce6953a57599d83eb7d38fc7e4374f836403414e101"
+    },
+    {
+      "path": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/docs/reviews/2026-10-05-analysis-1.2-aether-source-track-binding-worker-prompt.md",
+      "bytes": 3553,
+      "sha256": "6fb14ddc68e6afca8924d8dd2c478e4d7e30a827432586961ac9f963d2c72663"
+    },
+    {
+      "path": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/docs/reviews/2026-10-05-analysis-1.2-tv-source-track-binding-worker-prompt.md",
+      "bytes": 3209,
+      "sha256": "32727558ed7ce3e9f930f71e4415d3eb41b121ba7cc61fea75aedca18a4615cc"
+    }
+  ],
+  "clientManifestSnapshot": {
+    "date": "2026-10-05",
+    "status": "isolated-main-player-integration-not-release",
+    "git": {
+      "head": "ff4b51d2a2b135c0bdf3a31f37162f469bce2ab8",
+      "branch": "experiment/analysis-1.2",
+      "workingTreeDirty": true
+    },
+    "productionAlgorithm": "aether-visual/1.1.0",
+    "realMeasurementAlgorithm": "aether-visual/1.2.0-draft",
+    "gates": {
+      "synchronizedHttp12": false,
+      "synchronizedPlayer12": false
+    },
+    "activeCompatibilityMatrixChanged": false,
+    "sourcePins": [
+      {
+        "path": "apps/desktop-web/src/analysis/analysis-controller.ts",
+        "bytes": 42144,
+        "sha256": "e09c4d1909eb5041234ca0e084399153726354987a36b0ecf17396e0258d8caa"
+      },
+      {
+        "path": "apps/desktop-web/src/analysis/draft-signal-consumer.ts",
+        "bytes": 6572,
+        "sha256": "2384a06390abb1224b28acdd4deabe8b2c3c42271a30935b25240d54cf6dcd52"
+      },
+      {
+        "path": "apps/desktop-web/src/analysis/precomputed-analysis-resolver.ts",
+        "bytes": 7341,
+        "sha256": "6b7e907fd149e624f8167384f9d7ccfff486d501268d0a20b7cbfb27ef67e7ba"
+      },
+      {
+        "path": "apps/desktop-web/src/analysis/synchronized-analysis-cache.ts",
+        "bytes": 1318,
+        "sha256": "19a38de858d301b7da90daa9024e9740cd815f535694bba48fc5023f1ffdf34c"
+      },
+      {
+        "path": "apps/desktop-web/src/analysis/synchronized-indexeddb-cache.test.ts",
+        "bytes": 17151,
+        "sha256": "56a72590dffacc710f577d8c205f63bf52dad2f8b70efce77faf4022cac4ab72"
+      },
+      {
+        "path": "apps/desktop-web/src/analysis/synchronized-indexeddb-cache.ts",
+        "bytes": 14181,
+        "sha256": "81b1be844d63310b361461358f5056fb8a2be2df755f614c4ba6f6887dcd7cf9"
+      },
+      {
+        "path": "apps/desktop-web/src/analysis/synchronized-player-integration.test.ts",
+        "bytes": 23058,
+        "sha256": "5667c45e911e9ee45b487bbcb02c1d5c7d5937c5956aae68042e2c82c856f286"
+      },
+      {
+        "path": "apps/desktop-web/src/analysis/synchronized-player-replay.ts",
+        "bytes": 5639,
+        "sha256": "d25cd7ed33e740106eda8443bbe0eb989b9c0c464aae97b49e2292092b7993ab"
+      },
+      {
+        "path": "apps/desktop-web/src/analysis/synchronized-reader-fallback.test.ts",
+        "bytes": 15552,
+        "sha256": "129b3a1dfc5fd24f7618439a6204b6e5937015dc71c539ecbde5cba1a390a8c6"
+      },
+      {
+        "path": "apps/desktop-web/src/analysis/synchronized-replay-reader.ts",
+        "bytes": 1990,
+        "sha256": "9d6d045739fa41ab4f0c1dc95176d160743a90df3bd79ffc8afbc7590cd6bf7c"
+      },
+      {
+        "path": "apps/desktop-web/src/jellyfin/jellyfin-browser.ts",
+        "bytes": 37044,
+        "sha256": "053978bde615d8e333c4792e7d6211a8a8c5c7f39e85814c07256947246344ea"
+      },
+      {
+        "path": "apps/desktop-web/src/jellyfin/plugin-analysis-client.ts",
+        "bytes": 25927,
+        "sha256": "92f3cd1edd9547133d4d69aa0da27f8c107218f72b9bf2f071952b1c0f80b419"
+      },
+      {
+        "path": "apps/desktop-web/src/jellyfin/plugin-contract.test.ts",
+        "bytes": 5637,
+        "sha256": "18fcfa45f109c0d60d2a27c4deed816e3f81c3b980f5445435ab27240a429f5d"
+      },
+      {
+        "path": "apps/desktop-web/src/jellyfin/plugin-endpoints.ts",
+        "bytes": 3501,
+        "sha256": "1ad4e3462a1d1973394c3f9d08aae95630c648c5cc6bf4445c767788778e7df1"
+      },
+      {
+        "path": "apps/desktop-web/src/jellyfin/synchronized-analysis-client.test.ts",
+        "bytes": 28387,
+        "sha256": "579908ef60f48b50dd60437d5bae3808ba4a09742b0ece4761ef59148e947308"
+      },
+      {
+        "path": "apps/desktop-web/src/jellyfin/synchronized-analysis-client.ts",
+        "bytes": 17363,
+        "sha256": "36df9e6c61c5e5a9ff84ecb9ebce1546052267eee90c5887c29fd613c6c8698d"
+      },
+      {
+        "path": "apps/desktop-web/src/jellyfin/synchronized-analysis-policy.ts",
+        "bytes": 1843,
+        "sha256": "5e07d52a0b3383c72b94eac7e914de59fbe5e00d5f54eef3e922d8d1e4a16d39"
+      },
+      {
+        "path": "apps/desktop-web/src/main.ts",
+        "bytes": 77068,
+        "sha256": "3efb4f669059c209f87c6c4415d2600ca828c1cdf3567c42c3c407a4a80c96ee"
+      },
+      {
+        "path": "apps/desktop-web/src/render/render-controller.ts",
+        "bytes": 150925,
+        "sha256": "e06b75875165333e63e3fe6a8650247820213be2371e92d032c0ac26032ee1dd"
+      }
+    ],
+    "sourceScopeRevision": {
+      "sha256": "1c6e2c07098715887e6c958ba3318da01b154aa9aacaa3be08690f05c3637d56",
+      "scope": "sorted current integration path/hash pairs, not worker producer/release revision"
+    },
+    "acceptedSourceComparison": [
+      {
+        "previous": {
+          "path": "apps/desktop-web/src/analysis/draft-replay-adapter.ts",
+          "bytes": 14750,
+          "sha256": "c0e21d85503d4499c6f5bd3504fb716c1843987376740f189292ea657eeb5643"
+        },
+        "current": {
+          "path": "apps/desktop-web/src/analysis/draft-replay-adapter.ts",
+          "bytes": 14750,
+          "sha256": "c0e21d85503d4499c6f5bd3504fb716c1843987376740f189292ea657eeb5643"
+        },
+        "unchanged": true
+      },
+      {
+        "previous": {
+          "path": "apps/desktop-web/src/analysis/draft-signal-consumer.ts",
+          "bytes": 6454,
+          "sha256": "815bf9083dcc9e94a046009738ed7fcb208f7ea54da9da65b1e8ceff45e2385d"
+        },
+        "current": {
+          "path": "apps/desktop-web/src/analysis/draft-signal-consumer.ts",
+          "bytes": 6572,
+          "sha256": "2384a06390abb1224b28acdd4deabe8b2c3c42271a30935b25240d54cf6dcd52"
+        },
+        "unchanged": false
+      },
+      {
+        "previous": {
+          "path": "apps/desktop-web/src/analysis/effect-analysis-signals.ts",
+          "bytes": 612,
+          "sha256": "78675a23262d653dfae473dbd17577facf82fa279007ca05ae160832a0c95f55"
+        },
+        "current": {
+          "path": "apps/desktop-web/src/analysis/effect-analysis-signals.ts",
+          "bytes": 612,
+          "sha256": "78675a23262d653dfae473dbd17577facf82fa279007ca05ae160832a0c95f55"
+        },
+        "unchanged": true
+      },
+      {
+        "previous": {
+          "path": "apps/desktop-web/src/render/render-controller.ts",
+          "bytes": 150630,
+          "sha256": "42d71a19e420efd49582b663cb695427a15f8882168c60da98dbd852b50380b1"
+        },
+        "current": {
+          "path": "apps/desktop-web/src/render/render-controller.ts",
+          "bytes": 150925,
+          "sha256": "e06b75875165333e63e3fe6a8650247820213be2371e92d032c0ac26032ee1dd"
+        },
+        "unchanged": false
+      },
+      {
+        "previous": {
+          "path": "packages/analysis-cache/src/draft-analysis.ts",
+          "bytes": 34281,
+          "sha256": "d7bb9e00878262b120b0ec2095f67828415a5b7a921ff6f5d4978a55aef03ce4"
+        },
+        "current": {
+          "path": "packages/analysis-cache/src/draft-analysis.ts",
+          "bytes": 34281,
+          "sha256": "d7bb9e00878262b120b0ec2095f67828415a5b7a921ff6f5d4978a55aef03ce4"
+        },
+        "unchanged": true
+      },
+      {
+        "previous": {
+          "path": "packages/analysis-cache/src/draft-packed-f64.ts",
+          "bytes": 16811,
+          "sha256": "e8148b4cd2a8ca30a0a0575938ecdf06fd0c4f022466be361bc43d6cce15a979"
+        },
+        "current": {
+          "path": "packages/analysis-cache/src/draft-packed-f64.ts",
+          "bytes": 16811,
+          "sha256": "e8148b4cd2a8ca30a0a0575938ecdf06fd0c4f022466be361bc43d6cce15a979"
+        },
+        "unchanged": true
+      },
+      {
+        "previous": {
+          "path": "apps/desktop-web/analysis-lab-plugin.ts",
+          "bytes": 3435,
+          "sha256": "a87f2a73a49535b4f4322fd1ccd1d58c87c5236867dfe3fbef985837ac8598a2"
+        },
+        "current": {
+          "path": "apps/desktop-web/analysis-lab-plugin.ts",
+          "bytes": 3435,
+          "sha256": "a87f2a73a49535b4f4322fd1ccd1d58c87c5236867dfe3fbef985837ac8598a2"
+        },
+        "unchanged": true
+      },
+      {
+        "previous": {
+          "path": "apps/desktop-web/src/lab/analysis-lab.ts",
+          "bytes": 9472,
+          "sha256": "0d596a8bec442bf9ee823b494cc74c1c931455940798c5f44a6011dd147a7351"
+        },
+        "current": {
+          "path": "apps/desktop-web/src/lab/analysis-lab.ts",
+          "bytes": 9472,
+          "sha256": "0d596a8bec442bf9ee823b494cc74c1c931455940798c5f44a6011dd147a7351"
+        },
+        "unchanged": true
+      },
+      {
+        "previous": {
+          "path": "apps/desktop-web/src/lab/analysis-lab.css",
+          "bytes": 670,
+          "sha256": "c6e0c9b7fba6ae3b50fc69e14be0fb86c196f300e34a56a154ba18ec69e969a4"
+        },
+        "current": {
+          "path": "apps/desktop-web/src/lab/analysis-lab.css",
+          "bytes": 670,
+          "sha256": "c6e0c9b7fba6ae3b50fc69e14be0fb86c196f300e34a56a154ba18ec69e969a4"
+        },
+        "unchanged": true
+      },
+      {
+        "previous": {
+          "path": "tools/benchmarks/prepare-analysis-preview.ts",
+          "bytes": 4191,
+          "sha256": "5876a106e33bdfab437bafb6b862fa1a9f6f20536a2feab55888bb48f21c7500"
+        },
+        "current": {
+          "path": "tools/benchmarks/prepare-analysis-preview.ts",
+          "bytes": 4191,
+          "sha256": "5876a106e33bdfab437bafb6b862fa1a9f6f20536a2feab55888bb48f21c7500"
+        },
+        "unchanged": true
+      }
+    ],
+    "unchangedHostFixtures": [
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-host-contract/available-balanced.json",
+        "bytes": 15019,
+        "sha256": "e914f5f3371fe74648e5971ab9cdbb253a4e76b80146601f72f60890f6cfb6d0",
+        "unchanged": true
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-host-contract/available-compact.json",
+        "bytes": 12499,
+        "sha256": "517a0c043051b21b6a392d1d0a5a285a6a3bd80cebf84d649b53d830f09003f0",
+        "unchanged": true
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-host-contract/available-full.json",
+        "bytes": 19092,
+        "sha256": "60fcab8f6f47ceed093fc49807481ab4dd8714e8ed67a8fbfb10fbcaf5b1cc9c",
+        "unchanged": true
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-host-contract/no-track-balanced.json",
+        "bytes": 7992,
+        "sha256": "cab9300a156a0b7dd7fcf4af61ef43d087cae09fda0747e53ab1f755c83f9d87",
+        "unchanged": true
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-host-contract/no-track-compact.json",
+        "bytes": 6830,
+        "sha256": "e93fc63f1159723b450d8db5bc152b9f780cc0578384b9ab217da20716725c90",
+        "unchanged": true
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-host-contract/no-track-full.json",
+        "bytes": 7989,
+        "sha256": "60f1f178f03ba3f255952b7da1a3a69755493c893bbac4c552480f6cc4d95297",
+        "unchanged": true
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-host-contract/second-default-balanced.json",
+        "bytes": 15021,
+        "sha256": "9297bf0ad9a4507d82a2106f0476a74fe62474c022f5f709d2249f28a72363a8",
+        "unchanged": true
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-host-contract/second-default-compact.json",
+        "bytes": 12501,
+        "sha256": "aae07edfc26b502878a8aecfc613217c4119fd249f61197b3381d22a8cb7c33c",
+        "unchanged": true
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-host-contract/second-default-full.json",
+        "bytes": 19094,
+        "sha256": "78dad2f33e8671e865fe6e57b3559c97497d72073aab334f9d505a3467c672b0",
+        "unchanged": true
+      }
+    ],
+    "originalContractAndGoldenInputs": [
+      {
+        "previous": {
+          "path": "docs/design/plugin-contracts/example-valid.json",
+          "bytes": 1160,
+          "sha256": "e5ffe35ef0bceba423c10c525b961b9252f3db0ec43568616343e7da8d4fca2c"
+        },
+        "current": {
+          "path": "docs/design/plugin-contracts/example-valid.json",
+          "bytes": 1160,
+          "sha256": "e5ffe35ef0bceba423c10c525b961b9252f3db0ec43568616343e7da8d4fca2c"
+        },
+        "unchanged": true
+      },
+      {
+        "previous": {
+          "path": "docs/reviews/artifacts/analysis-1.2-host-contract/legacy-example-1.1.json",
+          "bytes": 1160,
+          "sha256": "38454e22ce6bc74eee14a214650dc1194db6f6325d4d5a63d8ee2c9b978b049b"
+        },
+        "current": {
+          "path": "docs/reviews/artifacts/analysis-1.2-host-contract/legacy-example-1.1.json",
+          "bytes": 1160,
+          "sha256": "38454e22ce6bc74eee14a214650dc1194db6f6325d4d5a63d8ee2c9b978b049b"
+        },
+        "unchanged": true
+      },
+      {
+        "previous": {
+          "path": "packages/analysis-cache/src/__fixtures__/packed-f64-golden.json",
+          "bytes": 52802,
+          "sha256": "9173d1a39fae5cdef25eb76e4c9b06087c6186bca26ad69d20404ac58e4081f1"
+        },
+        "current": {
+          "path": "packages/analysis-cache/src/__fixtures__/packed-f64-golden.json",
+          "bytes": 52802,
+          "sha256": "9173d1a39fae5cdef25eb76e4c9b06087c6186bca26ad69d20404ac58e4081f1"
+        },
+        "unchanged": true
+      }
+    ],
+    "pluginSourceAndRoutinePins": [
+      {
+        "path": "docs/analysis-1.2-contract.md",
+        "bytes": 10600,
+        "sha256": "9cc69f0ed067c565b57625ff311cc81bd18fec0cfea94491a28bce053e7d0864",
+        "unchanged": true
+      },
+      {
+        "path": "src/Jellyfin.Plugin.AetherAnalysis/Application/AnalysisWorkerExecutionGate.cs",
+        "bytes": 1101,
+        "sha256": "e8d6a4722d8199cec2865c8326be6e84c82691ed3d83e7590bebca15a6c573a3",
+        "unchanged": true
+      },
+      {
+        "path": "src/Jellyfin.Plugin.AetherAnalysis/Application/Draft/DraftAnalysisArtifactValidator.cs",
+        "bytes": 38052,
+        "sha256": "37d82e6a214d3b6a515c0553bf9c9f2319f462923a03d91c018c332d5fc9206c",
+        "unchanged": true
+      },
+      {
+        "path": "src/Jellyfin.Plugin.AetherAnalysis/Application/Draft/DraftAnalysisCompositionSession.cs",
+        "bytes": 14604,
+        "sha256": "327e1ca5b34fff552293c28a0eb49b9643eb58bde8a1ad795ec965e70fffd076",
+        "unchanged": true
+      },
+      {
+        "path": "src/Jellyfin.Plugin.AetherAnalysis/Application/Draft/DraftAnalysisMasterBuilder.cs",
+        "bytes": 13106,
+        "sha256": "80ca324bbb09a8491e94deac957c29796dcedd2cc96daf776f33c7566d540b59",
+        "unchanged": true
+      },
+      {
+        "path": "src/Jellyfin.Plugin.AetherAnalysis/Application/Draft/DraftBoundedProcess.cs",
+        "bytes": 13697,
+        "sha256": "dacb87d78a84db74fcdb7521383e612bc7cebe8011f20e2dc6ca95271e2d8e99",
+        "unchanged": true
+      },
+      {
+        "path": "src/Jellyfin.Plugin.AetherAnalysis/Application/Draft/DraftJellyfinSourceResolver.cs",
+        "bytes": 3685,
+        "sha256": "a2a27053e0958c94d56775ec30e1617725abe8e0be308d7394e00c9283b66da6",
+        "unchanged": true
+      },
+      {
+        "path": "src/Jellyfin.Plugin.AetherAnalysis/Application/Draft/DraftServerAnalysisRunner.cs",
+        "bytes": 10369,
+        "sha256": "71d4288b9c89f92addf2b321584c4b08a4662d2b119a69fbb8b4ae2aa2e67a0a",
+        "unchanged": true
+      },
+      {
+        "path": "src/Jellyfin.Plugin.AetherAnalysis/Application/Draft/DraftSourceTrackMapper.cs",
+        "bytes": 11962,
+        "sha256": "163aecd6481e0815606e974474822956d230360936264e9a45d01ad1cf494230",
+        "unchanged": true
+      },
+      {
+        "path": "src/Jellyfin.Plugin.AetherAnalysis/Application/Draft/DraftWorkerProcessRunner.cs",
+        "bytes": 8438,
+        "sha256": "2d4a4e60e41f04b7fab060ad0ae336fc7138b389689339fe0222265459255782",
+        "unchanged": true
+      },
+      {
+        "path": "src/Jellyfin.Plugin.AetherAnalysis/Application/Draft/PackedDenseAudioDraftCodec.cs",
+        "bytes": 8438,
+        "sha256": "9ade1313022f221e7a5f2d390aa9da86131728fc5fe7aa9fe16971059715eb46",
+        "unchanged": true
+      },
+      {
+        "path": "src/Jellyfin.Plugin.AetherAnalysis/Application/ServerAnalysisRunner.cs",
+        "bytes": 26725,
+        "sha256": "80cebb5308e837ae8b28406ba0e4456e0f12452afaea253f585cc19243dc81f6",
+        "unchanged": true
+      },
+      {
+        "path": "src/Jellyfin.Plugin.AetherAnalysis/Configuration/PluginConfiguration.cs",
+        "bytes": 3490,
+        "sha256": "282d4405ecbe809c7756e2dfe4533dd6b4b5562b94c18eaf510d73d384fb4130",
+        "unchanged": true
+      },
+      {
+        "path": "src/Jellyfin.Plugin.AetherAnalysis/ServiceRegistrator.cs",
+        "bytes": 4903,
+        "sha256": "9eb0de315cf7ab17105ac88cab2f04bcb4db051f3227d33a857c8591ac9c1e6d",
+        "unchanged": true
+      },
+      {
+        "path": "tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftAnalysisCompositionTests.cs",
+        "bytes": 31761,
+        "sha256": "ec2ec154ddf6e3be0e8948089506f4019a81c1821ca84132f08be2a1e82f355f",
+        "unchanged": true
+      },
+      {
+        "path": "tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftBoundedProcessTests.cs",
+        "bytes": 7070,
+        "sha256": "23c590d12caf3bff9d3712399e32d3b84fc72525463b572c22f8bd2e691701b1",
+        "unchanged": true
+      },
+      {
+        "path": "tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftConsumerProfileTests.cs",
+        "bytes": 11158,
+        "sha256": "bd330000dedba3613d8db5421974147a07dd20640fc25521391cc8641d758c47",
+        "unchanged": true
+      },
+      {
+        "path": "tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftJellyfinSourceResolverTests.cs",
+        "bytes": 8335,
+        "sha256": "df5aeea9765a006b185f8aadc674fff57a7a00c4ada854923f2f98d0fb25fd4c",
+        "unchanged": true
+      },
+      {
+        "path": "tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftServerAnalysisRunnerTests.cs",
+        "bytes": 27777,
+        "sha256": "9be13b09755f5c975980279fea6cc3cde127d38f4ba2cf0f694d7a8c330ed7ce",
+        "unchanged": true
+      },
+      {
+        "path": "tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftSourceTrackMapperTests.cs",
+        "bytes": 11179,
+        "sha256": "05afe125e2be71376422a954ab7a5a26303a6509b6696789dc160dbb4e124f0e",
+        "unchanged": true
+      },
+      {
+        "path": "tests/Jellyfin.Plugin.AetherAnalysis.Tests/ServerAnalysisRunnerTests.cs",
+        "bytes": 13827,
+        "sha256": "2db5a679438e7e556a1174f7b532053219077c2d5db6cb5fcc4a03175f589c6d",
+        "unchanged": true
+      },
+      {
+        "path": "tools/build-draft-worker.mjs",
+        "bytes": 4287,
+        "sha256": "976eb4b53fe402b5461d91351a0cde80463a2b146ad21468b8ceada1b6f9401e",
+        "unchanged": true
+      },
+      {
+        "path": "src/Jellyfin.Plugin.AetherAnalysis/Application/Draft/DraftAnalysisMigrationPlanner.cs",
+        "bytes": 4547,
+        "sha256": "4cfacb4b027c3e097a69fc32ae220e1fec864956030a2887e61781c4f76d315e",
+        "unchanged": true
+      },
+      {
+        "path": "tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftAnalysisMigrationPlannerTests.cs",
+        "bytes": 14790,
+        "sha256": "fc86c83eac4f37e4066076404dc9986f76d184f9ba1118035a152ae4e9e1a822",
+        "unchanged": true
+      },
+      {
+        "path": "tests/Jellyfin.Plugin.AetherAnalysis.Tests/Jellyfin.Plugin.AetherAnalysis.Tests.csproj",
+        "bytes": 3041,
+        "sha256": "0ea7b363d0895513144be2130f8152bead8518ecbb9657086a8715c6cefbf268",
+        "unchanged": true
+      },
+      {
+        "path": "docs/reviews/2026-10-05-analysis-1.2-aether-synchronized-rollout-worker-prompt.md",
+        "bytes": 2894,
+        "sha256": "3a14ed627800651efc8ea0f4ed1501047880106ee567b847fb6ddecf72049bc9",
+        "unchanged": true
+      },
+      {
+        "path": "docs/reviews/2026-10-05-analysis-1.2-routine-migration-results.md",
+        "bytes": 7295,
+        "sha256": "caafe45686c2980adbf1e394437c6a3ec7022ea27c22cd9222f693098065a322",
+        "unchanged": true
+      },
+      {
+        "path": "docs/reviews/2026-10-05-analysis-1.2-synchronized-rollout-plan.md",
+        "bytes": 5717,
+        "sha256": "b78573427f5befcac2906e202812220b04efa77b079f8c757df56aa3134af3dc",
+        "unchanged": true
+      },
+      {
+        "path": "docs/reviews/2026-10-05-analysis-1.2-tv-synchronized-rollout-worker-prompt.md",
+        "bytes": 2873,
+        "sha256": "b8ecf4cc762b7204d5b8eb2156a2e06690a938b4846a7f1542b3ba728f51fdd2",
+        "unchanged": true
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/available-balanced.json",
+        "bytes": 15019,
+        "sha256": "e914f5f3371fe74648e5971ab9cdbb253a4e76b80146601f72f60890f6cfb6d0",
+        "unchanged": true
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/available-compact.json",
+        "bytes": 12499,
+        "sha256": "517a0c043051b21b6a392d1d0a5a285a6a3bd80cebf84d649b53d830f09003f0",
+        "unchanged": true
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/available-full.json",
+        "bytes": 19092,
+        "sha256": "60fcab8f6f47ceed093fc49807481ab4dd8714e8ed67a8fbfb10fbcaf5b1cc9c",
+        "unchanged": true
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/no-track-balanced.json",
+        "bytes": 7992,
+        "sha256": "cab9300a156a0b7dd7fcf4af61ef43d087cae09fda0747e53ab1f755c83f9d87",
+        "unchanged": true
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/no-track-compact.json",
+        "bytes": 6830,
+        "sha256": "e93fc63f1159723b450d8db5bc152b9f780cc0578384b9ab217da20716725c90",
+        "unchanged": true
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/no-track-full.json",
+        "bytes": 7989,
+        "sha256": "60f1f178f03ba3f255952b7da1a3a69755493c893bbac4c552480f6cc4d95297",
+        "unchanged": true
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/second-default-balanced.json",
+        "bytes": 15021,
+        "sha256": "9297bf0ad9a4507d82a2106f0476a74fe62474c022f5f709d2249f28a72363a8",
+        "unchanged": true
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/second-default-compact.json",
+        "bytes": 12501,
+        "sha256": "aae07edfc26b502878a8aecfc613217c4119fd249f61197b3381d22a8cb7c33c",
+        "unchanged": true
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/second-default-full.json",
+        "bytes": 19094,
+        "sha256": "78dad2f33e8671e865fe6e57b3559c97497d72073aab334f9d505a3467c672b0",
+        "unchanged": true
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/routine-migration/available-balanced.json",
+        "bytes": 15019,
+        "sha256": "84d6460ba8000e22a592859308316ce8c56965cccc861f648011471bf5340ac0",
+        "unchanged": true
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/routine-migration/available-compact.json",
+        "bytes": 12499,
+        "sha256": "82806d63e49dc483a2639399525517d95a62d72b9a3c64369d279149e6edb3ae",
+        "unchanged": true
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/routine-migration/available-full.json",
+        "bytes": 19092,
+        "sha256": "77a23c0f0d0992f49ecc5890b84190b4bd84fd8b82d0da65d1fdb4f2c5c1d41a",
+        "unchanged": true
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/routine-migration/no-track-balanced.json",
+        "bytes": 7992,
+        "sha256": "2f78b61c734ea4ef78bcba8eeed59043917faa69135b1350807810ce9657d337",
+        "unchanged": true
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/routine-migration/no-track-compact.json",
+        "bytes": 6830,
+        "sha256": "51da2b29b587a35342278b2bdea642e21a11562c941a3ebd39336e816c76bc03",
+        "unchanged": true
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/routine-migration/no-track-full.json",
+        "bytes": 7989,
+        "sha256": "96146a1d20a842d03ea37efb93eaf14de8e02e925ad04ead5b2fc3dedc93a3c2",
+        "unchanged": true
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/routine-migration/second-default-balanced.json",
+        "bytes": 15021,
+        "sha256": "624f865ac17555903b0354b63b186874eb99055bab949abe853421178366158b",
+        "unchanged": true
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/routine-migration/second-default-compact.json",
+        "bytes": 12501,
+        "sha256": "9e49d59e00a624c3bbf5d602adcbb4f7a4e63099eb543cf00f885c2904ff3fd9",
+        "unchanged": true
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/routine-migration/second-default-full.json",
+        "bytes": 19094,
+        "sha256": "69d671021cb113b59bdddacd01a72904a31c8e18e7582bd46ae430f27fb31eba",
+        "unchanged": true
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/integration-manifest.json",
+        "bytes": 10983,
+        "sha256": "424208dcb5f8e671a686e710852b6d3c10db32d696cbdbbddbe060d7f09275d9",
+        "unchanged": true
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/routine-migration/release-tests.trx",
+        "bytes": 587222,
+        "sha256": "dc5e8ab0a309416c32baa6148239b46c102d678732cced618f738e0dfedb9f3d",
+        "unchanged": true
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/routine-migration/tv-tail-addendum-audit.json",
+        "bytes": 41172,
+        "sha256": "4c8267a9abbefe9f503a2ed42c44d0ca3e366aa12a9bb13e44939b9613d06668",
+        "unchanged": true
+      }
+    ],
+    "contracts": {
+      "openApiSchemaBundle": "d07b7140ec4985a88f286d44986d914175bff89c2bd36bdc899e0664faf184af",
+      "versionContractMarkdown": {
+        "path": "docs/analysis-version-contract.md",
+        "bytes": 7357,
+        "sha256": "e276dd9389832ea2ba33327c7ac383a3c5085152c6be9dbf70b490818e4d0bff"
+      },
+      "fieldWireContractMarkdown": {
+        "path": "docs/analysis-1.2-contract.md",
+        "bytes": 10600,
+        "sha256": "9cc69f0ed067c565b57625ff311cc81bd18fec0cfea94491a28bce053e7d0864"
+      }
+    },
+    "priorReportsPreserved": true,
+    "checks": {
+      "repositoryTests": {
+        "passed": 2039,
+        "skipped": 17,
+        "files": 128,
+        "filesWithPassedTests": 127,
+        "filePassedCounts": {
+          "tools/benchmarks/analysis-bench.test.ts": 0,
+          "tools/benchmarks/analysis-composition-artifacts.test.ts": 17,
+          "tools/benchmarks/analysis-host-contract-artifacts.test.ts": 17,
+          "packages/analysis-cache/src/analysis-document.test.ts": 31,
+          "packages/analysis-cache/src/document-codec.test.ts": 16,
+          "packages/analysis-cache/src/draft-analysis.test.ts": 89,
+          "packages/analysis-cache/src/draft-packed-f64.test.ts": 36,
+          "packages/analysis-cache/src/fingerprint.test.ts": 21,
+          "packages/analysis-cache/src/index.test.ts": 4,
+          "packages/director-engine/src/cue-conflict-resolver.test.ts": 15,
+          "packages/director-engine/src/cue-runtime.test.ts": 15,
+          "packages/director-engine/src/easing.test.ts": 36,
+          "packages/director-engine/src/transition-planner.test.ts": 16,
+          "packages/haptics-engine/src/command-builder.test.ts": 5,
+          "packages/haptics-engine/src/haptics-emitter.test.ts": 9,
+          "packages/haptics-engine/src/intensity-mapping.test.ts": 19,
+          "packages/interpretation-engine/src/feature-normalizer.test.ts": 25,
+          "packages/interpretation-engine/src/interpreted-state-calculator.test.ts": 15,
+          "packages/interpretation-engine/src/mood-timeline.test.ts": 19,
+          "packages/interpretation-engine/src/temporal-smoother.test.ts": 34,
+          "packages/media-engine/src/local-media.test.ts": 11,
+          "packages/media-engine/src/long-session.test.ts": 1,
+          "packages/media-engine/src/look-ahead-coordinator.test.ts": 13,
+          "packages/media-engine/src/playback-clock.test.ts": 23,
+          "packages/media-engine/src/video-transport.test.ts": 18,
+          "packages/perception-engine/src/analysis-timeline.test.ts": 45,
+          "packages/perception-engine/src/audio-features.test.ts": 33,
+          "packages/perception-engine/src/color-palette.test.ts": 20,
+          "packages/perception-engine/src/image-stats.test.ts": 27,
+          "packages/perception-engine/src/motion-energy.test.ts": 13,
+          "packages/perception-engine/src/sampling-policy.test.ts": 61,
+          "packages/perception-engine/src/sampling-scheduler.test.ts": 69,
+          "packages/perception-engine/src/scene-cut.test.ts": 49,
+          "packages/performance-engine/src/benchmark-boundary-search.test.ts": 4,
+          "packages/performance-engine/src/benchmark-plan.test.ts": 6,
+          "packages/performance-engine/src/benchmark-run.test.ts": 14,
+          "packages/performance-engine/src/benchmark-session.test.ts": 5,
+          "packages/performance-engine/src/device-quality-profile-builder.test.ts": 3,
+          "packages/performance-engine/src/device-quality-profile.test.ts": 9,
+          "packages/performance-engine/src/frame-telemetry.test.ts": 40,
+          "packages/performance-engine/src/quality-controller.test.ts": 23,
+          "packages/performance-engine/src/quality-start-resolver.test.ts": 6,
+          "packages/server-analysis-worker/src/analyze.test.ts": 4,
+          "packages/server-analysis-worker/src/audio.test.ts": 2,
+          "packages/server-analysis-worker/src/draft-audio.test.ts": 58,
+          "packages/server-analysis-worker/src/draft-f64-spool.test.ts": 9,
+          "packages/server-analysis-worker/src/draft-job.test.ts": 11,
+          "packages/server-analysis-worker/src/draft-legacy-audio.test.ts": 20,
+          "packages/server-analysis-worker/src/draft-video.test.ts": 15,
+          "packages/server-analysis-worker/src/upload.test.ts": 5,
+          "packages/core-types/src/analysis-correlator.test.ts": 15,
+          "packages/core-types/src/capability.test.ts": 16,
+          "packages/core-types/src/director-cue.test.ts": 32,
+          "packages/core-types/src/index.test.ts": 5,
+          "packages/core-types/src/result.test.ts": 6,
+          "packages/core-types/src/status.test.ts": 2,
+          "packages/core-types/src/time.test.ts": 13,
+          "packages/core-types/src/worker-protocol.test.ts": 11,
+          "packages/capability-engine/src/codec-probes.test.ts": 20,
+          "packages/capability-engine/src/detect.test.ts": 15,
+          "packages/capability-engine/src/probes.test.ts": 23,
+          "packages/perception-engine/src/worker/analysis-worker-bridge.test.ts": 14,
+          "packages/perception-engine/src/worker/analysis-worker-core.test.ts": 12,
+          "packages/perception-engine/src/worker/frame-analyzer.test.ts": 14,
+          "apps/desktop-web/src/csp-sync.test.ts": 3,
+          "apps/desktop-web/src/analysis/analysis-status.test.ts": 16,
+          "apps/desktop-web/src/analysis/diagnostics-model.test.ts": 12,
+          "apps/desktop-web/src/analysis/director-controller.test.ts": 13,
+          "apps/desktop-web/src/analysis/draft-legacy-compatibility.test.ts": 8,
+          "apps/desktop-web/src/analysis/draft-replay-adapter.test.ts": 10,
+          "apps/desktop-web/src/analysis/draft-signal-consumer.test.ts": 10,
+          "apps/desktop-web/src/analysis/local-analysis-repository.test.ts": 7,
+          "apps/desktop-web/src/analysis/local-fingerprint.test.ts": 8,
+          "apps/desktop-web/src/analysis/plan-from-document.test.ts": 3,
+          "apps/desktop-web/src/analysis/precomputed-analysis-resolver.test.ts": 11,
+          "apps/desktop-web/src/analysis/replay-driver.test.ts": 9,
+          "apps/desktop-web/src/analysis/synchronized-indexeddb-cache.test.ts": 18,
+          "apps/desktop-web/src/analysis/synchronized-player-integration.test.ts": 6,
+          "apps/desktop-web/src/analysis/synchronized-reader-fallback.test.ts": 7,
+          "apps/desktop-web/src/audio/audio-features-live.test.ts": 11,
+          "apps/desktop-web/src/audio/audio-tap-transition.test.ts": 10,
+          "apps/desktop-web/src/audio/audio-tap.test.ts": 24,
+          "apps/desktop-web/src/audio/journey-track.test.ts": 11,
+          "apps/desktop-web/src/audio/session-arc.test.ts": 22,
+          "apps/desktop-web/src/audio/voice-placement.test.ts": 12,
+          "apps/desktop-web/src/audio/voice-signal-coverage.test.ts": 20,
+          "apps/desktop-web/src/audio/voice-signal.test.ts": 10,
+          "apps/desktop-web/src/audio/voice-volume.test.ts": 6,
+          "apps/desktop-web/src/haptics/lovense-transport.test.ts": 9,
+          "apps/desktop-web/src/jellyfin/jellyfin-browser.test.ts": 3,
+          "apps/desktop-web/src/jellyfin/jellyfin-client.test.ts": 23,
+          "apps/desktop-web/src/jellyfin/mutation-queue.test.ts": 2,
+          "apps/desktop-web/src/jellyfin/plugin-analysis-client.test.ts": 24,
+          "apps/desktop-web/src/jellyfin/plugin-contract.test.ts": 3,
+          "apps/desktop-web/src/jellyfin/plugin-voice-client.test.ts": 6,
+          "apps/desktop-web/src/jellyfin/resolution-label.test.ts": 5,
+          "apps/desktop-web/src/jellyfin/synchronized-analysis-client.test.ts": 29,
+          "apps/desktop-web/src/media/fullscreen-controller.test.ts": 5,
+          "apps/desktop-web/src/media/message-lifetime.test.ts": 5,
+          "apps/desktop-web/src/media/player-controller.test.ts": 9,
+          "apps/desktop-web/src/media/wake-lock.test.ts": 7,
+          "apps/desktop-web/src/render/adaptive-quality.test.ts": 5,
+          "apps/desktop-web/src/render/benchmark-controller.test.ts": 7,
+          "apps/desktop-web/src/render/conductor.test.ts": 13,
+          "apps/desktop-web/src/render/context-loss.test.ts": 5,
+          "apps/desktop-web/src/render/edge-blend-renderer.test.ts": 43,
+          "apps/desktop-web/src/render/effect-wiring.test.ts": 57,
+          "apps/desktop-web/src/render/experience-capabilities.test.ts": 6,
+          "apps/desktop-web/src/render/experience-catalog.test.ts": 4,
+          "apps/desktop-web/src/render/experience-dynamics.test.ts": 12,
+          "apps/desktop-web/src/render/experience-modes.test.ts": 93,
+          "apps/desktop-web/src/render/frame-cap.test.ts": 17,
+          "apps/desktop-web/src/render/perception-effects.test.ts": 14,
+          "apps/desktop-web/src/render/temporal-resource-wiring.test.ts": 3,
+          "apps/desktop-web/src/render/transition-timing.test.ts": 5,
+          "apps/desktop-web/src/render/video-frame-tracker.test.ts": 8,
+          "apps/desktop-web/src/render/vr-frame-lifecycle.test.ts": 2,
+          "apps/desktop-web/src/render/vr-performance-code.test.ts": 3,
+          "apps/desktop-web/src/render/vr-performance-wiring.test.ts": 6,
+          "apps/desktop-web/src/render/vr-quality.test.ts": 8,
+          "apps/desktop-web/src/render/vr-thumbstick.test.ts": 16,
+          "apps/desktop-web/src/render/webxr-controller.test.ts": 7,
+          "apps/desktop-web/src/render/world-dynamics.test.ts": 4,
+          "apps/desktop-web/src/render/world-selection.test.ts": 18,
+          "apps/desktop-web/src/pwa/install-hint.test.ts": 9,
+          "apps/desktop-web/src/ui/anchor-panel.test.ts": 6,
+          "apps/desktop-web/src/ui/dock-layout.test.ts": 5,
+          "apps/desktop-web/src/ui/manual-presets-store.test.ts": 12
+        }
+      },
+      "focusedTests": {
+        "passed": 124,
+        "skipped": 0,
+        "files": 9,
+        "filesWithPassedTests": 9,
+        "filePassedCounts": {
+          "tools/benchmarks/analysis-host-contract-artifacts.test.ts": 17,
+          "apps/desktop-web/src/jellyfin/plugin-contract.test.ts": 19,
+          "apps/desktop-web/src/jellyfin/synchronized-analysis-client.test.ts": 29,
+          "apps/desktop-web/src/analysis/draft-legacy-compatibility.test.ts": 8,
+          "apps/desktop-web/src/analysis/draft-replay-adapter.test.ts": 10,
+          "apps/desktop-web/src/analysis/draft-signal-consumer.test.ts": 10,
+          "apps/desktop-web/src/analysis/synchronized-indexeddb-cache.test.ts": 18,
+          "apps/desktop-web/src/analysis/synchronized-player-integration.test.ts": 6,
+          "apps/desktop-web/src/analysis/synchronized-reader-fallback.test.ts": 7
+        }
+      },
+      "countsOverlap": true,
+      "skipReasons": {
+        "externalContractPathUnset": 16,
+        "benchmarkExplicitlyDisabled": 1
+      },
+      "typecheck": "passed",
+      "scopedEslint": {
+        "errors": 0,
+        "warnings": 16
+      },
+      "scopedFormat": "passed",
+      "diffCheck": "passed",
+      "webBuild": "passed",
+      "macRelativeWebBuild": "passed"
+    },
+    "evidencePins": [
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-player-integration/diff-check.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-player-integration/eslint.log",
+        "bytes": 2002,
+        "sha256": "5ea6bc49e81c17cee783dbda952ada769a4b9092f417e4c36ff5858e6c8e76f9"
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-player-integration/focused-tests.json",
+        "bytes": 46784,
+        "sha256": "7563d6a9db7e3d3b80f802aa8f13f81f601dad232e2627b43bc8e7822c29b639"
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-player-integration/focused-tests.log",
+        "bytes": 132,
+        "sha256": "f646783277db0d92b973941c9ff699a4e791a0b910df5f55961634302a97df6f"
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-player-integration/format.log",
+        "bytes": 66,
+        "sha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20"
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-player-integration/git-status.txt",
+        "bytes": 5768,
+        "sha256": "74437a9595e6f2bc27c4de599c833f527f6373b1fa556bdf10ce5032f35fc317"
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-player-integration/mac-relative-build.log",
+        "bytes": 998,
+        "sha256": "93c57be1a089c1ed42540daa7d3fc4a40cd0fd1c75e5597f4a14bdc3bea50a2c"
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-player-integration/plugin-contract-hash.log",
+        "bytes": 65,
+        "sha256": "9722729d98d3688e81d1b9ba98205f73db6912822a631d762e147b7a02fba266"
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-player-integration/repository-tests.json",
+        "bytes": 665608,
+        "sha256": "60e44348e1bdbc8d4563bbae0ebe8d2904af402bb792f37ce2d755a30c8e6625"
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-player-integration/repository-tests.log",
+        "bytes": 317,
+        "sha256": "e15b27e170a2d1c97f1bf74680944010e2e67d9c84335171f584b26892730961"
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-player-integration/typecheck.log",
+        "bytes": 1066,
+        "sha256": "0eec81874baf885249fb317934280f676bc30003cf7775f0ccf57f9ab7539ae0"
+      },
+      {
+        "path": "docs/reviews/artifacts/analysis-1.2-player-integration/web-build.log",
+        "bytes": 962,
+        "sha256": "d2323593b0676d3f318cb0eeacdac65b086bae2e9b5b9e952af36b77bd8b840c"
+      }
+    ],
+    "productionBuilds": [
+      {
+        "kind": "web",
+        "artifactPins": [
+          {
+            "path": "assets/analysis.worker-DY7MzzNY.js",
+            "bytes": 10196,
+            "sha256": "a66fa0d871267c196dbe5a6aed409c25f4ffef686a1ed9ecdc61160211ead8a0"
+          },
+          {
+            "path": "assets/index-V8ToD52Y.js",
+            "bytes": 520855,
+            "sha256": "fb9dae07639080dde05a68a90caeb12e4b632d4d9218571fc42c5a554b24bf3a"
+          }
+        ],
+        "absentMarkers": {
+          "1.2.0": true,
+          "packed-f64": true,
+          "hann-linear": true,
+          "aether-analysis-synchronized-cache": true,
+          "aether-synchronized-reader": true,
+          "denseAudioFrames": true,
+          "source-pts": true,
+          "single-audio-stream-preview-v1": true
+        },
+        "scope": "static production build, no running renderer/browser/device"
+      },
+      {
+        "kind": "mac-relative-web",
+        "artifactPins": [
+          {
+            "path": "assets/analysis.worker-DY7MzzNY.js",
+            "bytes": 10196,
+            "sha256": "a66fa0d871267c196dbe5a6aed409c25f4ffef686a1ed9ecdc61160211ead8a0"
+          },
+          {
+            "path": "assets/index-B3x9S_uR.js",
+            "bytes": 520880,
+            "sha256": "7c18a87e6995e4be17e4797a2720d11243e5f9f75d06b5a3e14b8e551c297785"
+          }
+        ],
+        "absentMarkers": {
+          "1.2.0": true,
+          "packed-f64": true,
+          "hann-linear": true,
+          "aether-analysis-synchronized-cache": true,
+          "aether-synchronized-reader": true,
+          "denseAudioFrames": true,
+          "source-pts": true,
+          "single-audio-stream-preview-v1": true
+        },
+        "scope": "static production build, no running renderer/browser/device"
+      }
+    ],
+    "budgets": {
+      "documentDecodedBytes": 33554432,
+      "cacheTotalLogicalBytes": 134217728,
+      "cacheMaxEntries": 32,
+      "countBasis": "UTF-8 key + exact JSON + both ETags; excludes envelope/IndexedDB overhead",
+      "eviction": "least accessRank then lexical key, atomic transaction",
+      "deadlineMs": 30000,
+      "deadlineScope": "one negotiated remote read including fingerprint/capabilities/query/HEAD/GET/body/validation/cache awaits",
+      "rssProof": false,
+      "physicalStorageProof": false,
+      "detailSilentlyChanged": false
+    },
+    "integration": {
+      "actualAnalysisController": true,
+      "actualDirectorAndConductorPlanning": true,
+      "mainRendererHookWired": true,
+      "rendererExecutedInTests": false,
+      "syntheticTrackBinding": true,
+      "nativeTrackProof": false,
+      "liveJellyfinProof": false,
+      "targetDeviceProof": false,
+      "mainReplayTickMs": 20,
+      "effectCalibrationChanged": false
+    },
+    "workerCodecMethodsGoldensAndMeasurementFixturesChanged": false,
+    "privateMediaBrowserHardwareAccess": false,
+    "pushDeployVendorUpdate": false,
+    "limitations": [
+      "native heard-track and multi-source mapping",
+      "live browser/WKWebView transport and renderer",
+      "live auth/CORS/ETag negotiation",
+      "audio/visual and target-device acceptance",
+      "decoder/browser RSS, physical IndexedDB overhead and 20 ms replay cost",
+      "long full payload 50 MiB Plugin / 32 MiB client conflict",
+      "final shared producer/release identity and capability approval"
+    ]
+  },
+  "pinAndEvidenceAudit": {
+    "auditDate": "2026-10-05",
+    "scope": "Read-only audit of Aether desktop player integration report, plugin response prompt, checks manifest, pinned artifacts and current source/input pins. No tests run and no source files edited.",
+    "result": "pins-and-reported-test-counts-verified-with-scope-caveats",
+    "references": {
+      "results": "/Users/Marc.Bauer/Developer/Aether/docs/reviews/2026-10-05-analysis-1.2-player-integration-results.md",
+      "pluginResponsePrompt": "/Users/Marc.Bauer/Developer/Aether/docs/reviews/2026-10-05-analysis-1.2-player-integration-plugin-response-prompt.md",
+      "checks": "/Users/Marc.Bauer/Developer/Aether/docs/reviews/artifacts/analysis-1.2-player-integration/checks.json"
+    },
+    "pins": {
+      "currentSourcePins": {
+        "count": 19,
+        "verifiedAgainstCurrentAetherTree": 19,
+        "mismatches": 0
+      },
+      "historicallyAcceptedSources": {
+        "count": 10,
+        "unchanged": 8,
+        "changedAsDeclared": [
+          "apps/desktop-web/src/analysis/draft-signal-consumer.ts",
+          "apps/desktop-web/src/render/render-controller.ts"
+        ]
+      },
+      "hostFixtures": {
+        "count": 9,
+        "verifiedUnchanged": 9,
+        "mismatches": 0
+      },
+      "originalContractAndGoldenInputs": {
+        "count": 3,
+        "verifiedUnchanged": 3,
+        "mismatches": 0
+      },
+      "pluginSourceAndRoutinePins": {
+        "count": 50,
+        "verifiedAgainstCurrentPluginTree": 50,
+        "mismatches": 0
+      },
+      "savedEvidencePins": {
+        "count": 12,
+        "verified": 12,
+        "mismatches": 0
+      },
+      "scopeNote": "The 19 desktop integration pins and 50 plugin pins are in separate repositories. Hashes were checked against the corresponding current worktrees. The new desktop source-scope hash is declared to cover sorted integration path/hash pairs and explicitly is not the worker producer or release revision."
+    },
+    "testEvidence": {
+      "repository": {
+        "rawVitestJson": "repository-tests.json",
+        "passed": 2039,
+        "skipped": 17,
+        "failed": 0,
+        "files": 128,
+        "confirmedByRawJson": true
+      },
+      "focused": {
+        "rawVitestJson": "focused-tests.json",
+        "passed": 124,
+        "skipped": 0,
+        "failed": 0,
+        "files": 9,
+        "confirmedByRawJson": true
+      },
+      "overlap": "The runs overlap and must not be added. The manifest reports overlap. Focused plugin-contract coverage includes 19 cases because the focused invocation uses the actual OpenAPI path; the repository invocation without that path skips 16 and runs only the remaining default-path cases. The six player integration cases are explicitly listed in both manifests. The JSON result artifacts and their SHA256 pins match checks.json.",
+      "consoleLogs": "Present and pinned. Vitest console logs identify the saved JSON result paths; structured JSON is the authoritative detailed count evidence."
+    },
+    "releaseAndHashScope": {
+      "productionAlgorithm": "aether-visual/1.1.0",
+      "draftMeasurementAlgorithm": "aether-visual/1.2.0-draft",
+      "httpGate": false,
+      "playerGate": false,
+      "historicalPinsRewritten": false,
+      "bundleHash": {
+        "sha256": "d07b7140ec4985a88f286d44986d914175bff89c2bd36bdc899e0664faf184af",
+        "scope": "OpenAPI plus four sorted JSON schemas",
+        "evidence": "plugin-contract-hash.log"
+      },
+      "versionsMarkdownHash": {
+        "sha256": "e276dd9389832ea2ba33327c7ac383a3c5085152c6be9dbf70b490818e4d0bff",
+        "bytes": 7357,
+        "verified": true
+      },
+      "wireMarkdownHash": {
+        "sha256": "9cc69f0ed067c565b57625ff311cc81bd18fec0cfea94491a28bce053e7d0864",
+        "verified": true
+      },
+      "conclusion": "The prior hash difference is a scope distinction, not a mismatch. Markdown documents are not part of the OpenAPI/schema bundle hash."
+    },
+    "evidenceBoundary": {
+      "syntheticTests": "The six tests reach the actual analysis controller, Director and Conductor planning path through test injection. Transport time, HTML shell and track binding are synthetic.",
+      "renderer": "Main-to-renderer hook is reported wired and both builds are pinned, but renderer was not executed in tests. Static absence markers only support closed production build gating.",
+      "unproven": [
+        "native heard-track and multi-source mapping",
+        "live Jellyfin auth/CORS/HEAD/GET negotiation",
+        "running HTMLVideo/WKWebView transport and GPU renderer",
+        "hear/see acceptance and target devices",
+        "browser/decoder RSS",
+        "physical IndexedDB footprint",
+        "20 ms replay cost",
+        "long payloads and 50 MiB plugin versus 32 MiB client limit"
+      ],
+      "conclusion": "Evidence supports isolated preparation with both gates closed. It does not support shared activation or release approval."
+    },
+    "mismatches": []
+  },
+  "loadAndCacheCodeReview": {
+    "review_date": "2026-10-05",
+    "scope": [
+      "apps/desktop-web/src/jellyfin/synchronized-analysis-client.ts",
+      "apps/desktop-web/src/analysis/synchronized-indexeddb-cache.ts",
+      "related cache and client tests",
+      "docs/reviews/2026-10-05-analysis-1.2-player-integration-results.md"
+    ],
+    "result": "scoped-approval",
+    "findings": [],
+    "assessment": "No concrete correctness bug found in shared load cancellation/deadline or aggregate IndexedDB accounting. The client uses one signal/deadline across negotiation, body read, validation checkpoints, and cache waits; cancellation is rechecked before result publication. IndexedDB writes perform cursor cleanup, LRU eviction, and replacement in one readwrite transaction, so queued deletes roll back with replacement failure or abort. Entry accounting includes UTF-8 bytes for cache key, exact JSON text, and both ETags; cache keys include server and user identity. The catch around cache.put preserves a validated GET on storage/quota errors while allowing abort/deadline to suppress publication. The review report's stated limitations are consistent with the implementation inspected.",
+    "not_run": [
+      "tests",
+      "browser/device/media/network work"
+    ],
+    "notes": [
+      "Relevant client checkpoints: synchronized-analysis-client.ts:116-155, 232-253, 435-461.",
+      "Relevant cache accounting/transaction logic: synchronized-indexeddb-cache.ts:70-81, 152-286, 289-408.",
+      "Identity scope: synchronized-analysis-cache.ts:31-42."
+    ]
+  },
+  "rawTestCountsVerified": {
+    "repository-tests.json": {
+      "success": true,
+      "numPassedTests": 2039,
+      "numFailedTests": 0,
+      "numPendingTests": 17,
+      "numTotalTests": 2056,
+      "numTotalTestSuites": 586,
+      "numPassedTestSuites": 586,
+      "numFailedTestSuites": 0
+    },
+    "focused-tests.json": {
+      "success": true,
+      "numPassedTests": 124,
+      "numFailedTests": 0,
+      "numPendingTests": 0,
+      "numTotalTests": 124,
+      "numTotalTestSuites": 21,
+      "numPassedTestSuites": 21,
+      "numFailedTestSuites": 0
+    }
+  },
+  "testRunsOverlap": true,
+  "testsRerunHere": false,
+  "mainPlayerReview": {
+    "reviewedPaths": [
+      "analysis-controller.ts",
+      "synchronized-player-replay.ts",
+      "draft-signal-consumer.ts",
+      "draft-replay-adapter.ts",
+      "synchronized-replay-reader.ts",
+      "main.ts",
+      "render-controller.ts",
+      "synchronized-player-integration.test.ts"
+    ],
+    "actualControllerDirectorAndPlannerTests": 6,
+    "syntheticTransportAndTrackBinding": true,
+    "rendererWiredBuiltNotExecuted": true,
+    "defaultSourceProofStillMissing": "main.ts onSelectVideo records session and itemId, without concrete mediaSourceId; native source/track qualification remains open",
+    "newAudioWithoutTrackProof": false,
+    "coverageAndPendingEofGuardsRetained": true
+  },
+  "limits": {
+    "decodedDocumentBytes": 33554432,
+    "cacheLogicalEntryBytes": 33554432,
+    "cacheLogicalTotalBytes": 134217728,
+    "cacheEntries": 32,
+    "countBasis": "UTF-8 key + original JSON + master and representation ETags",
+    "physicalOverheadIncluded": false,
+    "rssMeasured": false,
+    "remoteDeadlineMs": 30000,
+    "localFingerprintInRemoteDeadline": false,
+    "newReplayTickMs": 20
+  },
+  "production": {
+    "algorithm": "aether-visual/1.1.0",
+    "matrix": "1.0↔1.1",
+    "httpGate12": false,
+    "playerGate12": false,
+    "draft": "1.2.0-draft"
+  },
+  "furtherPlayerCancellationCacheCorrectionRequested": false,
+  "nextIsolatedTasks": [
+    "Aether source and heard-track binding",
+    "AetherTV source and native heard-track binding"
+  ],
+  "releaseGatesOpen": [
+    "native source/track playback proof",
+    "live Jellyfin and renderer",
+    "auditory and visual acceptance",
+    "target-device and long-source resources",
+    "physical cache and 20ms tick measurements",
+    "final producer/release pins and joint activation",
+    "separate TV visual mirror"
+  ],
+  "historicalReportsOrManifestsRewritten": false,
+  "pluginRuntimeChangedInThisReview": false,
+  "pushDeployVendorLiveMediaHardwareAccess": false
+}

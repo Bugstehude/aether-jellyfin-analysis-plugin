@@ -1,0 +1,1116 @@
+{
+  "status": "accepted-doc-test-only-correction",
+  "date": "2026-10-05",
+  "sourceManifestSha256": "551f1f416a54190467376127197e3f89cb09ec415320c2c951ff5fe6f8d8da9c",
+  "checks": [
+    {
+      "path": "../aether-jellyfin-analysis-plugin/docs/reviews/2026-10-04-analysis-1.2-contract-adaptation-acceptance.md",
+      "bytes": 8895,
+      "sha256": "3bce9ca40549f8f07ac31d77f751b6e24bd1912f5b3b811b13416b09ce1f89ad",
+      "matched": true
+    },
+    {
+      "path": "../aether-jellyfin-analysis-plugin/docs/reviews/2026-10-04-analysis-1.2-tv-measured-tail-clarification-worker-prompt.md",
+      "bytes": 2429,
+      "sha256": "9463d55d3579dd585bc9526d2179b5f69418e7b1d11f826e747e58b9f8f456d6",
+      "matched": true
+    },
+    {
+      "path": "App/.DS_Store",
+      "bytes": 6148,
+      "sha256": "e83d0da72ba5c4ade69690929d0ec2f48a630031867ea6a148675d6fb55be822",
+      "matched": true
+    },
+    {
+      "path": "App/AetherTV/.DS_Store",
+      "bytes": 6148,
+      "sha256": "e8aa18cf4abeb200bff8de7bc491baf717a2dcfd21527ea9f1b7a22d5c3f957b",
+      "matched": true
+    },
+    {
+      "path": "App/AetherTV/AetherTVApp.swift",
+      "bytes": 72380,
+      "sha256": "c641ec0eeb0b3ffd3d62d188cc9711a24039c6e88bac05bd308d6ec052662390",
+      "matched": true
+    },
+    {
+      "path": "App/AetherTV/Assets.xcassets/App Icon & Top Shelf Image.brandassets/App Icon - App Store.imagestack/Back.imagestacklayer/Content.imageset/Background-App-Store.png",
+      "bytes": 583493,
+      "sha256": "44cea79cb6b1bfbec1ef57ef9ef143a79c48d5831481c6fca6691d09d58071d4",
+      "matched": true
+    },
+    {
+      "path": "App/AetherTV/Assets.xcassets/App Icon & Top Shelf Image.brandassets/App Icon - App Store.imagestack/Back.imagestacklayer/Content.imageset/Contents.json",
+      "bytes": 185,
+      "sha256": "79a06d99c5341073655848b5d73024d35ad6069f91e9982370531d06da5550fb",
+      "matched": true
+    },
+    {
+      "path": "App/AetherTV/Assets.xcassets/App Icon & Top Shelf Image.brandassets/App Icon - App Store.imagestack/Back.imagestacklayer/Contents.json",
+      "bytes": 155,
+      "sha256": "06ebde5470fe4b1c52a9b11666da7355bc725479fabfd670e689da7ecb03a491",
+      "matched": true
+    },
+    {
+      "path": "App/AetherTV/Assets.xcassets/App Icon & Top Shelf Image.brandassets/App Icon - App Store.imagestack/Contents.json",
+      "bytes": 193,
+      "sha256": "8f5626c041f56676af23925bff2ac338c97bac12eb3f9ad36f5ba6ed02cc6d14",
+      "matched": true
+    },
+    {
+      "path": "App/AetherTV/Assets.xcassets/App Icon & Top Shelf Image.brandassets/App Icon - App Store.imagestack/Front.imagestacklayer/Content.imageset/Contents.json",
+      "bytes": 179,
+      "sha256": "a6aaefa5d876d39f6ff5ff05a259cc0fb5249d6142bc712033423bc534ec7bf9",
+      "matched": true
+    },
+    {
+      "path": "App/AetherTV/Assets.xcassets/App Icon & Top Shelf Image.brandassets/App Icon - App Store.imagestack/Front.imagestacklayer/Content.imageset/Icon-App-Store.png",
+      "bytes": 179486,
+      "sha256": "ad0210b57e6d176d9c55dd53a5674dfe28d1df2bfa80588c2ebe32ebb5769027",
+      "matched": true
+    },
+    {
+      "path": "App/AetherTV/Assets.xcassets/App Icon & Top Shelf Image.brandassets/App Icon - App Store.imagestack/Front.imagestacklayer/Contents.json",
+      "bytes": 155,
+      "sha256": "06ebde5470fe4b1c52a9b11666da7355bc725479fabfd670e689da7ecb03a491",
+      "matched": true
+    },
+    {
+      "path": "App/AetherTV/Assets.xcassets/App Icon & Top Shelf Image.brandassets/App Icon.imagestack/Back.imagestacklayer/Content.imageset/Background.png",
+      "bytes": 79465,
+      "sha256": "29c17fa3b6bc83325aacc99aab2cb3284df683e12fcd60c3b595268f988a22c5",
+      "matched": true
+    },
+    {
+      "path": "App/AetherTV/Assets.xcassets/App Icon & Top Shelf Image.brandassets/App Icon.imagestack/Back.imagestacklayer/Content.imageset/Background@2x.png",
+      "bytes": 259057,
+      "sha256": "2e9d887d51637a42046051459859a6115ba180c9ec31930278ba87c4130f5e95",
+      "matched": true
+    },
+    {
+      "path": "App/AetherTV/Assets.xcassets/App Icon & Top Shelf Image.brandassets/App Icon.imagestack/Back.imagestacklayer/Content.imageset/Contents.json",
+      "bytes": 271,
+      "sha256": "362fea13774cffe41fb2939c0e0e5da7e53c963a8a160bfbee50f086cd1fc650",
+      "matched": true
+    },
+    {
+      "path": "App/AetherTV/Assets.xcassets/App Icon & Top Shelf Image.brandassets/App Icon.imagestack/Back.imagestacklayer/Contents.json",
+      "bytes": 155,
+      "sha256": "06ebde5470fe4b1c52a9b11666da7355bc725479fabfd670e689da7ecb03a491",
+      "matched": true
+    },
+    {
+      "path": "App/AetherTV/Assets.xcassets/App Icon & Top Shelf Image.brandassets/App Icon.imagestack/Contents.json",
+      "bytes": 193,
+      "sha256": "8f5626c041f56676af23925bff2ac338c97bac12eb3f9ad36f5ba6ed02cc6d14",
+      "matched": true
+    },
+    {
+      "path": "App/AetherTV/Assets.xcassets/App Icon & Top Shelf Image.brandassets/App Icon.imagestack/Front.imagestacklayer/Content.imageset/Contents.json",
+      "bytes": 259,
+      "sha256": "724db271eecd7898b6ff37f36530a35933455f4e80e771f694b6db0cd1f5333a",
+      "matched": true
+    },
+    {
+      "path": "App/AetherTV/Assets.xcassets/App Icon & Top Shelf Image.brandassets/App Icon.imagestack/Front.imagestacklayer/Content.imageset/Icon.png",
+      "bytes": 22370,
+      "sha256": "61759b74a27bb76f5c9cd201163874ec07b45831f0bea0bdb7c53c9c3c1c7e28",
+      "matched": true
+    },
+    {
+      "path": "App/AetherTV/Assets.xcassets/App Icon & Top Shelf Image.brandassets/App Icon.imagestack/Front.imagestacklayer/Content.imageset/Icon@2x.png",
+      "bytes": 76552,
+      "sha256": "dd72ad774fc4a4bed154521acd1a18b0e92952f322ae59f20a34ae9113d09fea",
+      "matched": true
+    },
+    {
+      "path": "App/AetherTV/Assets.xcassets/App Icon & Top Shelf Image.brandassets/App Icon.imagestack/Front.imagestacklayer/Contents.json",
+      "bytes": 155,
+      "sha256": "06ebde5470fe4b1c52a9b11666da7355bc725479fabfd670e689da7ecb03a491",
+      "matched": true
+    },
+    {
+      "path": "App/AetherTV/Assets.xcassets/App Icon & Top Shelf Image.brandassets/Contents.json",
+      "bytes": 369,
+      "sha256": "69986bcf92084391bd026d3f9e465e3baeb623035956e7b088e80f6c5e208235",
+      "matched": true
+    },
+    {
+      "path": "App/AetherTV/Assets.xcassets/Contents.json",
+      "bytes": 63,
+      "sha256": "0fd49ba3c3585c709678e0046a821c3c60685ec7063720d30d3a3448be3a208b",
+      "matched": true
+    },
+    {
+      "path": "App/AetherTV/Audio/SessionVoiceController.swift",
+      "bytes": 5192,
+      "sha256": "1aaf8f082590a111760fc9f09f4d4c445d15034cfef50477c4b0947b9737b34d",
+      "matched": true
+    },
+    {
+      "path": "App/AetherTV/Audio/SessionVoicePlayer.swift",
+      "bytes": 4713,
+      "sha256": "a0deebf94e221d60d8521a8230bc3772a5f39abeac9968d566f582c8568ea5ae",
+      "matched": true
+    },
+    {
+      "path": "App/AetherTV/Audio/StageAudioProcessor.swift",
+      "bytes": 52668,
+      "sha256": "9884a0e250a4ab1c6f72cbe3f2efa168bb0dff8a1c6d589bb4f9a795c5563b29",
+      "matched": true
+    },
+    {
+      "path": "App/AetherTV/Jellyfin/JellyfinAnalysisSupply.swift",
+      "bytes": 9809,
+      "sha256": "329e6508257e1f04b7ea56caf48e1c5232f8a11cb2d5950427837b78e918f928",
+      "matched": true
+    },
+    {
+      "path": "App/AetherTV/Jellyfin/JellyfinBrowserModel.swift",
+      "bytes": 10940,
+      "sha256": "67524dd014bd66c0e566769f381cc2f724bfa57391cc821fa3182e32e95b2a1e",
+      "matched": true
+    },
+    {
+      "path": "App/AetherTV/Jellyfin/JellyfinBrowserView.swift",
+      "bytes": 9005,
+      "sha256": "db832589b11161125d5d4a204639ad2b5f386baeec7dd675f98c50198776606a",
+      "matched": true
+    },
+    {
+      "path": "App/AetherTV/Jellyfin/JellyfinClient.swift",
+      "bytes": 12316,
+      "sha256": "12da6de15c58c29e4ff09210daeccb93588c2072435feaacfbb7fe30396ec554",
+      "matched": true
+    },
+    {
+      "path": "App/AetherTV/Jellyfin/JellyfinPlaybackAnalysis.swift",
+      "bytes": 3495,
+      "sha256": "c20ab4afbf7ca0f0eedbb2b85fd52f77aa4cb7a56ecdcbf93ddc721e0a5d0946",
+      "matched": true
+    },
+    {
+      "path": "App/AetherTV/Jellyfin/JellyfinPlaybackReporter.swift",
+      "bytes": 15660,
+      "sha256": "c3d9c5c3385a0e89dcf488277a6e2c0db0a92fe33b15b02aab50513dcaf9e82a",
+      "matched": true
+    },
+    {
+      "path": "App/AetherTV/Jellyfin/JellyfinSessionStore.swift",
+      "bytes": 7352,
+      "sha256": "048a7eae90331520a8ce3d8a596bb4c5e0e06ec4972cc84861595d8b96e05672",
+      "matched": true
+    },
+    {
+      "path": "App/AetherTV/Quality/BenchmarkController.swift",
+      "bytes": 19159,
+      "sha256": "37ae98e64e69270688dfc0c811843de3f3844ab45df3fdf3899523abfc220e78",
+      "matched": true
+    },
+    {
+      "path": "App/AetherTV/Quality/DeviceQualityProfileStore.swift",
+      "bytes": 5211,
+      "sha256": "a3e576adc8e256f820ac8adf60802ae5c89e967d78dcd0f8831ec8fa252f8cb3",
+      "matched": true
+    },
+    {
+      "path": "App/AetherTV/Render/LiquidDream.metal",
+      "bytes": 76678,
+      "sha256": "db46fff38dd75f3640e7819adbca1bd6f2d845cd9dfd80da9d0651b4a5cd7597",
+      "matched": true
+    },
+    {
+      "path": "App/AetherTV/Render/Passthrough.metal",
+      "bytes": 3245,
+      "sha256": "60ccd77ce58b2c91049a8c391650258a9b231aa4a599c4b757342d07a1759d43",
+      "matched": true
+    },
+    {
+      "path": "App/AetherTV/Render/StageVideo.swift",
+      "bytes": 4246,
+      "sha256": "d606a1e3aa1c116659525563be1ff62f88da4d58496850f033610553f449a8e7",
+      "matched": true
+    },
+    {
+      "path": "App/AetherTV/Render/StageWorld.swift",
+      "bytes": 20352,
+      "sha256": "8224aa47d6a7b07a1c1e1bc34eeca2948bc5b9ee3e6d19f155273618d63de89e",
+      "matched": true
+    },
+    {
+      "path": "App/AetherTV/Render/VideoStage.swift",
+      "bytes": 139657,
+      "sha256": "4c9664c381a38636d425b36e65ba60cc63257999f8d349052298b265fd789ec4",
+      "matched": true
+    },
+    {
+      "path": "App/AetherTV/Render/VideoStageView.swift",
+      "bytes": 5670,
+      "sha256": "2593ffd7b57555f97f5257ed547fa8252e11981c5f00eb6c94e7a5ae1ac7d78d",
+      "matched": true
+    },
+    {
+      "path": "App/AetherTV/Render/VideoTextureSource.swift",
+      "bytes": 5380,
+      "sha256": "c13f4ea48d8160237cbc43ee750a762c93177fbf68f5bd37d981e807ec6f194a",
+      "matched": true
+    },
+    {
+      "path": "App/AetherTV/probe.json",
+      "bytes": 485301,
+      "sha256": "7faa0d4c306704f71a3ef0dea1b7130567f1c7fd052ba6d5e20dc5626ecec198",
+      "matched": true
+    },
+    {
+      "path": "App/AetherTV/probe.mov",
+      "bytes": 448508675,
+      "sha256": "216e71947265644d37f8c07c67021a6e04ca5da957bfb79af5ff4749016b313c",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherAnalysis/AetherAnalysis.swift",
+      "bytes": 443,
+      "sha256": "9b989743c259bf56dacad4bca78c71cb9b819fcb0a6ac9ee17814961dc4aa804",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherAnalysis/AnalysisAudioSignals.swift",
+      "bytes": 4363,
+      "sha256": "c011216cacf90503e60dbad8108538d7e1b9844ebc315b91eeda284c4389c2be",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherAnalysis/AnalysisCutSignals.swift",
+      "bytes": 3835,
+      "sha256": "8ef494e030a42d321a2445da869afc8ea94b54a29d9753c7e23cc1493301d144",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherAnalysis/AnalysisDocument.swift",
+      "bytes": 6787,
+      "sha256": "be96245d5e4f047b93f5d1e9728158f2fd398dd7aadfc1b18ff650a9e227a14e",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherAnalysis/AnalysisDocumentCoding.swift",
+      "bytes": 12875,
+      "sha256": "bcde36dbc60a3a6c1b3dc648a96d7a6c99265142ee1391ea80c9bd44663ef7a6",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherAnalysis/AnalysisDocumentDecoder.swift",
+      "bytes": 9289,
+      "sha256": "91df7a672cb864223b227af4dd2b24f2e231f940f3a9f5d6cfe8876b86c12daa",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherAnalysis/AnalysisEventCursor.swift",
+      "bytes": 2156,
+      "sha256": "3ba79f22e15ac47a36b1dc37827fff29b1aca4c9990ec60ce5b069f1eacbc9a1",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherAnalysis/AnalysisExtensionValidation.swift",
+      "bytes": 26775,
+      "sha256": "fc7dca24af6dd7aca304f9bfa728c1411208c099ed5a0731236767cd1a5d2780",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherAnalysis/AnalysisExtensions.swift",
+      "bytes": 9274,
+      "sha256": "e3ca6809d30019bf8cff180aba4cfb6fedf992c1d05a276ba352812649610544",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherAnalysis/AnalysisPackedDenseAudioFrames.swift",
+      "bytes": 7628,
+      "sha256": "4a200e72db18be708ffed7adf6cb75a239a68234e75fdb25aeca59ff05ec63be",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherAnalysis/AnalysisPlaybackSignals.swift",
+      "bytes": 2657,
+      "sha256": "c979b02e23a0197444b766386736530730f2acf815d230f28d01f1e6483caa63",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherAnalysis/AnalysisSHA256.swift",
+      "bytes": 3526,
+      "sha256": "122085d670b60dd96888d999e60d7c6a030b06486f8982865ff3b1a82e1d507b",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherAnalysis/AnalysisSignalCoding.swift",
+      "bytes": 8048,
+      "sha256": "b20573b095fa2524a18daf687535dc1bd1b06259cab3ea5462cc1e763e429436",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherAnalysis/AnalysisTimeline.swift",
+      "bytes": 13631,
+      "sha256": "dc679bb52ee3f6852017bd37d2e71f30da270949c35da1b754640b58910a89aa",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherAudio/AudioBranch.swift",
+      "bytes": 22721,
+      "sha256": "7eb1f0e657751e5bf87a9e293738e76ceaf97e7bd1b2e060e36019a7a3f51ebc",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherAudio/NaeheProcessor.swift",
+      "bytes": 7795,
+      "sha256": "e902969d700e79a7b61972be736648245b2d10d9a1cca0dfc98d057f7b944315",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherAudio/ReverbImpulse.swift",
+      "bytes": 3907,
+      "sha256": "23c91af0a15053160774ff82c50c9cac7fd230bbdfd82fc6a08ff69039b698de",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherAudio/SessionArc.swift",
+      "bytes": 6190,
+      "sha256": "6af748b28bb900a1b4a6e7da08b02d8847a088283dd3116fddaf1cae0a71aa95",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherAudio/SessionVoiceCatalog.swift",
+      "bytes": 7003,
+      "sha256": "aac4bd9de87360516fb717525eb0f17d7a967ff5d52c45baa2aeb043e413757f",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherAudio/SessionVoiceRuntime.swift",
+      "bytes": 3781,
+      "sha256": "d87ae347569f136bfd77e980222febbafb23ccaddb72bd166741956d9813a26f",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherBenchmark/BenchmarkBoundarySearch.swift",
+      "bytes": 4099,
+      "sha256": "ad9124b7cd74b0ea3c1e7c28060be75820bc2c1c52e4de3b61b862757adfa13e",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherBenchmark/BenchmarkJSONLines.swift",
+      "bytes": 1470,
+      "sha256": "c70c9d3db28814c76345f29b747dc5f199ec006d3919ffb8bbd9e0342b745ab7",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherBenchmark/BenchmarkPlan.swift",
+      "bytes": 3780,
+      "sha256": "73153c7dc8bc17a95795a2944e8e1a5a6739e7be957b720c8fe9081e77efef70",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherBenchmark/BenchmarkProfileDeriver.swift",
+      "bytes": 11203,
+      "sha256": "50ed2c936dc070b5e16fd4ba460e9260c197f496d9396e26540c9f64674196e8",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherBenchmark/BenchmarkReferenceWindow.swift",
+      "bytes": 2406,
+      "sha256": "d3d90da56fceba872d8ce13767adcc4ec91f62680c3b09ee97b16c4f8835a3e7",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherBenchmark/BenchmarkRun.swift",
+      "bytes": 6771,
+      "sha256": "ae4cbf47a73d6d688f59105108a7ac3fb9bc3afbb49deefe73faa9a8aec9e393",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherBenchmark/DeviceQualityProfile.swift",
+      "bytes": 13623,
+      "sha256": "5fdc11958a4e3d8fe8e64ef21aa017fe47d6cd83ede83fe5b141623b5bde89ff",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherBenchmark/DeviceQualityProfileBuilder.swift",
+      "bytes": 6970,
+      "sha256": "8acec3114b309bd647fdcf5399c376dcff6b6e09008526484b86b5246f676453",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherBenchmark/OnDeviceBenchmarkSession.swift",
+      "bytes": 16769,
+      "sha256": "c11778af71a3a6ec20e20a4a1659838fad02062d823c9f33bd5015c562ab3747",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherBenchmark/QualityStartResolver.swift",
+      "bytes": 4267,
+      "sha256": "2722a49f30936b0339ca39e4076957c9ae89a81561acda867bb6710c4cd92f08",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherDirector/ExperienceAssignment.swift",
+      "bytes": 6777,
+      "sha256": "c9b533ffda5f95099eb4da0f59a9f44fcf6aabcf3db4b4325250ac2adf1d9b70",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherDirector/ExperienceCatalog.swift",
+      "bytes": 13360,
+      "sha256": "c5cfb3962d40e0e0e6cebb564a77ad1e2a741e9f1b2c7701c3c4e7566703550f",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherDirector/MinimalDirector.swift",
+      "bytes": 13078,
+      "sha256": "a640eda051aa5c32e1543b7d5774b07215e255328feff10b926a0a2ac73b5f0a",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherExperience/AnalysisEnergy.swift",
+      "bytes": 3688,
+      "sha256": "f8c8e3a693473f9bf91c7a494ff95c560c63776216c1aae462bb27d2f6386a2c",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherExperience/BreathFallback.swift",
+      "bytes": 5617,
+      "sha256": "bdfe0a46cb1644ac2d85918a61113a372aa6ff9ed1df757a0dacc32a2122ad04",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherExperience/ClosenessPrototype.swift",
+      "bytes": 2671,
+      "sha256": "b23f3f8281efd5cc691c93c0f4a95c6402590cca74a217c72b11bbe2e3c54b7d",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherExperience/CutTrack.swift",
+      "bytes": 4107,
+      "sha256": "9752b9c1ecbc474a02625d003dc88efcec49cf9756c056f0e1d83e96925f6066",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherExperience/EnergyProfile.swift",
+      "bytes": 4281,
+      "sha256": "adc1f1180fe551a7e17a63610da78935f7f274fa74516d7a09a0f2f113f926ca",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherExperience/Envelopes.swift",
+      "bytes": 23653,
+      "sha256": "8248ecc731e2c30ea1e2b64a07f48d48c28a461b033e3cef6af5d9ae6a70ebe7",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherExperience/ExperienceRunner.swift",
+      "bytes": 9665,
+      "sha256": "a8ed9819303918b404eb26c8e8194db5eb8f15ab75cb984101118f8a8a3c7e9f",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherExperience/ExperienceVisual.swift",
+      "bytes": 17243,
+      "sha256": "4086d7fe260cda193ad6c2532ee4ff818c19e0a978f0eb5bc73010e0974be394",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherExperience/FlashTrack.swift",
+      "bytes": 3867,
+      "sha256": "4339de57d6545aae7a41b64a39c11ea1be382c104ab619837a1ff33096b46031",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherExperience/FrameParameters.swift",
+      "bytes": 44591,
+      "sha256": "c8ad3b66839e6e56fc4df181e350d895799753ab1300c539ed35b0e886f6304c",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherExperience/HistoryRing.swift",
+      "bytes": 8905,
+      "sha256": "15de8f5476d9b24f3c2a2f5abae58a23fdbc341cd7e6ab5f64655979955ab7cd",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherExperience/Palette.swift",
+      "bytes": 4539,
+      "sha256": "77b0fa2a7b062b52f932ef2864845abb587a7d864c6be888a48606496affb665",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherExperience/RenderSource.swift",
+      "bytes": 2827,
+      "sha256": "54ca10c2a7793383bacb18d6c41eed4577de9b18a4efda1e22ab5e2dab527897",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherExperience/TimeIslandPrototype.swift",
+      "bytes": 2760,
+      "sha256": "e92844165c5138cd65ebe9a30b30a427bdc32c86931202d6937bce30a2c67135",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherExperience/UnderSkinPrototype.swift",
+      "bytes": 2614,
+      "sha256": "afae95c1aae388634aa72a4ce6abacd9c9a9b713031c01d15289ab2be36a6c15",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherExperience/VisualCatalog.swift",
+      "bytes": 30395,
+      "sha256": "f0611e1ee94373096e3ad4922e63f20beb979d28eca401d41896667586106b39",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherJellyfin/JellyfinRequests.swift",
+      "bytes": 19460,
+      "sha256": "58234b3452a02f21ff067d22dd5c33aafda8ecc15420699e4355a88983d708b3",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherJellyfin/JellyfinResponses.swift",
+      "bytes": 21856,
+      "sha256": "5778d7286ba3c9ef83ff7206423db0970f6d722c1756e2e213f304caa90e39dd",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherJellyfin/JellyfinSession.swift",
+      "bytes": 12984,
+      "sha256": "d4249f3d0429b3ee29c2ddf45d21be756b240449ecf45c2390db1c30b4b6d64e",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherProbe/ProbeReport.swift",
+      "bytes": 7543,
+      "sha256": "11e5ce6c23e707f6a3dd40bada8133484284ea1686dd1d890dfa7be8c2bb966e",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherProbe/ProbeText.swift",
+      "bytes": 2901,
+      "sha256": "a040270c54d16b73f9336a62c0868fa59d940910edecaf82139c65c0d0d1553e",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherQuality/FrameTelemetry.swift",
+      "bytes": 4550,
+      "sha256": "690884625d265e057dc99b181cca45232305c37dee5157033ec73bb255269b83",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherQuality/HardwareQualityProfiles.swift",
+      "bytes": 4651,
+      "sha256": "d8b5a295ece8b8063b88a873dfc9f572e6bb01c37f10abb7e77a3d9a79a15314",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherQuality/QualityGovernor.swift",
+      "bytes": 13623,
+      "sha256": "120ef9179c2c2a7c49ddaa75b7008300b715cca82e76288acb22a2d0fed6e22b",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherSupply/AnalysisSupply.swift",
+      "bytes": 34562,
+      "sha256": "75ce6aa5e9b9e06cdda93526aff95199d19284b37753926b2847b80ba62aef9a",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherSupply/BoundedHTTPBody.swift",
+      "bytes": 1220,
+      "sha256": "2d1adf53f2ba0b4156044e98f9528ba999c80d6b177d811bb8d98961c80abca3",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherSupply/DeviceProfileSupply.swift",
+      "bytes": 2787,
+      "sha256": "15da4545a058fb289a871170e8cd7f5e10785d700d23cb8214fe5fc66fbc165e",
+      "matched": true
+    },
+    {
+      "path": "Sources/AetherSupply/DocumentStore.swift",
+      "bytes": 6826,
+      "sha256": "9181da53bcd2bf550579e3bb543e566cad6e481eccadbd699810cb4e0a9b22b5",
+      "matched": true
+    },
+    {
+      "path": "Sources/aether-tv-benchmark-report/main.swift",
+      "bytes": 2513,
+      "sha256": "f1b425536de0d03d2a0d5fc54b1b31c0b20caac04cc460a50c13eccf320f4282",
+      "matched": true
+    },
+    {
+      "path": "Sources/aether-tv-probe/main.swift",
+      "bytes": 2191,
+      "sha256": "f6986c194babc310756c7aad7a9188dcafaddb0749cf5e43df0790a8a67bc907",
+      "matched": true
+    },
+    {
+      "path": "Tests/AetherAnalysisTests/Fixtures/ConsumerProfiles/eof-cut-pending-full.json",
+      "bytes": 15565,
+      "sha256": "4f608d1333f43764b757f09e7192fa91a73551ea553858321aa860941cdfcdd5",
+      "matched": true
+    },
+    {
+      "path": "Tests/AetherAnalysisTests/Fixtures/ConsumerProfiles/nominal-duration-real-end-full.json",
+      "bytes": 17693,
+      "sha256": "488fc382dcc194ecc0db3273897fb7ff1b02759f2dc29f2aff4bc536f84d3540",
+      "matched": true
+    },
+    {
+      "path": "Tests/AetherAnalysisTests/Fixtures/ConsumerProfiles/vfr-source-times-full.json",
+      "bytes": 16753,
+      "sha256": "dc7d3fd56a7400845c3016d507dc096866e9851a1ae8f874760a488a2193c6fb",
+      "matched": true
+    },
+    {
+      "path": "Tests/AetherAnalysisTests/Fixtures/ConsumerProfiles/video-start-offset-full.json",
+      "bytes": 17266,
+      "sha256": "7bd5eab77f784e410f75a2fe72a81f861e7f62910688b5cdc78212070b529fc4",
+      "matched": true
+    },
+    {
+      "path": "Tests/AetherAnalysisTests/Fixtures/HostIntegration/available-balanced.json",
+      "bytes": 15019,
+      "sha256": "e914f5f3371fe74648e5971ab9cdbb253a4e76b80146601f72f60890f6cfb6d0",
+      "matched": true
+    },
+    {
+      "path": "Tests/AetherAnalysisTests/Fixtures/HostIntegration/available-compact.json",
+      "bytes": 12499,
+      "sha256": "517a0c043051b21b6a392d1d0a5a285a6a3bd80cebf84d649b53d830f09003f0",
+      "matched": true
+    },
+    {
+      "path": "Tests/AetherAnalysisTests/Fixtures/HostIntegration/available-full.json",
+      "bytes": 19092,
+      "sha256": "60fcab8f6f47ceed093fc49807481ab4dd8714e8ed67a8fbfb10fbcaf5b1cc9c",
+      "matched": true
+    },
+    {
+      "path": "Tests/AetherAnalysisTests/Fixtures/HostIntegration/no-track-balanced.json",
+      "bytes": 7992,
+      "sha256": "cab9300a156a0b7dd7fcf4af61ef43d087cae09fda0747e53ab1f755c83f9d87",
+      "matched": true
+    },
+    {
+      "path": "Tests/AetherAnalysisTests/Fixtures/HostIntegration/no-track-compact.json",
+      "bytes": 6830,
+      "sha256": "e93fc63f1159723b450d8db5bc152b9f780cc0578384b9ab217da20716725c90",
+      "matched": true
+    },
+    {
+      "path": "Tests/AetherAnalysisTests/Fixtures/HostIntegration/no-track-full.json",
+      "bytes": 7989,
+      "sha256": "60f1f178f03ba3f255952b7da1a3a69755493c893bbac4c552480f6cc4d95297",
+      "matched": true
+    },
+    {
+      "path": "Tests/AetherAnalysisTests/Fixtures/HostIntegration/second-default-balanced.json",
+      "bytes": 15021,
+      "sha256": "9297bf0ad9a4507d82a2106f0476a74fe62474c022f5f709d2249f28a72363a8",
+      "matched": true
+    },
+    {
+      "path": "Tests/AetherAnalysisTests/Fixtures/HostIntegration/second-default-compact.json",
+      "bytes": 12501,
+      "sha256": "aae07edfc26b502878a8aecfc613217c4119fd249f61197b3381d22a8cb7c33c",
+      "matched": true
+    },
+    {
+      "path": "Tests/AetherAnalysisTests/Fixtures/HostIntegration/second-default-full.json",
+      "bytes": 19094,
+      "sha256": "78dad2f33e8671e865fe6e57b3559c97497d72073aab334f9d505a3467c672b0",
+      "matched": true
+    },
+    {
+      "path": "Tests/AetherAnalysisTests/Fixtures/available.json",
+      "bytes": 5235,
+      "sha256": "8c4b2e8f8504cd7f958a45bca00c9f3fa75d228e0049d3357b65450541a1acf1",
+      "matched": true
+    },
+    {
+      "path": "Tests/AetherAnalysisTests/Fixtures/composed-balanced.json",
+      "bytes": 15015,
+      "sha256": "189f354d47f94643eeaad2d7a16e6524b3abd4d3f6979f623bf25af2a0817da0",
+      "matched": true
+    },
+    {
+      "path": "Tests/AetherAnalysisTests/Fixtures/composed-compact.json",
+      "bytes": 12560,
+      "sha256": "595c82877a3ae32482e21fc1db6af9a1c1e7e6a55315df55f950d0068a8f82ed",
+      "matched": true
+    },
+    {
+      "path": "Tests/AetherAnalysisTests/Fixtures/composed-full.json",
+      "bytes": 19088,
+      "sha256": "91f187ab6ee2c09fd6df45c9d4b3488ce4abed91b5d926a4f03700ca891d4b4c",
+      "matched": true
+    },
+    {
+      "path": "Tests/AetherAnalysisTests/Fixtures/composition-wire-expected.json",
+      "bytes": 11344,
+      "sha256": "1c50b5bd1d76574fc9462cac74bac95e09d68301fbfed4c0956fda03835c02f5",
+      "matched": true
+    },
+    {
+      "path": "Tests/AetherAnalysisTests/Fixtures/cuts-with-eof.json",
+      "bytes": 7322,
+      "sha256": "0106a6c8919add94dbebbc09cde7365459c86b0af4a373f19ded61ab8871de00",
+      "matched": true
+    },
+    {
+      "path": "Tests/AetherAnalysisTests/Fixtures/no-track.json",
+      "bytes": 2261,
+      "sha256": "6c3c75b1b8a0db1b613df79284f99867f69384bd9f452db98883f75f16830b6b",
+      "matched": true
+    },
+    {
+      "path": "Tests/AetherAnalysisTests/Fixtures/packed-f64-golden.json",
+      "bytes": 52802,
+      "sha256": "9173d1a39fae5cdef25eb76e4c9b06087c6186bca26ad69d20404ac58e4081f1",
+      "matched": true
+    },
+    {
+      "path": "Tests/AetherAnalysisTests/Fixtures/partial-audio.json",
+      "bytes": 19004,
+      "sha256": "56a5526c3eb3b14940407d505f27633f38bf33d909dc6ad2b3e6a0892a7c2f71",
+      "matched": true
+    },
+    {
+      "path": "Tests/AetherAnalysisTests/Fixtures/silence.json",
+      "bytes": 4925,
+      "sha256": "d9e81cad6c7cdc89733aefc56b47b3a8a4abe9ab9c468a569ae195cacb67457f",
+      "matched": true
+    },
+    {
+      "path": "docs/reviews/2026-10-03-aether-tv-handover.md",
+      "bytes": 5912,
+      "sha256": "0261475b14648636c658d0cc30221d40da5ba3783864a5540c38407c89a5f61f",
+      "matched": true
+    },
+    {
+      "path": "docs/reviews/2026-10-03-tv-analysis-1.2.0-orchestrator-prompt.md",
+      "bytes": 3871,
+      "sha256": "3042994b407e9f5e74f754d57f73e5178fc5af6a4e52184a74d8bb132c35ac08",
+      "matched": true
+    },
+    {
+      "path": "docs/reviews/2026-10-03-tv-analysis-1.2.0-requirements.md",
+      "bytes": 37516,
+      "sha256": "4d5581d48f7f20ee78c858df9efb8cf3111d5f751f799e6760dfb707669c0171",
+      "matched": true
+    },
+    {
+      "path": "docs/reviews/2026-10-04-tv-analysis-negotiation-and-draft-integration.md",
+      "bytes": 18322,
+      "sha256": "8ea6b792546448502da623a0135e76fcc3ba7a0c2835837a34f4879f1bcb3f15",
+      "matched": true
+    },
+    {
+      "path": "docs/reviews/2026-10-04-tv-analysis-orchestrator-return.md",
+      "bytes": 2258,
+      "sha256": "fa3f25123558b07fded2a4ffe7a2dde017d0e159f04542be6e17fa2d249f5a98",
+      "matched": true
+    },
+    {
+      "path": "docs/reviews/2026-10-04-tv-composition-interop-orchestrator-return.md",
+      "bytes": 4180,
+      "sha256": "dc7d5f0e6014a85553ca015da272bf61c5a3066197a5ddf783a6ba62fd5c1e9f",
+      "matched": true
+    },
+    {
+      "path": "docs/reviews/2026-10-04-tv-composition-interop-results.md",
+      "bytes": 9565,
+      "sha256": "a33ec48eadc86b58855bf3cfb290210d67b7574f6d851eec34c07d185dbc8c6e",
+      "matched": true
+    },
+    {
+      "path": "docs/reviews/2026-10-04-tv-contract-adaptation-orchestrator-return.md",
+      "bytes": 2838,
+      "sha256": "763ae9c4b3451a9f22c6828f90a5da4e5a9bb9619d03958792afb6e1fc23fca8",
+      "matched": true
+    },
+    {
+      "path": "docs/reviews/2026-10-04-tv-contract-adaptation-results.md",
+      "bytes": 9984,
+      "sha256": "ebcf5ef410eff201a4b80206e3fcddc2e73e51808c9baaaeea432606d91a3173",
+      "matched": true
+    },
+    {
+      "path": "docs/reviews/2026-10-04-tv-full-peaks-correction-results.md",
+      "bytes": 5051,
+      "sha256": "1446593dffd6d728d76a2ac8221a334507833f3068bf10ef0fddb52cc48d3bea",
+      "matched": true
+    },
+    {
+      "path": "docs/reviews/2026-10-04-tv-legacy-audio-fixture-results.md",
+      "bytes": 4735,
+      "sha256": "a94ebc27d553c9cfe3f93016bb79428ca4302af9059116d21a65e1e479b035d8",
+      "matched": true
+    },
+    {
+      "path": "docs/reviews/2026-10-04-tv-packed-f64-orchestrator-return.md",
+      "bytes": 3298,
+      "sha256": "c9c679d4f1f94a0b892306d4703de090f906f2545b3290d7600cd29bbbb407a3",
+      "matched": true
+    },
+    {
+      "path": "docs/reviews/2026-10-04-tv-packed-f64-reader-results.md",
+      "bytes": 13569,
+      "sha256": "ebed6c266c496786a062853519010534e28eecfce37eba41bd1a6d392eb6e51a",
+      "matched": true
+    },
+    {
+      "path": "docs/reviews/2026-10-04-tv-playback-signal-integration.md",
+      "bytes": 6295,
+      "sha256": "9dbff01e5eab79ddda7d5015c7994150df27902d42c643eaa943eaadd4d9f09d",
+      "matched": true
+    },
+    {
+      "path": "docs/reviews/artifacts/analysis-consumer-2026-10-03/generate-fixtures.py",
+      "bytes": 1656,
+      "sha256": "25f04da2beb72bfee8ddea84bf376557a9979ad2c9d0b3f0125857e04e2f2969",
+      "matched": true
+    },
+    {
+      "path": "docs/reviews/artifacts/analysis-consumer-2026-10-03/main.swift",
+      "bytes": 1839,
+      "sha256": "bc991cbe04160e9735bbfc599daf49ac036e11be7c88a36d9cb5b30cdff87054",
+      "matched": true
+    },
+    {
+      "path": "docs/reviews/artifacts/tv-analysis-draft-2026-10-03/README.md",
+      "bytes": 2483,
+      "sha256": "da61f90aeac3dd19ed48cb973b0e5d347a662b0752aeb6302e016e50bc63f33b",
+      "matched": true
+    },
+    {
+      "path": "docs/reviews/artifacts/tv-analysis-draft-2026-10-03/generate-fixtures.py",
+      "bytes": 4196,
+      "sha256": "194600d477d0aae88022e512329ac1f58c255bc2de97b5366126aeca928f3bd5",
+      "matched": true
+    },
+    {
+      "path": "docs/reviews/artifacts/tv-analysis-draft-2026-10-03/main.swift",
+      "bytes": 2237,
+      "sha256": "aaf685642da21f1687d2fbbfeb1f4dea04538d1c574698693dd06b7b26d24840",
+      "matched": true
+    },
+    {
+      "path": "docs/reviews/artifacts/tv-analysis-draft-2026-10-03/measure.py",
+      "bytes": 1620,
+      "sha256": "9d58b0b85e51b05324466516aa2444960b0959b8421ac9783c6899fad5dac553",
+      "matched": true
+    },
+    {
+      "path": "docs/reviews/artifacts/tv-analysis-draft-2026-10-03/runs.json",
+      "bytes": 9187,
+      "sha256": "af7b1df77fe34aee4f6242ea29f13f51c5668140ddfe0a65199e16d0a716c53c",
+      "matched": true
+    },
+    {
+      "path": "docs/reviews/artifacts/tv-analysis-draft-2026-10-03/summary.json",
+      "bytes": 4805,
+      "sha256": "49abc1737ec00720ad218054b0241342841ad38c21455a585db6b8e4ab25b350",
+      "matched": true
+    },
+    {
+      "path": "docs/reviews/artifacts/tv-composition-interop-2026-10-04/import-results.json",
+      "bytes": 2180,
+      "sha256": "278d078a0c16aa432594c1c3e0582cabcb01669fa0b96d734e2d30effa46e97e",
+      "matched": true
+    },
+    {
+      "path": "docs/reviews/artifacts/tv-composition-interop-2026-10-04/input-manifest.json",
+      "bytes": 1918,
+      "sha256": "f50aaef00ca2ad739fb3e8b575390b2031e9cbab81d7b441672ca86fb6750ecf",
+      "matched": true
+    },
+    {
+      "path": "docs/reviews/artifacts/tv-composition-interop-2026-10-04/main.swift",
+      "bytes": 3573,
+      "sha256": "05f5f9df283d27b7f86483b9ab9d8f1b78c42d3fa5cbe5a26d27eb93dd86014c",
+      "matched": true
+    },
+    {
+      "path": "docs/reviews/artifacts/tv-composition-interop-2026-10-04/proof-manifest.json",
+      "bytes": 2460,
+      "sha256": "5ab6b9397945ad3cf3437631c6a088cc285786f7c13cbba29746407c9de7894b",
+      "matched": true
+    },
+    {
+      "path": "docs/reviews/artifacts/tv-composition-interop-2026-10-04/source-manifest.json",
+      "bytes": 3567,
+      "sha256": "f594bbcc2af6a1e7444981aa02a433c1858cff78e30de7a64b0fd5917d8734da",
+      "matched": true
+    },
+    {
+      "path": "docs/reviews/artifacts/tv-composition-interop-2026-10-04/validation-results.json",
+      "bytes": 3229,
+      "sha256": "c2d8d5f088f6626cae37fc2680fc539784324ea93bf1b65e0a2264de5be5d2a0",
+      "matched": true
+    },
+    {
+      "path": "docs/reviews/artifacts/tv-contract-adaptation-2026-10-04/legacy-reader-main.swift",
+      "bytes": 1605,
+      "sha256": "ca4c13b8d5a3fa0f12a2dcefc2812dba12a710774919bfdb40bca5b188a1af97",
+      "matched": true
+    },
+    {
+      "path": "docs/reviews/artifacts/tv-contract-adaptation-2026-10-04/legacy-reader-results.json",
+      "bytes": 4049,
+      "sha256": "979272de68254e489c11faa2d8dcda638145f94db98a0be777a7abef586a0320",
+      "matched": true
+    },
+    {
+      "path": "docs/reviews/artifacts/tv-contract-adaptation-2026-10-04/source-manifest.json",
+      "bytes": 16572,
+      "sha256": "5a6ff82202e58f6eb449d150aae1e4b2a64d004e6c1f57ea9b1148964ab1a7d8",
+      "matched": true
+    },
+    {
+      "path": "docs/reviews/artifacts/tv-contract-adaptation-2026-10-04/validation-results.json",
+      "bytes": 1389,
+      "sha256": "70a4b5b4bfd969a19b599a090765f7a00091ef4ae083b2cb111279a95ab42dbc",
+      "matched": true
+    },
+    {
+      "path": "docs/reviews/artifacts/tv-legacy-audio-fixture-2026-10-04/import-results.json",
+      "bytes": 2180,
+      "sha256": "d666c43d85e41c249f58ec8c60ea7ce37624d56b0169962da7b9c90a9fec1dc1",
+      "matched": true
+    },
+    {
+      "path": "docs/reviews/artifacts/tv-legacy-audio-fixture-2026-10-04/input-manifest.json",
+      "bytes": 1528,
+      "sha256": "40e85fc606b8f913292848be75b3075fbfb16f5f696eb2fdb4fa84f8ad63d545",
+      "matched": true
+    },
+    {
+      "path": "docs/reviews/artifacts/tv-legacy-audio-fixture-2026-10-04/previous-composed-compact.json",
+      "bytes": 12485,
+      "sha256": "4becc2d149b343db97fd432c53166d107f0dd53fa14a3cd264aa93aa8fc4d5cd",
+      "matched": true
+    },
+    {
+      "path": "docs/reviews/artifacts/tv-legacy-audio-fixture-2026-10-04/proof-manifest.json",
+      "bytes": 2310,
+      "sha256": "0796c3b6d3223a8d7ec0bf11f82abc8d80c809d885766299ee2f71e470f9632d",
+      "matched": true
+    },
+    {
+      "path": "docs/reviews/artifacts/tv-legacy-audio-fixture-2026-10-04/reader-source-manifest.json",
+      "bytes": 3567,
+      "sha256": "f594bbcc2af6a1e7444981aa02a433c1858cff78e30de7a64b0fd5917d8734da",
+      "matched": true
+    },
+    {
+      "path": "docs/reviews/artifacts/tv-legacy-audio-fixture-2026-10-04/validation-results.json",
+      "bytes": 1506,
+      "sha256": "74d8424dece1864e29363e7cea5c1b8d5f5e9951fa23d9a8f6a605f4002b4627",
+      "matched": true
+    },
+    {
+      "path": "docs/reviews/artifacts/tv-packed-f64-2026-10-04/README.md",
+      "bytes": 3754,
+      "sha256": "e9090b787ac16b0ce8d47cb67c4b9879f42de4cabd97bccfaaa22ea0bb22b41b",
+      "matched": true
+    },
+    {
+      "path": "docs/reviews/artifacts/tv-packed-f64-2026-10-04/generate-fixtures.py",
+      "bytes": 7151,
+      "sha256": "70d0d54c65c7c688b2201827b83169265478c3aec118dcf7ff17fa165d7479fe",
+      "matched": true
+    },
+    {
+      "path": "docs/reviews/artifacts/tv-packed-f64-2026-10-04/input-contract-manifest.json",
+      "bytes": 667,
+      "sha256": "22098b50e8099c544315e5c28b99add635efb4e5aac02f35d681b3e5e4c80c5b",
+      "matched": true
+    },
+    {
+      "path": "docs/reviews/artifacts/tv-packed-f64-2026-10-04/main.swift",
+      "bytes": 5810,
+      "sha256": "a7ec748d326ed2615c30bd68f560ab65e35030e9195bb1fd5d74e700d28926da",
+      "matched": true
+    },
+    {
+      "path": "docs/reviews/artifacts/tv-packed-f64-2026-10-04/measure.py",
+      "bytes": 3161,
+      "sha256": "35ecaaea157c429879535f0a64e37e9664a63833324699f6d7a11de8e8ebdf73",
+      "matched": true
+    },
+    {
+      "path": "docs/reviews/artifacts/tv-packed-f64-2026-10-04/portable/main.swift",
+      "bytes": 2077,
+      "sha256": "0781d2072feb13ab2ddb3a127398ef66068dcdc9de78e569a512f9b4acffed33",
+      "matched": true
+    },
+    {
+      "path": "docs/reviews/artifacts/tv-packed-f64-2026-10-04/runs.json",
+      "bytes": 15553,
+      "sha256": "c14cc4724a4c97388e558643bc2ddabf932300e457fab46c2c7bf4685b5faec7",
+      "matched": true
+    },
+    {
+      "path": "docs/reviews/artifacts/tv-packed-f64-2026-10-04/source-manifest.json",
+      "bytes": 1761,
+      "sha256": "7594304f7c38f5f3495faa952768c664da021b9db59b8cea5942fd404e5bdcdd",
+      "matched": true
+    },
+    {
+      "path": "docs/reviews/artifacts/tv-packed-f64-2026-10-04/summary.json",
+      "bytes": 6745,
+      "sha256": "1b40d7ef90968209ae9c351e74230a40ded511f57bc45be2d925c32488ca7b32",
+      "matched": true
+    },
+    {
+      "path": "docs/reviews/artifacts/tv-playback-signals-2026-10-04/source-manifest.json",
+      "bytes": 4469,
+      "sha256": "ab0f5263ae0ace7a786d7b734d2ee5a5de482af9ef362dd9bc062bfdcf618bcc",
+      "matched": true
+    },
+    {
+      "path": "docs/reviews/artifacts/tv-playback-signals-2026-10-04/validation-results.json",
+      "bytes": 3621,
+      "sha256": "ab50407b45cd4f16f0b7005ca5630d6ee1f2161331f468d7f5a61e4f9449346d",
+      "matched": true
+    },
+    {
+      "path": "../aether-jellyfin-analysis-plugin/docs/reviews/artifacts/analysis-1.2-plugin-draft/consumer-profiles/nominal-duration-real-end-full.json",
+      "bytes": 17693,
+      "sha256": "488fc382dcc194ecc0db3273897fb7ff1b02759f2dc29f2aff4bc536f84d3540",
+      "matched": true
+    },
+    {
+      "path": "Tests/AetherAnalysisTests/Fixtures/ConsumerProfiles/nominal-duration-real-end-full.json",
+      "bytes": 17693,
+      "sha256": "488fc382dcc194ecc0db3273897fb7ff1b02759f2dc29f2aff4bc536f84d3540",
+      "matched": true
+    },
+    {
+      "path": "docs/reviews/artifacts/tv-measured-tail-clarification-2026-10-04/previous-ComponentTimelineTests.swift",
+      "bytes": 9335,
+      "sha256": "0747e8d3e5fd37e87721500aee01545c2b070c5b7ddf2635c2ae40aebf8452f2",
+      "matched": true
+    },
+    {
+      "path": "Tests/AetherAnalysisTests/ComponentTimelineTests.swift",
+      "bytes": 10259,
+      "sha256": "4e93c054508d879ff48d6715d9b468c770bcef30f0c323ffd6dd55ab966de3de",
+      "matched": true
+    },
+    {
+      "path": "docs/reviews/artifacts/tv-measured-tail-clarification-2026-10-04/component-timeline-tests.log",
+      "bytes": 3073,
+      "sha256": "60c6861927e141bf87492a560d49796ee88ec687ff785385ec21f24905244762",
+      "matched": true
+    }
+  ],
+  "mismatches": 0,
+  "targetedTests": 5,
+  "testsRerunHere": false,
+  "semantics": "legacy RMS0 at2000 measured, counters49613/5/0, coverage[0,2250)",
+  "productionChanged": false
+}

@@ -16,6 +16,7 @@ The following artifacts are normative and are versioned together here:
 - `docs/compatibility.md` — exact Jellyfin/.NET/EF Core compatibility matrix
 - `docs/implementation-status.md` — implemented behavior versus accepted follow-up work
 - `docs/client-integration-contract.md` — normative client workflow and retry/device policy
+- `docs/analysis-version-contract.md` — algorithm versions, compatible reads and routine upgrades
 - `docs/production-readiness.md` — release blockers and verification gates
 - `docs/security.md` — reporting process and the process-owned SQLite dependency boundary
 - `docs/operations.md` — capacity, backup, restore, rollback and uninstall procedures
@@ -63,18 +64,28 @@ server, and every client instantly gets the cached, consistent result.
 How it works:
 
 - The analysis algorithm is bundled from the AETHER monorepo into a single
-  `aether-analysis-worker.cjs` (vendored under `worker/`, shipped next to the DLL). The plugin runs
-  it as `node aether-analysis-worker.cjs`, feeding it Jellyfin's own `ffmpeg`/`ffprobe`
-  (`IMediaEncoder`) — so no separate ffmpeg install is needed. **Node (18+) must be installed on the
+  `aether-analysis-1.2-worker.cjs` with a checked SHA-256 and producer revision
+  (`worker/analysis-1.2-worker-manifest.json`, shipped next to the DLL). The original 1.1 worker
+  is retained in the package. Jellyfin supplies its own `ffmpeg`/`ffprobe`
+  (`IMediaEncoder`), so no separate ffmpeg install is needed. **Node (22+) must be installed on the
   Jellyfin server** (`apt install nodejs` or NodeSource); set its path in the settings if it is not
   on the service `PATH`.
 - Three triggers feed one serial runner: a **scheduled task** (`AETHER: Analyze library`, runnable
   from Dashboard → Scheduled Tasks, daily default trigger), an **after-scan hook** that analyzes new
   or changed items, and an **analyze endpoint** the AETHER "Server-Analyse" button calls.
-- Storage uses the same validate → fingerprint-match → build-master → bounded-store path as the HTTP
-  `PUT`, under the canonical key `aether-visual`/`1.1.0` (matching `capabilities` and the client), so
-  server and client analyses share one cache. Stale analyses (algorithm-version key or media
-  fingerprint changed) are replaced.
+- New server analyses use two fresh, validated Full components and atomically compose a master
+  under `aether-visual`/`1.2.0`. The current source, track, producer revision and source/target ETags
+  are checked before storage. Routine runs upgrade older versions while keeping previous records
+  protected and readable. A matching full target is revalidated without rerunning its components.
+  HTTP uploads remain available for legacy versions. Stable 1.2 requires the server job endpoint.
+
+Clients can opt into compatible selection with `allowCompatible: true` on `POST /analyses/query`
+after negotiating `supportedAlgorithms[].readCompatibility` from capabilities. The response
+identifies the actual algorithm for subsequent exact GET/HEAD and caching. Reader `1.2.0` can use
+stored `1.2.0`, `1.1.0` and `1.0.0`. The existing `1.0.0` and `1.1.0` directions remain unchanged.
+A normal server-analysis request
+skips compatible existing results. `POST .../analyze?recalculate=true` explicitly recalculates only
+the media source in that route. See [the version contract](docs/analysis-version-contract.md).
 
 Endpoints (upload permission required, i.e. administrator or an allowed analyzer user id):
 

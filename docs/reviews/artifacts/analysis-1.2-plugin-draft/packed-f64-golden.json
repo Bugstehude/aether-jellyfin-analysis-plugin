@@ -1,0 +1,1390 @@
+{
+  "kind": "offline-f64-wire-goldens-not-production",
+  "cases": [
+    {
+      "name": "measured-2s-audio",
+      "durationMs": 2000,
+      "points": [
+        {
+          "timestampMs": 0,
+          "windowStartSample": -1023,
+          "validSamples": 1025,
+          "rmsLinear": 0.134853480933296,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.09724117677780549,
+            "midRms": 0.059345455186689586,
+            "trebleRms": 0.02881471938359457
+          }
+        },
+        {
+          "timestampMs": 20,
+          "windowStartSample": -582,
+          "validSamples": 1466,
+          "rmsLinear": 0.09689715398502004,
+          "spectralFluxLinear": 1.514791948540193e-06,
+          "bands": {
+            "bassRms": 0.06254846483344938,
+            "midRms": 0.05713520205182517,
+            "trebleRms": 0.028382912720653602
+          }
+        },
+        {
+          "timestampMs": 40,
+          "windowStartSample": -141,
+          "validSamples": 1907,
+          "rmsLinear": 0.07684240024795749,
+          "spectralFluxLinear": 5.656397515577828e-06,
+          "bands": {
+            "bassRms": 0.04309747225955895,
+            "midRms": 0.056573735430761,
+            "trebleRms": 0.028283914135655994
+          }
+        },
+        {
+          "timestampMs": 60,
+          "windowStartSample": 300,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 3.856098419395827e-06,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 80,
+          "windowStartSample": 741,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 100,
+          "windowStartSample": 1182,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 120,
+          "windowStartSample": 1623,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 140,
+          "windowStartSample": 2064,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 160,
+          "windowStartSample": 2505,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 180,
+          "windowStartSample": 2946,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 200,
+          "windowStartSample": 3387,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 220,
+          "windowStartSample": 3828,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 240,
+          "windowStartSample": 4269,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 260,
+          "windowStartSample": 4710,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 280,
+          "windowStartSample": 5151,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 300,
+          "windowStartSample": 5592,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 320,
+          "windowStartSample": 6033,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 340,
+          "windowStartSample": 6474,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 360,
+          "windowStartSample": 6915,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 380,
+          "windowStartSample": 7356,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 400,
+          "windowStartSample": 7797,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 420,
+          "windowStartSample": 8238,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 440,
+          "windowStartSample": 8679,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 460,
+          "windowStartSample": 9120,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 480,
+          "windowStartSample": 9561,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 500,
+          "windowStartSample": 10002,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 520,
+          "windowStartSample": 10443,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 540,
+          "windowStartSample": 10884,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 560,
+          "windowStartSample": 11325,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 580,
+          "windowStartSample": 11766,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 600,
+          "windowStartSample": 12207,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 620,
+          "windowStartSample": 12648,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 640,
+          "windowStartSample": 13089,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 660,
+          "windowStartSample": 13530,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 680,
+          "windowStartSample": 13971,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 700,
+          "windowStartSample": 14412,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 720,
+          "windowStartSample": 14853,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 740,
+          "windowStartSample": 15294,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 760,
+          "windowStartSample": 15735,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 780,
+          "windowStartSample": 16176,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 800,
+          "windowStartSample": 16617,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 820,
+          "windowStartSample": 17058,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 840,
+          "windowStartSample": 17499,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 860,
+          "windowStartSample": 17940,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 880,
+          "windowStartSample": 18381,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 900,
+          "windowStartSample": 18822,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 920,
+          "windowStartSample": 19263,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 940,
+          "windowStartSample": 19704,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 960,
+          "windowStartSample": 20145,
+          "validSamples": 2048,
+          "rmsLinear": 0.07617663854426393,
+          "spectralFluxLinear": 2.5523526296670174e-05,
+          "bands": {
+            "bassRms": 0.04245133390038409,
+            "midRms": 0.05657285282216389,
+            "trebleRms": 0.02828528096507296
+          }
+        },
+        {
+          "timestampMs": 980,
+          "windowStartSample": 20586,
+          "validSamples": 2048,
+          "rmsLinear": 0.08603344342798366,
+          "spectralFluxLinear": 0.0004918506470537005,
+          "bands": {
+            "bassRms": 0.05393921364817888,
+            "midRms": 0.05729317637161559,
+            "trebleRms": 0.02845325972520334
+          }
+        },
+        {
+          "timestampMs": 1000,
+          "windowStartSample": 21027,
+          "validSamples": 2048,
+          "rmsLinear": 0.10960218912482028,
+          "spectralFluxLinear": 0.0005098045259799392,
+          "bands": {
+            "bassRms": 0.07657301966437517,
+            "midRms": 0.0585126234800572,
+            "trebleRms": 0.02873094343055758
+          }
+        },
+        {
+          "timestampMs": 1020,
+          "windowStartSample": 21468,
+          "validSamples": 2048,
+          "rmsLinear": 0.09567326980440624,
+          "spectralFluxLinear": 9.124574381978982e-06,
+          "bands": {
+            "bassRms": 0.06231819590168389,
+            "midRms": 0.057303544204350194,
+            "trebleRms": 0.02844347771451761
+          }
+        },
+        {
+          "timestampMs": 1040,
+          "windowStartSample": 21909,
+          "validSamples": 2048,
+          "rmsLinear": 0.07684214924006337,
+          "spectralFluxLinear": 2.9899122592643725e-05,
+          "bands": {
+            "bassRms": 0.043113216257658175,
+            "midRms": 0.0565750251729548,
+            "trebleRms": 0.028284315281020288
+          }
+        },
+        {
+          "timestampMs": 1060,
+          "windowStartSample": 22350,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 4.912613092768244e-06,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 1080,
+          "windowStartSample": 22791,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 1100,
+          "windowStartSample": 23232,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 1120,
+          "windowStartSample": 23673,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 1140,
+          "windowStartSample": 24114,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 1160,
+          "windowStartSample": 24555,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 1180,
+          "windowStartSample": 24996,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 1200,
+          "windowStartSample": 25437,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 1220,
+          "windowStartSample": 25878,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 1240,
+          "windowStartSample": 26319,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 1260,
+          "windowStartSample": 26760,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 1280,
+          "windowStartSample": 27201,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 1300,
+          "windowStartSample": 27642,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 1320,
+          "windowStartSample": 28083,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 1340,
+          "windowStartSample": 28524,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 1360,
+          "windowStartSample": 28965,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 1380,
+          "windowStartSample": 29406,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 1400,
+          "windowStartSample": 29847,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 1420,
+          "windowStartSample": 30288,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 1440,
+          "windowStartSample": 30729,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 1460,
+          "windowStartSample": 31170,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 1480,
+          "windowStartSample": 31611,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 1500,
+          "windowStartSample": 32052,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 1520,
+          "windowStartSample": 32493,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 1540,
+          "windowStartSample": 32934,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 1560,
+          "windowStartSample": 33375,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 1580,
+          "windowStartSample": 33816,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 1600,
+          "windowStartSample": 34257,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 1620,
+          "windowStartSample": 34698,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 1640,
+          "windowStartSample": 35139,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 1660,
+          "windowStartSample": 35580,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 1680,
+          "windowStartSample": 36021,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 1700,
+          "windowStartSample": 36462,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 1720,
+          "windowStartSample": 36903,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 1740,
+          "windowStartSample": 37344,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 1760,
+          "windowStartSample": 37785,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 1780,
+          "windowStartSample": 38226,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 1800,
+          "windowStartSample": 38667,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 1820,
+          "windowStartSample": 39108,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 1840,
+          "windowStartSample": 39549,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 1860,
+          "windowStartSample": 39990,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 1880,
+          "windowStartSample": 40431,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 1900,
+          "windowStartSample": 40872,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 1920,
+          "windowStartSample": 41313,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 1940,
+          "windowStartSample": 41754,
+          "validSamples": 2048,
+          "rmsLinear": 0.07615772456274923,
+          "spectralFluxLinear": 0,
+          "bands": {
+            "bassRms": 0.042426395843114924,
+            "midRms": 0.056568542575631514,
+            "trebleRms": 0.02828426917477087
+          }
+        },
+        {
+          "timestampMs": 1960,
+          "windowStartSample": 42195,
+          "validSamples": 1905,
+          "rmsLinear": 0.07615803704911744,
+          "spectralFluxLinear": 1.857014349896285e-05,
+          "bands": {
+            "bassRms": 0.04242688522744447,
+            "midRms": 0.05656844433848628,
+            "trebleRms": 0.02828426265867131
+          }
+        },
+        {
+          "timestampMs": 1980,
+          "windowStartSample": 42636,
+          "validSamples": 1464,
+          "rmsLinear": 0.07617658912815085,
+          "spectralFluxLinear": 0.0004023942505136173,
+          "bands": {
+            "bassRms": 0.042431667656017656,
+            "midRms": 0.05655014566627515,
+            "trebleRms": 0.028283332929629285
+          }
+        }
+      ],
+      "packed": {
+        "encoding": "le-u32-i32-u16-flags-f64x5-v1-draft",
+        "pointCount": 100,
+        "strideBytes": 51,
+        "checksum": "sha256:08d85cb681eeecd829b5ca2f5245f334e20682af0d9fa267a08f08ed3b03173e",
+        "dataBase64": "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"
+      },
+      "balanced": {
+        "packed": {
+          "encoding": "le-u32-i32-u16-flags-f64x5-v1-draft",
+          "pointCount": 40,
+          "strideBytes": 51,
+          "checksum": "sha256:719d564bb4e9dca26f3ea0b9e21520f0fe2cf6cc5f398cc85e147544a85947ae",
+          "dataBase64": "AAAAAAH8//8BBAExHS794ELBPwAAAAAAAAAAldEVOszkuD922WIKh2KuP3p1lRWbgZ0/PAAAACwBAAAACAFltFWYEn+zP6/HMkN0LNA+sUNEnem4pT9Ef7BQjfasPzk6YyyN9pw/ZAAAAJ4EAAAACAFltFWYEn+zPwAAAAAAAAAAsUNEnem4pT9Ef7BQjfasPzk6YyyN9pw/oAAAAMkJAAAACAFltFWYEn+zPwAAAAAAAAAAsUNEnem4pT9Ef7BQjfasPzk6YyyN9pw/yAAAADsNAAAACAFltFWYEn+zPwAAAAAAAAAAsUNEnem4pT9Ef7BQjfasPzk6YyyN9pw/BAEAAGYSAAAACAFltFWYEn+zPwAAAAAAAAAAsUNEnem4pT9Ef7BQjfasPzk6YyyN9pw/LAEAANgVAAAACAFltFWYEn+zPwAAAAAAAAAAsUNEnem4pT9Ef7BQjfasPzk6YyyN9pw/aAEAAAMbAAAACAFltFWYEn+zPwAAAAAAAAAAsUNEnem4pT9Ef7BQjfasPzk6YyyN9pw/kAEAAHUeAAAACAFltFWYEn+zPwAAAAAAAAAAsUNEnem4pT9Ef7BQjfasPzk6YyyN9pw/zAEAAKAjAAAACAFltFWYEn+zPwAAAAAAAAAAsUNEnem4pT9Ef7BQjfasPzk6YyyN9pw/9AEAABInAAAACAFltFWYEn+zPwAAAAAAAAAAsUNEnem4pT9Ef7BQjfasPzk6YyyN9pw/MAIAAD0sAAAACAFltFWYEn+zPwAAAAAAAAAAsUNEnem4pT9Ef7BQjfasPzk6YyyN9pw/WAIAAK8vAAAACAFltFWYEn+zPwAAAAAAAAAAsUNEnem4pT9Ef7BQjfasPzk6YyyN9pw/lAIAANo0AAAACAFltFWYEn+zPwAAAAAAAAAAsUNEnem4pT9Ef7BQjfasPzk6YyyN9pw/vAIAAEw4AAAACAFltFWYEn+zPwAAAAAAAAAAsUNEnem4pT9Ef7BQjfasPzk6YyyN9pw/+AIAAHc9AAAACAFltFWYEn+zPwAAAAAAAAAAsUNEnem4pT9Ef7BQjfasPzk6YyyN9pw/IAMAAOlAAAAACAFltFWYEn+zPwAAAAAAAAAAsUNEnem4pT9Ef7BQjfasPzk6YyyN9pw/XAMAABRGAAAACAFltFWYEn+zPwAAAAAAAAAAsUNEnem4pT9Ef7BQjfasPzk6YyyN9pw/hAMAAIZJAAAACAFltFWYEn+zPwAAAAAAAAAAsUNEnem4pT9Ef7BQjfasPzk6YyyN9pw/1AMAAGpQAAAACAE+reKpSQa2P91HyDjxHUA/f4gureudqz8CoJn9h1WtP2337+/ZIp0/6AMAACNSAAAACAG0cdyZ4w68P1+YGuKMtEA/m+Y2F0qasz/4AIDYXfWtP3t9q/mka50/JAQAAE5XAAAACAFltFWYEn+zP6QG+M3gmtQ+sUNEnem4pT9Ef7BQjfasPzk6YyyN9pw/TAQAAMBaAAAACAFltFWYEn+zPwAAAAAAAAAAsUNEnem4pT9Ef7BQjfasPzk6YyyN9pw/iAQAAOtfAAAACAFltFWYEn+zPwAAAAAAAAAAsUNEnem4pT9Ef7BQjfasPzk6YyyN9pw/sAQAAF1jAAAACAFltFWYEn+zPwAAAAAAAAAAsUNEnem4pT9Ef7BQjfasPzk6YyyN9pw/7AQAAIhoAAAACAFltFWYEn+zPwAAAAAAAAAAsUNEnem4pT9Ef7BQjfasPzk6YyyN9pw/FAUAAPprAAAACAFltFWYEn+zPwAAAAAAAAAAsUNEnem4pT9Ef7BQjfasPzk6YyyN9pw/UAUAACVxAAAACAFltFWYEn+zPwAAAAAAAAAAsUNEnem4pT9Ef7BQjfasPzk6YyyN9pw/eAUAAJd0AAAACAFltFWYEn+zPwAAAAAAAAAAsUNEnem4pT9Ef7BQjfasPzk6YyyN9pw/tAUAAMJ5AAAACAFltFWYEn+zPwAAAAAAAAAAsUNEnem4pT9Ef7BQjfasPzk6YyyN9pw/3AUAADR9AAAACAFltFWYEn+zPwAAAAAAAAAAsUNEnem4pT9Ef7BQjfasPzk6YyyN9pw/GAYAAF+CAAAACAFltFWYEn+zPwAAAAAAAAAAsUNEnem4pT9Ef7BQjfasPzk6YyyN9pw/QAYAANGFAAAACAFltFWYEn+zPwAAAAAAAAAAsUNEnem4pT9Ef7BQjfasPzk6YyyN9pw/fAYAAPyKAAAACAFltFWYEn+zPwAAAAAAAAAAsUNEnem4pT9Ef7BQjfasPzk6YyyN9pw/pAYAAG6OAAAACAFltFWYEn+zPwAAAAAAAAAAsUNEnem4pT9Ef7BQjfasPzk6YyyN9pw/4AYAAJmTAAAACAFltFWYEn+zPwAAAAAAAAAAsUNEnem4pT9Ef7BQjfasPzk6YyyN9pw/CAcAAAuXAAAACAFltFWYEn+zPwAAAAAAAAAAsUNEnem4pT9Ef7BQjfasPzk6YyyN9pw/RAcAADacAAAACAFltFWYEn+zPwAAAAAAAAAAsUNEnem4pT9Ef7BQjfasPzk6YyyN9pw/bAcAAKifAAAACAFltFWYEn+zPwAAAAAAAAAAsUNEnem4pT9Ef7BQjfasPzk6YyyN9pw/vAcAAIymAAC4BQF5twYXT4CzP4PSYyUOXzo/u2/LgZq5pT8B/nAEJPSsP4iM0VdO9pw/"
+        },
+        "timestampMs": [
+          0,
+          60,
+          100,
+          160,
+          200,
+          260,
+          300,
+          360,
+          400,
+          460,
+          500,
+          560,
+          600,
+          660,
+          700,
+          760,
+          800,
+          860,
+          900,
+          980,
+          1000,
+          1060,
+          1100,
+          1160,
+          1200,
+          1260,
+          1300,
+          1360,
+          1400,
+          1460,
+          1500,
+          1560,
+          1600,
+          1660,
+          1700,
+          1760,
+          1800,
+          1860,
+          1900,
+          1980
+        ]
+      },
+      "compact": {
+        "packed": {
+          "encoding": "le-u32-i32-u16-flags-f64x5-v1-draft",
+          "pointCount": 20,
+          "strideBytes": 51,
+          "checksum": "sha256:3683f1e6580f2d584ce3e2fd20bd238f9690487866859c0cdaccc1596dbfd029",
+          "dataBase64": "AAAAAAH8//8BBAExHS794ELBPwAAAAAAAAAAldEVOszkuD922WIKh2KuP3p1lRWbgZ0/ZAAAAJ4EAAAACAFltFWYEn+zPwAAAAAAAAAAsUNEnem4pT9Ef7BQjfasPzk6YyyN9pw/yAAAADsNAAAACAFltFWYEn+zPwAAAAAAAAAAsUNEnem4pT9Ef7BQjfasPzk6YyyN9pw/LAEAANgVAAAACAFltFWYEn+zPwAAAAAAAAAAsUNEnem4pT9Ef7BQjfasPzk6YyyN9pw/kAEAAHUeAAAACAFltFWYEn+zPwAAAAAAAAAAsUNEnem4pT9Ef7BQjfasPzk6YyyN9pw/9AEAABInAAAACAFltFWYEn+zPwAAAAAAAAAAsUNEnem4pT9Ef7BQjfasPzk6YyyN9pw/WAIAAK8vAAAACAFltFWYEn+zPwAAAAAAAAAAsUNEnem4pT9Ef7BQjfasPzk6YyyN9pw/vAIAAEw4AAAACAFltFWYEn+zPwAAAAAAAAAAsUNEnem4pT9Ef7BQjfasPzk6YyyN9pw/IAMAAOlAAAAACAFltFWYEn+zPwAAAAAAAAAAsUNEnem4pT9Ef7BQjfasPzk6YyyN9pw/1AMAAGpQAAAACAE+reKpSQa2P91HyDjxHUA/f4gureudqz8CoJn9h1WtP2337+/ZIp0/6AMAACNSAAAACAG0cdyZ4w68P1+YGuKMtEA/m+Y2F0qasz/4AIDYXfWtP3t9q/mka50/TAQAAMBaAAAACAFltFWYEn+zPwAAAAAAAAAAsUNEnem4pT9Ef7BQjfasPzk6YyyN9pw/sAQAAF1jAAAACAFltFWYEn+zPwAAAAAAAAAAsUNEnem4pT9Ef7BQjfasPzk6YyyN9pw/FAUAAPprAAAACAFltFWYEn+zPwAAAAAAAAAAsUNEnem4pT9Ef7BQjfasPzk6YyyN9pw/eAUAAJd0AAAACAFltFWYEn+zPwAAAAAAAAAAsUNEnem4pT9Ef7BQjfasPzk6YyyN9pw/3AUAADR9AAAACAFltFWYEn+zPwAAAAAAAAAAsUNEnem4pT9Ef7BQjfasPzk6YyyN9pw/QAYAANGFAAAACAFltFWYEn+zPwAAAAAAAAAAsUNEnem4pT9Ef7BQjfasPzk6YyyN9pw/pAYAAG6OAAAACAFltFWYEn+zPwAAAAAAAAAAsUNEnem4pT9Ef7BQjfasPzk6YyyN9pw/CAcAAAuXAAAACAFltFWYEn+zPwAAAAAAAAAAsUNEnem4pT9Ef7BQjfasPzk6YyyN9pw/vAcAAIymAAC4BQF5twYXT4CzP4PSYyUOXzo/u2/LgZq5pT8B/nAEJPSsP4iM0VdO9pw/"
+        },
+        "timestampMs": [
+          0,
+          100,
+          200,
+          300,
+          400,
+          500,
+          600,
+          700,
+          800,
+          980,
+          1000,
+          1100,
+          1200,
+          1300,
+          1400,
+          1500,
+          1600,
+          1700,
+          1800,
+          1980
+        ]
+      }
+    },
+    {
+      "name": "f64-tie-and-absent-bands",
+      "durationMs": 100,
+      "points": [
+        {
+          "timestampMs": 0,
+          "windowStartSample": -1023,
+          "validSamples": 1025,
+          "rmsLinear": 1.0,
+          "spectralFluxLinear": 0.0
+        },
+        {
+          "timestampMs": 20,
+          "windowStartSample": -582,
+          "validSamples": 1466,
+          "rmsLinear": 1.0000000000000002,
+          "spectralFluxLinear": 0.01
+        },
+        {
+          "timestampMs": 40,
+          "windowStartSample": -141,
+          "validSamples": 1907,
+          "rmsLinear": 1.0000000000000002,
+          "spectralFluxLinear": 0.01
+        }
+      ],
+      "packed": {
+        "encoding": "le-u32-i32-u16-flags-f64x5-v1-draft",
+        "pointCount": 3,
+        "strideBytes": 51,
+        "checksum": "sha256:7dd77e7bcb83665f6fcba06ff8288d9e1d7e496131933f049658921f90e11bd1",
+        "dataBase64": "AAAAAAH8//8BBAAAAAAAAADwPwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFAAAALr9//+6BQABAAAAAADwP3sUrkfheoQ/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKAAAAHP///9zBwABAAAAAADwP3sUrkfheoQ/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+      },
+      "balanced": {
+        "packed": {
+          "encoding": "le-u32-i32-u16-flags-f64x5-v1-draft",
+          "pointCount": 1,
+          "strideBytes": 51,
+          "checksum": "sha256:43f4b8bd95b978b668bee579565f1d75e3b440591e9c8cc272dc2cb21a657a63",
+          "dataBase64": "FAAAALr9//+6BQABAAAAAADwP3sUrkfheoQ/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        },
+        "timestampMs": [
+          20
+        ]
+      },
+      "compact": {
+        "packed": {
+          "encoding": "le-u32-i32-u16-flags-f64x5-v1-draft",
+          "pointCount": 1,
+          "strideBytes": 51,
+          "checksum": "sha256:43f4b8bd95b978b668bee579565f1d75e3b440591e9c8cc272dc2cb21a657a63",
+          "dataBase64": "FAAAALr9//+6BQABAAAAAADwP3sUrkfheoQ/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        },
+        "timestampMs": [
+          20
+        ]
+      }
+    },
+    {
+      "name": "empty",
+      "durationMs": 100,
+      "points": [],
+      "packed": {
+        "encoding": "le-u32-i32-u16-flags-f64x5-v1-draft",
+        "pointCount": 0,
+        "strideBytes": 51,
+        "checksum": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "dataBase64": ""
+      },
+      "balanced": {
+        "packed": {
+          "encoding": "le-u32-i32-u16-flags-f64x5-v1-draft",
+          "pointCount": 0,
+          "strideBytes": 51,
+          "checksum": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "dataBase64": ""
+        },
+        "timestampMs": []
+      },
+      "compact": {
+        "packed": {
+          "encoding": "le-u32-i32-u16-flags-f64x5-v1-draft",
+          "pointCount": 0,
+          "strideBytes": 51,
+          "checksum": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "dataBase64": ""
+        },
+        "timestampMs": []
+      }
+    }
+  ]
+}

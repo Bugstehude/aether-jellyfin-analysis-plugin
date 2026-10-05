@@ -6,9 +6,9 @@ machine-readable artifact wins and the discrepancy must be fixed in this reposit
 
 ## Responsibility boundary
 
-The client owns selection, analysis scheduling, video decoding, progress, pause/resume and retry.
-The plugin never analyzes a video. It stores one high-quality master analysis and derives the
-requested temporal detail at read time.
+The client owns explicit selection, local analysis, progress, pause/resume and retry. The plugin
+also offers optional server-side analysis through scheduled, post-scan and authorized API jobs.
+It stores validated master analyses and derives the requested temporal detail at read time.
 
 Client selection may contain one or more checked folders and individually checked items. The
 client expands folders through the normal Jellyfin library API, deduplicates by
@@ -21,7 +21,9 @@ not silently select the entire library.
    `/AetherAnalysis/v1`. Do not configure a second origin or token for the plugin.
 2. Send the same native Jellyfin `Authorization` header used by the client for Jellyfin APIs.
 3. Call `GET /capabilities` once per authenticated server session.
-4. Require API `1.0`, schema `2`, algorithm `aether-visual@1.1.0` and the desired detail level.
+4. Require API `1.0`, schema `2`, the desired detail level and an algorithm accepted by the
+   [analysis version contract](analysis-version-contract.md). Use `readCompatibility` for reads
+   when available. New server analyses currently use `aether-visual@1.1.0`.
 5. Honor the returned upload and batch limits. A client must not hard-code a larger value.
 
 Tokens must never be placed in URLs, analysis documents, telemetry or persistent analysis caches.
@@ -41,7 +43,7 @@ selected -> status query -> available: done
 The exact flow is:
 
 1. Split the deduplicated selection into chunks no larger than `limits.maxBatchItems` and call
-   `POST /analyses/query`.
+   `POST /analyses/query`. Set `allowCompatible: true` only after negotiating the read matrix.
 2. Skip `available` items unless the user explicitly selected “recalculate”.
 3. For a required item, call the fingerprint endpoint immediately before decoding and retain the
    returned `fingerprint`.
@@ -65,7 +67,11 @@ user-configurable.
   time and memory headroom remain healthy. It should not request `full` during normal playback.
 - Desktop playback requests `balanced`; diagnostics and authoring may request `full`.
 - Cache each representation by server identity, user identity, item ID, media-source ID,
-  algorithm, version and detail. Store its ETag and revalidate with `If-None-Match`.
+  actual algorithm identity returned by the query, version and detail. Use that identity for
+  exact GET/HEAD. Store its ETag and revalidate with `If-None-Match`.
+- Compatible schema-v2 documents retain their actual version. Ignore unknown optional fields
+  and use a conservative fallback for missing optional signals. Compatibility does not imply
+  mathematically identical measurements. See the [version contract](analysis-version-contract.md).
 - Never reuse an analysis between different Jellyfin servers merely because item IDs match.
 - A `404` means missing, stale or inaccessible. The playback UI must not try to distinguish those
   cases and must continue using the safe live-analysis fallback.
@@ -97,7 +103,7 @@ Consumers pin a tagged release or immutable commit of this repository. Their CI 
 - compare `contracts/contract.sha256` before generated clients are built;
 - validate upload fixtures against the pinned schema and the plugin Golden Files;
 - compile generated models from `contracts/openapi/aether-analysis-v1.yaml`;
-- verify that API v1, schema 2 and `aether-visual@1.1.0` are supported;
+- verify API v1, schema 2, production version and the explicitly negotiated read compatibility;
 - run read, upload, stale-fingerprint and adaptive-detail contract tests;
 - fail when the pinned contract hash changes without regenerating client artifacts.
 

@@ -1,0 +1,150 @@
+{
+  "status": "unchanged offline worker JSON, not authoritative host snapshots",
+  "source": "Aether/docs/reviews/artifacts/analysis-1.2-composition",
+  "files": [
+    {
+      "profile": "available-silence",
+      "mode": "audio-only",
+      "file": "available-silence-audio-only.json",
+      "sourcePath": "audio-profiles/available-silence/audio-component.json",
+      "sha256": "480715a7015f50addd331b415b0190ff67f67dee65542a16602a882e9880597f",
+      "bytes": 11876
+    },
+    {
+      "profile": "available-silence",
+      "mode": "video-only",
+      "file": "available-silence-video-only.json",
+      "sourcePath": "audio-profiles/available-silence/video-component.json",
+      "sha256": "e169090c541c284757d6731dac2731a3daa828d9c719c5c499ec5873edd940a0",
+      "bytes": 5630
+    },
+    {
+      "profile": "impulse-at-eof",
+      "mode": "audio-only",
+      "file": "impulse-at-eof-audio-only.json",
+      "sourcePath": "audio-profiles/impulse-at-eof/audio-component.json",
+      "sha256": "7fa589ecfaac6661bdc7f896d85bd7517434e3d8ce6fa5c36c359954a620b992",
+      "bytes": 11928
+    },
+    {
+      "profile": "impulse-at-eof",
+      "mode": "video-only",
+      "file": "impulse-at-eof-video-only.json",
+      "sourcePath": "audio-profiles/impulse-at-eof/video-component.json",
+      "sha256": "1e1dc4712c7f1d99d281d3e6cf46e0286e571cf164983106551b3076d7da8f7a",
+      "bytes": 5630
+    },
+    {
+      "profile": "impulse-confirmable-before-eof",
+      "mode": "audio-only",
+      "file": "impulse-confirmable-before-eof-audio-only.json",
+      "sourcePath": "audio-profiles/impulse-confirmable-before-eof/audio-component.json",
+      "sha256": "4969f20d617654f6713bc6edd2cad599bead299d2f415c1b2e065779aa1fbd37",
+      "bytes": 12083
+    },
+    {
+      "profile": "impulse-confirmable-before-eof",
+      "mode": "video-only",
+      "file": "impulse-confirmable-before-eof-video-only.json",
+      "sourcePath": "audio-profiles/impulse-confirmable-before-eof/video-component.json",
+      "sha256": "4829c698f786b898d04e4cced99c0281d0111622cda6eae925b7e858fb2aa62c",
+      "bytes": 5630
+    },
+    {
+      "profile": "missing-audio-track",
+      "mode": "audio-only",
+      "file": "missing-audio-track-audio-only.json",
+      "sourcePath": "audio-profiles/missing-audio-track/audio-component.json",
+      "sha256": "7b765027216585ba5841b6422d58e1b1a631ce5bd45cc647d62b884ab78c1ab4",
+      "bytes": 1292
+    },
+    {
+      "profile": "missing-audio-track",
+      "mode": "video-only",
+      "file": "missing-audio-track-video-only.json",
+      "sourcePath": "audio-profiles/missing-audio-track/video-component.json",
+      "sha256": "30dcdef6e17e2a32b232c93a0d24baf8895699e26ea781bd7f1d05ae0dac4e4f",
+      "bytes": 5628
+    },
+    {
+      "profile": "multichannel-3.0",
+      "mode": "audio-only",
+      "file": "multichannel-3.0-audio-only.json",
+      "sourcePath": "audio-profiles/multichannel-3.0/audio-component.json",
+      "sha256": "c7459b6f26067f136bd094b200d939915c70d85c391ad5fe0496e560b158abec",
+      "bytes": 11987
+    },
+    {
+      "profile": "multichannel-3.0",
+      "mode": "video-only",
+      "file": "multichannel-3.0-video-only.json",
+      "sourcePath": "audio-profiles/multichannel-3.0/video-component.json",
+      "sha256": "4d338236ac762a69f8d224dd5387f72ecfb3fb612c86db2ce5e58c965fc0a658",
+      "bytes": 5630
+    },
+    {
+      "profile": "stereo-counterphase",
+      "mode": "audio-only",
+      "file": "stereo-counterphase-audio-only.json",
+      "sourcePath": "audio-profiles/stereo-counterphase/audio-component.json",
+      "sha256": "814266ea9743af85c2ce03f2bcb4b505bf6eb9cc4f233ac40e2d80413a0ec573",
+      "bytes": 11894
+    },
+    {
+      "profile": "stereo-counterphase",
+      "mode": "video-only",
+      "file": "stereo-counterphase-video-only.json",
+      "sourcePath": "audio-profiles/stereo-counterphase/video-component.json",
+      "sha256": "a9a4443a8ef38c520f69a5cebe8ba04565a5f1a9a27846c5032f2e06fdbd21c6",
+      "bytes": 5630
+    },
+    {
+      "profile": "two-tracks-default-second",
+      "mode": "audio-only",
+      "file": "two-tracks-default-second-audio-only.json",
+      "sourcePath": "audio-profiles/two-tracks-default-second/audio-component.json",
+      "sha256": "24406bc3756f7f2c2dc6553e21c56f18e28ad187438b6ea9bf29d071f3b6ba38",
+      "bytes": 11931
+    },
+    {
+      "profile": "two-tracks-default-second",
+      "mode": "video-only",
+      "file": "two-tracks-default-second-video-only.json",
+      "sourcePath": "audio-profiles/two-tracks-default-second/video-component.json",
+      "sha256": "5a21cbda264b7f97d0107beb1054f20edfdbd7f3841cdb7261613de83b1a1e61",
+      "bytes": 5630
+    },
+    {
+      "profile": "video-start-offset",
+      "mode": "full",
+      "file": "video-start-offset-full.json",
+      "sourcePath": "time-profiles/video-start-offset-full-artifact.json",
+      "sha256": "7bd5eab77f784e410f75a2fe72a81f861e7f62910688b5cdc78212070b529fc4",
+      "bytes": 17266
+    },
+    {
+      "profile": "vfr-source-times",
+      "mode": "full",
+      "file": "vfr-source-times-full.json",
+      "sourcePath": "time-profiles/vfr-source-times-full-artifact.json",
+      "sha256": "dc7d3fd56a7400845c3016d507dc096866e9851a1ae8f874760a488a2193c6fb",
+      "bytes": 16753
+    },
+    {
+      "profile": "nominal-duration-real-end",
+      "mode": "full",
+      "file": "nominal-duration-real-end-full.json",
+      "sourcePath": "time-profiles/nominal-duration-real-end-full-artifact.json",
+      "sha256": "488fc382dcc194ecc0db3273897fb7ff1b02759f2dc29f2aff4bc536f84d3540",
+      "bytes": 17693
+    },
+    {
+      "profile": "eof-cut-pending",
+      "mode": "full",
+      "file": "eof-cut-pending-full.json",
+      "sourcePath": "time-profiles/eof-cut-pending-full-artifact.json",
+      "sha256": "4f608d1333f43764b757f09e7192fa91a73551ea553858321aa860941cdfcdd5",
+      "bytes": 15565
+    }
+  ]
+}

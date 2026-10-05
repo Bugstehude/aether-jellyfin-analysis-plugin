@@ -1,0 +1,73 @@
+{
+  "status": "client-fixture-acceptance-only-not-release",
+  "date": "2026-10-04",
+  "reportedTests": {
+    "aetherTargeted": 142,
+    "tvSwift": 618,
+    "clientSuitesRerunByPlugin": false
+  },
+  "currentAlgorithm": "aether-visual/1.1.0",
+  "draftEnabled": false,
+  "files": [
+    {
+      "repo": "plugin",
+      "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/composition-manifest.json",
+      "bytes": 10320,
+      "sha256": "7be57e2fde0906ba3fdb404fe9ebe314edee4baa94833ea61cc3fdf1ba6d6ac7"
+    },
+    {
+      "repo": "aether",
+      "path": "docs/reviews/2026-10-04-analysis-1.2-legacy-audio-fixture-results.md",
+      "bytes": 5608,
+      "sha256": "802b40c4d5f52ebf9125ab55f6c2f12894324c84078e95a8ea0d5b2555f403a3"
+    },
+    {
+      "repo": "aether",
+      "path": "docs/reviews/artifacts/analysis-1.2-composition/checks.json",
+      "bytes": 3032,
+      "sha256": "72e17502ead3bfa565156441d9e7cf154b1d5bf4d59f836111704e41a930946e"
+    },
+    {
+      "repo": "aether",
+      "path": "docs/reviews/artifacts/analysis-1.2-composition/plugin-interop/aether-interop-result.json",
+      "bytes": 5107,
+      "sha256": "6c6f417756ac1f88874c3464280b19a84ba4c624045915c1106c978b51e5a509"
+    },
+    {
+      "repo": "aether",
+      "path": "packages/analysis-cache/src/draft-analysis.ts",
+      "bytes": 34281,
+      "sha256": "d7bb9e00878262b120b0ec2095f67828415a5b7a921ff6f5d4978a55aef03ce4"
+    },
+    {
+      "repo": "tv",
+      "path": "docs/reviews/2026-10-04-tv-legacy-audio-fixture-results.md",
+      "bytes": 4735,
+      "sha256": "a94ebc27d553c9cfe3f93016bb79428ca4302af9059116d21a65e1e479b035d8"
+    },
+    {
+      "repo": "tv",
+      "path": "docs/reviews/artifacts/tv-legacy-audio-fixture-2026-10-04/input-manifest.json",
+      "bytes": 1528,
+      "sha256": "40e85fc606b8f913292848be75b3075fbfb16f5f696eb2fdb4fa84f8ad63d545"
+    },
+    {
+      "repo": "tv",
+      "path": "docs/reviews/artifacts/tv-legacy-audio-fixture-2026-10-04/import-results.json",
+      "bytes": 2180,
+      "sha256": "d666c43d85e41c249f58ec8c60ea7ce37624d56b0169962da7b9c90a9fec1dc1"
+    },
+    {
+      "repo": "tv",
+      "path": "docs/reviews/artifacts/tv-legacy-audio-fixture-2026-10-04/validation-results.json",
+      "bytes": 1506,
+      "sha256": "74d8424dece1864e29363e7cea5c1b8d5f5e9951fa23d9a8f6a605f4002b4627"
+    },
+    {
+      "repo": "tv",
+      "path": "docs/reviews/artifacts/tv-legacy-audio-fixture-2026-10-04/reader-source-manifest.json",
+      "bytes": 3567,
+      "sha256": "f594bbcc2af6a1e7444981aa02a433c1858cff78e30de7a64b0fd5917d8734da"
+    }
+  ]
+}

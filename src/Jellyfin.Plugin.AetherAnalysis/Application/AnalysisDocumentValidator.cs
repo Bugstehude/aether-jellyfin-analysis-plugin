@@ -45,6 +45,36 @@ public sealed partial class AnalysisDocumentValidator
         return ValidationResult.Valid(value, JsonNode.Parse(element.GetRawText())!.AsObject(), rawBytes.Length);
     }
 
+    /// <summary>
+    /// Checks stored feature data without rebuilding or serializing a large master document.
+    /// The caller checks its server-owned item and algorithm identity before using this method.
+    /// </summary>
+    public bool IsValidStoredMaster(JsonElement element, string fingerprint)
+    {
+        try
+        {
+            var value = new AnalysisUploadV2
+            {
+                SchemaVersion = element.GetProperty("schemaVersion").GetInt32(),
+                CreatedAt = element.GetProperty("createdAt").Deserialize<DateTimeOffset>(SerializerOptions),
+                DurationMs = element.GetProperty("durationMs").GetInt64(),
+                Sampling = element.GetProperty("sampling").Deserialize<SamplingV2>(SerializerOptions)!,
+                Producer = element.GetProperty("producer").Deserialize<ProducerV2>(SerializerOptions)!,
+                MediaFingerprintAtStart = fingerprint,
+                Frames = element.GetProperty("frames").Deserialize<IReadOnlyList<AnalysisFrameV2>>(SerializerOptions)!,
+                AudioFrames = element.TryGetProperty("audioFrames", out var audio)
+                    ? audio.Deserialize<IReadOnlyList<AudioFrameV2>>(SerializerOptions) : null,
+                ClientContentFingerprint = element.TryGetProperty("clientContentFingerprint", out var contentFingerprint)
+                    ? contentFingerprint.Deserialize<ClientContentFingerprintV2>(SerializerOptions) : null
+            };
+            return ValidateValue(value) is null;
+        }
+        catch (Exception exception) when (exception is JsonException or KeyNotFoundException or InvalidOperationException or FormatException)
+        {
+            return false;
+        }
+    }
+
     private static string? ValidateValue(AnalysisUploadV2 value)
     {
         if (value.SchemaVersion != 2)

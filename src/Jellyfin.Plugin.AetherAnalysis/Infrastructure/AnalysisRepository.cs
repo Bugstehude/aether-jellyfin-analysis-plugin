@@ -1,9 +1,12 @@
+using Jellyfin.Plugin.AetherAnalysis.Application;
 using Microsoft.EntityFrameworkCore;
 
 namespace Jellyfin.Plugin.AetherAnalysis.Infrastructure;
 
 /// <summary>EF Core implementation of plugin-owned analysis storage.</summary>
-public sealed class AnalysisRepository(IDbContextFactory<AnalysisDbContext> contextFactory)
+public sealed class AnalysisRepository(
+    IDbContextFactory<AnalysisDbContext> contextFactory,
+    AnalysisWriteCoordinator? writeCoordinator = null)
     : IAnalysisRepository
 {
     private const int CleanupBatchSize = 256;
@@ -148,6 +151,7 @@ public sealed class AnalysisRepository(IDbContextFactory<AnalysisDbContext> cont
         await CleanupCoreAsync(
             context,
             new AnalysisCleanupRequest(request.RetentionCutoff, capacityTarget, key, "upload", request.CompletedAt),
+            writeCoordinator?.ProtectedKeys ?? [],
             cancellationToken).ConfigureAwait(false);
         var storedBytes = await GetStoredBytesAsync(context, cancellationToken).ConfigureAwait(false);
         var projectedBytes = storedBytes - (existing?.CompressedDocument.LongLength ?? 0) + record.CompressedDocument.LongLength;
@@ -211,7 +215,7 @@ public sealed class AnalysisRepository(IDbContextFactory<AnalysisDbContext> cont
     {
         await using var context = await contextFactory.CreateDbContextAsync(cancellationToken).ConfigureAwait(false);
         await using var transaction = await context.Database.BeginTransactionAsync(cancellationToken).ConfigureAwait(false);
-        var result = await CleanupCoreAsync(context, request, cancellationToken).ConfigureAwait(false);
+        var result = await CleanupCoreAsync(context, request, writeCoordinator?.ProtectedKeys ?? [], cancellationToken).ConfigureAwait(false);
         await transaction.CommitAsync(cancellationToken).ConfigureAwait(false);
         return result;
     }
@@ -219,6 +223,7 @@ public sealed class AnalysisRepository(IDbContextFactory<AnalysisDbContext> cont
     private static async Task<AnalysisCleanupResult> CleanupCoreAsync(
         AnalysisDbContext context,
         AnalysisCleanupRequest request,
+        IReadOnlyCollection<AnalysisKey> protectedKeys,
         CancellationToken cancellationToken)
     {
         var retentionDeleted = 0;
@@ -230,7 +235,7 @@ public sealed class AnalysisRepository(IDbContextFactory<AnalysisDbContext> cont
             var cutoff = request.RetentionCutoff.Value.ToUnixTimeMilliseconds();
             while (true)
             {
-                var expired = await SelectCandidates(CandidateQuery(context, request.ExcludedKey)
+                var expired = await SelectCandidates(CandidateQuery(context, request.ExcludedKey, protectedKeys)
                         .Where(value => value.StoredAtUnixTimeMilliseconds < cutoff)
                         .OrderBy(value => value.StoredAtUnixTimeMilliseconds), cancellationToken)
                     .ConfigureAwait(false);
@@ -246,7 +251,7 @@ public sealed class AnalysisRepository(IDbContextFactory<AnalysisDbContext> cont
         {
             while (storedBytes > request.TargetStoredBytes.Value)
             {
-                var candidates = await SelectCandidates(CandidateQuery(context, request.ExcludedKey)
+                var candidates = await SelectCandidates(CandidateQuery(context, request.ExcludedKey, protectedKeys)
                         .OrderBy(value => value.LastAccessedAtUnixTimeMilliseconds)
                         .ThenBy(value => value.StoredAtUnixTimeMilliseconds), cancellationToken)
                     .ConfigureAwait(false);
@@ -303,12 +308,12 @@ public sealed class AnalysisRepository(IDbContextFactory<AnalysisDbContext> cont
 
     private static IQueryable<AnalysisRecord> CandidateQuery(
         AnalysisDbContext context,
-        AnalysisKey? excludedKey)
+        AnalysisKey? excludedKey,
+        IReadOnlyCollection<AnalysisKey> protectedKeys)
     {
         var query = context.Analyses.AsNoTracking();
-        if (excludedKey.HasValue)
+        foreach (var key in excludedKey.HasValue ? protectedKeys.Append(excludedKey.Value) : protectedKeys)
         {
-            var key = excludedKey.Value;
             query = query.Where(value => value.ItemId != key.ItemId
                 || value.MediaSourceId != key.MediaSourceId
                 || value.AlgorithmId != key.AlgorithmId

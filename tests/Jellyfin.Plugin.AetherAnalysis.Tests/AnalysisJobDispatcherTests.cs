@@ -88,6 +88,23 @@ public sealed class AnalysisJobDispatcherTests
     {
         Assert.Null(CreateDispatcher().GetStatus(Guid.NewGuid()));
     }
+
+    [Fact]
+    public void TracksAndDeduplicatesEachMediaSourceSeparately()
+    {
+        var dispatcher = CreateDispatcher();
+        var itemId = Guid.NewGuid();
+        var first = dispatcher.Enqueue(itemId, "source-1", recalculate: true);
+        var second = dispatcher.Enqueue(itemId, "source-2");
+
+        Assert.NotNull(first);
+        Assert.NotNull(second);
+        Assert.NotSame(first, second);
+        Assert.Same(first, dispatcher.Enqueue(itemId, "source-1"));
+        Assert.Same(first, dispatcher.GetStatus(itemId, "source-1"));
+        Assert.Same(second, dispatcher.GetStatus(itemId, "source-2"));
+        Assert.Null(dispatcher.GetStatus(itemId, "source-3"));
+    }
 }
 
 /// <summary>

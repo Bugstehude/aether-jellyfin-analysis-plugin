@@ -1,0 +1,311 @@
+{
+  "status": "offline-real-worker-host-adapter-proof-not-live-or-production-release",
+  "algorithm": "aether-visual/1.2.0-draft",
+  "productionAlgorithm": "aether-visual/1.1.0",
+  "experimentalGateDefault": false,
+  "hostIdentity": "real local stats through plugin MediaFingerprintService, synthetic Jellyfin item/source/stream declarations and private SQLite",
+  "workerSha256": "a9a032b295e1f39b97ab21c545c5b6043aa5149c373b6ff85f1f49b046a0d7cc",
+  "producerRevision": "sha256:c32d0318eb9be1c4190eede941396ce93917c756d984fd3c4bdb20ad88a8843d",
+  "workerNodeTarget": "node22",
+  "tests": {
+    "releaseCounts": {
+      "total": "306",
+      "executed": "306",
+      "passed": "306",
+      "failed": "0",
+      "error": "0",
+      "timeout": "0",
+      "aborted": "0",
+      "inconclusive": "0",
+      "passedButRunAborted": "0",
+      "notRunnable": "0",
+      "notExecuted": "0",
+      "disconnected": "0",
+      "warning": "0",
+      "completed": "0",
+      "inProgress": "0",
+      "pending": "0"
+    },
+    "nativeWorkerCases": 3,
+    "format": "passed",
+    "trxSha256": "52582889fb436e8843a0d0a331911ddaff283ceeaabd7bd03bd6bad19791465f",
+    "trxLocalPath": "/private/tmp/aether-plugin-draft-integration-proof/test-results/_MB-JVV9WT2VJM_2026-10-04_21_37_51_net10.0.trx"
+  },
+  "resourceScope": "bounded direct Node/FFprobe RSS, pipe bytes, output bytes and total walltime; no whole decoder-tree or plugin-process RSS acceptance",
+  "generatedInputs": [
+    {
+      "profile": "available",
+      "generatedMediaBasename": "available.mkv",
+      "bytes": 453039,
+      "sha256": "65af8cd3ff3af632272041d09c501f0f01908f72b1aa10cd4056674bc829ccfe",
+      "syntheticHostStreams": [
+        {
+          "index": 0,
+          "type": "video",
+          "codec": "h264",
+          "channels": null,
+          "sampleRate": null
+        },
+        {
+          "index": 1,
+          "type": "audio",
+          "codec": "flac",
+          "channels": 1,
+          "sampleRate": 22050
+        }
+      ],
+      "selectedGlobalIndex": 1
+    },
+    {
+      "profile": "no-track",
+      "generatedMediaBasename": "no-track.mkv",
+      "bytes": 435953,
+      "sha256": "da2cd5c89ecdd76f3990a0e7a2d574814e06f011d06bf906403f538e3de6d764",
+      "syntheticHostStreams": [
+        {
+          "index": 0,
+          "type": "video",
+          "codec": "h264",
+          "channels": null,
+          "sampleRate": null
+        }
+      ],
+      "selectedGlobalIndex": null
+    },
+    {
+      "profile": "second-default",
+      "generatedMediaBasename": "second-default.mkv",
+      "bytes": 470889,
+      "sha256": "b5a74513c549909e69f77c66caf1e2036da504b0662cf2e907393fbd36495451",
+      "syntheticHostStreams": [
+        {
+          "index": 0,
+          "type": "video",
+          "codec": "h264",
+          "channels": null,
+          "sampleRate": null
+        },
+        {
+          "index": 1,
+          "type": "audio",
+          "codec": "flac",
+          "channels": 1,
+          "sampleRate": 22050
+        },
+        {
+          "index": 2,
+          "type": "audio",
+          "codec": "flac",
+          "channels": 1,
+          "sampleRate": 22050
+        }
+      ],
+      "selectedGlobalIndex": 2
+    }
+  ],
+  "files": [
+    {
+      "file": "available-balanced.json",
+      "bytes": 15019,
+      "sha256": "e914f5f3371fe74648e5971ab9cdbb253a4e76b80146601f72f60890f6cfb6d0",
+      "audioState": "available",
+      "legacyRows": 4,
+      "denseRows": 40,
+      "sourceFrameCount": 4,
+      "wireChecksum": "sha256:ae8ae0ee95d5b9e2daecb6a9b2bb263b08ce762b96ee12283a6801a304ac8bbe"
+    },
+    {
+      "file": "available-compact.json",
+      "bytes": 12499,
+      "sha256": "517a0c043051b21b6a392d1d0a5a285a6a3bd80cebf84d649b53d830f09003f0",
+      "audioState": "available",
+      "legacyRows": 4,
+      "denseRows": 20,
+      "sourceFrameCount": 4,
+      "wireChecksum": "sha256:84f145d2418b6472f7fd3d8ae4bd90391020ccdd10f45b92eddcf5fa0c258096"
+    },
+    {
+      "file": "available-full.json",
+      "bytes": 19092,
+      "sha256": "60fcab8f6f47ceed093fc49807481ab4dd8714e8ed67a8fbfb10fbcaf5b1cc9c",
+      "audioState": "available",
+      "legacyRows": 4,
+      "denseRows": 100,
+      "sourceFrameCount": 4,
+      "wireChecksum": "sha256:b3e0a47ce03aa073a975f6ec446407afb17b554c0bb36d2bfabfc71cbc3a6bae"
+    },
+    {
+      "file": "no-track-balanced.json",
+      "bytes": 7992,
+      "sha256": "cab9300a156a0b7dd7fcf4af61ef43d087cae09fda0747e53ab1f755c83f9d87",
+      "audioState": "no-track",
+      "legacyRows": 0,
+      "denseRows": 0,
+      "sourceFrameCount": 4,
+      "wireChecksum": null
+    },
+    {
+      "file": "no-track-compact.json",
+      "bytes": 6830,
+      "sha256": "e93fc63f1159723b450d8db5bc152b9f780cc0578384b9ab217da20716725c90",
+      "audioState": "no-track",
+      "legacyRows": 0,
+      "denseRows": 0,
+      "sourceFrameCount": 4,
+      "wireChecksum": null
+    },
+    {
+      "file": "no-track-full.json",
+      "bytes": 7989,
+      "sha256": "60f1f178f03ba3f255952b7da1a3a69755493c893bbac4c552480f6cc4d95297",
+      "audioState": "no-track",
+      "legacyRows": 0,
+      "denseRows": 0,
+      "sourceFrameCount": 4,
+      "wireChecksum": null
+    },
+    {
+      "file": "second-default-balanced.json",
+      "bytes": 15021,
+      "sha256": "9297bf0ad9a4507d82a2106f0476a74fe62474c022f5f709d2249f28a72363a8",
+      "audioState": "available",
+      "legacyRows": 4,
+      "denseRows": 40,
+      "sourceFrameCount": 4,
+      "wireChecksum": "sha256:e77236c7ae82415aed22832d682daa6ba724aaa07d6f4f2c3aa1c81cb8e9ce0a"
+    },
+    {
+      "file": "second-default-compact.json",
+      "bytes": 12501,
+      "sha256": "aae07edfc26b502878a8aecfc613217c4119fd249f61197b3381d22a8cb7c33c",
+      "audioState": "available",
+      "legacyRows": 4,
+      "denseRows": 20,
+      "sourceFrameCount": 4,
+      "wireChecksum": "sha256:eb29327300d46f40213fae009c4580e98c9b1a7db6f3dd7ceb316c00da64c665"
+    },
+    {
+      "file": "second-default-full.json",
+      "bytes": 19094,
+      "sha256": "78dad2f33e8671e865fe6e57b3559c97497d72073aab334f9d505a3467c672b0",
+      "audioState": "available",
+      "legacyRows": 4,
+      "denseRows": 100,
+      "sourceFrameCount": 4,
+      "wireChecksum": "sha256:8619d74f605ff0937cfd3e6cbceb30c022afd1d386f5854e25a70f6f8936c1f7"
+    }
+  ],
+  "currentPluginSources": [
+    {
+      "path": "docs/analysis-1.2-contract.md",
+      "bytes": 10600,
+      "sha256": "9cc69f0ed067c565b57625ff311cc81bd18fec0cfea94491a28bce053e7d0864"
+    },
+    {
+      "path": "src/Jellyfin.Plugin.AetherAnalysis/Application/AnalysisWorkerExecutionGate.cs",
+      "bytes": 1101,
+      "sha256": "e8d6a4722d8199cec2865c8326be6e84c82691ed3d83e7590bebca15a6c573a3"
+    },
+    {
+      "path": "src/Jellyfin.Plugin.AetherAnalysis/Application/Draft/DraftAnalysisArtifactValidator.cs",
+      "bytes": 32058,
+      "sha256": "ac2cff1bea4a5f529d12e5178a3a37c6d8a0609fdf5b37e6d6fe12ea3d30ef70"
+    },
+    {
+      "path": "src/Jellyfin.Plugin.AetherAnalysis/Application/Draft/DraftAnalysisCompositionSession.cs",
+      "bytes": 14482,
+      "sha256": "7e497e34462fa6d60e6cec9dd3481de6509d51008dc2dd8196645675b1a41c73"
+    },
+    {
+      "path": "src/Jellyfin.Plugin.AetherAnalysis/Application/Draft/DraftAnalysisMasterBuilder.cs",
+      "bytes": 13106,
+      "sha256": "80ca324bbb09a8491e94deac957c29796dcedd2cc96daf776f33c7566d540b59"
+    },
+    {
+      "path": "src/Jellyfin.Plugin.AetherAnalysis/Application/Draft/DraftBoundedProcess.cs",
+      "bytes": 13697,
+      "sha256": "dacb87d78a84db74fcdb7521383e612bc7cebe8011f20e2dc6ca95271e2d8e99"
+    },
+    {
+      "path": "src/Jellyfin.Plugin.AetherAnalysis/Application/Draft/DraftJellyfinSourceResolver.cs",
+      "bytes": 3685,
+      "sha256": "a2a27053e0958c94d56775ec30e1617725abe8e0be308d7394e00c9283b66da6"
+    },
+    {
+      "path": "src/Jellyfin.Plugin.AetherAnalysis/Application/Draft/DraftServerAnalysisRunner.cs",
+      "bytes": 7990,
+      "sha256": "d0c9d07d3c3711bf3b2ed6201c13cbe87d10f7384e7ea77745c5801b38dd4ba0"
+    },
+    {
+      "path": "src/Jellyfin.Plugin.AetherAnalysis/Application/Draft/DraftSourceTrackMapper.cs",
+      "bytes": 11962,
+      "sha256": "163aecd6481e0815606e974474822956d230360936264e9a45d01ad1cf494230"
+    },
+    {
+      "path": "src/Jellyfin.Plugin.AetherAnalysis/Application/Draft/DraftWorkerProcessRunner.cs",
+      "bytes": 8438,
+      "sha256": "2d4a4e60e41f04b7fab060ad0ae336fc7138b389689339fe0222265459255782"
+    },
+    {
+      "path": "src/Jellyfin.Plugin.AetherAnalysis/Application/Draft/PackedDenseAudioDraftCodec.cs",
+      "bytes": 8438,
+      "sha256": "9ade1313022f221e7a5f2d390aa9da86131728fc5fe7aa9fe16971059715eb46"
+    },
+    {
+      "path": "src/Jellyfin.Plugin.AetherAnalysis/Application/ServerAnalysisRunner.cs",
+      "bytes": 26725,
+      "sha256": "80cebb5308e837ae8b28406ba0e4456e0f12452afaea253f585cc19243dc81f6"
+    },
+    {
+      "path": "src/Jellyfin.Plugin.AetherAnalysis/Configuration/PluginConfiguration.cs",
+      "bytes": 3490,
+      "sha256": "282d4405ecbe809c7756e2dfe4533dd6b4b5562b94c18eaf510d73d384fb4130"
+    },
+    {
+      "path": "src/Jellyfin.Plugin.AetherAnalysis/ServiceRegistrator.cs",
+      "bytes": 4903,
+      "sha256": "9eb0de315cf7ab17105ac88cab2f04bcb4db051f3227d33a857c8591ac9c1e6d"
+    },
+    {
+      "path": "tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftAnalysisCompositionTests.cs",
+      "bytes": 31548,
+      "sha256": "97b3a83ca12b7338b2c3cc8a79936b114fd02c1a5bfc5c8f36ee90a7e5cac0fa"
+    },
+    {
+      "path": "tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftBoundedProcessTests.cs",
+      "bytes": 7070,
+      "sha256": "23c590d12caf3bff9d3712399e32d3b84fc72525463b572c22f8bd2e691701b1"
+    },
+    {
+      "path": "tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftConsumerProfileTests.cs",
+      "bytes": 11158,
+      "sha256": "bd330000dedba3613d8db5421974147a07dd20640fc25521391cc8641d758c47"
+    },
+    {
+      "path": "tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftJellyfinSourceResolverTests.cs",
+      "bytes": 8335,
+      "sha256": "df5aeea9765a006b185f8aadc674fff57a7a00c4ada854923f2f98d0fb25fd4c"
+    },
+    {
+      "path": "tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftServerAnalysisRunnerTests.cs",
+      "bytes": 21728,
+      "sha256": "d29f33edb62300606fbb7ead2d23dffb93d363eba79270527737751c34ca976e"
+    },
+    {
+      "path": "tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftSourceTrackMapperTests.cs",
+      "bytes": 11179,
+      "sha256": "05afe125e2be71376422a954ab7a5a26303a6509b6696789dc160dbb4e124f0e"
+    },
+    {
+      "path": "tests/Jellyfin.Plugin.AetherAnalysis.Tests/ServerAnalysisRunnerTests.cs",
+      "bytes": 13827,
+      "sha256": "2db5a679438e7e556a1174f7b532053219077c2d5db6cb5fcc4a03175f589c6d"
+    },
+    {
+      "path": "tools/build-draft-worker.mjs",
+      "bytes": 4287,
+      "sha256": "976eb4b53fe402b5461d91351a0cde80463a2b146ad21468b8ceada1b6f9401e"
+    }
+  ],
+  "historicalCompositionManifestSha256": "7be57e2fde0906ba3fdb404fe9ebe314edee4baa94833ea61cc3fdf1ba6d6ac7"
+}

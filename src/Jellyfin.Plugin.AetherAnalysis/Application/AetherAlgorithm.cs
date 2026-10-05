@@ -15,5 +15,23 @@ public static class AetherAlgorithm
     public const string Id = "aether-visual";
 
     /// <summary>The algorithm version stored and advertised.</summary>
-    public const string Version = "1.1.0";
+    public const string Version = "1.2.0";
+
+    /// <summary>Older analyses readable by clients targeting the preferred version.</summary>
+    public static IReadOnlyList<string> CompatibleReadVersions { get; } = Array.AsReadOnly(new[] { "1.1.0", "1.0.0" });
+
+    /// <summary>
+    /// Explicit data compatibility, ordered by preference for each reader. This does not
+    /// assert identical measurements: 1.0.0 retains its original palette weighting.
+    /// A future measurement revision must be reviewed before adding it to this matrix.
+    /// </summary>
+    public static IReadOnlyList<AnalysisReadCompatibility> ReadCompatibility { get; } = Array.AsReadOnly(new[]
+    {
+        new AnalysisReadCompatibility(Version, Array.AsReadOnly(new[] { Version, "1.1.0", "1.0.0" })),
+        new AnalysisReadCompatibility("1.1.0", Array.AsReadOnly(new[] { "1.1.0", "1.0.0" })),
+        new AnalysisReadCompatibility("1.0.0", Array.AsReadOnly(new[] { "1.0.0", "1.1.0" }))
+    });
 }
+
+/// <summary>Versions whose known schema-v2 signals a reader can consume.</summary>
+public sealed record AnalysisReadCompatibility(string ReaderVersion, IReadOnlyList<string> AnalysisVersions);

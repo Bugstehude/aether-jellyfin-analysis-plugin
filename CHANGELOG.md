@@ -2,6 +2,49 @@
 
 All notable changes to implementation and canonical contracts are recorded here.
 
+## Unreleased
+
+## [0.4.0.0] (2026-10-05)
+
+- First released `aether-visual/1.2.0` server composition from fresh, host-verified audio and
+  video components. The packaged worker and producer revision are pinned. Existing 1.0/1.1
+  and draft records keep their identities and bytes.
+- Manual recalculation and regular routine use the same bounded, atomic composition path.
+  A validated current target is retained after fresh host and track checks.
+- Reader 1.2 can select stored 1.2/1.1/1.0. Older readers remain on the existing 1.0/1.1 matrix.
+  GET/HEAD use matching representation ETags, independent F64 audio reduction and full legacy audio.
+- Stable 1.2 writes require server jobs. Unverified uploads cannot relabel older measurements.
+- First use prioritizes Aether Desktop. Device RAM, start latency and TV acceptance follow in
+  live operation by Marc's explicit rollout decision. No completed device acceptance is claimed.
+
+### Preparation included in this release
+
+- Explicit bidirectional read compatibility for schema-v2 `aether-visual` analyses in versions
+  `1.0.0` and `1.1.0`. Capabilities advertise the matrix. Batch status accepts optional
+  `allowCompatible` and reports the actual selected algorithm. Exact read/write routes retain
+  their version semantics. Compatible selection is rejected for batch deletion.
+- Routine server runs upgrade older algorithm versions while their previous analyses remain
+  readable. Current analyses are retained even without optional audio or with browser provenance.
+- `recalculate=true` requests an explicit full analysis of only the requested media source.
+  Job status and deduplication are scoped to that source.
+- Source protection during replacement prevents retention/LRU eviction. Failed or cancelled
+  upgrades retain the source, and an upload made during a long worker run wins over its result.
+- Normative version contract and integration handover for Aether and AetherTV. No measurement
+  algorithm bump, database migration or new audio/image features in this change.
+- Isolated experimental Packed-F64 audio codec, independent sequential audio selection and
+  shared wire goldens for offline 1.2 coordination. Not connected to production routes or
+  jobs. Current measurement version, schema and advertised matrix remain unchanged.
+- Isolated Full-v2 component validation, private staging and atomic draft composition with
+  host fingerprint, actual source/target ETags and protected old records. Independent audio
+  reduction, exact-time legacy attachment, source timeline anchors and concrete client fixtures.
+  Not registered in production. Complete independent legacy audio is retained across details.
+  Verified no-track and measured consumer profiles are checked. Reuse, additional audio time
+  profiles and production activation remain follow-up work.
+- Gated experimental host/worker integration with fresh Jellyfin source metadata, conservative
+  FFprobe track matching, bounded shell-free execution, pinned private draft bundle and atomic
+  component composition. Shared worker execution lease, shutdown cancellation and real offline
+  smoke coverage. Default gate off, no production route/job switch or worker vendor update.
+
 ## [0.3.1.0] — 2026-09-12
 
 ### Added

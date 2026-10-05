@@ -49,4 +49,19 @@ public sealed class PluginConfiguration : BasePluginConfiguration
 
     /// <summary>Gets or sets the ffmpeg decode/filter thread cap for server-side analysis; 0 leaves ffmpeg's own auto-detection.</summary>
     public int AnalysisFfmpegThreads { get; set; }
+
+    /// <summary>Explicit experimental execution gate, never used by production API or routine jobs.</summary>
+    public bool ExperimentalDraftAnalysisEnabled { get; set; }
+
+    /// <summary>Absolute path to a separately built standalone draft worker. Empty disables execution.</summary>
+    public string ExperimentalDraftWorkerPath { get; set; } = string.Empty;
+
+    /// <summary>Expected lowercase SHA256 of the experimental bundle, without a prefix.</summary>
+    public string ExperimentalDraftWorkerSha256 { get; set; } = string.Empty;
+
+    /// <summary>Expected source-map producer revision for experimental artifacts.</summary>
+    public string ExperimentalDraftProducerRevision { get; set; } = string.Empty;
+
+    /// <summary>Maximum experimental Node process RSS. This is not a whole-process-tree RSS limit.</summary>
+    public long ExperimentalDraftMaximumWorkerRssBytes { get; set; } = 512L * 1024 * 1024;
 }

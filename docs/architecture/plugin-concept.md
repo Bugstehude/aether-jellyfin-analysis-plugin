@@ -1030,9 +1030,12 @@ Szenenschnittwahrscheinlichkeit benötigt dagegen eine neue Algorithmusversion.
 
 ### 11.2 Parallel vorhandene Versionen
 
-Die Datenbank darf kurzzeitig mehrere Algorithmusversionen für dasselbe Item halten. Die
-Bereinigung löscht supersedierte Versionen nach einer konfigurierbaren Übergangszeit. Dadurch
-können ältere Clients während eines Rollouts weiterarbeiten.
+Die Datenbank kann mehrere Algorithmusversionen für dasselbe Item halten. Leser wählen
+kompatible Versionen ausdrücklich gemäß [Versionsvertrag](../analysis-version-contract.md),
+ohne die gespeicherte Identität umzubenennen. Routineläufe aktualisieren ältere Messversionen.
+Während einer Neuberechnung ist die lesbare Quelle vor Retention und LRU geschützt. Danach
+gelten die normalen Bereinigungsregeln. Eine eigene konfigurierbare Übergangsfrist ist bisher
+nicht implementiert.
 
 ### 11.3 Unbekannte Felder
 

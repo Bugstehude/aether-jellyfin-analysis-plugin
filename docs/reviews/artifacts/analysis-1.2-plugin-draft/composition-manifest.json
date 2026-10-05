@@ -1,0 +1,217 @@
+{
+  "status": "offline-composition-profile-only-not-production-release",
+  "pluginBaseCommit": "ca7cfa23130cba0868346297a0de00a4172cd836",
+  "pluginWorkingTree": "dirty-uncommitted",
+  "producerRevision": "sha256:8ddc99b791acc18b70aba15237c909024a69364637f2b776fb9a48f96a758e3b",
+  "mediaIdentity": "fictitious offline snapshot and fingerprint, not Jellyfin authority",
+  "sourceGenerator": "ffmpeg -f lavfi -i testsrc2=size=640x360:rate=25:duration=2 -f lavfi -i sine=frequency=440:sample_rate=22050:duration=2 -c:v libx264 -preset ultrafast -c:a flac neutral.mkv",
+  "note": "Bitexact wire expectations bind the original measured components. Original producer verification is historical. Current profile producer revisions and source copies are separately bound. Independent legacy audio remains complete across details. No-track is admitted only with host-confirmed track absence. Group reuse, unproven audio time profiles and active plugin integration are not implemented. No plugin long-source RSS benchmark.",
+  "tests": {
+    "pluginRelease": 246,
+    "contextCompositionCases": 53,
+    "consumerProfileCases": 21,
+    "wireCases": 12,
+    "format": "passed",
+    "structuralSchemaDocuments": 20,
+    "schemaScope": "draft-07-compatible keywords with Ajv 6, not full 2020-12 metaschema verification",
+    "directClientImports": "Desktop and native Swift: all three details diagnosis-free, complete unchanged legacy audio"
+  },
+  "files": [
+    {
+      "path": "src/Jellyfin.Plugin.AetherAnalysis/Application/Draft/DraftAnalysisArtifactValidator.cs",
+      "bytes": 31765,
+      "sha256": "9a8389e9b4110dfceef5257251b4878228456facd13e3010fa86a0186c378bc0"
+    },
+    {
+      "path": "src/Jellyfin.Plugin.AetherAnalysis/Application/Draft/DraftAnalysisMasterBuilder.cs",
+      "bytes": 13106,
+      "sha256": "80ca324bbb09a8491e94deac957c29796dcedd2cc96daf776f33c7566d540b59"
+    },
+    {
+      "path": "src/Jellyfin.Plugin.AetherAnalysis/Application/Draft/DraftAnalysisCompositionSession.cs",
+      "bytes": 14482,
+      "sha256": "7e497e34462fa6d60e6cec9dd3481de6509d51008dc2dd8196645675b1a41c73"
+    },
+    {
+      "path": "src/Jellyfin.Plugin.AetherAnalysis/Application/Draft/PackedDenseAudioDraftCodec.cs",
+      "bytes": 8438,
+      "sha256": "9ade1313022f221e7a5f2d390aa9da86131728fc5fe7aa9fe16971059715eb46"
+    },
+    {
+      "path": "tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftAnalysisCompositionTests.cs",
+      "bytes": 31548,
+      "sha256": "97b3a83ca12b7338b2c3cc8a79936b114fd02c1a5bfc5c8f36ee90a7e5cac0fa"
+    },
+    {
+      "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/audio-full-v2.json",
+      "bytes": 12011,
+      "sha256": "205c9a6f397e1d58df3d8e55e16e53d9e476fffc9ae6b19c8e653a446d6b6ca0"
+    },
+    {
+      "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/video-full-v2.json",
+      "bytes": 5725,
+      "sha256": "172246179c84646a785a510ff8593bbdc0bd93989654d3a560c614e9041da810"
+    },
+    {
+      "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/composed-full.json",
+      "bytes": 19088,
+      "sha256": "91f187ab6ee2c09fd6df45c9d4b3488ce4abed91b5d926a4f03700ca891d4b4c"
+    },
+    {
+      "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/composed-balanced.json",
+      "bytes": 15015,
+      "sha256": "189f354d47f94643eeaad2d7a16e6524b3abd4d3f6979f623bf25af2a0817da0"
+    },
+    {
+      "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/composed-compact.json",
+      "bytes": 12560,
+      "sha256": "595c82877a3ae32482e21fc1db6af9a1c1e7e6a55315df55f950d0068a8f82ed"
+    },
+    {
+      "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/composition-wire-expected.json",
+      "bytes": 11344,
+      "sha256": "1c50b5bd1d76574fc9462cac74bac95e09d68301fbfed4c0956fda03835c02f5"
+    },
+    {
+      "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/packed-f64-golden.json",
+      "bytes": 52802,
+      "sha256": "9173d1a39fae5cdef25eb76e4c9b06087c6186bca26ad69d20404ac58e4081f1"
+    },
+    {
+      "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/desktop-interop-result.json",
+      "bytes": 1204,
+      "sha256": "167fac2721090945de21484dec3f947748e5834604c03f305c0b365e1c39a980"
+    },
+    {
+      "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/analysis-job-artifact-v2.schema.json",
+      "bytes": 39791,
+      "sha256": "456a7a2836ba4f74952e314ac0a5d7a4cbc5245f7ec55ff7af89ee4fde4494fd"
+    },
+    {
+      "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/packed-dense-audio-f64.schema.json",
+      "bytes": 1363,
+      "sha256": "c1bed075108df6c2f4299cff24d8eec70afa616a4232f6dba380426b7cdc5a21"
+    },
+    {
+      "path": "tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftConsumerProfileTests.cs",
+      "bytes": 11158,
+      "sha256": "bd330000dedba3613d8db5421974147a07dd20640fc25521391cc8641d758c47"
+    },
+    {
+      "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/desktop-legacy-fix-interop-result.json",
+      "bytes": 1622,
+      "sha256": "fdd4775bb54bd068c8cd016528b91a683dd0cc4f24a9c8afac1adb8aa82c9892"
+    },
+    {
+      "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/tv-legacy-fix-interop-result.json",
+      "bytes": 4998,
+      "sha256": "691813dfac61a088d72c5e88aa0e9d86e384fe71034f14fd640fa2afa3852d97"
+    },
+    {
+      "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/legacy-audio-interop-probe.swift",
+      "bytes": 3915,
+      "sha256": "9d727cda57e94a49fb1a406752d07911587a99a6c32172434541d6ed4f8fdba5"
+    },
+    {
+      "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/consumer-profiles/available-silence-audio-only.json",
+      "bytes": 11876,
+      "sha256": "480715a7015f50addd331b415b0190ff67f67dee65542a16602a882e9880597f"
+    },
+    {
+      "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/consumer-profiles/available-silence-video-only.json",
+      "bytes": 5630,
+      "sha256": "e169090c541c284757d6731dac2731a3daa828d9c719c5c499ec5873edd940a0"
+    },
+    {
+      "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/consumer-profiles/eof-cut-pending-full.json",
+      "bytes": 15565,
+      "sha256": "4f608d1333f43764b757f09e7192fa91a73551ea553858321aa860941cdfcdd5"
+    },
+    {
+      "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/consumer-profiles/impulse-at-eof-audio-only.json",
+      "bytes": 11928,
+      "sha256": "7fa589ecfaac6661bdc7f896d85bd7517434e3d8ce6fa5c36c359954a620b992"
+    },
+    {
+      "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/consumer-profiles/impulse-at-eof-video-only.json",
+      "bytes": 5630,
+      "sha256": "1e1dc4712c7f1d99d281d3e6cf46e0286e571cf164983106551b3076d7da8f7a"
+    },
+    {
+      "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/consumer-profiles/impulse-confirmable-before-eof-audio-only.json",
+      "bytes": 12083,
+      "sha256": "4969f20d617654f6713bc6edd2cad599bead299d2f415c1b2e065779aa1fbd37"
+    },
+    {
+      "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/consumer-profiles/impulse-confirmable-before-eof-video-only.json",
+      "bytes": 5630,
+      "sha256": "4829c698f786b898d04e4cced99c0281d0111622cda6eae925b7e858fb2aa62c"
+    },
+    {
+      "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/consumer-profiles/manifest.json",
+      "bytes": 5861,
+      "sha256": "8005c46dab7e8b2195c0eff0d6443179ed095712c7a12de22e31ec3d93a3f595"
+    },
+    {
+      "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/consumer-profiles/missing-audio-track-audio-only.json",
+      "bytes": 1292,
+      "sha256": "7b765027216585ba5841b6422d58e1b1a631ce5bd45cc647d62b884ab78c1ab4"
+    },
+    {
+      "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/consumer-profiles/missing-audio-track-video-only.json",
+      "bytes": 5628,
+      "sha256": "30dcdef6e17e2a32b232c93a0d24baf8895699e26ea781bd7f1d05ae0dac4e4f"
+    },
+    {
+      "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/consumer-profiles/multichannel-3.0-audio-only.json",
+      "bytes": 11987,
+      "sha256": "c7459b6f26067f136bd094b200d939915c70d85c391ad5fe0496e560b158abec"
+    },
+    {
+      "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/consumer-profiles/multichannel-3.0-video-only.json",
+      "bytes": 5630,
+      "sha256": "4d338236ac762a69f8d224dd5387f72ecfb3fb612c86db2ce5e58c965fc0a658"
+    },
+    {
+      "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/consumer-profiles/nominal-duration-real-end-full.json",
+      "bytes": 17693,
+      "sha256": "488fc382dcc194ecc0db3273897fb7ff1b02759f2dc29f2aff4bc536f84d3540"
+    },
+    {
+      "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/consumer-profiles/stereo-counterphase-audio-only.json",
+      "bytes": 11894,
+      "sha256": "814266ea9743af85c2ce03f2bcb4b505bf6eb9cc4f233ac40e2d80413a0ec573"
+    },
+    {
+      "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/consumer-profiles/stereo-counterphase-video-only.json",
+      "bytes": 5630,
+      "sha256": "a9a4443a8ef38c520f69a5cebe8ba04565a5f1a9a27846c5032f2e06fdbd21c6"
+    },
+    {
+      "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/consumer-profiles/two-tracks-default-second-audio-only.json",
+      "bytes": 11931,
+      "sha256": "24406bc3756f7f2c2dc6553e21c56f18e28ad187438b6ea9bf29d071f3b6ba38"
+    },
+    {
+      "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/consumer-profiles/two-tracks-default-second-video-only.json",
+      "bytes": 5630,
+      "sha256": "5a21cbda264b7f97d0107beb1054f20edfdbd7f3841cdb7261613de83b1a1e61"
+    },
+    {
+      "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/consumer-profiles/vfr-source-times-full.json",
+      "bytes": 16753,
+      "sha256": "dc7d3fd56a7400845c3016d507dc096866e9851a1ae8f874760a488a2193c6fb"
+    },
+    {
+      "path": "docs/reviews/artifacts/analysis-1.2-plugin-draft/consumer-profiles/video-start-offset-full.json",
+      "bytes": 17266,
+      "sha256": "7bd5eab77f784e410f75a2fe72a81f861e7f62910688b5cdc78212070b529fc4"
+    }
+  ],
+  "producerFilesVerifiedDuringOriginalGeneration": 43,
+  "profileProducerRevisions": {
+    "audio": "sha256:c7ed93c561f2988a3496b93df6ab9f514707b23be8fdf6b59a5ab73e101e5308",
+    "time": "sha256:a694d1a030ab89a26fa7509b12e505cbb82205ae65c3eac455d7588449866b12"
+  },
+  "historicalManifest": "before-legacy-audio-fix/composition-manifest.json"
+}

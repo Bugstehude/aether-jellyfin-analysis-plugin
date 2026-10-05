@@ -1,3 +1,4 @@
+using Jellyfin.Plugin.AetherAnalysis.Application;
 using Jellyfin.Plugin.AetherAnalysis.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
@@ -5,6 +6,53 @@ namespace Jellyfin.Plugin.AetherAnalysis.Tests;
 
 public sealed class AnalysisRepositoryTests
 {
+    [Fact]
+    public async Task RunningUpgradeProtectsSourceFromRetentionAndCapacityCleanup()
+    {
+        var path = Path.Combine(Path.GetTempPath(), $"aether-upgrade-{Guid.NewGuid():N}.sqlite");
+        try
+        {
+            var options = new DbContextOptionsBuilder<AnalysisDbContext>().UseSqlite($"Data Source={path}").Options;
+            var factory = new TestContextFactory(options);
+            await using (var context = await factory.CreateDbContextAsync())
+            {
+                await context.Database.MigrateAsync();
+            }
+
+            using var coordinator = new AnalysisWriteCoordinator();
+            var repository = new AnalysisRepository(factory, coordinator);
+            var source = CreateRecord("source-upgrade", "\"old\"", storedBytes: 4, storedAt: DateTimeOffset.UtcNow.AddDays(-10));
+            source.AlgorithmVersion = "1.0.0";
+            await repository.UpsertAsync(source, null, CancellationToken.None);
+            var key = new AnalysisKey(source.ItemId, source.MediaSourceId, source.AlgorithmId, source.AlgorithmVersion);
+            using (coordinator.Protect(key))
+            {
+                var now = DateTimeOffset.UtcNow;
+                var cleanup = await repository.CleanupAsync(
+                    new AnalysisCleanupRequest(now.AddDays(-1), 0, null, "test", now), CancellationToken.None);
+                Assert.Equal(0, cleanup.RetentionDeletedRecords);
+                Assert.Equal(0, cleanup.CapacityDeletedRecords);
+
+                var target = CreateRecord("source-upgrade", "\"new\"", storedBytes: 4);
+                target.AlgorithmVersion = "1.1.0";
+                var result = await repository.StoreBoundedAsync(
+                    new AnalysisStoreRequest(target, [], false, 7, now.AddDays(-1), now), CancellationToken.None);
+                Assert.Equal(AnalysisStoreResult.StorageLimitExceeded, result);
+                Assert.NotNull(await repository.GetAsync(key, CancellationToken.None));
+                Assert.Null(await repository.GetAsync(key with { AlgorithmVersion = "1.1.0" }, CancellationToken.None));
+            }
+
+            var after = await repository.CleanupAsync(
+                new AnalysisCleanupRequest(null, 0, null, "test", DateTimeOffset.UtcNow), CancellationToken.None);
+            Assert.Equal(1, after.CapacityDeletedRecords);
+            Assert.Empty(coordinator.ProtectedKeys);
+        }
+        finally
+        {
+            File.Delete(path);
+        }
+    }
+
     [Fact]
     public async Task UpsertHonorsEtagPreconditionAndReportsStats()
     {

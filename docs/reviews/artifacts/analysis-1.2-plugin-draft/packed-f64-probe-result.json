@@ -1,0 +1,56 @@
+{
+  "kind": "offline-f64-record-probe-not-production",
+  "strideBytes": 51,
+  "verifiedRealFixtureRows": 100,
+  "f64RoundTripBitExact": true,
+  "estimates": [
+    {
+      "durationMs": 5400000,
+      "repeat": 1,
+      "pointCount": 270000,
+      "f64DocumentBytesEstimate": 25435478,
+      "belowCurrent50MiBCeiling": true
+    },
+    {
+      "durationMs": 5400000,
+      "repeat": 2,
+      "pointCount": 270000,
+      "f64DocumentBytesEstimate": 25435478,
+      "belowCurrent50MiBCeiling": true
+    },
+    {
+      "durationMs": 5400000,
+      "repeat": 3,
+      "pointCount": 270000,
+      "f64DocumentBytesEstimate": 25435478,
+      "belowCurrent50MiBCeiling": true
+    },
+    {
+      "durationMs": 7200000,
+      "repeat": 1,
+      "pointCount": 360000,
+      "f64DocumentBytesEstimate": 33917978,
+      "belowCurrent50MiBCeiling": true
+    },
+    {
+      "durationMs": 7200000,
+      "repeat": 2,
+      "pointCount": 360000,
+      "f64DocumentBytesEstimate": 33917978,
+      "belowCurrent50MiBCeiling": true
+    },
+    {
+      "durationMs": 7200000,
+      "repeat": 3,
+      "pointCount": 360000,
+      "f64DocumentBytesEstimate": 33917978,
+      "belowCurrent50MiBCeiling": true
+    }
+  ],
+  "limitations": [
+    "No full F64 worker run or RSS benchmark",
+    "Size arithmetic assumes unchanged JSON header lengths and other fields",
+    "No legacy audio included in measured source documents",
+    "No plugin, TypeScript or Swift decoder integration tested"
+  ]
+}

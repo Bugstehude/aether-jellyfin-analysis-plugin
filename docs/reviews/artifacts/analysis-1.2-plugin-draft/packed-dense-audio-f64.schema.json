@@ -1,0 +1,36 @@
+{
+  "type": "object",
+  "properties": {
+    "encoding": {
+      "const": "le-u32-i32-u16-flags-f64x5-v1-draft"
+    },
+    "strideBytes": {
+      "const": 51
+    },
+    "pointCount": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 864000
+    },
+    "checksum": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "dataBase64": {
+      "type": "string",
+      "contentEncoding": "base64"
+    }
+  },
+  "required": [
+    "encoding",
+    "strideBytes",
+    "pointCount",
+    "checksum",
+    "dataBase64"
+  ],
+  "additionalProperties": true,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aether.invalid/schemas/packed-dense-audio-f64.schema.json",
+  "title": "Packed dense audio F64 records (draft)",
+  "description": "JSON envelope for 51-byte little-endian F64 records: u32 absolute media timestampMs at offset 0, i32 windowStartSample at 4, u16 validSamples at 8, u8 flags at 10, five f64 amplitudes at 11/19/27/35/43. Flag bit 0 marks all three bands available. Reserved bits are zero. Missing-band slots must be positive zero. Empty payloads are structurally representable, but state available requires actual measurements. JSON Schema cannot establish decoded byte length, checksum, record finiteness, timing, coverage, features or Full peaks. A contextual validator remains required."
+}

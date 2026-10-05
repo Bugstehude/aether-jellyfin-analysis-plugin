@@ -1,0 +1,1357 @@
+{
+  "date": "2026-10-04",
+  "status": "isolated-client-contract-acceptance-not-semantic-matrix-or-production-release",
+  "contractSha256": "9cc69f0ed067c565b57625ff311cc81bd18fec0cfea94491a28bce053e7d0864",
+  "productionAlgorithm": "aether-visual/1.1.0",
+  "draftAlgorithm": "aether-visual/1.2.0-draft",
+  "gate12": false,
+  "arrowMeaning": "reader -> stored analysis",
+  "scope": "Read-only inputs reviewed and pins verified. No tests rerun, media decoded, browser accessed, sibling edited or hardware/live used. Documentation changes only.",
+  "tests": {
+    "desktop": {
+      "passed": 1979,
+      "skipped": 15,
+      "basis": "reported acceptance JSON and report, no raw full-suite log in this return",
+      "rerunHere": false
+    },
+    "tv": {
+      "passed": 638,
+      "failed": 0,
+      "basis": "verified pinned macOS core XCTest log",
+      "rerunHere": false,
+      "appBuildsRerun": false,
+      "parserTestsRerun": false,
+      "longBenchmarksRerun": false
+    },
+    "plugin": {
+      "passed": 306,
+      "nativeWorkerCases": 3,
+      "basis": "previous host-worker integration manifest, not rerun in this review"
+    }
+  },
+  "checkedGroups": {
+    "contract": 1,
+    "desktop-fixture-copy": 9,
+    "desktop-fixture-original": 9,
+    "desktop-legacy-example": 1,
+    "desktop-source": 10,
+    "input": 5,
+    "manifest": 2,
+    "plugin-source": 22,
+    "review-input": 7,
+    "tail-semantic-input": 1,
+    "tv-baseline-result": 1,
+    "tv-baseline-source": 3,
+    "tv-fixture-imported": 13,
+    "tv-fixture-original": 13,
+    "tv-plugin-input": 7,
+    "tv-prior-manifest": 1,
+    "tv-prior-source": 23,
+    "tv-sdk-header": 5,
+    "tv-source": 27,
+    "tv-test-log": 1,
+    "transient-worker-bundle": 1
+  },
+  "byteEqualityChecks": [
+    {
+      "group": "desktop-fixture",
+      "original": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/available-balanced.json",
+      "copy": "/Users/Marc.Bauer/Developer/Aether/docs/reviews/artifacts/analysis-1.2-host-contract/available-balanced.json",
+      "byteEqual": true
+    },
+    {
+      "group": "desktop-fixture",
+      "original": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/available-compact.json",
+      "copy": "/Users/Marc.Bauer/Developer/Aether/docs/reviews/artifacts/analysis-1.2-host-contract/available-compact.json",
+      "byteEqual": true
+    },
+    {
+      "group": "desktop-fixture",
+      "original": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/available-full.json",
+      "copy": "/Users/Marc.Bauer/Developer/Aether/docs/reviews/artifacts/analysis-1.2-host-contract/available-full.json",
+      "byteEqual": true
+    },
+    {
+      "group": "desktop-fixture",
+      "original": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/no-track-balanced.json",
+      "copy": "/Users/Marc.Bauer/Developer/Aether/docs/reviews/artifacts/analysis-1.2-host-contract/no-track-balanced.json",
+      "byteEqual": true
+    },
+    {
+      "group": "desktop-fixture",
+      "original": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/no-track-compact.json",
+      "copy": "/Users/Marc.Bauer/Developer/Aether/docs/reviews/artifacts/analysis-1.2-host-contract/no-track-compact.json",
+      "byteEqual": true
+    },
+    {
+      "group": "desktop-fixture",
+      "original": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/no-track-full.json",
+      "copy": "/Users/Marc.Bauer/Developer/Aether/docs/reviews/artifacts/analysis-1.2-host-contract/no-track-full.json",
+      "byteEqual": true
+    },
+    {
+      "group": "desktop-fixture",
+      "original": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/second-default-balanced.json",
+      "copy": "/Users/Marc.Bauer/Developer/Aether/docs/reviews/artifacts/analysis-1.2-host-contract/second-default-balanced.json",
+      "byteEqual": true
+    },
+    {
+      "group": "desktop-fixture",
+      "original": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/second-default-compact.json",
+      "copy": "/Users/Marc.Bauer/Developer/Aether/docs/reviews/artifacts/analysis-1.2-host-contract/second-default-compact.json",
+      "byteEqual": true
+    },
+    {
+      "group": "desktop-fixture",
+      "original": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/second-default-full.json",
+      "copy": "/Users/Marc.Bauer/Developer/Aether/docs/reviews/artifacts/analysis-1.2-host-contract/second-default-full.json",
+      "byteEqual": true
+    },
+    {
+      "group": "desktop-manifest",
+      "original": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/integration-manifest.json",
+      "copy": "/Users/Marc.Bauer/Developer/Aether/docs/reviews/artifacts/analysis-1.2-host-contract/integration-manifest.json",
+      "byteEqual": true
+    },
+    {
+      "group": "desktop-manifest",
+      "original": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/bundle-manifest.json",
+      "copy": "/Users/Marc.Bauer/Developer/Aether/docs/reviews/artifacts/analysis-1.2-host-contract/bundle-manifest.json",
+      "byteEqual": true
+    },
+    {
+      "group": "legacy-example",
+      "original": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/contracts/examples/valid/analysis-document-v2.json",
+      "copy": "/Users/Marc.Bauer/Developer/Aether/docs/reviews/artifacts/analysis-1.2-host-contract/legacy-example-1.1.json",
+      "byteEqual": true
+    },
+    {
+      "group": "tv-fixture",
+      "original": "/Users/Marc.Bauer/Developer/aether-tv/../aether-jellyfin-analysis-plugin/docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/available-balanced.json",
+      "copy": "/Users/Marc.Bauer/Developer/aether-tv/Tests/AetherAnalysisTests/Fixtures/HostIntegration/available-balanced.json",
+      "byteEqual": true
+    },
+    {
+      "group": "tv-fixture",
+      "original": "/Users/Marc.Bauer/Developer/aether-tv/../aether-jellyfin-analysis-plugin/docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/available-compact.json",
+      "copy": "/Users/Marc.Bauer/Developer/aether-tv/Tests/AetherAnalysisTests/Fixtures/HostIntegration/available-compact.json",
+      "byteEqual": true
+    },
+    {
+      "group": "tv-fixture",
+      "original": "/Users/Marc.Bauer/Developer/aether-tv/../aether-jellyfin-analysis-plugin/docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/available-full.json",
+      "copy": "/Users/Marc.Bauer/Developer/aether-tv/Tests/AetherAnalysisTests/Fixtures/HostIntegration/available-full.json",
+      "byteEqual": true
+    },
+    {
+      "group": "tv-fixture",
+      "original": "/Users/Marc.Bauer/Developer/aether-tv/../aether-jellyfin-analysis-plugin/docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/no-track-balanced.json",
+      "copy": "/Users/Marc.Bauer/Developer/aether-tv/Tests/AetherAnalysisTests/Fixtures/HostIntegration/no-track-balanced.json",
+      "byteEqual": true
+    },
+    {
+      "group": "tv-fixture",
+      "original": "/Users/Marc.Bauer/Developer/aether-tv/../aether-jellyfin-analysis-plugin/docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/no-track-compact.json",
+      "copy": "/Users/Marc.Bauer/Developer/aether-tv/Tests/AetherAnalysisTests/Fixtures/HostIntegration/no-track-compact.json",
+      "byteEqual": true
+    },
+    {
+      "group": "tv-fixture",
+      "original": "/Users/Marc.Bauer/Developer/aether-tv/../aether-jellyfin-analysis-plugin/docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/no-track-full.json",
+      "copy": "/Users/Marc.Bauer/Developer/aether-tv/Tests/AetherAnalysisTests/Fixtures/HostIntegration/no-track-full.json",
+      "byteEqual": true
+    },
+    {
+      "group": "tv-fixture",
+      "original": "/Users/Marc.Bauer/Developer/aether-tv/../aether-jellyfin-analysis-plugin/docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/second-default-balanced.json",
+      "copy": "/Users/Marc.Bauer/Developer/aether-tv/Tests/AetherAnalysisTests/Fixtures/HostIntegration/second-default-balanced.json",
+      "byteEqual": true
+    },
+    {
+      "group": "tv-fixture",
+      "original": "/Users/Marc.Bauer/Developer/aether-tv/../aether-jellyfin-analysis-plugin/docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/second-default-compact.json",
+      "copy": "/Users/Marc.Bauer/Developer/aether-tv/Tests/AetherAnalysisTests/Fixtures/HostIntegration/second-default-compact.json",
+      "byteEqual": true
+    },
+    {
+      "group": "tv-fixture",
+      "original": "/Users/Marc.Bauer/Developer/aether-tv/../aether-jellyfin-analysis-plugin/docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/second-default-full.json",
+      "copy": "/Users/Marc.Bauer/Developer/aether-tv/Tests/AetherAnalysisTests/Fixtures/HostIntegration/second-default-full.json",
+      "byteEqual": true
+    },
+    {
+      "group": "tv-fixture",
+      "original": "/Users/Marc.Bauer/Developer/aether-tv/../aether-jellyfin-analysis-plugin/docs/reviews/artifacts/analysis-1.2-plugin-draft/consumer-profiles/eof-cut-pending-full.json",
+      "copy": "/Users/Marc.Bauer/Developer/aether-tv/Tests/AetherAnalysisTests/Fixtures/ConsumerProfiles/eof-cut-pending-full.json",
+      "byteEqual": true
+    },
+    {
+      "group": "tv-fixture",
+      "original": "/Users/Marc.Bauer/Developer/aether-tv/../aether-jellyfin-analysis-plugin/docs/reviews/artifacts/analysis-1.2-plugin-draft/consumer-profiles/nominal-duration-real-end-full.json",
+      "copy": "/Users/Marc.Bauer/Developer/aether-tv/Tests/AetherAnalysisTests/Fixtures/ConsumerProfiles/nominal-duration-real-end-full.json",
+      "byteEqual": true
+    },
+    {
+      "group": "tv-fixture",
+      "original": "/Users/Marc.Bauer/Developer/aether-tv/../aether-jellyfin-analysis-plugin/docs/reviews/artifacts/analysis-1.2-plugin-draft/consumer-profiles/vfr-source-times-full.json",
+      "copy": "/Users/Marc.Bauer/Developer/aether-tv/Tests/AetherAnalysisTests/Fixtures/ConsumerProfiles/vfr-source-times-full.json",
+      "byteEqual": true
+    },
+    {
+      "group": "tv-fixture",
+      "original": "/Users/Marc.Bauer/Developer/aether-tv/../aether-jellyfin-analysis-plugin/docs/reviews/artifacts/analysis-1.2-plugin-draft/consumer-profiles/video-start-offset-full.json",
+      "copy": "/Users/Marc.Bauer/Developer/aether-tv/Tests/AetherAnalysisTests/Fixtures/ConsumerProfiles/video-start-offset-full.json",
+      "byteEqual": true
+    }
+  ],
+  "pins": [
+    {
+      "group": "input",
+      "path": "/Users/Marc.Bauer/Developer/Aether/docs/reviews/artifacts/analysis-1.2-host-contract/aether-client-acceptance.json",
+      "bytes": 5737,
+      "sha256": "7afa77b00c128ce56821cf93749f67e42915ac2d4f009433fef43d14d08f436c",
+      "matched": true
+    },
+    {
+      "group": "desktop-source",
+      "path": "/Users/Marc.Bauer/Developer/Aether/apps/desktop-web/src/analysis/draft-replay-adapter.ts",
+      "bytes": 14750,
+      "sha256": "c0e21d85503d4499c6f5bd3504fb716c1843987376740f189292ea657eeb5643",
+      "matched": true
+    },
+    {
+      "group": "desktop-source",
+      "path": "/Users/Marc.Bauer/Developer/Aether/apps/desktop-web/src/analysis/draft-signal-consumer.ts",
+      "bytes": 6454,
+      "sha256": "815bf9083dcc9e94a046009738ed7fcb208f7ea54da9da65b1e8ceff45e2385d",
+      "matched": true
+    },
+    {
+      "group": "desktop-source",
+      "path": "/Users/Marc.Bauer/Developer/Aether/apps/desktop-web/src/analysis/effect-analysis-signals.ts",
+      "bytes": 612,
+      "sha256": "78675a23262d653dfae473dbd17577facf82fa279007ca05ae160832a0c95f55",
+      "matched": true
+    },
+    {
+      "group": "desktop-source",
+      "path": "/Users/Marc.Bauer/Developer/Aether/apps/desktop-web/src/render/render-controller.ts",
+      "bytes": 150630,
+      "sha256": "42d71a19e420efd49582b663cb695427a15f8882168c60da98dbd852b50380b1",
+      "matched": true
+    },
+    {
+      "group": "desktop-source",
+      "path": "/Users/Marc.Bauer/Developer/Aether/packages/analysis-cache/src/draft-analysis.ts",
+      "bytes": 34281,
+      "sha256": "d7bb9e00878262b120b0ec2095f67828415a5b7a921ff6f5d4978a55aef03ce4",
+      "matched": true
+    },
+    {
+      "group": "desktop-source",
+      "path": "/Users/Marc.Bauer/Developer/Aether/packages/analysis-cache/src/draft-packed-f64.ts",
+      "bytes": 16811,
+      "sha256": "e8148b4cd2a8ca30a0a0575938ecdf06fd0c4f022466be361bc43d6cce15a979",
+      "matched": true
+    },
+    {
+      "group": "desktop-source",
+      "path": "/Users/Marc.Bauer/Developer/Aether/apps/desktop-web/analysis-lab-plugin.ts",
+      "bytes": 3435,
+      "sha256": "a87f2a73a49535b4f4322fd1ccd1d58c87c5236867dfe3fbef985837ac8598a2",
+      "matched": true
+    },
+    {
+      "group": "desktop-source",
+      "path": "/Users/Marc.Bauer/Developer/Aether/apps/desktop-web/src/lab/analysis-lab.ts",
+      "bytes": 9472,
+      "sha256": "0d596a8bec442bf9ee823b494cc74c1c931455940798c5f44a6011dd147a7351",
+      "matched": true
+    },
+    {
+      "group": "desktop-source",
+      "path": "/Users/Marc.Bauer/Developer/Aether/apps/desktop-web/src/lab/analysis-lab.css",
+      "bytes": 670,
+      "sha256": "c6e0c9b7fba6ae3b50fc69e14be0fb86c196f300e34a56a154ba18ec69e969a4",
+      "matched": true
+    },
+    {
+      "group": "desktop-source",
+      "path": "/Users/Marc.Bauer/Developer/Aether/tools/benchmarks/prepare-analysis-preview.ts",
+      "bytes": 4191,
+      "sha256": "5876a106e33bdfab437bafb6b862fa1a9f6f20536a2feab55888bb48f21c7500",
+      "matched": true
+    },
+    {
+      "group": "desktop-fixture-original",
+      "path": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/available-balanced.json",
+      "bytes": 15019,
+      "sha256": "e914f5f3371fe74648e5971ab9cdbb253a4e76b80146601f72f60890f6cfb6d0",
+      "matched": true
+    },
+    {
+      "group": "desktop-fixture-copy",
+      "path": "/Users/Marc.Bauer/Developer/Aether/docs/reviews/artifacts/analysis-1.2-host-contract/available-balanced.json",
+      "bytes": 15019,
+      "sha256": "e914f5f3371fe74648e5971ab9cdbb253a4e76b80146601f72f60890f6cfb6d0",
+      "matched": true
+    },
+    {
+      "group": "desktop-fixture-original",
+      "path": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/available-compact.json",
+      "bytes": 12499,
+      "sha256": "517a0c043051b21b6a392d1d0a5a285a6a3bd80cebf84d649b53d830f09003f0",
+      "matched": true
+    },
+    {
+      "group": "desktop-fixture-copy",
+      "path": "/Users/Marc.Bauer/Developer/Aether/docs/reviews/artifacts/analysis-1.2-host-contract/available-compact.json",
+      "bytes": 12499,
+      "sha256": "517a0c043051b21b6a392d1d0a5a285a6a3bd80cebf84d649b53d830f09003f0",
+      "matched": true
+    },
+    {
+      "group": "desktop-fixture-original",
+      "path": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/available-full.json",
+      "bytes": 19092,
+      "sha256": "60fcab8f6f47ceed093fc49807481ab4dd8714e8ed67a8fbfb10fbcaf5b1cc9c",
+      "matched": true
+    },
+    {
+      "group": "desktop-fixture-copy",
+      "path": "/Users/Marc.Bauer/Developer/Aether/docs/reviews/artifacts/analysis-1.2-host-contract/available-full.json",
+      "bytes": 19092,
+      "sha256": "60fcab8f6f47ceed093fc49807481ab4dd8714e8ed67a8fbfb10fbcaf5b1cc9c",
+      "matched": true
+    },
+    {
+      "group": "desktop-fixture-original",
+      "path": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/no-track-balanced.json",
+      "bytes": 7992,
+      "sha256": "cab9300a156a0b7dd7fcf4af61ef43d087cae09fda0747e53ab1f755c83f9d87",
+      "matched": true
+    },
+    {
+      "group": "desktop-fixture-copy",
+      "path": "/Users/Marc.Bauer/Developer/Aether/docs/reviews/artifacts/analysis-1.2-host-contract/no-track-balanced.json",
+      "bytes": 7992,
+      "sha256": "cab9300a156a0b7dd7fcf4af61ef43d087cae09fda0747e53ab1f755c83f9d87",
+      "matched": true
+    },
+    {
+      "group": "desktop-fixture-original",
+      "path": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/no-track-compact.json",
+      "bytes": 6830,
+      "sha256": "e93fc63f1159723b450d8db5bc152b9f780cc0578384b9ab217da20716725c90",
+      "matched": true
+    },
+    {
+      "group": "desktop-fixture-copy",
+      "path": "/Users/Marc.Bauer/Developer/Aether/docs/reviews/artifacts/analysis-1.2-host-contract/no-track-compact.json",
+      "bytes": 6830,
+      "sha256": "e93fc63f1159723b450d8db5bc152b9f780cc0578384b9ab217da20716725c90",
+      "matched": true
+    },
+    {
+      "group": "desktop-fixture-original",
+      "path": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/no-track-full.json",
+      "bytes": 7989,
+      "sha256": "60f1f178f03ba3f255952b7da1a3a69755493c893bbac4c552480f6cc4d95297",
+      "matched": true
+    },
+    {
+      "group": "desktop-fixture-copy",
+      "path": "/Users/Marc.Bauer/Developer/Aether/docs/reviews/artifacts/analysis-1.2-host-contract/no-track-full.json",
+      "bytes": 7989,
+      "sha256": "60f1f178f03ba3f255952b7da1a3a69755493c893bbac4c552480f6cc4d95297",
+      "matched": true
+    },
+    {
+      "group": "desktop-fixture-original",
+      "path": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/second-default-balanced.json",
+      "bytes": 15021,
+      "sha256": "9297bf0ad9a4507d82a2106f0476a74fe62474c022f5f709d2249f28a72363a8",
+      "matched": true
+    },
+    {
+      "group": "desktop-fixture-copy",
+      "path": "/Users/Marc.Bauer/Developer/Aether/docs/reviews/artifacts/analysis-1.2-host-contract/second-default-balanced.json",
+      "bytes": 15021,
+      "sha256": "9297bf0ad9a4507d82a2106f0476a74fe62474c022f5f709d2249f28a72363a8",
+      "matched": true
+    },
+    {
+      "group": "desktop-fixture-original",
+      "path": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/second-default-compact.json",
+      "bytes": 12501,
+      "sha256": "aae07edfc26b502878a8aecfc613217c4119fd249f61197b3381d22a8cb7c33c",
+      "matched": true
+    },
+    {
+      "group": "desktop-fixture-copy",
+      "path": "/Users/Marc.Bauer/Developer/Aether/docs/reviews/artifacts/analysis-1.2-host-contract/second-default-compact.json",
+      "bytes": 12501,
+      "sha256": "aae07edfc26b502878a8aecfc613217c4119fd249f61197b3381d22a8cb7c33c",
+      "matched": true
+    },
+    {
+      "group": "desktop-fixture-original",
+      "path": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/second-default-full.json",
+      "bytes": 19094,
+      "sha256": "78dad2f33e8671e865fe6e57b3559c97497d72073aab334f9d505a3467c672b0",
+      "matched": true
+    },
+    {
+      "group": "desktop-fixture-copy",
+      "path": "/Users/Marc.Bauer/Developer/Aether/docs/reviews/artifacts/analysis-1.2-host-contract/second-default-full.json",
+      "bytes": 19094,
+      "sha256": "78dad2f33e8671e865fe6e57b3559c97497d72073aab334f9d505a3467c672b0",
+      "matched": true
+    },
+    {
+      "group": "input",
+      "path": "/Users/Marc.Bauer/Developer/Aether/docs/reviews/artifacts/analysis-1.2-host-contract/integration-manifest.json",
+      "bytes": 10983,
+      "sha256": "424208dcb5f8e671a686e710852b6d3c10db32d696cbdbbddbe060d7f09275d9",
+      "matched": true
+    },
+    {
+      "group": "input",
+      "path": "/Users/Marc.Bauer/Developer/Aether/docs/reviews/artifacts/analysis-1.2-host-contract/bundle-manifest.json",
+      "bytes": 4958,
+      "sha256": "a61e65f0a12320761f9230091181ecfa7d4113089c5f3d850dea6ea2a77ae2b5",
+      "matched": true
+    },
+    {
+      "group": "plugin-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/docs/analysis-1.2-contract.md",
+      "bytes": 10600,
+      "sha256": "9cc69f0ed067c565b57625ff311cc81bd18fec0cfea94491a28bce053e7d0864",
+      "matched": true
+    },
+    {
+      "group": "plugin-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/src/Jellyfin.Plugin.AetherAnalysis/Application/AnalysisWorkerExecutionGate.cs",
+      "bytes": 1101,
+      "sha256": "e8d6a4722d8199cec2865c8326be6e84c82691ed3d83e7590bebca15a6c573a3",
+      "matched": true
+    },
+    {
+      "group": "plugin-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/src/Jellyfin.Plugin.AetherAnalysis/Application/Draft/DraftAnalysisArtifactValidator.cs",
+      "bytes": 32058,
+      "sha256": "ac2cff1bea4a5f529d12e5178a3a37c6d8a0609fdf5b37e6d6fe12ea3d30ef70",
+      "matched": true
+    },
+    {
+      "group": "plugin-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/src/Jellyfin.Plugin.AetherAnalysis/Application/Draft/DraftAnalysisCompositionSession.cs",
+      "bytes": 14482,
+      "sha256": "7e497e34462fa6d60e6cec9dd3481de6509d51008dc2dd8196645675b1a41c73",
+      "matched": true
+    },
+    {
+      "group": "plugin-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/src/Jellyfin.Plugin.AetherAnalysis/Application/Draft/DraftAnalysisMasterBuilder.cs",
+      "bytes": 13106,
+      "sha256": "80ca324bbb09a8491e94deac957c29796dcedd2cc96daf776f33c7566d540b59",
+      "matched": true
+    },
+    {
+      "group": "plugin-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/src/Jellyfin.Plugin.AetherAnalysis/Application/Draft/DraftBoundedProcess.cs",
+      "bytes": 13697,
+      "sha256": "dacb87d78a84db74fcdb7521383e612bc7cebe8011f20e2dc6ca95271e2d8e99",
+      "matched": true
+    },
+    {
+      "group": "plugin-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/src/Jellyfin.Plugin.AetherAnalysis/Application/Draft/DraftJellyfinSourceResolver.cs",
+      "bytes": 3685,
+      "sha256": "a2a27053e0958c94d56775ec30e1617725abe8e0be308d7394e00c9283b66da6",
+      "matched": true
+    },
+    {
+      "group": "plugin-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/src/Jellyfin.Plugin.AetherAnalysis/Application/Draft/DraftServerAnalysisRunner.cs",
+      "bytes": 7990,
+      "sha256": "d0c9d07d3c3711bf3b2ed6201c13cbe87d10f7384e7ea77745c5801b38dd4ba0",
+      "matched": true
+    },
+    {
+      "group": "plugin-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/src/Jellyfin.Plugin.AetherAnalysis/Application/Draft/DraftSourceTrackMapper.cs",
+      "bytes": 11962,
+      "sha256": "163aecd6481e0815606e974474822956d230360936264e9a45d01ad1cf494230",
+      "matched": true
+    },
+    {
+      "group": "plugin-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/src/Jellyfin.Plugin.AetherAnalysis/Application/Draft/DraftWorkerProcessRunner.cs",
+      "bytes": 8438,
+      "sha256": "2d4a4e60e41f04b7fab060ad0ae336fc7138b389689339fe0222265459255782",
+      "matched": true
+    },
+    {
+      "group": "plugin-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/src/Jellyfin.Plugin.AetherAnalysis/Application/Draft/PackedDenseAudioDraftCodec.cs",
+      "bytes": 8438,
+      "sha256": "9ade1313022f221e7a5f2d390aa9da86131728fc5fe7aa9fe16971059715eb46",
+      "matched": true
+    },
+    {
+      "group": "plugin-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/src/Jellyfin.Plugin.AetherAnalysis/Application/ServerAnalysisRunner.cs",
+      "bytes": 26725,
+      "sha256": "80cebb5308e837ae8b28406ba0e4456e0f12452afaea253f585cc19243dc81f6",
+      "matched": true
+    },
+    {
+      "group": "plugin-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/src/Jellyfin.Plugin.AetherAnalysis/Configuration/PluginConfiguration.cs",
+      "bytes": 3490,
+      "sha256": "282d4405ecbe809c7756e2dfe4533dd6b4b5562b94c18eaf510d73d384fb4130",
+      "matched": true
+    },
+    {
+      "group": "plugin-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/src/Jellyfin.Plugin.AetherAnalysis/ServiceRegistrator.cs",
+      "bytes": 4903,
+      "sha256": "9eb0de315cf7ab17105ac88cab2f04bcb4db051f3227d33a857c8591ac9c1e6d",
+      "matched": true
+    },
+    {
+      "group": "plugin-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftAnalysisCompositionTests.cs",
+      "bytes": 31548,
+      "sha256": "97b3a83ca12b7338b2c3cc8a79936b114fd02c1a5bfc5c8f36ee90a7e5cac0fa",
+      "matched": true
+    },
+    {
+      "group": "plugin-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftBoundedProcessTests.cs",
+      "bytes": 7070,
+      "sha256": "23c590d12caf3bff9d3712399e32d3b84fc72525463b572c22f8bd2e691701b1",
+      "matched": true
+    },
+    {
+      "group": "plugin-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftConsumerProfileTests.cs",
+      "bytes": 11158,
+      "sha256": "bd330000dedba3613d8db5421974147a07dd20640fc25521391cc8641d758c47",
+      "matched": true
+    },
+    {
+      "group": "plugin-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftJellyfinSourceResolverTests.cs",
+      "bytes": 8335,
+      "sha256": "df5aeea9765a006b185f8aadc674fff57a7a00c4ada854923f2f98d0fb25fd4c",
+      "matched": true
+    },
+    {
+      "group": "plugin-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftServerAnalysisRunnerTests.cs",
+      "bytes": 21728,
+      "sha256": "d29f33edb62300606fbb7ead2d23dffb93d363eba79270527737751c34ca976e",
+      "matched": true
+    },
+    {
+      "group": "plugin-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftSourceTrackMapperTests.cs",
+      "bytes": 11179,
+      "sha256": "05afe125e2be71376422a954ab7a5a26303a6509b6696789dc160dbb4e124f0e",
+      "matched": true
+    },
+    {
+      "group": "plugin-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/tests/Jellyfin.Plugin.AetherAnalysis.Tests/ServerAnalysisRunnerTests.cs",
+      "bytes": 13827,
+      "sha256": "2db5a679438e7e556a1174f7b532053219077c2d5db6cb5fcc4a03175f589c6d",
+      "matched": true
+    },
+    {
+      "group": "plugin-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/tools/build-draft-worker.mjs",
+      "bytes": 4287,
+      "sha256": "976eb4b53fe402b5461d91351a0cde80463a2b146ad21468b8ceada1b6f9401e",
+      "matched": true
+    },
+    {
+      "group": "contract",
+      "path": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/docs/analysis-1.2-contract.md",
+      "bytes": 10600,
+      "sha256": "9cc69f0ed067c565b57625ff311cc81bd18fec0cfea94491a28bce053e7d0864",
+      "matched": true
+    },
+    {
+      "group": "manifest",
+      "path": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/integration-manifest.json",
+      "bytes": 10983,
+      "sha256": "424208dcb5f8e671a686e710852b6d3c10db32d696cbdbbddbe060d7f09275d9",
+      "matched": true
+    },
+    {
+      "group": "manifest",
+      "path": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/bundle-manifest.json",
+      "bytes": 4958,
+      "sha256": "a61e65f0a12320761f9230091181ecfa7d4113089c5f3d850dea6ea2a77ae2b5",
+      "matched": true
+    },
+    {
+      "group": "desktop-legacy-example",
+      "path": "/Users/Marc.Bauer/Developer/Aether/docs/reviews/artifacts/analysis-1.2-host-contract/legacy-example-1.1.json",
+      "bytes": 1160,
+      "sha256": "38454e22ce6bc74eee14a214650dc1194db6f6325d4d5a63d8ee2c9b978b049b",
+      "matched": true
+    },
+    {
+      "group": "input",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/docs/reviews/artifacts/tv-contract-adaptation-2026-10-04/source-manifest.json",
+      "bytes": 16572,
+      "sha256": "5a6ff82202e58f6eb449d150aae1e4b2a64d004e6c1f57ea9b1148964ab1a7d8",
+      "matched": true
+    },
+    {
+      "group": "input",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/docs/reviews/artifacts/tv-contract-adaptation-2026-10-04/validation-results.json",
+      "bytes": 1389,
+      "sha256": "70a4b5b4bfd969a19b599a090765f7a00091ef4ae083b2cb111279a95ab42dbc",
+      "matched": true
+    },
+    {
+      "group": "tv-plugin-input",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/../aether-jellyfin-analysis-plugin/docs/analysis-1.2-contract.md",
+      "bytes": 10600,
+      "sha256": "9cc69f0ed067c565b57625ff311cc81bd18fec0cfea94491a28bce053e7d0864",
+      "matched": true
+    },
+    {
+      "group": "tv-plugin-input",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/../aether-jellyfin-analysis-plugin/docs/analysis-version-contract.md",
+      "bytes": 7357,
+      "sha256": "e276dd9389832ea2ba33327c7ac383a3c5085152c6be9dbf70b490818e4d0bff",
+      "matched": true
+    },
+    {
+      "group": "tv-plugin-input",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/../aether-jellyfin-analysis-plugin/docs/reviews/2026-10-04-analysis-1.2-tv-contract-adaptation-worker-prompt.md",
+      "bytes": 4251,
+      "sha256": "bd9d1b393e20a2296b5626745890efa93aded83846558be1e1b9bcfcd97c8739",
+      "matched": true
+    },
+    {
+      "group": "tv-plugin-input",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/../aether-jellyfin-analysis-plugin/docs/reviews/2026-10-04-analysis-1.2-host-worker-integration-results.md",
+      "bytes": 10043,
+      "sha256": "ed33f36390760103b8313c9fad87dce1bce5ff397496a949797fec63e666a922",
+      "matched": true
+    },
+    {
+      "group": "tv-plugin-input",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/../aether-jellyfin-analysis-plugin/docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/integration-manifest.json",
+      "bytes": 10983,
+      "sha256": "424208dcb5f8e671a686e710852b6d3c10db32d696cbdbbddbe060d7f09275d9",
+      "matched": true
+    },
+    {
+      "group": "tv-plugin-input",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/../aether-jellyfin-analysis-plugin/docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/bundle-manifest.json",
+      "bytes": 4958,
+      "sha256": "a61e65f0a12320761f9230091181ecfa7d4113089c5f3d850dea6ea2a77ae2b5",
+      "matched": true
+    },
+    {
+      "group": "tv-plugin-input",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/../aether-jellyfin-analysis-plugin/docs/reviews/artifacts/analysis-1.2-plugin-draft/consumer-profiles/manifest.json",
+      "bytes": 5861,
+      "sha256": "8005c46dab7e8b2195c0eff0d6443179ed095712c7a12de22e31ec3d93a3f595",
+      "matched": true
+    },
+    {
+      "group": "tv-fixture-original",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/../aether-jellyfin-analysis-plugin/docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/available-balanced.json",
+      "bytes": 15019,
+      "sha256": "e914f5f3371fe74648e5971ab9cdbb253a4e76b80146601f72f60890f6cfb6d0",
+      "matched": true
+    },
+    {
+      "group": "tv-fixture-imported",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Tests/AetherAnalysisTests/Fixtures/HostIntegration/available-balanced.json",
+      "bytes": 15019,
+      "sha256": "e914f5f3371fe74648e5971ab9cdbb253a4e76b80146601f72f60890f6cfb6d0",
+      "matched": true
+    },
+    {
+      "group": "tv-fixture-original",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/../aether-jellyfin-analysis-plugin/docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/available-compact.json",
+      "bytes": 12499,
+      "sha256": "517a0c043051b21b6a392d1d0a5a285a6a3bd80cebf84d649b53d830f09003f0",
+      "matched": true
+    },
+    {
+      "group": "tv-fixture-imported",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Tests/AetherAnalysisTests/Fixtures/HostIntegration/available-compact.json",
+      "bytes": 12499,
+      "sha256": "517a0c043051b21b6a392d1d0a5a285a6a3bd80cebf84d649b53d830f09003f0",
+      "matched": true
+    },
+    {
+      "group": "tv-fixture-original",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/../aether-jellyfin-analysis-plugin/docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/available-full.json",
+      "bytes": 19092,
+      "sha256": "60fcab8f6f47ceed093fc49807481ab4dd8714e8ed67a8fbfb10fbcaf5b1cc9c",
+      "matched": true
+    },
+    {
+      "group": "tv-fixture-imported",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Tests/AetherAnalysisTests/Fixtures/HostIntegration/available-full.json",
+      "bytes": 19092,
+      "sha256": "60fcab8f6f47ceed093fc49807481ab4dd8714e8ed67a8fbfb10fbcaf5b1cc9c",
+      "matched": true
+    },
+    {
+      "group": "tv-fixture-original",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/../aether-jellyfin-analysis-plugin/docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/no-track-balanced.json",
+      "bytes": 7992,
+      "sha256": "cab9300a156a0b7dd7fcf4af61ef43d087cae09fda0747e53ab1f755c83f9d87",
+      "matched": true
+    },
+    {
+      "group": "tv-fixture-imported",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Tests/AetherAnalysisTests/Fixtures/HostIntegration/no-track-balanced.json",
+      "bytes": 7992,
+      "sha256": "cab9300a156a0b7dd7fcf4af61ef43d087cae09fda0747e53ab1f755c83f9d87",
+      "matched": true
+    },
+    {
+      "group": "tv-fixture-original",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/../aether-jellyfin-analysis-plugin/docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/no-track-compact.json",
+      "bytes": 6830,
+      "sha256": "e93fc63f1159723b450d8db5bc152b9f780cc0578384b9ab217da20716725c90",
+      "matched": true
+    },
+    {
+      "group": "tv-fixture-imported",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Tests/AetherAnalysisTests/Fixtures/HostIntegration/no-track-compact.json",
+      "bytes": 6830,
+      "sha256": "e93fc63f1159723b450d8db5bc152b9f780cc0578384b9ab217da20716725c90",
+      "matched": true
+    },
+    {
+      "group": "tv-fixture-original",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/../aether-jellyfin-analysis-plugin/docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/no-track-full.json",
+      "bytes": 7989,
+      "sha256": "60f1f178f03ba3f255952b7da1a3a69755493c893bbac4c552480f6cc4d95297",
+      "matched": true
+    },
+    {
+      "group": "tv-fixture-imported",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Tests/AetherAnalysisTests/Fixtures/HostIntegration/no-track-full.json",
+      "bytes": 7989,
+      "sha256": "60f1f178f03ba3f255952b7da1a3a69755493c893bbac4c552480f6cc4d95297",
+      "matched": true
+    },
+    {
+      "group": "tv-fixture-original",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/../aether-jellyfin-analysis-plugin/docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/second-default-balanced.json",
+      "bytes": 15021,
+      "sha256": "9297bf0ad9a4507d82a2106f0476a74fe62474c022f5f709d2249f28a72363a8",
+      "matched": true
+    },
+    {
+      "group": "tv-fixture-imported",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Tests/AetherAnalysisTests/Fixtures/HostIntegration/second-default-balanced.json",
+      "bytes": 15021,
+      "sha256": "9297bf0ad9a4507d82a2106f0476a74fe62474c022f5f709d2249f28a72363a8",
+      "matched": true
+    },
+    {
+      "group": "tv-fixture-original",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/../aether-jellyfin-analysis-plugin/docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/second-default-compact.json",
+      "bytes": 12501,
+      "sha256": "aae07edfc26b502878a8aecfc613217c4119fd249f61197b3381d22a8cb7c33c",
+      "matched": true
+    },
+    {
+      "group": "tv-fixture-imported",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Tests/AetherAnalysisTests/Fixtures/HostIntegration/second-default-compact.json",
+      "bytes": 12501,
+      "sha256": "aae07edfc26b502878a8aecfc613217c4119fd249f61197b3381d22a8cb7c33c",
+      "matched": true
+    },
+    {
+      "group": "tv-fixture-original",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/../aether-jellyfin-analysis-plugin/docs/reviews/artifacts/analysis-1.2-plugin-draft/host-worker-integration/second-default-full.json",
+      "bytes": 19094,
+      "sha256": "78dad2f33e8671e865fe6e57b3559c97497d72073aab334f9d505a3467c672b0",
+      "matched": true
+    },
+    {
+      "group": "tv-fixture-imported",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Tests/AetherAnalysisTests/Fixtures/HostIntegration/second-default-full.json",
+      "bytes": 19094,
+      "sha256": "78dad2f33e8671e865fe6e57b3559c97497d72073aab334f9d505a3467c672b0",
+      "matched": true
+    },
+    {
+      "group": "tv-fixture-original",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/../aether-jellyfin-analysis-plugin/docs/reviews/artifacts/analysis-1.2-plugin-draft/consumer-profiles/eof-cut-pending-full.json",
+      "bytes": 15565,
+      "sha256": "4f608d1333f43764b757f09e7192fa91a73551ea553858321aa860941cdfcdd5",
+      "matched": true
+    },
+    {
+      "group": "tv-fixture-imported",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Tests/AetherAnalysisTests/Fixtures/ConsumerProfiles/eof-cut-pending-full.json",
+      "bytes": 15565,
+      "sha256": "4f608d1333f43764b757f09e7192fa91a73551ea553858321aa860941cdfcdd5",
+      "matched": true
+    },
+    {
+      "group": "tv-fixture-original",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/../aether-jellyfin-analysis-plugin/docs/reviews/artifacts/analysis-1.2-plugin-draft/consumer-profiles/nominal-duration-real-end-full.json",
+      "bytes": 17693,
+      "sha256": "488fc382dcc194ecc0db3273897fb7ff1b02759f2dc29f2aff4bc536f84d3540",
+      "matched": true
+    },
+    {
+      "group": "tv-fixture-imported",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Tests/AetherAnalysisTests/Fixtures/ConsumerProfiles/nominal-duration-real-end-full.json",
+      "bytes": 17693,
+      "sha256": "488fc382dcc194ecc0db3273897fb7ff1b02759f2dc29f2aff4bc536f84d3540",
+      "matched": true
+    },
+    {
+      "group": "tv-fixture-original",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/../aether-jellyfin-analysis-plugin/docs/reviews/artifacts/analysis-1.2-plugin-draft/consumer-profiles/vfr-source-times-full.json",
+      "bytes": 16753,
+      "sha256": "dc7d3fd56a7400845c3016d507dc096866e9851a1ae8f874760a488a2193c6fb",
+      "matched": true
+    },
+    {
+      "group": "tv-fixture-imported",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Tests/AetherAnalysisTests/Fixtures/ConsumerProfiles/vfr-source-times-full.json",
+      "bytes": 16753,
+      "sha256": "dc7d3fd56a7400845c3016d507dc096866e9851a1ae8f874760a488a2193c6fb",
+      "matched": true
+    },
+    {
+      "group": "tv-fixture-original",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/../aether-jellyfin-analysis-plugin/docs/reviews/artifacts/analysis-1.2-plugin-draft/consumer-profiles/video-start-offset-full.json",
+      "bytes": 17266,
+      "sha256": "7bd5eab77f784e410f75a2fe72a81f861e7f62910688b5cdc78212070b529fc4",
+      "matched": true
+    },
+    {
+      "group": "tv-fixture-imported",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Tests/AetherAnalysisTests/Fixtures/ConsumerProfiles/video-start-offset-full.json",
+      "bytes": 17266,
+      "sha256": "7bd5eab77f784e410f75a2fe72a81f861e7f62910688b5cdc78212070b529fc4",
+      "matched": true
+    },
+    {
+      "group": "tv-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/App/AetherTV/Audio/StageAudioProcessor.swift",
+      "bytes": 52668,
+      "sha256": "9884a0e250a4ab1c6f72cbe3f2efa168bb0dff8a1c6d589bb4f9a795c5563b29",
+      "matched": true
+    },
+    {
+      "group": "tv-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/App/AetherTV/Jellyfin/JellyfinClient.swift",
+      "bytes": 12316,
+      "sha256": "12da6de15c58c29e4ff09210daeccb93588c2072435feaacfbb7fe30396ec554",
+      "matched": true
+    },
+    {
+      "group": "tv-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/App/AetherTV/Render/VideoStage.swift",
+      "bytes": 139657,
+      "sha256": "4c9664c381a38636d425b36e65ba60cc63257999f8d349052298b265fd789ec4",
+      "matched": true
+    },
+    {
+      "group": "tv-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Sources/AetherAnalysis/AetherAnalysis.swift",
+      "bytes": 443,
+      "sha256": "9b989743c259bf56dacad4bca78c71cb9b819fcb0a6ac9ee17814961dc4aa804",
+      "matched": true
+    },
+    {
+      "group": "tv-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Sources/AetherAnalysis/AnalysisAudioSignals.swift",
+      "bytes": 4363,
+      "sha256": "c011216cacf90503e60dbad8108538d7e1b9844ebc315b91eeda284c4389c2be",
+      "matched": true
+    },
+    {
+      "group": "tv-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Sources/AetherAnalysis/AnalysisCutSignals.swift",
+      "bytes": 3835,
+      "sha256": "8ef494e030a42d321a2445da869afc8ea94b54a29d9753c7e23cc1493301d144",
+      "matched": true
+    },
+    {
+      "group": "tv-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Sources/AetherAnalysis/AnalysisDocument.swift",
+      "bytes": 6787,
+      "sha256": "be96245d5e4f047b93f5d1e9728158f2fd398dd7aadfc1b18ff650a9e227a14e",
+      "matched": true
+    },
+    {
+      "group": "tv-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Sources/AetherAnalysis/AnalysisDocumentCoding.swift",
+      "bytes": 12875,
+      "sha256": "bcde36dbc60a3a6c1b3dc648a96d7a6c99265142ee1391ea80c9bd44663ef7a6",
+      "matched": true
+    },
+    {
+      "group": "tv-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Sources/AetherAnalysis/AnalysisDocumentDecoder.swift",
+      "bytes": 9289,
+      "sha256": "91df7a672cb864223b227af4dd2b24f2e231f940f3a9f5d6cfe8876b86c12daa",
+      "matched": true
+    },
+    {
+      "group": "tv-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Sources/AetherAnalysis/AnalysisEventCursor.swift",
+      "bytes": 2156,
+      "sha256": "3ba79f22e15ac47a36b1dc37827fff29b1aca4c9990ec60ce5b069f1eacbc9a1",
+      "matched": true
+    },
+    {
+      "group": "tv-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Sources/AetherAnalysis/AnalysisExtensionValidation.swift",
+      "bytes": 26775,
+      "sha256": "fc7dca24af6dd7aca304f9bfa728c1411208c099ed5a0731236767cd1a5d2780",
+      "matched": true
+    },
+    {
+      "group": "tv-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Sources/AetherAnalysis/AnalysisExtensions.swift",
+      "bytes": 9274,
+      "sha256": "e3ca6809d30019bf8cff180aba4cfb6fedf992c1d05a276ba352812649610544",
+      "matched": true
+    },
+    {
+      "group": "tv-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Sources/AetherAnalysis/AnalysisPackedDenseAudioFrames.swift",
+      "bytes": 7628,
+      "sha256": "4a200e72db18be708ffed7adf6cb75a239a68234e75fdb25aeca59ff05ec63be",
+      "matched": true
+    },
+    {
+      "group": "tv-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Sources/AetherAnalysis/AnalysisPlaybackSignals.swift",
+      "bytes": 2657,
+      "sha256": "c979b02e23a0197444b766386736530730f2acf815d230f28d01f1e6483caa63",
+      "matched": true
+    },
+    {
+      "group": "tv-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Sources/AetherAnalysis/AnalysisSHA256.swift",
+      "bytes": 3526,
+      "sha256": "122085d670b60dd96888d999e60d7c6a030b06486f8982865ff3b1a82e1d507b",
+      "matched": true
+    },
+    {
+      "group": "tv-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Sources/AetherAnalysis/AnalysisSignalCoding.swift",
+      "bytes": 8048,
+      "sha256": "b20573b095fa2524a18daf687535dc1bd1b06259cab3ea5462cc1e763e429436",
+      "matched": true
+    },
+    {
+      "group": "tv-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Sources/AetherAnalysis/AnalysisTimeline.swift",
+      "bytes": 13631,
+      "sha256": "dc679bb52ee3f6852017bd37d2e71f30da270949c35da1b754640b58910a89aa",
+      "matched": true
+    },
+    {
+      "group": "tv-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Sources/AetherJellyfin/JellyfinRequests.swift",
+      "bytes": 19460,
+      "sha256": "58234b3452a02f21ff067d22dd5c33aafda8ecc15420699e4355a88983d708b3",
+      "matched": true
+    },
+    {
+      "group": "tv-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Sources/AetherJellyfin/JellyfinResponses.swift",
+      "bytes": 21856,
+      "sha256": "5778d7286ba3c9ef83ff7206423db0970f6d722c1756e2e213f304caa90e39dd",
+      "matched": true
+    },
+    {
+      "group": "tv-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Sources/AetherSupply/AnalysisSupply.swift",
+      "bytes": 34562,
+      "sha256": "75ce6aa5e9b9e06cdda93526aff95199d19284b37753926b2847b80ba62aef9a",
+      "matched": true
+    },
+    {
+      "group": "tv-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Sources/AetherSupply/DocumentStore.swift",
+      "bytes": 6826,
+      "sha256": "9181da53bcd2bf550579e3bb543e566cad6e481eccadbd699810cb4e0a9b22b5",
+      "matched": true
+    },
+    {
+      "group": "tv-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Tests/AetherAnalysisTests/AnalysisPlaybackSignalsTests.swift",
+      "bytes": 6222,
+      "sha256": "00fff5121be4b8345f781bb5bb19e5074f6e98be029584a736102914257dbfd8",
+      "matched": true
+    },
+    {
+      "group": "tv-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Tests/AetherJellyfinTests/JellyfinResponsesTests.swift",
+      "bytes": 11557,
+      "sha256": "b5586f9fddef2c636d03906f405a2cb529fb0d77e8b6b41e3279e7879ec35384",
+      "matched": true
+    },
+    {
+      "group": "tv-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Tests/AetherAnalysisTests/HostWorkerIntegrationTests.swift",
+      "bytes": 8646,
+      "sha256": "c6571fc74ec65f6587d64350a5f57d5c535694c2e0914d9f144de58294554341",
+      "matched": true
+    },
+    {
+      "group": "tv-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Tests/AetherAnalysisTests/ComponentTimelineTests.swift",
+      "bytes": 9335,
+      "sha256": "0747e8d3e5fd37e87721500aee01545c2b070c5b7ddf2635c2ae40aebf8452f2",
+      "matched": true
+    },
+    {
+      "group": "tv-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Tests/AetherSupplyTests/HostWorkerRawCacheTests.swift",
+      "bytes": 3519,
+      "sha256": "5b8459785f86bf1120eab838967d4bc4fb364cec9ce6fc1718f3edc9d304cf42",
+      "matched": true
+    },
+    {
+      "group": "tv-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/docs/reviews/artifacts/tv-contract-adaptation-2026-10-04/legacy-reader-main.swift",
+      "bytes": 1605,
+      "sha256": "ca4c13b8d5a3fa0f12a2dcefc2812dba12a710774919bfdb40bca5b188a1af97",
+      "matched": true
+    },
+    {
+      "group": "tv-prior-manifest",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/docs/reviews/artifacts/tv-playback-signals-2026-10-04/source-manifest.json",
+      "bytes": 4469,
+      "sha256": "ab0f5263ae0ace7a786d7b734d2ee5a5de482af9ef362dd9bc062bfdcf618bcc",
+      "matched": true
+    },
+    {
+      "group": "tv-prior-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/App/AetherTV/Audio/StageAudioProcessor.swift",
+      "bytes": 52668,
+      "sha256": "9884a0e250a4ab1c6f72cbe3f2efa168bb0dff8a1c6d589bb4f9a795c5563b29",
+      "matched": true
+    },
+    {
+      "group": "tv-prior-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/App/AetherTV/Jellyfin/JellyfinClient.swift",
+      "bytes": 12316,
+      "sha256": "12da6de15c58c29e4ff09210daeccb93588c2072435feaacfbb7fe30396ec554",
+      "matched": true
+    },
+    {
+      "group": "tv-prior-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/App/AetherTV/Render/VideoStage.swift",
+      "bytes": 139657,
+      "sha256": "4c9664c381a38636d425b36e65ba60cc63257999f8d349052298b265fd789ec4",
+      "matched": true
+    },
+    {
+      "group": "tv-prior-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Sources/AetherAnalysis/AetherAnalysis.swift",
+      "bytes": 443,
+      "sha256": "9b989743c259bf56dacad4bca78c71cb9b819fcb0a6ac9ee17814961dc4aa804",
+      "matched": true
+    },
+    {
+      "group": "tv-prior-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Sources/AetherAnalysis/AnalysisAudioSignals.swift",
+      "bytes": 4363,
+      "sha256": "c011216cacf90503e60dbad8108538d7e1b9844ebc315b91eeda284c4389c2be",
+      "matched": true
+    },
+    {
+      "group": "tv-prior-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Sources/AetherAnalysis/AnalysisCutSignals.swift",
+      "bytes": 3835,
+      "sha256": "8ef494e030a42d321a2445da869afc8ea94b54a29d9753c7e23cc1493301d144",
+      "matched": true
+    },
+    {
+      "group": "tv-prior-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Sources/AetherAnalysis/AnalysisDocument.swift",
+      "bytes": 6787,
+      "sha256": "be96245d5e4f047b93f5d1e9728158f2fd398dd7aadfc1b18ff650a9e227a14e",
+      "matched": true
+    },
+    {
+      "group": "tv-prior-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Sources/AetherAnalysis/AnalysisDocumentCoding.swift",
+      "bytes": 12875,
+      "sha256": "bcde36dbc60a3a6c1b3dc648a96d7a6c99265142ee1391ea80c9bd44663ef7a6",
+      "matched": true
+    },
+    {
+      "group": "tv-prior-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Sources/AetherAnalysis/AnalysisDocumentDecoder.swift",
+      "bytes": 9289,
+      "sha256": "91df7a672cb864223b227af4dd2b24f2e231f940f3a9f5d6cfe8876b86c12daa",
+      "matched": true
+    },
+    {
+      "group": "tv-prior-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Sources/AetherAnalysis/AnalysisEventCursor.swift",
+      "bytes": 2156,
+      "sha256": "3ba79f22e15ac47a36b1dc37827fff29b1aca4c9990ec60ce5b069f1eacbc9a1",
+      "matched": true
+    },
+    {
+      "group": "tv-prior-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Sources/AetherAnalysis/AnalysisExtensionValidation.swift",
+      "bytes": 26775,
+      "sha256": "fc7dca24af6dd7aca304f9bfa728c1411208c099ed5a0731236767cd1a5d2780",
+      "matched": true
+    },
+    {
+      "group": "tv-prior-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Sources/AetherAnalysis/AnalysisExtensions.swift",
+      "bytes": 9274,
+      "sha256": "e3ca6809d30019bf8cff180aba4cfb6fedf992c1d05a276ba352812649610544",
+      "matched": true
+    },
+    {
+      "group": "tv-prior-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Sources/AetherAnalysis/AnalysisPackedDenseAudioFrames.swift",
+      "bytes": 7628,
+      "sha256": "4a200e72db18be708ffed7adf6cb75a239a68234e75fdb25aeca59ff05ec63be",
+      "matched": true
+    },
+    {
+      "group": "tv-prior-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Sources/AetherAnalysis/AnalysisPlaybackSignals.swift",
+      "bytes": 2657,
+      "sha256": "c979b02e23a0197444b766386736530730f2acf815d230f28d01f1e6483caa63",
+      "matched": true
+    },
+    {
+      "group": "tv-prior-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Sources/AetherAnalysis/AnalysisSHA256.swift",
+      "bytes": 3526,
+      "sha256": "122085d670b60dd96888d999e60d7c6a030b06486f8982865ff3b1a82e1d507b",
+      "matched": true
+    },
+    {
+      "group": "tv-prior-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Sources/AetherAnalysis/AnalysisSignalCoding.swift",
+      "bytes": 8048,
+      "sha256": "b20573b095fa2524a18daf687535dc1bd1b06259cab3ea5462cc1e763e429436",
+      "matched": true
+    },
+    {
+      "group": "tv-prior-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Sources/AetherAnalysis/AnalysisTimeline.swift",
+      "bytes": 13631,
+      "sha256": "dc679bb52ee3f6852017bd37d2e71f30da270949c35da1b754640b58910a89aa",
+      "matched": true
+    },
+    {
+      "group": "tv-prior-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Sources/AetherJellyfin/JellyfinRequests.swift",
+      "bytes": 19460,
+      "sha256": "58234b3452a02f21ff067d22dd5c33aafda8ecc15420699e4355a88983d708b3",
+      "matched": true
+    },
+    {
+      "group": "tv-prior-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Sources/AetherJellyfin/JellyfinResponses.swift",
+      "bytes": 21856,
+      "sha256": "5778d7286ba3c9ef83ff7206423db0970f6d722c1756e2e213f304caa90e39dd",
+      "matched": true
+    },
+    {
+      "group": "tv-prior-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Sources/AetherSupply/AnalysisSupply.swift",
+      "bytes": 34562,
+      "sha256": "75ce6aa5e9b9e06cdda93526aff95199d19284b37753926b2847b80ba62aef9a",
+      "matched": true
+    },
+    {
+      "group": "tv-prior-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Sources/AetherSupply/DocumentStore.swift",
+      "bytes": 6826,
+      "sha256": "9181da53bcd2bf550579e3bb543e566cad6e481eccadbd699810cb4e0a9b22b5",
+      "matched": true
+    },
+    {
+      "group": "tv-prior-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Tests/AetherAnalysisTests/AnalysisPlaybackSignalsTests.swift",
+      "bytes": 6222,
+      "sha256": "00fff5121be4b8345f781bb5bb19e5074f6e98be029584a736102914257dbfd8",
+      "matched": true
+    },
+    {
+      "group": "tv-prior-source",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/Tests/AetherJellyfinTests/JellyfinResponsesTests.swift",
+      "bytes": 11557,
+      "sha256": "b5586f9fddef2c636d03906f405a2cb529fb0d77e8b6b41e3279e7879ec35384",
+      "matched": true
+    },
+    {
+      "group": "tv-sdk-header",
+      "path": "/Applications/Xcode.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS26.5.sdk/System/Library/Frameworks/AVFoundation.framework/Headers/AVAssetTrack.h",
+      "bytes": 31386,
+      "sha256": "ec7e62c0407486315ec592889b5355fe8ec84d6dee08f1508669432926299cdc",
+      "matched": true
+    },
+    {
+      "group": "tv-sdk-header",
+      "path": "/Applications/Xcode.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS26.5.sdk/System/Library/Frameworks/AVFoundation.framework/Headers/AVPlayerItemTrack.h",
+      "bytes": 3771,
+      "sha256": "653c856752f75fd3b248929a0eee65b21f478c4565a05b835d6f8bac6420c29a",
+      "matched": true
+    },
+    {
+      "group": "tv-sdk-header",
+      "path": "/Applications/Xcode.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS26.5.sdk/System/Library/Frameworks/AVFoundation.framework/Headers/AVPlayerItem.h",
+      "bytes": 78315,
+      "sha256": "0be1d8d5d051b0c50a76e11e310ea43ae6c654bde23c7f2649023b01d8128386",
+      "matched": true
+    },
+    {
+      "group": "tv-sdk-header",
+      "path": "/Applications/Xcode.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS26.5.sdk/System/Library/Frameworks/AVFoundation.framework/Headers/AVAudioMix.h",
+      "bytes": 8824,
+      "sha256": "d8ecba90728704b10b1079d5fb75dd41b1cf39c488f150a59cb22674fe1b679c",
+      "matched": true
+    },
+    {
+      "group": "tv-sdk-header",
+      "path": "/Applications/Xcode.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS26.5.sdk/System/Library/Frameworks/AVFoundation.framework/Headers/AVMediaSelectionGroup.h",
+      "bytes": 19599,
+      "sha256": "ae5c280e4d1d342bba4b3eebf40487818e87753bdb79793333c4942b1b8cdb59",
+      "matched": true
+    },
+    {
+      "group": "tv-baseline-source",
+      "repository": "/Users/Marc.Bauer/Developer/aether-tv",
+      "gitCommit": "99e72a54ee0cb4b624747b35913958b941866373",
+      "path": "Sources/AetherAnalysis/AnalysisDocument.swift",
+      "bytes": 5380,
+      "sha256": "e289805701fed12c1fb8dd483cb05016d7bf1ce311831f5ce95f0418b570384c",
+      "matched": true
+    },
+    {
+      "group": "tv-baseline-source",
+      "repository": "/Users/Marc.Bauer/Developer/aether-tv",
+      "gitCommit": "99e72a54ee0cb4b624747b35913958b941866373",
+      "path": "Sources/AetherAnalysis/AnalysisDocumentDecoder.swift",
+      "bytes": 8831,
+      "sha256": "8a654cbc5167e0b91aa53b3275b1a71e948c882f84d0b5c7d6af0fd0d93ea764",
+      "matched": true
+    },
+    {
+      "group": "tv-baseline-source",
+      "repository": "/Users/Marc.Bauer/Developer/aether-tv",
+      "gitCommit": "99e72a54ee0cb4b624747b35913958b941866373",
+      "path": "Sources/AetherAnalysis/AnalysisTimeline.swift",
+      "bytes": 13018,
+      "sha256": "5f06a2675572c0be843a2f562f15c4df4c98f999389e319d60f9d76646c6acaa",
+      "matched": true
+    },
+    {
+      "group": "tv-test-log",
+      "path": "/private/tmp/aether-tv-contract-adaptation-tests-reviewed.log",
+      "bytes": 170481,
+      "sha256": "48d9897f7ab5f67c477b091c507db4484994641ebfd95aaff8f772c9ac536949",
+      "matched": true
+    },
+    {
+      "group": "tv-baseline-result",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/docs/reviews/artifacts/tv-contract-adaptation-2026-10-04/legacy-reader-results.json",
+      "bytes": 4049,
+      "sha256": "979272de68254e489c11faa2d8dcda638145f94db98a0be777a7abef586a0320",
+      "matched": true
+    },
+    {
+      "group": "review-input",
+      "path": "/Users/Marc.Bauer/Developer/Aether/docs/reviews/2026-10-04-analysis-1.2-contract-adaptation-results.md",
+      "bytes": 14208,
+      "sha256": "46efe2d49d38a377b80a8a908ce00a3772bd14c2452121c6ae57efcc0b0a3b0a",
+      "matched": true
+    },
+    {
+      "group": "review-input",
+      "path": "/Users/Marc.Bauer/Developer/Aether/docs/reviews/2026-10-04-analysis-1.2-contract-adaptation-plugin-response-prompt.md",
+      "bytes": 3539,
+      "sha256": "424eb6b9995f2e11dacc77f8403b6a81506114f2bfa2d18b7f19c4d84953c404",
+      "matched": true
+    },
+    {
+      "group": "review-input",
+      "path": "/Users/Marc.Bauer/Developer/Aether/docs/reviews/2026-10-04-analysis-1.2-legacy-semantic-findings.md",
+      "bytes": 7722,
+      "sha256": "fe9301d9ff58ee95c6b82a7a99a55115029fad52142054a47421eb1cb501849e",
+      "matched": true
+    },
+    {
+      "group": "review-input",
+      "path": "/Users/Marc.Bauer/Developer/Aether/tools/benchmarks/analysis-host-contract-artifacts.test.ts",
+      "bytes": 12332,
+      "sha256": "7dffb15ae6d7f059789f985eca7f8c17233e44cb93f602f50f35f28e33d208fd",
+      "matched": true
+    },
+    {
+      "group": "review-input",
+      "path": "/Users/Marc.Bauer/Developer/Aether/apps/desktop-web/src/analysis/draft-legacy-compatibility.test.ts",
+      "bytes": 10380,
+      "sha256": "bc7373206d821b2cee1324c83165ae47dee9245ad5d8d4e557805ce8f0171748",
+      "matched": true
+    },
+    {
+      "group": "review-input",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/docs/reviews/2026-10-04-tv-contract-adaptation-results.md",
+      "bytes": 9984,
+      "sha256": "ebcf5ef410eff201a4b80206e3fcddc2e73e51808c9baaaeea432606d91a3173",
+      "matched": true
+    },
+    {
+      "group": "review-input",
+      "path": "/Users/Marc.Bauer/Developer/aether-tv/docs/reviews/2026-10-04-tv-contract-adaptation-orchestrator-return.md",
+      "bytes": 2838,
+      "sha256": "763ae9c4b3451a9f22c6828f90a5da4e5a9bb9619d03958792afb6e1fc23fca8",
+      "matched": true
+    },
+    {
+      "group": "tail-semantic-input",
+      "path": "/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/docs/reviews/artifacts/analysis-1.2-plugin-draft/consumer-profiles/nominal-duration-real-end-full.json",
+      "bytes": 17693,
+      "sha256": "488fc382dcc194ecc0db3273897fb7ff1b02759f2dc29f2aff4bc536f84d3540",
+      "matched": true
+    },
+    {
+      "group": "transient-worker-bundle",
+      "path": "/private/tmp/aether-plugin-draft-integration-bundle/aether-analysis-draft-worker.cjs",
+      "bytes": 68508,
+      "sha256": "a9a032b295e1f39b97ab21c545c5b6043aa5149c373b6ff85f1f49b046a0d7cc",
+      "matched": true
+    }
+  ],
+  "mismatches": 0,
+  "semanticDecision": {
+    "tailLegacySilenceMeasured": true,
+    "newReadDirectionsApproved": false,
+    "nativePlayerTrackProof": false,
+    "writerOrCodecCorrectionRequired": false,
+    "tvTailWordingClarificationRequired": true
+  }
+}

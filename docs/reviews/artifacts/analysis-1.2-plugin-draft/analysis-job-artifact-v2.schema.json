@@ -1,0 +1,1488 @@
+{
+  "type": "object",
+  "properties": {
+    "artifactVersion": {
+      "const": 2
+    },
+    "kind": {
+      "const": "aether-analysis-job-artifact"
+    },
+    "mode": {
+      "enum": [
+        "full",
+        "audio-only",
+        "video-only"
+      ]
+    },
+    "algorithm": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "const": "aether-visual"
+        },
+        "version": {
+          "const": "1.2.0-draft"
+        }
+      },
+      "required": [
+        "id",
+        "version"
+      ],
+      "additionalProperties": true
+    },
+    "signalProvenance": {
+      "type": "object",
+      "properties": {
+        "visual": {
+          "type": "object",
+          "properties": {
+            "methodId": {
+              "type": "string"
+            },
+            "algorithmVersion": {
+              "type": "string"
+            },
+            "producerVersion": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            },
+            "operation": {
+              "enum": [
+                "measured",
+                "reused",
+                "transformed",
+                "unavailable"
+              ]
+            },
+            "sourceFingerprint": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            },
+            "timeTransformation": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "methodId",
+            "algorithmVersion",
+            "producerVersion",
+            "operation",
+            "sourceFingerprint"
+          ],
+          "additionalProperties": true
+        },
+        "cuts": {
+          "type": "object",
+          "properties": {
+            "methodId": {
+              "type": "string"
+            },
+            "algorithmVersion": {
+              "type": "string"
+            },
+            "producerVersion": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            },
+            "operation": {
+              "enum": [
+                "measured",
+                "reused",
+                "transformed",
+                "unavailable"
+              ]
+            },
+            "sourceFingerprint": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            },
+            "timeTransformation": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "methodId",
+            "algorithmVersion",
+            "producerVersion",
+            "operation",
+            "sourceFingerprint"
+          ],
+          "additionalProperties": true
+        },
+        "denseAudio": {
+          "type": "object",
+          "properties": {
+            "methodId": {
+              "type": "string"
+            },
+            "algorithmVersion": {
+              "type": "string"
+            },
+            "producerVersion": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            },
+            "operation": {
+              "enum": [
+                "measured",
+                "reused",
+                "transformed",
+                "unavailable"
+              ]
+            },
+            "sourceFingerprint": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            },
+            "timeTransformation": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "methodId",
+            "algorithmVersion",
+            "producerVersion",
+            "operation",
+            "sourceFingerprint"
+          ],
+          "additionalProperties": true
+        },
+        "legacyAudio": {
+          "type": "object",
+          "properties": {
+            "methodId": {
+              "type": "string"
+            },
+            "algorithmVersion": {
+              "type": "string"
+            },
+            "producerVersion": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            },
+            "operation": {
+              "enum": [
+                "measured",
+                "reused",
+                "transformed",
+                "unavailable"
+              ]
+            },
+            "sourceFingerprint": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            },
+            "timeTransformation": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "methodId",
+            "algorithmVersion",
+            "producerVersion",
+            "operation",
+            "sourceFingerprint"
+          ],
+          "additionalProperties": true
+        }
+      },
+      "required": [],
+      "additionalProperties": true
+    },
+    "representation": {
+      "type": "object",
+      "properties": {
+        "detail": {
+          "enum": [
+            "full",
+            "balanced",
+            "compact"
+          ]
+        },
+        "sourceIntervalMs": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "derived": {
+          "type": "boolean"
+        },
+        "reductionVersion": {
+          "type": "string"
+        },
+        "visualAggregation": {
+          "type": "string"
+        },
+        "denseAudioTargetIntervalMs": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "denseAudioSelection": {
+          "type": "string"
+        },
+        "denseAudioMaxGapMs": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "detail",
+        "sourceIntervalMs",
+        "derived",
+        "reductionVersion",
+        "visualAggregation"
+      ],
+      "additionalProperties": true
+    },
+    "offlinePreview": {
+      "type": "boolean"
+    },
+    "snapshot": {
+      "type": "object",
+      "properties": {
+        "itemId": {
+          "type": "string"
+        },
+        "mediaSourceId": {
+          "type": "string"
+        },
+        "sourceFingerprint": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "sourceAnalysis": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "algorithm": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "version": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "version"
+                  ],
+                  "additionalProperties": true
+                },
+                "etag": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "algorithm",
+                "etag"
+              ],
+              "additionalProperties": true
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "targetAnalysis": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "algorithm": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "version": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "version"
+                  ],
+                  "additionalProperties": true
+                },
+                "etag": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "algorithm",
+                "etag"
+              ],
+              "additionalProperties": true
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "itemId",
+        "mediaSourceId",
+        "sourceFingerprint",
+        "sourceAnalysis",
+        "targetAnalysis"
+      ],
+      "additionalProperties": true
+    },
+    "producerRevision": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "durationMs": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "mediaOriginUs": {
+      "type": "integer",
+      "minimum": -9007199254740991,
+      "maximum": 9007199254740991
+    },
+    "durationSource": {
+      "enum": [
+        "container-zero-origin",
+        "stream-start",
+        "caller-verified-player-duration",
+        "ambiguous-container"
+      ]
+    },
+    "localInputCheck": {
+      "type": "object",
+      "properties": {
+        "size": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "mtimeNs": {
+          "type": "string",
+          "pattern": "^[0-9]+$"
+        },
+        "inode": {
+          "type": "string",
+          "pattern": "^[0-9]+$"
+        },
+        "stableAtEnd": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "size",
+        "mtimeNs",
+        "inode",
+        "stableAtEnd"
+      ],
+      "additionalProperties": true
+    },
+    "audio": {
+      "type": "object",
+      "properties": {
+        "measuredFrameCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10000000
+        },
+        "audioAnalysis": {
+          "type": "object",
+          "properties": {
+            "state": {
+              "enum": [
+                "available",
+                "no-track",
+                "decode-error",
+                "unsupported",
+                "not-analyzed"
+              ]
+            },
+            "completeness": {
+              "enum": [
+                "complete",
+                "partial",
+                "absent"
+              ]
+            },
+            "referenceTrack": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "ffmpegStreamIndex": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": [
+                    "ffmpegStreamIndex"
+                  ],
+                  "additionalProperties": true
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "sampleRateHz": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "streamOffsetUs": {
+              "type": "integer"
+            },
+            "downmix": {
+              "type": "string"
+            },
+            "fftSize": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "window": {
+              "type": "string"
+            },
+            "hopSamples": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "timestampReference": {
+              "type": "string"
+            },
+            "coverage": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "startMs": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "endMs": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 9007199254740991
+                  }
+                },
+                "required": [
+                  "startMs",
+                  "endMs"
+                ],
+                "additionalProperties": true
+              },
+              "maxItems": 100000
+            },
+            "features": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 64
+            },
+            "normalization": {
+              "type": "object",
+              "properties": {
+                "raw": {
+                  "type": "string"
+                },
+                "driveProjection": {
+                  "type": "string"
+                },
+                "peakRmsLinear": {
+                  "type": "number"
+                },
+                "peakFluxLinear": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "raw",
+                "driveProjection",
+                "peakRmsLinear",
+                "peakFluxLinear"
+              ],
+              "additionalProperties": true
+            },
+            "onsetMethod": {
+              "type": "object",
+              "properties": {
+                "methodId": {
+                  "type": "string"
+                },
+                "baselineWindowMs": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 9007199254740991
+                },
+                "madMultiplier": {
+                  "type": "number"
+                },
+                "minFlux": {
+                  "type": "number"
+                },
+                "refractoryMs": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "confirmationHops": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 9007199254740991
+                },
+                "minRmsRiseFraction": {
+                  "type": "number"
+                },
+                "boundaryPolicy": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "methodId"
+              ],
+              "additionalProperties": true
+            },
+            "methods": {
+              "type": "object",
+              "properties": {
+                "methodId": {
+                  "type": "string"
+                },
+                "rms": {
+                  "type": "string"
+                },
+                "bands": {
+                  "type": "string"
+                },
+                "flux": {
+                  "type": "string"
+                },
+                "fluxBins": {
+                  "type": "string"
+                },
+                "edges": {
+                  "type": "string"
+                },
+                "gaps": {
+                  "type": "string"
+                },
+                "timestamp": {
+                  "type": "string"
+                },
+                "onsetStrength": {
+                  "type": "string"
+                },
+                "onsetStationarityGate": {
+                  "type": "string"
+                },
+                "onsetEof": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "methodId",
+                "rms",
+                "bands",
+                "flux",
+                "fluxBins",
+                "edges",
+                "gaps",
+                "timestamp"
+              ],
+              "additionalProperties": true
+            },
+            "producerVersion": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            },
+            "sourcePcm": {
+              "type": "object",
+              "properties": {
+                "firstPts": {
+                  "type": "string"
+                },
+                "ptsTimeBase": {
+                  "type": "object",
+                  "properties": {
+                    "num": {
+                      "type": "integer"
+                    },
+                    "den": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": [
+                    "num",
+                    "den"
+                  ],
+                  "additionalProperties": true
+                },
+                "mediaOriginUs": {
+                  "type": "integer"
+                },
+                "sourcePtsTimeBase": {
+                  "type": "object",
+                  "properties": {
+                    "num": {
+                      "type": "integer"
+                    },
+                    "den": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": [
+                    "num",
+                    "den"
+                  ],
+                  "additionalProperties": true
+                },
+                "quantizationToleranceSamples": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "reconciliation": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "firstPts",
+                "ptsTimeBase",
+                "mediaOriginUs",
+                "sourcePtsTimeBase",
+                "quantizationToleranceSamples",
+                "reconciliation"
+              ],
+              "additionalProperties": true
+            }
+          },
+          "required": [
+            "state",
+            "completeness"
+          ],
+          "additionalProperties": true
+        },
+        "audioOnsets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "timestampMs": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "confirmedAtMs": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "strength": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "uncertainty": {
+                "type": "object",
+                "properties": {
+                  "earliestMs": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "latestMs": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "basis": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "earliestMs",
+                  "latestMs",
+                  "basis"
+                ],
+                "additionalProperties": true
+              }
+            },
+            "required": [
+              "id",
+              "timestampMs",
+              "confirmedAtMs",
+              "strength",
+              "uncertainty"
+            ],
+            "additionalProperties": true
+          },
+          "maxItems": 1000000
+        },
+        "packedDenseAudioFrames": {
+          "$ref": "packed-dense-audio-f64.schema.json"
+        },
+        "audioFrames": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "timestampMs": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "rms": {
+                "type": "number"
+              },
+              "flux": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "timestampMs",
+              "rms",
+              "flux"
+            ],
+            "additionalProperties": true
+          },
+          "maxItems": 1000000
+        },
+        "legacyAudioAnalysis": {
+          "type": "object",
+          "properties": {
+            "state": {
+              "type": "string"
+            },
+            "completeness": {
+              "type": "string"
+            },
+            "referenceTrack": {
+              "type": "object",
+              "properties": {
+                "ffmpegStreamIndex": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                }
+              },
+              "required": [
+                "ffmpegStreamIndex"
+              ],
+              "additionalProperties": true
+            },
+            "coverage": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "startMs": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "endMs": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 9007199254740991
+                  }
+                },
+                "required": [
+                  "startMs",
+                  "endMs"
+                ],
+                "additionalProperties": true
+              }
+            },
+            "counters": {
+              "type": "object",
+              "properties": {
+                "decodedSamples": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "measuredWindows": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "zeroPaddedWindows": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "pcmBytes": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "peakBufferedPcmBytes": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                }
+              },
+              "required": [],
+              "additionalProperties": true
+            },
+            "normalization": {
+              "type": "object",
+              "properties": {
+                "peakRms": {
+                  "type": "number"
+                },
+                "peakFlux": {
+                  "type": "number"
+                },
+                "floor": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "peakRms",
+                "peakFlux",
+                "floor"
+              ],
+              "additionalProperties": true
+            },
+            "timeView": {
+              "type": "object",
+              "properties": {
+                "methodId": {
+                  "type": "string"
+                },
+                "intervalMs": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 9007199254740991
+                },
+                "samplesPerWindow": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 9007199254740991
+                },
+                "sampleRateHz": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 9007199254740991
+                },
+                "nominalGrid": {
+                  "type": "string"
+                },
+                "decodedWindowGrid": {
+                  "type": "string"
+                },
+                "firstOutputPts": {
+                  "type": "string"
+                },
+                "contiguousOutputPts": {
+                  "type": "boolean"
+                },
+                "mediaOriginUs": {
+                  "type": "integer"
+                },
+                "sourceStartUs": {
+                  "type": "integer"
+                },
+                "containerStartUs": {
+                  "type": "integer"
+                },
+                "sharedMediaGridProven": {
+                  "type": "boolean"
+                },
+                "mappingLimitation": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "methodId",
+                "intervalMs",
+                "samplesPerWindow",
+                "sampleRateHz"
+              ],
+              "additionalProperties": true
+            }
+          },
+          "required": [
+            "state",
+            "completeness"
+          ],
+          "additionalProperties": true
+        },
+        "legacyAudioProvenance": {
+          "type": "object",
+          "properties": {
+            "methodId": {
+              "type": "string"
+            },
+            "sampleRateHz": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "fftSize": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "rms": {
+              "type": "string"
+            },
+            "flux": {
+              "type": "string"
+            },
+            "fft": {
+              "type": "string"
+            },
+            "downmix": {
+              "type": "string"
+            },
+            "normalization": {
+              "type": "string"
+            },
+            "selectedStreamIndex": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "implicitDefaultStreamIndex": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "productionDefaultTrackEquivalent": {
+              "type": "boolean"
+            },
+            "defaultTrackProof": {
+              "type": "string"
+            },
+            "sourceReuse": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "methodId",
+            "sampleRateHz",
+            "fftSize"
+          ],
+          "additionalProperties": true
+        }
+      },
+      "required": [
+        "measuredFrameCount",
+        "audioAnalysis"
+      ],
+      "additionalProperties": true,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "audioAnalysis": {
+                "properties": {
+                  "state": {
+                    "const": "available"
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "packedDenseAudioFrames",
+              "audioOnsets",
+              "audioFrames",
+              "legacyAudioAnalysis",
+              "legacyAudioProvenance"
+            ]
+          }
+        },
+        {
+          "not": {
+            "required": [
+              "denseAudioFrames"
+            ]
+          }
+        }
+      ]
+    },
+    "video": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": 2
+        },
+        "algorithm": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "const": "aether-visual"
+            },
+            "version": {
+              "const": "1.2.0-draft"
+            }
+          },
+          "required": [
+            "id",
+            "version"
+          ],
+          "additionalProperties": true
+        },
+        "durationMs": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "producer": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            },
+            "sourceRevision": {
+              "type": "string"
+            },
+            "platform": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "name",
+            "version",
+            "platform"
+          ],
+          "additionalProperties": true
+        },
+        "sampling": {
+          "type": "object",
+          "properties": {
+            "intervalMs": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "frameWidth": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "frameHeight": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "colorSpace": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "intervalMs",
+            "frameWidth",
+            "frameHeight"
+          ],
+          "additionalProperties": true
+        },
+        "timebase": {
+          "type": "object",
+          "properties": {
+            "mediaOriginUs": {
+              "type": "integer"
+            },
+            "video": {
+              "type": "object",
+              "properties": {
+                "timestampBasis": {
+                  "type": "string"
+                },
+                "ptsTimeBase": {
+                  "type": "object",
+                  "properties": {
+                    "num": {
+                      "type": "integer"
+                    },
+                    "den": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": [
+                    "num",
+                    "den"
+                  ],
+                  "additionalProperties": true
+                },
+                "requestedRate": {
+                  "type": "object",
+                  "properties": {
+                    "num": {
+                      "type": "integer"
+                    },
+                    "den": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": [
+                    "num",
+                    "den"
+                  ],
+                  "additionalProperties": true
+                },
+                "sourceTimeline": {
+                  "type": "object",
+                  "properties": {
+                    "frameCount": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 86400
+                    },
+                    "firstTimestampMs": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    "lastTimestampMs": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    "firstSourcePts": {
+                      "type": "string",
+                      "pattern": "^-?[0-9]+$"
+                    },
+                    "lastSourcePts": {
+                      "type": "string",
+                      "pattern": "^-?[0-9]+$"
+                    }
+                  },
+                  "required": [
+                    "frameCount",
+                    "firstTimestampMs",
+                    "lastTimestampMs",
+                    "firstSourcePts",
+                    "lastSourcePts"
+                  ],
+                  "additionalProperties": true
+                }
+              },
+              "required": [
+                "timestampBasis"
+              ],
+              "additionalProperties": true
+            }
+          },
+          "required": [
+            "mediaOriginUs",
+            "video"
+          ],
+          "additionalProperties": true
+        },
+        "frames": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "timestampMs": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "sourcePts": {
+                "type": "string"
+              },
+              "requestedTimestampMs": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "luminance": {
+                "type": "number"
+              },
+              "contrast": {
+                "type": "number"
+              },
+              "saturation": {
+                "type": "number"
+              },
+              "motionEnergy": {
+                "type": "number"
+              },
+              "sceneCutProbability": {
+                "type": "number"
+              },
+              "palette": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "red": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 255
+                    },
+                    "green": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 255
+                    },
+                    "blue": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 255
+                    },
+                    "coverage": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "red",
+                    "green",
+                    "blue",
+                    "coverage"
+                  ],
+                  "additionalProperties": true
+                },
+                "maxItems": 64
+              },
+              "audio": {
+                "type": "object",
+                "properties": {
+                  "rms": {
+                    "type": "number"
+                  },
+                  "flux": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "rms",
+                  "flux"
+                ],
+                "additionalProperties": true
+              }
+            },
+            "required": [
+              "timestampMs"
+            ],
+            "additionalProperties": true
+          },
+          "maxItems": 86400
+        },
+        "cutAnalysis": {
+          "type": "object",
+          "properties": {
+            "state": {
+              "type": "string"
+            },
+            "completeness": {
+              "type": "string"
+            },
+            "methodId": {
+              "type": "string"
+            },
+            "confirmationFrames": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "parameters": {
+              "type": "object",
+              "properties": {},
+              "required": [],
+              "additionalProperties": true
+            },
+            "coverage": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "startMs": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "endMs": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 9007199254740991
+                  }
+                },
+                "required": [
+                  "startMs",
+                  "endMs"
+                ],
+                "additionalProperties": true
+              }
+            },
+            "pendingAtEof": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {},
+                "required": [],
+                "additionalProperties": true
+              }
+            }
+          },
+          "required": [
+            "state",
+            "completeness",
+            "methodId",
+            "coverage"
+          ],
+          "additionalProperties": true
+        },
+        "cutEvents": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {},
+            "required": [],
+            "additionalProperties": true
+          },
+          "maxItems": 1000000
+        },
+        "mediaFingerprintAtStart": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "signalProvenance": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": true
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "algorithm",
+        "durationMs",
+        "createdAt",
+        "producer",
+        "sampling",
+        "timebase",
+        "frames",
+        "cutAnalysis",
+        "cutEvents"
+      ],
+      "additionalProperties": true
+    }
+  },
+  "required": [
+    "artifactVersion",
+    "kind",
+    "mode",
+    "algorithm",
+    "signalProvenance",
+    "representation",
+    "offlinePreview",
+    "snapshot",
+    "producerRevision",
+    "createdAt",
+    "durationMs",
+    "mediaOriginUs",
+    "durationSource",
+    "localInputCheck"
+  ],
+  "additionalProperties": true,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "mode": {
+            "const": "full"
+          }
+        },
+        "required": [
+          "mode"
+        ]
+      },
+      "then": {
+        "required": [
+          "audio",
+          "video"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "mode": {
+            "const": "audio-only"
+          }
+        },
+        "required": [
+          "mode"
+        ]
+      },
+      "then": {
+        "required": [
+          "audio"
+        ],
+        "not": {
+          "required": [
+            "video"
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "mode": {
+            "const": "video-only"
+          }
+        },
+        "required": [
+          "mode"
+        ]
+      },
+      "then": {
+        "required": [
+          "video"
+        ],
+        "not": {
+          "required": [
+            "audio"
+          ]
+        }
+      }
+    }
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aether.invalid/schemas/analysis-job-artifact-v2.schema.json",
+  "title": "Aether Analysis Job Artifact v2 (draft)",
+  "description": "Descriptive structural contract for offline analysis artifacts. It types recognized metadata while retaining unknown raw producer properties. It does not replace semantic or binary validation. The plugin contextual composition profile is narrower: separate Full components, measured provenance, available complete contiguous zero-origin audio and proven legacy default track. Other structurally valid artifact states are not yet publishable by that profile."
+}

@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 2,
+  "item": {
+    "id": "11111111-1111-1111-1111-111111111111",
+    "mediaSourceId": "source-example",
+    "fingerprint": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+    "fingerprintQuality": "strong"
+  },
+  "algorithm": {
+    "id": "aether-visual",
+    "version": "1.2.0-draft"
+  },
+  "createdAt": "2026-10-03T12:00:00Z",
+  "storedAt": "2026-10-03T12:00:01Z",
+  "durationMs": 100,
+  "sampling": {
+    "intervalMs": 250,
+    "frameWidth": 480,
+    "frameHeight": 270,
+    "colorSpace": "srgb"
+  },
+  "producer": {
+    "name": "example-not-a-build",
+    "version": "draft",
+    "platform": "server"
+  },
+  "representation": {
+    "detail": "full",
+    "sourceIntervalMs": 250,
+    "derived": false,
+    "reductionVersion": "aether-reduction-2-draft",
+    "visualAggregation": "none"
+  },
+  "frames": [
+    {
+      "timestampMs": 0,
+      "sourcePts": "0",
+      "requestedTimestampMs": 0,
+      "luminance": 0.5,
+      "contrast": 0.2,
+      "saturation": 0.4,
+      "motionEnergy": 0.1,
+      "sceneCutProbability": 0.0,
+      "palette": [
+        {
+          "red": 100,
+          "green": 80,
+          "blue": 70,
+          "coverage": 1
+        }
+      ]
+    }
+  ],
+  "timebase": {
+    "mediaOriginUs": 0,
+    "video": {
+      "timestampBasis": "source-pts",
+      "ptsTimeBase": {
+        "num": 1,
+        "den": 1000
+      },
+      "requestedRate": {
+        "num": 4,
+        "den": 1
+      }
+    }
+  },
+  "audioAnalysis": {
+    "state": "no-track",
+    "completeness": "complete",
+    "referenceTrack": null
+  },
+  "cutAnalysis": {
+    "state": "not-analyzed",
+    "completeness": "absent"
+  },
+  "signalProvenance": {
+    "visual": {
+      "methodId": "visual-globals-1.1",
+      "algorithmVersion": "1.1.0",
+      "producerVersion": "example-not-a-build",
+      "operation": "measured",
+      "sourceFingerprint": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "denseAudio": {
+      "methodId": "audio-stream-probe-v1-draft",
+      "algorithmVersion": "1.2.0-draft",
+      "producerVersion": "example-not-a-build",
+      "operation": "measured",
+      "sourceFingerprint": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+    }
+  }
+}

@@ -1,6 +1,10 @@
 bin/
 obj/
 artifacts/
+!docs/reviews/artifacts/
+docs/reviews/artifacts/*
+!docs/reviews/artifacts/analysis-1.2-plugin-draft/
+!docs/reviews/artifacts/analysis-1.2-plugin-draft/**
 .idea/
 .vscode/settings.json
 *.user

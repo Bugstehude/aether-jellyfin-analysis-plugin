@@ -1,0 +1,150 @@
+{
+  "status": "small-native-mac-interop-proof-not-hardware-or-rss-acceptance",
+  "sourceRoot": "/Users/Marc.Bauer/Developer/aether-tv/Sources/AetherAnalysis",
+  "sources": [
+    {
+      "path": "Sources/AetherAnalysis/AetherAnalysis.swift",
+      "sha256": "9b989743c259bf56dacad4bca78c71cb9b819fcb0a6ac9ee17814961dc4aa804"
+    },
+    {
+      "path": "Sources/AetherAnalysis/AnalysisAudioSignals.swift",
+      "sha256": "c011216cacf90503e60dbad8108538d7e1b9844ebc315b91eeda284c4389c2be"
+    },
+    {
+      "path": "Sources/AetherAnalysis/AnalysisCutSignals.swift",
+      "sha256": "8ef494e030a42d321a2445da869afc8ea94b54a29d9753c7e23cc1493301d144"
+    },
+    {
+      "path": "Sources/AetherAnalysis/AnalysisDocument.swift",
+      "sha256": "be96245d5e4f047b93f5d1e9728158f2fd398dd7aadfc1b18ff650a9e227a14e"
+    },
+    {
+      "path": "Sources/AetherAnalysis/AnalysisDocumentCoding.swift",
+      "sha256": "bcde36dbc60a3a6c1b3dc648a96d7a6c99265142ee1391ea80c9bd44663ef7a6"
+    },
+    {
+      "path": "Sources/AetherAnalysis/AnalysisDocumentDecoder.swift",
+      "sha256": "91df7a672cb864223b227af4dd2b24f2e231f940f3a9f5d6cfe8876b86c12daa"
+    },
+    {
+      "path": "Sources/AetherAnalysis/AnalysisEventCursor.swift",
+      "sha256": "3ba79f22e15ac47a36b1dc37827fff29b1aca4c9990ec60ce5b069f1eacbc9a1"
+    },
+    {
+      "path": "Sources/AetherAnalysis/AnalysisExtensionValidation.swift",
+      "sha256": "fc7dca24af6dd7aca304f9bfa728c1411208c099ed5a0731236767cd1a5d2780"
+    },
+    {
+      "path": "Sources/AetherAnalysis/AnalysisExtensions.swift",
+      "sha256": "e3ca6809d30019bf8cff180aba4cfb6fedf992c1d05a276ba352812649610544"
+    },
+    {
+      "path": "Sources/AetherAnalysis/AnalysisPackedDenseAudioFrames.swift",
+      "sha256": "4a200e72db18be708ffed7adf6cb75a239a68234e75fdb25aeca59ff05ec63be"
+    },
+    {
+      "path": "Sources/AetherAnalysis/AnalysisSHA256.swift",
+      "sha256": "122085d670b60dd96888d999e60d7c6a030b06486f8982865ff3b1a82e1d507b"
+    },
+    {
+      "path": "Sources/AetherAnalysis/AnalysisSignalCoding.swift",
+      "sha256": "b20573b095fa2524a18daf687535dc1bd1b06259cab3ea5462cc1e763e429436"
+    },
+    {
+      "path": "Sources/AetherAnalysis/AnalysisTimeline.swift",
+      "sha256": "dc679bb52ee3f6852017bd37d2e71f30da270949c35da1b754640b58910a89aa"
+    }
+  ],
+  "results": [
+    {
+      "audioRetained": true,
+      "bytes": 19088,
+      "cutCoverageEndMs": 1520,
+      "cutsRetained": true,
+      "detail": "full",
+      "diagnostics": [],
+      "fullPeaksExact": true,
+      "fullReductionExact": true,
+      "gateDefaultOff": true,
+      "lastRepresentationFrameMs": 1520,
+      "legacyAudioFramesUnchanged": true,
+      "legacyCount": 4,
+      "legacyJsonValuesExact": true,
+      "legacyTimesMs": [
+        0,
+        500,
+        1000,
+        1500
+      ],
+      "metadataJsonValuesExact": true,
+      "opaqueJsonValuesExact": true,
+      "packedPoints": 100,
+      "sha256": "91f187ab6ee2c09fd6df45c9d4b3488ce4abed91b5d926a4f03700ca891d4b4c",
+      "sourceFrameCount": 4,
+      "sourceLastMs": 1520,
+      "timebaseRetained": true,
+      "wireChecksum": "sha256:b3e0a47ce03aa073a975f6ec446407afb17b554c0bb36d2bfabfc71cbc3a6bae",
+      "wireExact": true
+    },
+    {
+      "audioRetained": true,
+      "bytes": 15015,
+      "cutCoverageEndMs": 1520,
+      "cutsRetained": true,
+      "detail": "balanced",
+      "diagnostics": [],
+      "fullPeaksExact": true,
+      "fullReductionExact": true,
+      "gateDefaultOff": true,
+      "lastRepresentationFrameMs": 1520,
+      "legacyAudioFramesUnchanged": true,
+      "legacyCount": 4,
+      "legacyJsonValuesExact": true,
+      "legacyTimesMs": [
+        0,
+        500,
+        1000,
+        1500
+      ],
+      "metadataJsonValuesExact": true,
+      "opaqueJsonValuesExact": true,
+      "packedPoints": 40,
+      "sha256": "189f354d47f94643eeaad2d7a16e6524b3abd4d3f6979f623bf25af2a0817da0",
+      "sourceFrameCount": 4,
+      "sourceLastMs": 1520,
+      "timebaseRetained": true,
+      "wireChecksum": "sha256:ae8ae0ee95d5b9e2daecb6a9b2bb263b08ce762b96ee12283a6801a304ac8bbe",
+      "wireExact": true
+    },
+    {
+      "audioRetained": true,
+      "bytes": 12560,
+      "cutCoverageEndMs": 1520,
+      "cutsRetained": true,
+      "detail": "compact",
+      "diagnostics": [],
+      "fullPeaksExact": true,
+      "fullReductionExact": true,
+      "gateDefaultOff": true,
+      "lastRepresentationFrameMs": 1000,
+      "legacyAudioFramesUnchanged": true,
+      "legacyCount": 4,
+      "legacyJsonValuesExact": true,
+      "legacyTimesMs": [
+        0,
+        500,
+        1000,
+        1500
+      ],
+      "metadataJsonValuesExact": true,
+      "opaqueJsonValuesExact": true,
+      "packedPoints": 20,
+      "sha256": "595c82877a3ae32482e21fc1db6af9a1c1e7e6a55315df55f950d0068a8f82ed",
+      "sourceFrameCount": 4,
+      "sourceLastMs": 1520,
+      "timebaseRetained": true,
+      "wireChecksum": "sha256:84f145d2418b6472f7fd3d8ae4bd90391020ccdd10f45b92eddcf5fa0c258096",
+      "wireExact": true
+    }
+  ]
+}

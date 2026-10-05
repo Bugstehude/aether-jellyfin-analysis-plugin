@@ -6,6 +6,19 @@ using Microsoft.Extensions.Logging;
 
 namespace Jellyfin.Plugin.AetherAnalysis.Application;
 
+/// <summary>Runs a bounded analysis of one media file.</summary>
+public interface IServerAnalysisWorkerRunner
+{
+    /// <summary>Produces the canonical upload document for one local media source.</summary>
+    Task<string> AnalyzeAsync(
+        string inputPath,
+        int fps,
+        int maxWidth,
+        int ffmpegThreads,
+        IProgress<double>? progress,
+        CancellationToken cancellationToken);
+}
+
 /// <summary>
 /// Runs the vendored Node worker bundle (<c>aether-analysis-worker.cjs</c>) as a
 /// child process to produce a schema-v2 analysis document for one local media file.
@@ -15,7 +28,7 @@ namespace Jellyfin.Plugin.AetherAnalysis.Application;
 /// </summary>
 public sealed class ServerAnalysisWorkerRunner(
     IMediaEncoder mediaEncoder,
-    ILogger<ServerAnalysisWorkerRunner> logger)
+    ILogger<ServerAnalysisWorkerRunner> logger) : IServerAnalysisWorkerRunner
 {
     private const string WorkerFileName = "aether-analysis-worker.cjs";
 

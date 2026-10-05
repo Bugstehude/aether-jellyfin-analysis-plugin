@@ -1,0 +1,47 @@
+{
+  "status": "full-balanced-pass-compact-cuts-need-source-timeline-support",
+  "source": "/Users/Marc.Bauer/Developer/Aether/packages/analysis-cache/src/draft-analysis.ts",
+  "sourceSha256": "b39045ce975060688b38cfa4522bcca51a913beb49f4c91af3fb4daff9b52846",
+  "results": [
+    {
+      "detail": "full",
+      "bytes": 19088,
+      "sha256": "91f187ab6ee2c09fd6df45c9d4b3488ce4abed91b5d926a4f03700ca891d4b4c",
+      "diagnostics": [],
+      "rawExact": true,
+      "groups": [
+        "timebase",
+        "audio",
+        "cuts"
+      ]
+    },
+    {
+      "detail": "balanced",
+      "bytes": 15015,
+      "sha256": "189f354d47f94643eeaad2d7a16e6524b3abd4d3f6979f623bf25af2a0817da0",
+      "diagnostics": [],
+      "rawExact": true,
+      "groups": [
+        "timebase",
+        "audio",
+        "cuts"
+      ]
+    },
+    {
+      "detail": "compact",
+      "bytes": 12485,
+      "sha256": "4becc2d149b343db97fd432c53166d107f0dd53fa14a3cd264aa93aa8fc4d5cd",
+      "diagnostics": [
+        {
+          "group": "cuts",
+          "message": "Cut coverage extends beyond last selected PTS"
+        }
+      ],
+      "rawExact": true,
+      "groups": [
+        "timebase",
+        "audio"
+      ]
+    }
+  ]
+}

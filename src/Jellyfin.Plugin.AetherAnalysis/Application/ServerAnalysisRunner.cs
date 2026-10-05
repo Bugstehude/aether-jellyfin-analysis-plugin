@@ -2,6 +2,7 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using Jellyfin.Data.Enums;
 using Jellyfin.Plugin.AetherAnalysis.Configuration;
+using Jellyfin.Plugin.AetherAnalysis.Application.Draft;
 using Jellyfin.Plugin.AetherAnalysis.Infrastructure;
 using MediaBrowser.Controller.Entities;
 using MediaBrowser.Controller.Library;
@@ -24,14 +25,16 @@ public sealed class ServerAnalysisRunner(
     MediaFingerprintService fingerprintService,
     AnalysisRepresentationService representationService,
     AnalysisWriteCoordinator writeCoordinator,
-    ServerAnalysisWorkerRunner worker,
+    IServerAnalysisWorkerRunner worker,
     ServerAnalysisActivity activity,
-    ILogger<ServerAnalysisRunner> logger) : IDisposable
+    ILogger<ServerAnalysisRunner> logger,
+    AnalysisWorkerExecutionGate? workerExecutionGate = null,
+    DraftServerAnalysisRunner? synchronizedRunner = null) : IDisposable
 {
     private static readonly JsonSerializerOptions SerializerOptions = new(JsonSerializerDefaults.Web);
 
     // Serializes the per-source worker+store so the weak server never runs two analyses at once.
-    private readonly SemaphoreSlim _gate = new(1, 1);
+    private readonly AnalysisWorkerExecutionGate _workers = workerExecutionGate ?? new AnalysisWorkerExecutionGate();
 
     // Serializes whole background runs against each other (see AnalyzePendingAsync). Without it,
     // the scheduled task and the after-scan hook could run concurrently and each iterate the full
@@ -160,7 +163,7 @@ public sealed class ServerAnalysisRunner(
             var item = items[i];
             try
             {
-                if (!await ItemNeedsAnalysisAsync(item, cancellationToken).ConfigureAwait(false))
+                if (!await ItemNeedsAnalysisAsync(item, cancellationToken, upgradeCompatible: true).ConfigureAwait(false))
                 {
                     alreadyCurrent++;
                     activity.MarkAlreadyCurrent();
@@ -178,7 +181,7 @@ public sealed class ServerAnalysisRunner(
                     // Fortschritt INNERHALB des Items melden: bei einem langen
                     // Video stand die Anzeige sonst minutenlang still.
                     var itemProgress = new Progress<double>(activity.ReportItemProgress);
-                    var result = await AnalyzeItemAsync(item.Id, itemProgress, cancellationToken)
+                    var result = await AnalyzeItemAsync(item.Id, itemProgress, cancellationToken, upgradeCompatible: true)
                         .ConfigureAwait(false);
                     if (result.AnyStored)
                     {
@@ -258,11 +261,14 @@ public sealed class ServerAnalysisRunner(
     }
 
     /// <summary>True when the item has at least one local source lacking a current stored analysis.</summary>
-    public async Task<bool> ItemNeedsAnalysisAsync(BaseItem item, CancellationToken cancellationToken)
+    public async Task<bool> ItemNeedsAnalysisAsync(
+        BaseItem item,
+        CancellationToken cancellationToken,
+        bool upgradeCompatible = false)
     {
         foreach (var mediaSourceId in LocalSourceIds(item))
         {
-            if (await NeedsAnalysisAsync(item, mediaSourceId, cancellationToken).ConfigureAwait(false))
+            if (await NeedsAnalysisAsync(item, mediaSourceId, upgradeCompatible, cancellationToken).ConfigureAwait(false))
             {
                 return true;
             }
@@ -275,7 +281,10 @@ public sealed class ServerAnalysisRunner(
     public async Task<ItemAnalysisResult> AnalyzeItemAsync(
         Guid itemId,
         IProgress<double>? progress,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken,
+        string? mediaSourceId = null,
+        bool recalculate = false,
+        bool upgradeCompatible = false)
     {
         using var operationCancellation = CancellationTokenSource.CreateLinkedTokenSource(
             cancellationToken,
@@ -292,7 +301,9 @@ public sealed class ServerAnalysisRunner(
         activity.BeginItem(item.Id, item.Name);
         try
         {
-            var sources = LocalSources(item).ToArray();
+            var sources = LocalSources(item)
+                .Where(source => mediaSourceId is null || string.Equals(source.Id, mediaSourceId, StringComparison.OrdinalIgnoreCase))
+                .ToArray();
             var outcomes = new List<SourceAnalysisOutcome>(sources.Length);
             for (var i = 0; i < sources.Length; i++)
             {
@@ -307,7 +318,7 @@ public sealed class ServerAnalysisRunner(
                     ? null
                     : new SynchronousProgress<double>(fraction =>
                         progress.Report((index + Math.Clamp(fraction, 0, 1)) / sources.Length));
-                outcomes.Add(await AnalyzeSourceAsync(item, source, sourceProgress, operationToken).ConfigureAwait(false));
+                outcomes.Add(await AnalyzeSourceAsync(item, source, sourceProgress, recalculate, upgradeCompatible, operationToken).ConfigureAwait(false));
             }
 
             progress?.Report(1.0);
@@ -326,6 +337,8 @@ public sealed class ServerAnalysisRunner(
         BaseItem item,
         MediaSourceInfo source,
         IProgress<double>? progress,
+        bool recalculate,
+        bool upgradeCompatible,
         CancellationToken cancellationToken)
     {
         var mediaSourceId = source.Id;
@@ -334,14 +347,20 @@ public sealed class ServerAnalysisRunner(
             return new SourceAnalysisOutcome(mediaSourceId, SourceAnalysisStatus.Skipped, "no-local-source");
         }
 
-        await _gate.WaitAsync(cancellationToken).ConfigureAwait(false);
+        if (synchronizedRunner is not null)
+        {
+            return await AnalyzeSynchronizedSourceAsync(item, source, recalculate, upgradeCompatible, cancellationToken)
+                .ConfigureAwait(false);
+        }
+
+        var workerLease = await _workers.AcquireAsync(cancellationToken).ConfigureAwait(false);
         try
         {
             // A scheduled run can decide an item is stale just before an ad-hoc
             // request stores it. Re-check only after entering the shared worker
             // gate, otherwise both serialized callers still perform the same
             // hour-long analysis one after another.
-            if (!await NeedsAnalysisAsync(item, mediaSourceId, cancellationToken).ConfigureAwait(false))
+            if (!recalculate && !await NeedsAnalysisAsync(item, mediaSourceId, upgradeCompatible, cancellationToken).ConfigureAwait(false))
             {
                 return new SourceAnalysisOutcome(mediaSourceId, SourceAnalysisStatus.Skipped, "already-current");
             }
@@ -352,6 +371,7 @@ public sealed class ServerAnalysisRunner(
                 return new SourceAnalysisOutcome(mediaSourceId, SourceAnalysisStatus.Skipped, "no-local-source");
             }
 
+            using var sourceLease = await PrepareSourceAsync(media, cancellationToken).ConfigureAwait(false);
             var timeout = TimeSpan.FromMinutes(Math.Clamp(Configuration.AnalysisTimeoutMinutes, 1, 720));
             string documentJson;
             try
@@ -449,8 +469,17 @@ public sealed class ServerAnalysisRunner(
                 : (DateTimeOffset?)null;
 
             using var writeLease = await writeCoordinator.AcquireAsync(cancellationToken).ConfigureAwait(false);
+            var targetKey = new AnalysisKey(item.Id, mediaSourceId, AetherAlgorithm.Id, AetherAlgorithm.Version);
+            var targetMetadata = await repository.GetMetadataAsync([targetKey], cancellationToken).ConfigureAwait(false);
+            if (!string.Equals(targetMetadata.GetValueOrDefault(targetKey)?.Etag, sourceLease.TargetEtag, StringComparison.Ordinal))
+            {
+                return new SourceAnalysisOutcome(mediaSourceId, SourceAnalysisStatus.Skipped, "analysis-changed");
+            }
+
             var result = await repository.StoreBoundedAsync(
-                new AnalysisStoreRequest(record, [], false, EffectiveMaxStoredBytes, retentionCutoff, now),
+                new AnalysisStoreRequest(record,
+                    sourceLease.TargetEtag is null ? [] : [sourceLease.TargetEtag],
+                    sourceLease.TargetEtag is not null, EffectiveMaxStoredBytes, retentionCutoff, now),
                 cancellationToken).ConfigureAwait(false);
 
             return result switch
@@ -464,11 +493,15 @@ public sealed class ServerAnalysisRunner(
         }
         finally
         {
-            _gate.Release();
+            workerLease.Dispose();
         }
     }
 
-    private async Task<bool> NeedsAnalysisAsync(BaseItem item, string mediaSourceId, CancellationToken cancellationToken)
+    private async Task<bool> NeedsAnalysisAsync(
+        BaseItem item,
+        string mediaSourceId,
+        bool upgradeCompatible,
+        CancellationToken cancellationToken)
     {
         var media = fingerprintService.Create(item, mediaSourceId);
         if (media is null)
@@ -476,35 +509,76 @@ public sealed class ServerAnalysisRunner(
             return false;
         }
 
-        var key = new AnalysisKey(item.Id, mediaSourceId, AetherAlgorithm.Id, AetherAlgorithm.Version);
-        var record = await repository.GetAsync(key, cancellationToken).ConfigureAwait(false);
-        if (record is null || !string.Equals(record.MediaFingerprint, media.Fingerprint, StringComparison.Ordinal))
+        // The 1.2 engine must revalidate an exact target against a fresh host/probe
+        // and producer profile before reporting AlreadyCurrent to the routine.
+        if (synchronizedRunner is not null && upgradeCompatible)
         {
-            // No analysis yet, or the media changed → (re)analyze.
             return true;
         }
 
-        // Upgrade rule: a stored analysis that was NOT produced by the server (a browser
-        // precompute is visual-only) is replaced with the richer server analysis (visual +
-        // audio, globally normalized). Once every record is server-produced this is a no-op.
-        return !IsServerProduced(record);
+        return await AnalysisVersionPolicy.ReadAsync(
+            repository, media, validator, allowCompatible: !upgradeCompatible, cancellationToken)
+            .ConfigureAwait(false) is null;
     }
 
-    private static bool IsServerProduced(AnalysisRecord record)
+    private async Task<SourceAnalysisOutcome> AnalyzeSynchronizedSourceAsync(
+        BaseItem item, MediaSourceInfo source, bool recalculate, bool upgradeCompatible, CancellationToken cancellationToken)
     {
         try
         {
-            var master = CompressionCodec.Decompress(record.CompressedDocument, record.UncompressedBytes);
-            using var document = JsonDocument.Parse(master);
-            return document.RootElement.TryGetProperty("producer", out var producer)
-                && producer.TryGetProperty("platform", out var platform)
-                && string.Equals(platform.GetString(), "server", StringComparison.Ordinal);
+            if (!recalculate && !upgradeCompatible
+                && !await NeedsAnalysisAsync(item, source.Id, false, cancellationToken).ConfigureAwait(false))
+            {
+                return new SourceAnalysisOutcome(source.Id, SourceAnalysisStatus.Skipped, "already-current");
+            }
+
+            var result = recalculate
+                ? await synchronizedRunner!.AnalyzeAsync(item.Id, source.Id, cancellationToken).ConfigureAwait(false)
+                : await synchronizedRunner!.AnalyzeIfNeededAsync(item.Id, source.Id, cancellationToken).ConfigureAwait(false);
+            return result switch
+            {
+                DraftCompositionResult.Stored => new(source.Id, SourceAnalysisStatus.Created, null),
+                DraftCompositionResult.AlreadyCurrent => new(source.Id, SourceAnalysisStatus.Skipped, "already-current"),
+                DraftCompositionResult.MediaChanged => new(source.Id, SourceAnalysisStatus.Skipped, "media-changed"),
+                DraftCompositionResult.AnalysisChanged => new(source.Id, SourceAnalysisStatus.Skipped, "analysis-changed"),
+                _ => new(source.Id, SourceAnalysisStatus.Failed, "storage-limit-exceeded")
+            };
         }
-        catch (Exception exception) when (exception is InvalidDataException or JsonException)
+        catch (OperationCanceledException)
         {
-            // Unreadable stored document → treat as replaceable so a clean analysis takes over.
-            return false;
+            throw;
         }
+        catch (Exception exception) when (exception is InvalidDataException or IOException or JsonException
+            or KeyNotFoundException or InvalidOperationException)
+        {
+            logger.LogWarning("AETHER 1.2 analysis failed for item {ItemId} source {SourceId}: {FailureType}",
+                item.Id, source.Id, exception.GetType().Name);
+            return new SourceAnalysisOutcome(source.Id, SourceAnalysisStatus.Failed, "analysis-1.2-failed");
+        }
+    }
+
+    private async Task<SourceAnalysisLease> PrepareSourceAsync(MediaFingerprint media, CancellationToken cancellationToken)
+    {
+        using var writeLease = await writeCoordinator.AcquireAsync(cancellationToken).ConfigureAwait(false);
+        var targetKey = new AnalysisKey(media.ItemId, media.MediaSourceId, AetherAlgorithm.Id, AetherAlgorithm.Version);
+        var metadata = await repository.GetMetadataAsync([targetKey], cancellationToken).ConfigureAwait(false);
+        var stored = await AnalysisVersionPolicy.ReadAsync(repository, media, validator, allowCompatible: true, cancellationToken)
+            .ConfigureAwait(false);
+        IDisposable? protection = null;
+        if (stored is not null)
+        {
+            var record = stored.Record;
+            protection = writeCoordinator.Protect(new AnalysisKey(record.ItemId, record.MediaSourceId, record.AlgorithmId, record.AlgorithmVersion));
+        }
+
+        return new SourceAnalysisLease(protection, metadata.GetValueOrDefault(targetKey)?.Etag);
+    }
+
+    private sealed class SourceAnalysisLease(IDisposable? protection, string? targetEtag) : IDisposable
+    {
+        public string? TargetEtag { get; } = targetEtag;
+
+        public void Dispose() => protection?.Dispose();
     }
 
     private static IEnumerable<MediaSourceInfo> LocalSources(BaseItem item) =>

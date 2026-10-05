@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Security.Claims;
 using System.Text.Json;
 using Jellyfin.Plugin.AetherAnalysis.Application;
+using Jellyfin.Plugin.AetherAnalysis.Application.Draft;
 using Jellyfin.Plugin.AetherAnalysis.Contracts;
 using Jellyfin.Plugin.AetherAnalysis.Infrastructure;
 using MediaBrowser.Controller.Entities;
@@ -50,7 +51,14 @@ public sealed class AnalysisController(
             supportedAnalysisSchemas = new[] { 2 },
             supportedAlgorithms = new[]
             {
-                new { id = AetherAlgorithm.Id, versions = new[] { AetherAlgorithm.Version } }
+                new
+                {
+                    id = AetherAlgorithm.Id,
+                    versions = new[] { AetherAlgorithm.Version },
+                    preferredVersion = AetherAlgorithm.Version,
+                    compatibleReadVersions = AetherAlgorithm.CompatibleReadVersions,
+                    readCompatibility = AetherAlgorithm.ReadCompatibility
+                }
             },
             supportedDetailLevels = new[] { "compact", "balanced", "full" },
             limits = new
@@ -141,7 +149,12 @@ public sealed class AnalysisController(
         try
         {
             var master = CompressionCodec.Decompress(record.CompressedDocument, record.UncompressedBytes);
-            representation = representationService.Create(master, detail, record.Etag);
+            representation = record.AlgorithmId == AetherAlgorithm.Id && record.AlgorithmVersion == "1.2.0"
+                ? DraftAnalysisMasterBuilder.Create(master, detail, AbsoluteRequestSizeLimitBytes) with
+                {
+                    Etag = AnalysisRepresentationService.CreateRepresentationEtag(record.Etag, detail)
+                }
+                : representationService.Create(master, detail, record.Etag);
         }
         catch (Exception exception) when (exception is InvalidDataException or JsonException)
         {
@@ -231,6 +244,12 @@ public sealed class AnalysisController(
         if (!IsValidIdentity(mediaSourceId, algorithmId, algorithmVersion))
         {
             return ProblemResult(StatusCodes.Status400BadRequest, "invalid-identity", "Route identity is invalid.");
+        }
+
+        if (algorithmId == AetherAlgorithm.Id && algorithmVersion == "1.2.0")
+        {
+            return ProblemResult(StatusCodes.Status422UnprocessableEntity, "server-analysis-required",
+                "Version 1.2 requires fresh host-verified server analysis. Use the server analysis job endpoint.");
         }
 
         var mediaBefore = GetAccessibleMedia(itemId, mediaSourceId);
@@ -349,7 +368,7 @@ public sealed class AnalysisController(
 
     /// <summary>Requests an in-plugin server-side analysis run for one item (the AETHER "Server-Analyse" button).</summary>
     [HttpPost("items/{itemId:guid}/media-sources/{mediaSourceId}/analyze")]
-    public ActionResult RequestServerAnalysis(Guid itemId, string mediaSourceId)
+    public ActionResult RequestServerAnalysis(Guid itemId, string mediaSourceId, [FromQuery] bool recalculate = false)
     {
         ApplyCorsHeaders();
         if (!CanUpload())
@@ -367,12 +386,13 @@ public sealed class AnalysisController(
             return ProblemResult(StatusCodes.Status409Conflict, "server-analysis-disabled", "Server-side analysis is disabled.");
         }
 
-        if (GetAccessibleMedia(itemId, mediaSourceId) is null)
+        var media = GetAccessibleMedia(itemId, mediaSourceId);
+        if (media is null)
         {
             return NotFoundProblem();
         }
 
-        var status = jobQueue.Enqueue(itemId);
+        var status = jobQueue.Enqueue(itemId, media.MediaSourceId, recalculate);
         if (status is null)
         {
             Response.Headers.RetryAfter = "60";
@@ -400,12 +420,13 @@ public sealed class AnalysisController(
             return ProblemResult(StatusCodes.Status400BadRequest, "invalid-identity", "Route identity is invalid.");
         }
 
-        if (GetAccessibleMedia(itemId, mediaSourceId) is null)
+        var media = GetAccessibleMedia(itemId, mediaSourceId);
+        if (media is null)
         {
             return NotFoundProblem();
         }
 
-        var status = jobQueue.GetStatus(itemId);
+        var status = jobQueue.GetStatus(itemId, media.MediaSourceId);
         return status is null
             ? Ok(new { state = "idle", progress = 0.0 })
             : Ok(new
@@ -440,11 +461,14 @@ public sealed class AnalysisController(
                 selected.MediaSourceId,
                 selection.Algorithm.Id,
                 selection.Algorithm.Version);
-            return (Selected: selected, Media: media, Key: key);
+            return (Selected: selected, Media: media, Key: key,
+                CandidateKeys: AnalysisVersionPolicy.GetReadKeys(key, selection.AllowCompatible));
         }).ToArray();
-        var metadata = await repository.GetMetadataAsync(
-            lookups.Where(value => value.Media is not null).Select(value => value.Key).ToArray(),
-            cancellationToken).ConfigureAwait(false);
+        var visibleKeys = lookups.Where(value => value.Media is not null)
+            .SelectMany(value => value.CandidateKeys).Distinct().ToArray();
+        var metadata = visibleKeys.Length == 0
+            ? new Dictionary<AnalysisKey, AnalysisRecordMetadata>()
+            : await repository.GetMetadataAsync(visibleKeys, cancellationToken).ConfigureAwait(false);
         var items = new List<object>(lookups.Length);
         foreach (var lookup in lookups)
         {
@@ -460,7 +484,13 @@ public sealed class AnalysisController(
                 continue;
             }
 
-            if (!metadata.TryGetValue(lookup.Key, out var record))
+            var candidates = lookup.CandidateKeys
+                .Where(metadata.ContainsKey)
+                .Select(key => metadata[key])
+                .ToArray();
+            var record = AnalysisVersionPolicy.SelectMetadata(metadata, lookup.Key,
+                lookup.Media.Fingerprint, selection.AllowCompatible);
+            if (record is null && candidates.Length == 0)
             {
                 items.Add(new
                 {
@@ -469,7 +499,7 @@ public sealed class AnalysisController(
                     status = "missing"
                 });
             }
-            else if (!string.Equals(record.MediaFingerprint, lookup.Media.Fingerprint, StringComparison.Ordinal))
+            else if (record is null)
             {
                 items.Add(new
                 {
@@ -486,6 +516,7 @@ public sealed class AnalysisController(
                     itemId = selected.ItemId,
                     mediaSourceId = selected.MediaSourceId,
                     status = "available",
+                    algorithm = new { id = record.Key.AlgorithmId, version = record.Key.AlgorithmVersion },
                     createdAt = record.CreatedAt,
                     frameCount = record.FrameCount,
                     storedBytes = record.StoredBytes,
@@ -505,6 +536,11 @@ public sealed class AnalysisController(
         if (!User.IsInRole(AdministratorRole))
         {
             return ProblemResult(StatusCodes.Status403Forbidden, "forbidden", "Administrator permission required.");
+        }
+
+        if (selection?.AllowCompatible == true)
+        {
+            return ProblemResult(StatusCodes.Status400BadRequest, "invalid-request", "Compatible-version selection is not supported for deletion.");
         }
 
         if (IsOversizedBatch(selection))

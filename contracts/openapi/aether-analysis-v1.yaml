@@ -69,6 +69,11 @@ paths:
       operationId: getAetherAnalysis
       tags: [Analyses]
       summary: Retrieve a current analysis document
+      description: >-
+        Reads the exact algorithmId and algorithmVersion in the route. This operation never
+        falls back to a compatible version. Clients that need legacy data must select its actual
+        version explicitly through capabilities and use that exact route. PUT, HEAD and DELETE
+        are likewise exact-version operations.
       parameters:
         - name: If-None-Match
           in: header
@@ -106,6 +111,7 @@ paths:
       operationId: headAetherAnalysis
       tags: [Analyses]
       summary: Test whether a current analysis exists
+      description: Tests the exact route version; no compatible-version fallback is performed.
       parameters:
         - name: detail
           in: query
@@ -225,7 +231,17 @@ paths:
         vendored AETHER worker). Requires upload permission and is refused with 403
         otherwise, BEFORE anything is checked or started. The queue is bounded; once
         it is full the request is rejected with 429 and a Retry-After header rather
-        than being accepted and silently dropped.
+        than being accepted and silently dropped. By default a valid compatible legacy
+        analysis is left in place. Set recalculate=true to explicitly run a full analysis
+        for this media source only.
+      parameters:
+        - name: recalculate
+          in: query
+          required: false
+          description: Explicitly recalculate this media source even when a compatible analysis exists.
+          schema:
+            type: boolean
+            default: false
       responses:
         "202":
           description: Queued (or already queued/running); poll the status endpoint
@@ -598,6 +614,11 @@ paths:
       operationId: queryAetherAnalyses
       tags: [Analyses]
       summary: Query status for an explicit bounded item selection
+      description: >-
+        Compatible reads are opt-in through allowCompatible. The requested version is preferred;
+        only if it has no usable matching-fingerprint record may a version permitted for that
+        reader by the advertised compatibility matrix be selected. Every available result reports
+        the actual algorithm identity. This option is read-only and is not supported by delete.
       requestBody:
         required: true
         content:
@@ -640,7 +661,11 @@ paths:
               schema:
                 $ref: "#/components/schemas/BatchDeleteResult"
         "400":
-          $ref: "#/components/responses/BadRequest"
+          description: Invalid selection; allowCompatible must be false for deletion.
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
         "401":
           $ref: "#/components/responses/Unauthorized"
         "403":
@@ -809,6 +834,38 @@ components:
           type: array
           items:
             type: string
+          description: Versions currently written by the plugin.
+        preferredVersion:
+          type: string
+          description: Current version preferred for new analyses and exact reads.
+        compatibleReadVersions:
+          type: array
+          items:
+            type: string
+          description: >-
+            Earlier versions that may be returned by the batch query endpoint only when
+            allowCompatible is true when preferredVersion is requested. Values are explicit
+            allowlist entries. The readCompatibility matrix may also permit an older reader to
+            read a newer stored version.
+        readCompatibility:
+          type: array
+          description: Explicit reader-version to stored-analysis-version compatibility matrix.
+          items:
+            $ref: "#/components/schemas/AnalysisReadCompatibility"
+    AnalysisReadCompatibility:
+      type: object
+      required: [readerVersion, analysisVersions]
+      properties:
+        readerVersion:
+          type: string
+          description: Client reader version whose interpretation is covered by this entry.
+        analysisVersions:
+          type: array
+          items:
+            type: string
+          description: >-
+            Stored versions whose schema and known fields this reader can consume. Compatibility
+            does not promise mathematically identical measurements, including palette values.
     Limits:
       type: object
       required: [maxUploadBytes, maxFramesPerAnalysis, maxBatchItems]
@@ -898,6 +955,14 @@ components:
           maxItems: 200
           items:
             $ref: "#/components/schemas/ItemSelection"
+        allowCompatible:
+          type: boolean
+          default: false
+          description: >-
+            For batch status queries only, allow selecting an advertised compatible version if
+            the requested version has no matching-fingerprint record. The requested version has
+            priority. This does not change exact GET, HEAD, PUT or DELETE semantics. When a
+            compatible record is selected, ItemStatus.algorithm identifies the actual version.
     BatchStatus:
       type: object
       required: [items]
@@ -928,6 +993,9 @@ components:
           type: integer
         etag:
           type: string
+        algorithm:
+          $ref: "#/components/schemas/Algorithm"
+          description: Actual stored identity; present on every available result.
     BatchDeleteResult:
       type: object
       required: [requested, deleted, notFound]

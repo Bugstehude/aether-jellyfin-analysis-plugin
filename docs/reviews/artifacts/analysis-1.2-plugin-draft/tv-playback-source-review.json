@@ -1,0 +1,23 @@
+{
+  "status": "source-pins-verified-client-tests-reported-not-rerun",
+  "verifiedSourceFiles": 23,
+  "reportedSwiftTests": 627,
+  "reportedParserTests": 18,
+  "production": "1.1.0",
+  "draftGate": false,
+  "nativeTrackProof": "not-established",
+  "inputs": [
+    {
+      "path": "docs/reviews/2026-10-04-tv-playback-signal-integration.md",
+      "sha256": "9dbff01e5eab79ddda7d5015c7994150df27902d42c643eaa943eaadd4d9f09d"
+    },
+    {
+      "path": "docs/reviews/artifacts/tv-playback-signals-2026-10-04/source-manifest.json",
+      "sha256": "ab0f5263ae0ace7a786d7b734d2ee5a5de482af9ef362dd9bc062bfdcf618bcc"
+    },
+    {
+      "path": "docs/reviews/artifacts/tv-playback-signals-2026-10-04/validation-results.json",
+      "sha256": "ab50407b45cd4f16f0b7005ca5630d6ee1f2161331f468d7f5a61e4f9449346d"
+    }
+  ]
+}
