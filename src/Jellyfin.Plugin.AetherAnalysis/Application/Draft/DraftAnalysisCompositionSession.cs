@@ -186,7 +186,19 @@ public sealed class DraftAnalysisCompositionSession : IAsyncDisposable
             }
 
             var bytes = buffer.ToArray();
-            var artifact = DraftAnalysisArtifactValidator.Validate(bytes, Context, mode);
+            JsonElement artifact;
+            try
+            {
+                artifact = DraftAnalysisArtifactValidator.Validate(bytes, Context, mode);
+            }
+            catch (InvalidDataException exception)
+            {
+                exception.Data[DraftArtifactDiagnostics.ModeKey] = mode;
+                exception.Data[DraftArtifactDiagnostics.DataKey] =
+                    DraftArtifactDiagnostics.Describe(bytes, Context.DurationMs, mode);
+                throw;
+            }
+
             VerifySnapshot(artifact.GetProperty("snapshot"));
             cancellationToken.ThrowIfCancellationRequested();
             var path = Path.Combine(_directory, mode + ".json");
