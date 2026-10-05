@@ -17,6 +17,15 @@ public sealed class DraftServerAnalysisRunner(
     /// <summary>Cancels running experimental workers when the host shuts down.</summary>
     public void Dispose() => _lifetimeCancellation.Cancel();
 
+    /// <summary>Diagnostic description of the configured FFmpeg/FFprobe, or null while execution is disabled.</summary>
+    public async Task<DraftToolchain?> DescribeToolchainAsync(CancellationToken cancellationToken)
+    {
+        var settings = settingsProvider();
+        return settings.Enabled
+            ? await DraftToolchainProbe.DescribeAsync(settings, cancellationToken).ConfigureAwait(false)
+            : null;
+    }
+
     /// <summary>Runs two fresh Full components for one local source and atomically stores an isolated draft.</summary>
     public Task<DraftCompositionResult> AnalyzeAsync(
         Guid itemId, string mediaSourceId, CancellationToken cancellationToken, int? requestedFfmpegStreamIndex = null) =>

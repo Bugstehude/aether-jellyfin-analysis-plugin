@@ -45,6 +45,7 @@ public sealed class ServerAnalysisRunner(
     private int _disposeState;
     /// <summary>Gesetzt, sobald der Host uns abräumt — siehe Dispose.</summary>
     private volatile bool _disposed;
+    private DraftToolchain? _loggedToolchain;
 
     /// <inheritdoc />
     public void Dispose()
@@ -521,6 +522,30 @@ public sealed class ServerAnalysisRunner(
             .ConfigureAwait(false) is null;
     }
 
+    /// <summary>Records the actual binaries of a 1.2 run once per change. Never gates the analysis.</summary>
+    private async Task LogToolchainAsync(CancellationToken cancellationToken)
+    {
+        DraftToolchain? toolchain;
+        try
+        {
+            toolchain = await synchronizedRunner!.DescribeToolchainAsync(cancellationToken).ConfigureAwait(false);
+        }
+        catch (Exception exception) when (exception is not OperationCanceledException)
+        {
+            // Invalid settings surface through the analysis itself with its existing failure handling.
+            return;
+        }
+
+        if (toolchain is null || Interlocked.Exchange(ref _loggedToolchain, toolchain) == toolchain)
+        {
+            return;
+        }
+
+        logger.LogInformation(
+            "AETHER 1.2 toolchain: ffmpeg {FfmpegPath} ({FfmpegVersion}); ffprobe {FfprobePath} ({FfprobeVersion})",
+            toolchain.FfmpegPath, toolchain.FfmpegVersion, toolchain.FfprobePath, toolchain.FfprobeVersion);
+    }
+
     private async Task<SourceAnalysisOutcome> AnalyzeSynchronizedSourceAsync(
         BaseItem item, MediaSourceInfo source, bool recalculate, bool upgradeCompatible, CancellationToken cancellationToken)
     {
@@ -532,6 +557,7 @@ public sealed class ServerAnalysisRunner(
                 return new SourceAnalysisOutcome(source.Id, SourceAnalysisStatus.Skipped, "already-current");
             }
 
+            await LogToolchainAsync(cancellationToken).ConfigureAwait(false);
             var result = recalculate
                 ? await synchronizedRunner!.AnalyzeAsync(item.Id, source.Id, cancellationToken).ConfigureAwait(false)
                 : await synchronizedRunner!.AnalyzeIfNeededAsync(item.Id, source.Id, cancellationToken).ConfigureAwait(false);
