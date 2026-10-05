@@ -448,6 +448,20 @@ public sealed class DraftAnalysisCompositionTests
     }
 
     [Fact]
+    public void CutCoverageMustEndAtTheLastSelectedSourcePts()
+    {
+        // Agreed tail rule: a declared stream end is not an inspected image. Workers before
+        // Aether 3ae4964 emitted this shape for sources with a video stream duration (MP4).
+        var video = Component("video-only");
+        _ = DraftAnalysisArtifactValidator.Validate(Bytes(video), Context, "video-only");
+        var cuts = video["video"]!["cutAnalysis"]!;
+        cuts["parameters"]!["coverageEndBasis"] = "video-stream-end";
+        Assert.Throws<InvalidDataException>(() => DraftAnalysisArtifactValidator.Validate(Bytes(video), Context, "video-only"));
+        cuts["coverage"]![0]!["endMs"] = 2000;
+        Assert.Throws<InvalidDataException>(() => DraftAnalysisArtifactValidator.Validate(Bytes(video), Context, "video-only"));
+    }
+
+    [Fact]
     public void ConfirmedCutRequiresTwoActualFollowingSourceImages()
     {
         var video = Component("video-only");

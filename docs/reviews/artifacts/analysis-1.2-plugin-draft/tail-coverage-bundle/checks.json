@@ -1,0 +1,117 @@
+{
+  "date": "2026-10-05",
+  "status": "local-bundle-rebuild-and-real-offline-worker-proof-not-live-or-released",
+  "pluginBranch": "agent/analysis-1.2-second-review-followup",
+  "aetherSource": {
+    "commit": "3ae49646a643dd58dfe1087c52283497afcb6aca",
+    "branch": "agent/analysis-1.2-tail-coverage",
+    "packagesIdenticalAtBuild": true
+  },
+  "worker": {
+    "workerSha256": "a3dcfa605e0b20326ba9d7cd8ae539c1306630463ad561ff8de8192cda31827c",
+    "producerRevision": "sha256:4bcbc8808ab09df9d6bc3bab0c4a8c382e053e918704bb1551d193382eff26e0",
+    "bytes": 68524,
+    "esbuildVersion": "0.24.2",
+    "nodeVersion": "v26.9.0",
+    "reproducedTwice": true,
+    "changedSourcesVsPrevious": [
+      "packages/server-analysis-worker/src/draft-f64-spool.ts",
+      "packages/server-analysis-worker/src/draft-video.ts"
+    ],
+    "previous": {
+      "workerSha256": "567d784d809b699188861c503a6b4bc64c199d90fa2976f480a51c6756b1114c",
+      "producerRevision": "sha256:5f763e85fca83a8e14972cbd5c55ec761651d92a4d30f3d673bb2658d3cc1701",
+      "sourceCommit": "1b4ea3bfe09468e63ef6b37a5e4fada747962404"
+    }
+  },
+  "toolchain": {
+    "ffmpeg": "ffmpeg version 9.0.2 Copyright (c) 2000-2026 the FFmpeg developers",
+    "note": "Development machine, not the Jellyfin server toolchain"
+  },
+  "syntheticMedia": {
+    "recipe": "lavfi testsrc2 640x360@25 2 s, H264; sine 22050 Hz mono FLAC; second-default: two FLAC tracks, default on the second",
+    "files": {
+      "available.mkv": {
+        "bytes": 202065,
+        "sha256": "4b581571e86e0aea201d74db7dafa2eee8ea41d520006662c66810cc83fa2f80"
+      },
+      "no-track.mkv": {
+        "bytes": 184979,
+        "sha256": "2d6cd5ca6a7edb51589cd03de11187fe5a92f80709a85ef0d00a46111ff0b6e5"
+      },
+      "second-default.mkv": {
+        "bytes": 219861,
+        "sha256": "4ed279415deaab83123a748809ad011d2bbde2940d3fe10afe62ff21fd57fa39"
+      },
+      "available.mp4": {
+        "bytes": 203213,
+        "sha256": "e712d109e01d046fa4ada23a537d3099afd213905acee5f70590ef847a7c9ac7"
+      },
+      "no-track.mp4": {
+        "bytes": 185465,
+        "sha256": "7919541dbbe1daea10681d8a7e5372cddf433c52bdf878191ab61eea2ecb9983"
+      },
+      "second-default.mp4": {
+        "bytes": 221346,
+        "sha256": "3f643a081f13fc3e8db77b5a0907a57c12bd41b16e41df1c1a9ca13268768d49"
+      }
+    }
+  },
+  "realBundleHostRuns": {
+    "manifest-mkv": {
+      "sha256": "20f463d0f4a26d9a3d36a3acae4e70038676aefa2466f7dcc5346461b5e6ddba",
+      "counters": {
+        "total": "6",
+        "executed": "6",
+        "passed": "6",
+        "failed": "0",
+        "error": "0"
+      }
+    },
+    "manifest-mp4": {
+      "sha256": "4bd5963af8f5eeb8c16e5babd2c2f1e3a7152e72d0c1808d717da188fefe5f41",
+      "counters": {
+        "total": "6",
+        "executed": "6",
+        "passed": "6",
+        "failed": "0",
+        "error": "0"
+      }
+    },
+    "old-manifest-mkv": {
+      "sha256": "42b229bc6c60f9f70fdd27baf272b5f651e840c10c6601dcf119514a601e5dc8",
+      "counters": {
+        "total": "6",
+        "executed": "6",
+        "passed": "6",
+        "failed": "0",
+        "error": "0"
+      }
+    },
+    "old-manifest-mp4": {
+      "sha256": "f2095af150b5502cb75a8cb3e491d1e56257b568c646b19fccf87a3d1ccf6dd5",
+      "counters": {
+        "total": "6",
+        "executed": "6",
+        "passed": "0",
+        "failed": "6",
+        "error": "0"
+      }
+    }
+  },
+  "fullSuite": {
+    "sha256": "b25e8b23be941e6ec7dde395f41097f07a3c53b9a241da0d0747698d681c3383",
+    "counters": {
+      "total": "387",
+      "executed": "387",
+      "passed": "387",
+      "failed": "0",
+      "error": "0"
+    }
+  },
+  "checks": {
+    "dotnetFormatVerify": "passed",
+    "releaseBuild": "0 warnings, 0 errors",
+    "diffCheck": "passed"
+  }
+}

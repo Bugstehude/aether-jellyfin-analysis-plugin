@@ -99,6 +99,8 @@ public sealed class PackedDenseAudioDraftCodecTests
     [Theory]
     [InlineData("flags")]
     [InlineData("valid-samples")]
+    [InlineData("left-padding-samples")]
+    [InlineData("window-before-padding")]
     [InlineData("duplicate-time")]
     [InlineData("outside-duration")]
     [InlineData("nan")]
@@ -114,6 +116,12 @@ public sealed class PackedDenseAudioDraftCodecTests
         {
             case "flags": bytes[10] = 2; break;
             case "valid-samples": BinaryPrimitives.WriteUInt16LittleEndian(bytes.AsSpan(8), 2049); break;
+            // The golden first row starts at -1023 with exactly 1025 valid samples.
+            case "left-padding-samples": BinaryPrimitives.WriteUInt16LittleEndian(bytes.AsSpan(8), 1026); break;
+            case "window-before-padding":
+                BinaryPrimitives.WriteInt32LittleEndian(bytes.AsSpan(4), -2048);
+                BinaryPrimitives.WriteUInt16LittleEndian(bytes.AsSpan(8), 1);
+                break;
             case "duplicate-time":
                 bytes.AsSpan(0, 4).CopyTo(bytes.AsSpan(51, 4));
                 break;

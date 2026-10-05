@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="607eb1b9-26b7-474d-a488-1198b52236d7" name="@MB-JVV9WT2VJM 2026-10-05 23:08:54" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-05T23:08:54.0164140+02:00" queuing="2026-10-05T23:08:54.0164140+02:00" start="2026-10-05T23:08:52.2739900+02:00" finish="2026-10-05T23:08:57.1051690+02:00" />
+  <TestSettings name="default" id="9651449d-f1b5-4a1c-8784-d847bc26bb99">
+    <Deployment runDeploymentRoot="_MB-JVV9WT2VJM_2026-10-05_23_08_54" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="8fc9c1e7-566d-4994-bc80-e961f96aa7a3" testId="d107670a-94e7-bd84-fb59-ab893366e853" testName="Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(profile: &quot;second-default&quot;, targetVersion: &quot;1.2.0&quot;)" computerName="MB-JVV9WT2VJM" duration="00:00:01.2931360" startTime="2026-10-05T23:08:52.5854920+02:00" endTime="2026-10-05T23:08:53.8818860+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8fc9c1e7-566d-4994-bc80-e961f96aa7a3" />
+    <UnitTestResult executionId="9823cf54-2053-445a-acd5-d9a21070aea4" testId="b03b3a08-a4bd-d713-e900-25e633576761" testName="Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(profile: &quot;available&quot;, targetVersion: &quot;1.2.0&quot;)" computerName="MB-JVV9WT2VJM" duration="00:00:00.7182023" startTime="2026-10-05T23:08:53.8857650+02:00" endTime="2026-10-05T23:08:54.6003920+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9823cf54-2053-445a-acd5-d9a21070aea4" />
+    <UnitTestResult executionId="c349fce0-af07-460e-bed4-516d95455b5d" testId="488228de-ec1c-10cf-3069-1ac8655c64c3" testName="Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(profile: &quot;available&quot;, targetVersion: &quot;1.2.0-draft&quot;)" computerName="MB-JVV9WT2VJM" duration="00:00:00.6997913" startTime="2026-10-05T23:08:56.3780850+02:00" endTime="2026-10-05T23:08:57.0779080+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c349fce0-af07-460e-bed4-516d95455b5d" />
+    <UnitTestResult executionId="204818a3-e7dd-4782-a19d-1f5235aad5b5" testId="75d47d75-2f01-4d1d-dd70-8e01d1d6e9c8" testName="Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(profile: &quot;no-track&quot;, targetVersion: &quot;1.2.0-draft&quot;)" computerName="MB-JVV9WT2VJM" duration="00:00:00.5682295" startTime="2026-10-05T23:08:55.8096890+02:00" endTime="2026-10-05T23:08:56.3779570+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="204818a3-e7dd-4782-a19d-1f5235aad5b5" />
+    <UnitTestResult executionId="89876970-823d-4126-b174-e081590e644d" testId="940ac5ef-11ed-0ef6-b056-0a81646cd7b6" testName="Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(profile: &quot;no-track&quot;, targetVersion: &quot;1.2.0&quot;)" computerName="MB-JVV9WT2VJM" duration="00:00:00.5605919" startTime="2026-10-05T23:08:55.2489120+02:00" endTime="2026-10-05T23:08:55.8095400+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="89876970-823d-4126-b174-e081590e644d" />
+    <UnitTestResult executionId="4c40d2d6-a2c2-46c9-aa2f-bc0fe21d5b43" testId="3bde27f0-0355-d725-d49d-69d732c6d243" testName="Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(profile: &quot;second-default&quot;, targetVersion: &quot;1.2.0-draft&quot;)" computerName="MB-JVV9WT2VJM" duration="00:00:00.6481268" startTime="2026-10-05T23:08:54.6007950+02:00" endTime="2026-10-05T23:08:55.2487100+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4c40d2d6-a2c2-46c9-aa2f-bc0fe21d5b43" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(profile: &quot;available&quot;, targetVersion: &quot;1.2.0&quot;)" storage="/users/marc.bauer/developer/aether-jellyfin-analysis-plugin/tests/jellyfin.plugin.aetheranalysis.tests/bin/debug/net10.0/jellyfin.plugin.aetheranalysis.tests.dll" id="b03b3a08-a4bd-d713-e900-25e633576761">
+      <Execution id="9823cf54-2053-445a-acd5-d9a21070aea4" />
+      <TestMethod codeBase="/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/tests/Jellyfin.Plugin.AetherAnalysis.Tests/bin/Debug/net10.0/Jellyfin.Plugin.AetherAnalysis.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests" name="RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter" />
+    </UnitTest>
+    <UnitTest name="Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(profile: &quot;no-track&quot;, targetVersion: &quot;1.2.0&quot;)" storage="/users/marc.bauer/developer/aether-jellyfin-analysis-plugin/tests/jellyfin.plugin.aetheranalysis.tests/bin/debug/net10.0/jellyfin.plugin.aetheranalysis.tests.dll" id="940ac5ef-11ed-0ef6-b056-0a81646cd7b6">
+      <Execution id="89876970-823d-4126-b174-e081590e644d" />
+      <TestMethod codeBase="/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/tests/Jellyfin.Plugin.AetherAnalysis.Tests/bin/Debug/net10.0/Jellyfin.Plugin.AetherAnalysis.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests" name="RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter" />
+    </UnitTest>
+    <UnitTest name="Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(profile: &quot;second-default&quot;, targetVersion: &quot;1.2.0&quot;)" storage="/users/marc.bauer/developer/aether-jellyfin-analysis-plugin/tests/jellyfin.plugin.aetheranalysis.tests/bin/debug/net10.0/jellyfin.plugin.aetheranalysis.tests.dll" id="d107670a-94e7-bd84-fb59-ab893366e853">
+      <Execution id="8fc9c1e7-566d-4994-bc80-e961f96aa7a3" />
+      <TestMethod codeBase="/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/tests/Jellyfin.Plugin.AetherAnalysis.Tests/bin/Debug/net10.0/Jellyfin.Plugin.AetherAnalysis.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests" name="RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter" />
+    </UnitTest>
+    <UnitTest name="Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(profile: &quot;available&quot;, targetVersion: &quot;1.2.0-draft&quot;)" storage="/users/marc.bauer/developer/aether-jellyfin-analysis-plugin/tests/jellyfin.plugin.aetheranalysis.tests/bin/debug/net10.0/jellyfin.plugin.aetheranalysis.tests.dll" id="488228de-ec1c-10cf-3069-1ac8655c64c3">
+      <Execution id="c349fce0-af07-460e-bed4-516d95455b5d" />
+      <TestMethod codeBase="/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/tests/Jellyfin.Plugin.AetherAnalysis.Tests/bin/Debug/net10.0/Jellyfin.Plugin.AetherAnalysis.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests" name="RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter" />
+    </UnitTest>
+    <UnitTest name="Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(profile: &quot;second-default&quot;, targetVersion: &quot;1.2.0-draft&quot;)" storage="/users/marc.bauer/developer/aether-jellyfin-analysis-plugin/tests/jellyfin.plugin.aetheranalysis.tests/bin/debug/net10.0/jellyfin.plugin.aetheranalysis.tests.dll" id="3bde27f0-0355-d725-d49d-69d732c6d243">
+      <Execution id="4c40d2d6-a2c2-46c9-aa2f-bc0fe21d5b43" />
+      <TestMethod codeBase="/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/tests/Jellyfin.Plugin.AetherAnalysis.Tests/bin/Debug/net10.0/Jellyfin.Plugin.AetherAnalysis.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests" name="RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter" />
+    </UnitTest>
+    <UnitTest name="Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(profile: &quot;no-track&quot;, targetVersion: &quot;1.2.0-draft&quot;)" storage="/users/marc.bauer/developer/aether-jellyfin-analysis-plugin/tests/jellyfin.plugin.aetheranalysis.tests/bin/debug/net10.0/jellyfin.plugin.aetheranalysis.tests.dll" id="75d47d75-2f01-4d1d-dd70-8e01d1d6e9c8">
+      <Execution id="204818a3-e7dd-4782-a19d-1f5235aad5b5" />
+      <TestMethod codeBase="/Users/Marc.Bauer/Developer/aether-jellyfin-analysis-plugin/tests/Jellyfin.Plugin.AetherAnalysis.Tests/bin/Debug/net10.0/Jellyfin.Plugin.AetherAnalysis.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests" name="RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="d107670a-94e7-bd84-fb59-ab893366e853" executionId="8fc9c1e7-566d-4994-bc80-e961f96aa7a3" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b03b3a08-a4bd-d713-e900-25e633576761" executionId="9823cf54-2053-445a-acd5-d9a21070aea4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="488228de-ec1c-10cf-3069-1ac8655c64c3" executionId="c349fce0-af07-460e-bed4-516d95455b5d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="75d47d75-2f01-4d1d-dd70-8e01d1d6e9c8" executionId="204818a3-e7dd-4782-a19d-1f5235aad5b5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="940ac5ef-11ed-0ef6-b056-0a81646cd7b6" executionId="89876970-823d-4126-b174-e081590e644d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3bde27f0-0355-d725-d49d-69d732c6d243" executionId="4c40d2d6-a2c2-46c9-aa2f-bc0fe21d5b43" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Ergebnisse nicht in einer Liste" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="Alle geladenen Ergebnisse" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="6" executed="6" passed="6" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.5+1b188a7b0a (64-bit .NET 10.0.11)
+[xUnit.net 00:00:00.04]   Discovering: Jellyfin.Plugin.AetherAnalysis.Tests
+[xUnit.net 00:00:00.07]   Discovered:  Jellyfin.Plugin.AetherAnalysis.Tests
+[xUnit.net 00:00:00.08]   Starting:    Jellyfin.Plugin.AetherAnalysis.Tests
+[xUnit.net 00:00:04.59]   Finished:    Jellyfin.Plugin.AetherAnalysis.Tests
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

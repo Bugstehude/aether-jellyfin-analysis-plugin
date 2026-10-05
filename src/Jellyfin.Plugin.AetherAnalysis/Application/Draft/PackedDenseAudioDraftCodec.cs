@@ -124,7 +124,8 @@ public sealed class PackedDenseAudioDraftCodec
             if (row[10] > 1
                 || point.TimestampMs <= previousTime
                 || point.TimestampMs >= durationMs
-                || point.ValidSamples is < 1 or > 2048
+                || point.ValidSamples < 1
+                || point.ValidSamples > Math.Min(2048L, 2048L + point.WindowStartSample)
                 || !IsAmplitude(point.RmsLinear)
                 || !IsAmplitude(point.SpectralFluxLinear)
                 || !IsAmplitude(point.BassRms)

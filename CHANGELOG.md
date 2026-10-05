@@ -4,6 +4,24 @@ All notable changes to implementation and canonical contracts are recorded here.
 
 ## Unreleased
 
+## [0.4.1.0] (2026-10-05)
+
+- F64 codec decode rejects sample counts beyond the left FFT padding
+  (`validSamples <= min(2048, 2048 + windowStartSample)`), matching the Aether reader.
+- 1.2 server runs log the actual FFmpeg/FFprobe paths and `-version` lines once per change, and
+  failure warnings include fixed validator codes. `tools/capture-server-toolchain.sh` records the
+  server toolchain and can run the Aether video regression with exactly these binaries.
+- Fix 1.2 compositions for sources with a declared video stream duration (e.g. MP4). The bundled
+  worker declared `coverageEndBasis: video-stream-end`, which the host rejects. Since Aether
+  `3ae4964` cut coverage always ends at the last selected source PTS, and F64 records honour the
+  left-padding sample rule on write and read.
+- The component worker is rebuilt from Aether `5ae57ec`, which also computes the scaled frame size
+  with exact integers (854×480 is measured at 480 instead of 478 px). Such sources are now retained
+  by the routine instead of being re-measured on every run. Sources narrower than the configured
+  width keep their own width and are still re-measured each run (known limitation).
+  Worker SHA-256 `2bf65464adbd05dd38ccf558b29a0d475ab032268b57b0ec769905a5b678c02c`,
+  producer revision `sha256:49ef7d3311998f3c15fbcf616bf6a247ea9ea3c48e2596cd3b6a3f817b99c7fd`.
+
 ## [0.4.0.1] (2026-10-05)
 
 - Fix capability matrix wire keys under Jellyfin host serializers that preserve CLR property

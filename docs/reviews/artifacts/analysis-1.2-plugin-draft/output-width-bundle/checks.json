@@ -1,0 +1,153 @@
+{
+  "date": "2026-10-05",
+  "status": "local-bundle-rebuild-and-real-offline-worker-proof-not-live-or-released",
+  "aetherSource": {
+    "commit": "5ae57ec4d0f122e78094e81efe7490c97b0fc736",
+    "remoteBranch": "origin/agent/analysis-1.2-tail-coverage",
+    "remoteHead": "4a3c39385eef8dd8260a58da08d0b28a0fa3c9dd",
+    "packagesIdenticalAtBuild": true
+  },
+  "worker": {
+    "workerSha256": "2bf65464adbd05dd38ccf558b29a0d475ab032268b57b0ec769905a5b678c02c",
+    "producerRevision": "sha256:49ef7d3311998f3c15fbcf616bf6a247ea9ea3c48e2596cd3b6a3f817b99c7fd",
+    "bytes": 68743,
+    "reproducedTwice": true,
+    "changedSourcesVsPrevious": [
+      "packages/server-analysis-worker/src/draft-video.ts"
+    ],
+    "previous": {
+      "workerSha256": "a3dcfa605e0b20326ba9d7cd8ae539c1306630463ad561ff8de8192cda31827c",
+      "producerRevision": "sha256:4bcbc8808ab09df9d6bc3bab0c4a8c382e053e918704bb1551d193382eff26e0",
+      "sourceCommit": "3ae49646a643dd58dfe1087c52283497afcb6aca"
+    }
+  },
+  "syntheticMedia": "lavfi testsrc2 at 640x360, 854x480 and 320x180, 25 fps, 2 s, H264; FLAC 22050 Hz mono; MKV and MP4",
+  "realBundleHostRuns": {
+    "new-320x180-mkv": {
+      "sha256": "972d155df699341c555b8b1b5e44e08298c197cac932564f65f1b51266975a19",
+      "counters": {
+        "total": "6",
+        "executed": "6",
+        "passed": "0",
+        "failed": "6"
+      }
+    },
+    "new-320x180-mp4": {
+      "sha256": "e6e2ea794a42f641a660698fc7cd8af461c0abe2781f24c76c1d82a0a0a564e9",
+      "counters": {
+        "total": "6",
+        "executed": "6",
+        "passed": "0",
+        "failed": "6"
+      }
+    },
+    "new-640x360-mkv": {
+      "sha256": "1bce2d972c579b71f7b7b4d4e6595c857cce399821fab7e428092faa35260844",
+      "counters": {
+        "total": "6",
+        "executed": "6",
+        "passed": "6",
+        "failed": "0"
+      }
+    },
+    "new-640x360-mp4": {
+      "sha256": "59b0124364571d4a2ea8df2af6eb57122326aa61d4076eeb4379fc44bf28753c",
+      "counters": {
+        "total": "6",
+        "executed": "6",
+        "passed": "6",
+        "failed": "0"
+      }
+    },
+    "new-854x480-mkv": {
+      "sha256": "140bcc9fb616d0b51541a884acbfdc46efc7fb0f899797aa30ce3ae9a073a0c6",
+      "counters": {
+        "total": "6",
+        "executed": "6",
+        "passed": "6",
+        "failed": "0"
+      }
+    },
+    "new-854x480-mp4": {
+      "sha256": "69bec544d62d015c7311b0f1266dd6197a8ccd16b9353a23ca76598c36ca5bf9",
+      "counters": {
+        "total": "6",
+        "executed": "6",
+        "passed": "6",
+        "failed": "0"
+      }
+    },
+    "prev-320x180-mkv": {
+      "sha256": "c3c185d44049c35d634ede28af0fbdf3ffe71b70c07daff5743614e912468fce",
+      "counters": {
+        "total": "6",
+        "executed": "6",
+        "passed": "0",
+        "failed": "6"
+      }
+    },
+    "prev-320x180-mp4": {
+      "sha256": "6576596b2e5cd1d7a5a270d1debf3b5c7de5c116f8b19b6e6b40f628deb56fd3",
+      "counters": {
+        "total": "6",
+        "executed": "6",
+        "passed": "0",
+        "failed": "6"
+      }
+    },
+    "prev-640x360-mkv": {
+      "sha256": "527be7b532dce29a153bbc70f1f6044621ec9ad6ad6bc6df5cbc6b36db24ad01",
+      "counters": {
+        "total": "6",
+        "executed": "6",
+        "passed": "6",
+        "failed": "0"
+      }
+    },
+    "prev-640x360-mp4": {
+      "sha256": "c405b5c2dee9dbe3fcde2a45026c644d5edeb53e660076a98c118df8bac4cf96",
+      "counters": {
+        "total": "6",
+        "executed": "6",
+        "passed": "6",
+        "failed": "0"
+      }
+    },
+    "prev-854x480-mkv": {
+      "sha256": "b5c69eaad7e48c2b74c9b26e2d4dd5a0a3effa17a8cd679782b64b60f8aabf95",
+      "counters": {
+        "total": "6",
+        "executed": "6",
+        "passed": "0",
+        "failed": "6"
+      }
+    },
+    "prev-854x480-mp4": {
+      "sha256": "41e01b8ab7017d5e8cb728364d3d1e7ce63f73e914a6043764b552cff39f9e11",
+      "counters": {
+        "total": "6",
+        "executed": "6",
+        "passed": "0",
+        "failed": "6"
+      }
+    }
+  },
+  "interpretation": {
+    "854x480": "previous worker measures 478 px and the routine re-measures (Stored instead of AlreadyCurrent); new worker 480 px, retained",
+    "320x180": "both workers keep the narrower source width; the routine still re-measures each run (known plugin planner limitation)"
+  },
+  "fullSuite": {
+    "sha256": "13ca48ec808ed4de25ce4f80e8ae5442a465ad0362795962dad153bf47eff4c8",
+    "counters": {
+      "total": "387",
+      "executed": "387",
+      "passed": "387",
+      "failed": "0"
+    }
+  },
+  "checks": {
+    "dotnetFormatVerify": "passed",
+    "releaseBuild": "0 warnings, 0 errors",
+    "diffCheck": "passed"
+  }
+}
