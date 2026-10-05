@@ -1,4 +1,5 @@
 using System.Text;
+using Jellyfin.Plugin.AetherAnalysis.Application;
 using Jellyfin.Plugin.AetherAnalysis.Application.Draft;
 using Xunit;
 
@@ -49,5 +50,14 @@ public sealed class DraftToolchainProbeTests
         {
             directory.Delete(recursive: true);
         }
+    }
+
+    [Fact]
+    public void FailureLogsKeepValidatorCodesButNoFreeFormMessages()
+    {
+        Assert.Equal("artifact-coverageEndBasis",
+            ServerAnalysisRunner.FailureCode(new InvalidDataException("artifact-coverageEndBasis")));
+        Assert.Equal("-", ServerAnalysisRunner.FailureCode(new InvalidDataException("ffmpeg: /media/private/Film.mp4 failed")));
+        Assert.Equal("-", ServerAnalysisRunner.FailureCode(new InvalidDataException(new string('a', 81))));
     }
 }

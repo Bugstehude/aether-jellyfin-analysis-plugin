@@ -448,6 +448,20 @@ public sealed class DraftAnalysisCompositionTests
     }
 
     [Fact]
+    public void WorkerStreamEndCoverageBasisIsRejectedUntilTheTailRuleIsAgreed()
+    {
+        // The bundled worker emits this shape whenever FFprobe reports a video stream duration,
+        // e.g. for ordinary MP4 sources. The host contract accepts only the last selected PTS.
+        var video = Component("video-only");
+        _ = DraftAnalysisArtifactValidator.Validate(Bytes(video), Context, "video-only");
+        var cuts = video["video"]!["cutAnalysis"]!;
+        cuts["parameters"]!["coverageEndBasis"] = "video-stream-end";
+        Assert.Throws<InvalidDataException>(() => DraftAnalysisArtifactValidator.Validate(Bytes(video), Context, "video-only"));
+        cuts["coverage"]![0]!["endMs"] = 2000;
+        Assert.Throws<InvalidDataException>(() => DraftAnalysisArtifactValidator.Validate(Bytes(video), Context, "video-only"));
+    }
+
+    [Fact]
     public void ConfirmedCutRequiresTwoActualFollowingSourceImages()
     {
         var video = Component("video-only");

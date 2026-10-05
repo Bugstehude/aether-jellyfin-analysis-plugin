@@ -522,6 +522,14 @@ public sealed class ServerAnalysisRunner(
             .ConfigureAwait(false) is null;
     }
 
+    /// <summary>Fixed validator codes only. Free-form messages may carry stderr or private paths.</summary>
+    public static string FailureCode(Exception exception) =>
+        exception.Message.Length is > 0 and <= 80
+        && exception.Message.All(character => character is >= 'a' and <= 'z' or >= '0' and <= '9' or '-'
+            or >= 'A' and <= 'Z')
+            ? exception.Message
+            : "-";
+
     /// <summary>Records the actual binaries of a 1.2 run once per change. Never gates the analysis.</summary>
     private async Task LogToolchainAsync(CancellationToken cancellationToken)
     {
@@ -577,8 +585,8 @@ public sealed class ServerAnalysisRunner(
         catch (Exception exception) when (exception is InvalidDataException or IOException or JsonException
             or KeyNotFoundException or InvalidOperationException)
         {
-            logger.LogWarning("AETHER 1.2 analysis failed for item {ItemId} source {SourceId}: {FailureType}",
-                item.Id, source.Id, exception.GetType().Name);
+            logger.LogWarning("AETHER 1.2 analysis failed for item {ItemId} source {SourceId}: {FailureType} {FailureCode}",
+                item.Id, source.Id, exception.GetType().Name, FailureCode(exception));
             return new SourceAnalysisOutcome(source.Id, SourceAnalysisStatus.Failed, "analysis-1.2-failed");
         }
     }

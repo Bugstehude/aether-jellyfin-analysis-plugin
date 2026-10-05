@@ -4,6 +4,15 @@ All notable changes to implementation and canonical contracts are recorded here.
 
 ## Unreleased
 
+- F64 codec decode rejects sample counts beyond the left FFT padding
+  (`validSamples <= min(2048, 2048 + windowStartSample)`), matching the Aether reader.
+- 1.2 server runs log the actual FFmpeg/FFprobe paths and `-version` lines once per change, and
+  failure warnings include fixed validator codes. `tools/capture-server-toolchain.sh` records the
+  server toolchain and can run the Aether video regression with exactly these binaries.
+- Known conflict, not yet fixed: the bundled worker declares `coverageEndBasis: video-stream-end`
+  whenever FFprobe reports a video stream duration (e.g. MP4). The host accepts only
+  `last-selected-source-pts`, so such 1.2 compositions fail. Tail rule decision pending.
+
 ## [0.4.0.1] (2026-10-05)
 
 - Fix capability matrix wire keys under Jellyfin host serializers that preserve CLR property
