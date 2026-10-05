@@ -246,12 +246,19 @@ public static class DraftAnalysisArtifactValidator
         var legacy = Legacy(audio, context);
         var samples = legacy.GetProperty("counters").GetProperty("decodedSamples").GetInt64();
         Check(samples > 0 && samples <= int.MaxValue, "audio-sample-count");
+        // Both groups describe the same decoded PCM, each with its documented integer rule:
+        // dense audio rounds sample time (JavaScript Math.round), legacy floors conservatively.
+        // Neither may claim media time beyond the host duration, so both are capped there.
         var coverage = Coverage(analysis.GetProperty("coverage"), context.DurationMs);
         Check(coverage.Length == 1 && coverage[0].Start == 0
-            && coverage[0].End == Round(samples * (BigInteger)1000, 22050), "audio-unverified-coverage-profile");
-        Check(JsonElement.DeepEquals(analysis.GetProperty("coverage"), legacy.GetProperty("coverage")), "audio-legacy-coverage");
+            && coverage[0].End == Math.Min(context.DurationMs, Round(samples * (BigInteger)1000, 22050)),
+            "audio-unverified-coverage-profile");
+        var legacyCoverage = Coverage(legacy.GetProperty("coverage"), context.DurationMs);
+        var legacyEnd = Math.Min(context.DurationMs, (long)(samples * (BigInteger)1000 / 22050));
+        Check(legacyEnd > 0 && legacyCoverage.Length == 1 && legacyCoverage[0].Start == 0
+            && legacyCoverage[0].End == legacyEnd, "audio-legacy-coverage");
         var series = DecodeAudio(audio, context.DurationMs, context.MaximumDocumentBytes);
-        Check(series.Count > 0 && series.Count == (samples + 440) / 441
+        Check(series.Count > 0 && series.Count == ExpectedDenseCount(samples, context.DurationMs)
             && audio.GetProperty("measuredFrameCount").GetInt32() == series.Count, "audio-full-count");
         var normalization = analysis.GetProperty("normalization");
         Equal(normalization, "raw", "digital-full-scale-v1");
@@ -369,7 +376,10 @@ public static class DraftAnalysisArtifactValidator
         var measured = counters.GetProperty("measuredWindows").GetInt32();
         var normalization = legacy.GetProperty("normalization");
         Check(count is > 0 and <= 864000
-            && samples > 0 && measured == (samples + view.GetProperty("samplesPerWindow").GetInt32() - 1) / view.GetProperty("samplesPerWindow").GetInt32()
+            // The legacy grid has one window per started interval of host duration. Audio
+            // decoded past that grid is not measured, so the window count is capped there.
+            && samples > 0 && measured == Math.Min(count,
+                (samples + view.GetProperty("samplesPerWindow").GetInt32() - 1) / view.GetProperty("samplesPerWindow").GetInt32())
             && measured + counters.GetProperty("zeroPaddedWindows").GetInt32() == count
             && counters.GetProperty("zeroPaddedWindows").GetInt32() >= 0
             && counters.GetProperty("pcmBytes").GetInt64() == samples * 4
@@ -617,6 +627,21 @@ public static class DraftAnalysisArtifactValidator
         var result = value.GetProperty(property).GetInt64();
         Check(result is > 0 and <= int.MaxValue, "timebase-invalid");
         return result;
+    }
+
+    /// <summary>
+    /// Windows start every 441 samples at -1023. The worker keeps a window whose centre lies
+    /// before the decoded end and whose rounded centre time lies before the host duration.
+    /// </summary>
+    private static long ExpectedDenseCount(long samples, long durationMs)
+    {
+        var count = (samples + 440) / 441;
+        while (count > 0 && Round((2 * (BigInteger)((count - 1) * 441 - 1023) + 2047) * 1000, 44100) >= durationMs)
+        {
+            count--;
+        }
+
+        return count;
     }
 
     // JavaScript Math.round ties toward positive infinity, including negative PTS.

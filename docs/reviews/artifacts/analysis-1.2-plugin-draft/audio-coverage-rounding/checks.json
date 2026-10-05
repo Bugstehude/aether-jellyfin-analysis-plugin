@@ -1,0 +1,65 @@
+{
+  "date": "2026-10-05",
+  "status": "local-real-worker-host-proof-not-live",
+  "worker": "2bf65464adbd05dd38ccf558b29a0d475ab032268b57b0ec769905a5b678c02c",
+  "media": {
+    "fraction": "FLAC 22050 Hz, 41907 samples (1900.54 ms): dense rounds 1901, legacy floors 1900",
+    "overrun": "FLAC 22050 Hz, 44320 samples (2010 ms) against host duration 2000 ms"
+  },
+  "runs": {
+    "fraction-new-host-mkv.trx": {
+      "sha256": "15d940edbad3e29be825a245c7e7aae09c26b883c4c463350656fdcac18d708a",
+      "total": "6",
+      "passed": "6",
+      "failed": "0"
+    },
+    "fraction-new-host-mp4.trx": {
+      "sha256": "af0c29d2851e6d006fda8fdc1cb354c2ba1f39007a074d80d198aaa14e15ede1",
+      "total": "6",
+      "passed": "6",
+      "failed": "0"
+    },
+    "fraction-old-host-mkv.trx": {
+      "sha256": "dadcc406938bf4201645cc0a40f49116d6fd4aaf44706af62e7f1cf6277758c5",
+      "total": "6",
+      "passed": "2",
+      "failed": "4"
+    },
+    "fraction-old-host-mp4.trx": {
+      "sha256": "1d02eb92f1548e7d6eefffb070cdda6037f853a6de1e60fd4c6b27b7188ed613",
+      "total": "6",
+      "passed": "2",
+      "failed": "4"
+    },
+    "full-suite.trx": {
+      "sha256": "09404a468b1ba0283278f0f2f072d11f2a280c4f1fb9fd6a69957511225dcb85",
+      "total": "389",
+      "passed": "389",
+      "failed": "0"
+    },
+    "overrun-new-host-mkv.trx": {
+      "sha256": "e0aed4c874e244aac114b4ea2db2ce4e23687a7e9524a33e645c03c248b13058",
+      "total": "6",
+      "passed": "6",
+      "failed": "0"
+    },
+    "overrun-new-host-mp4.trx": {
+      "sha256": "0856baa351d1172eeb79224e0b4d5d805ae0d40fb4b17fc74bb0b4e4c6013377",
+      "total": "6",
+      "passed": "6",
+      "failed": "0"
+    },
+    "overrun-old-host-mkv.trx": {
+      "sha256": "dff7eaeeafd9eacb5587cee19fa210f1df9db98af8d9e3b9f7ec89db09fc389a",
+      "total": "6",
+      "passed": "2",
+      "failed": "4"
+    },
+    "overrun-old-host-mp4.trx": {
+      "sha256": "01f9800a0e4a33a9767566fe2473c9f3d0736fd9989e1c6795e9c5bc39454bff",
+      "total": "6",
+      "passed": "2",
+      "failed": "4"
+    }
+  }
+}

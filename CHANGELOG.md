@@ -4,6 +4,21 @@ All notable changes to implementation and canonical contracts are recorded here.
 
 ## Unreleased
 
+## [0.4.1.2] (2026-10-05)
+
+- Fix 1.2 host validation rejecting common real AAC/MP4 sources (first live run: several of the
+  first items). Each audio group is now checked exactly against its own documented worker rule:
+  - dense coverage ends at `min(duration, round(samples))` instead of the uncapped sample end, so
+    audio decoded a few milliseconds past the media duration is accepted
+    (`audio-unverified-coverage-profile`);
+  - legacy coverage ends at `min(duration, floor(samples))`; it no longer has to equal the dense
+    coverage, which rounds the same sample end (`audio-legacy-coverage`);
+  - the legacy window count is capped at the duration grid (`legacy-counters`), and the expected
+    dense record count excludes windows whose centre time reaches the duration.
+  No tolerance is introduced; the worker, wire contract and readers are unchanged.
+- A non-zero worker exit additionally logs the exit code and the worker's own fixed error code
+  (`{"error":"CODE"}` on stderr); all other stderr content stays out of the log.
+
 ## [0.4.1.1] (2026-10-05)
 
 - Diagnostics only: when the host rejects a 1.2 worker component, a second warning logs a

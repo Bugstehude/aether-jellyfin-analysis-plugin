@@ -141,7 +141,11 @@ public static class DraftBoundedProcess
 
                 if (process.ExitCode != 0)
                 {
-                    throw Failure("draft-process-exit");
+                    var exit = Failure("draft-process-exit");
+                    exit.Data[DraftArtifactDiagnostics.ExitCodeKey] = process.ExitCode;
+                    exit.Data[DraftArtifactDiagnostics.WorkerErrorKey] = DraftArtifactDiagnostics.WorkerErrorCode(
+                        stderrTask.IsCompletedSuccessfully ? stderrTask.Result : []);
+                    throw exit;
                 }
 
                 monitorStop.Cancel();

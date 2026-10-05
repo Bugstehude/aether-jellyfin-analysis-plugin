@@ -16,6 +16,12 @@ public static class DraftArtifactDiagnostics
     /// <summary><see cref="Exception.Data"/> key of the rejected component mode.</summary>
     public const string ModeKey = "aether.componentMode";
 
+    /// <summary><see cref="Exception.Data"/> key of the worker's own fixed error code after a non-zero exit.</summary>
+    public const string WorkerErrorKey = "aether.workerError";
+
+    /// <summary><see cref="Exception.Data"/> key of the worker process exit code.</summary>
+    public const string ExitCodeKey = "aether.workerExitCode";
+
     private const int MaximumLength = 900;
     private const int MaximumRanges = 4;
 
@@ -47,6 +53,17 @@ public static class DraftArtifactDiagnostics
         {
             return "unavailable (" + exception.GetType().Name + ")";
         }
+    }
+
+    /// <summary>
+    /// Extracts the last <c>{"error":"CODE"}</c> token a worker wrote to stderr. Any other stderr
+    /// content (paths, FFmpeg messages) is ignored. Returns "-" when no fixed code is present.
+    /// </summary>
+    public static string WorkerErrorCode(ReadOnlySpan<byte> standardError)
+    {
+        var matches = System.Text.RegularExpressions.Regex.Matches(Encoding.UTF8.GetString(standardError),
+            "\"error\"\\s*:\\s*\"([A-Za-z0-9_.-]{1,64})\"");
+        return matches.Count == 0 ? "-" : matches[^1].Groups[1].Value;
     }
 
     private static void DescribeAudio(StringBuilder text, JsonElement audio)
