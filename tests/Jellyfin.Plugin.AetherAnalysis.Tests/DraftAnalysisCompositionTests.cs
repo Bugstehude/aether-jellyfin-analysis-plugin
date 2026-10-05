@@ -308,7 +308,10 @@ public sealed class DraftAnalysisCompositionTests
             value["snapshot"] = JsonNode.Parse(session.Snapshot.GetRawText());
             value["video"]!["cutAnalysis"]!["state"] = "decode-error";
             using var stream = new MemoryStream(Bytes(value));
-            await Assert.ThrowsAsync<InvalidDataException>(() => session.StageAsync("video-only", stream, default));
+            var rejected = await Assert.ThrowsAsync<InvalidDataException>(() => session.StageAsync("video-only", stream, default));
+            Assert.Equal("video-only", rejected.Data[DraftArtifactDiagnostics.ModeKey]);
+            Assert.Contains("coverageEndBasis=last-selected-source-pts",
+                Assert.IsType<string>(rejected.Data[DraftArtifactDiagnostics.DataKey]), StringComparison.Ordinal);
         }
 
         Assert.Empty(fixture.Writes.ProtectedKeys);
@@ -459,6 +462,27 @@ public sealed class DraftAnalysisCompositionTests
         Assert.Throws<InvalidDataException>(() => DraftAnalysisArtifactValidator.Validate(Bytes(video), Context, "video-only"));
         cuts["coverage"]![0]!["endMs"] = 2000;
         Assert.Throws<InvalidDataException>(() => DraftAnalysisArtifactValidator.Validate(Bytes(video), Context, "video-only"));
+    }
+
+    [Fact]
+    public void RejectedAudioComponentDiagnosticsShowTimingWithoutFreeText()
+    {
+        var audio = Component("audio-only");
+        var analysis = audio["audio"]!["audioAnalysis"]!;
+        analysis["coverage"]![0]!["startMs"] = 21;
+        analysis["errorCode"] = "/mnt/private media/title.mp4";
+        var bytes = Bytes(audio);
+        var code = Assert.Throws<InvalidDataException>(() => DraftAnalysisArtifactValidator.Validate(bytes, Context, "audio-only")).Message;
+        Assert.StartsWith("audio-", code, StringComparison.Ordinal);
+
+        var diagnostics = DraftArtifactDiagnostics.Describe(bytes, Context.DurationMs, "audio-only");
+        Assert.Contains("hostDurationMs=" + Context.DurationMs.ToString(System.Globalization.CultureInfo.InvariantCulture), diagnostics, StringComparison.Ordinal);
+        Assert.Contains("coverage=[21-", diagnostics, StringComparison.Ordinal);
+        Assert.Contains("legacyCoverage=[0-", diagnostics, StringComparison.Ordinal);
+        Assert.Contains("samplesEndMs=", diagnostics, StringComparison.Ordinal);
+        Assert.Contains("errorCode=?", diagnostics, StringComparison.Ordinal);
+        Assert.DoesNotContain("mnt", diagnostics, StringComparison.Ordinal);
+        Assert.StartsWith("unavailable (", DraftArtifactDiagnostics.Describe("not json"u8, 1, "audio-only"), StringComparison.Ordinal);
     }
 
     [Fact]

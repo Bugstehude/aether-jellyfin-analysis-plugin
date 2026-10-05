@@ -587,6 +587,11 @@ public sealed class ServerAnalysisRunner(
         {
             logger.LogWarning("AETHER 1.2 analysis failed for item {ItemId} source {SourceId}: {FailureType} {FailureCode}",
                 item.Id, source.Id, exception.GetType().Name, FailureCode(exception));
+            if (exception.Data[DraftArtifactDiagnostics.DataKey] is string diagnostics)
+            {
+                logger.LogWarning("AETHER 1.2 diagnostics for item {ItemId} source {SourceId} ({Mode}): {Diagnostics}",
+                    item.Id, source.Id, exception.Data[DraftArtifactDiagnostics.ModeKey] as string ?? "-", diagnostics);
+            }
             return new SourceAnalysisOutcome(source.Id, SourceAnalysisStatus.Failed, "analysis-1.2-failed");
         }
     }

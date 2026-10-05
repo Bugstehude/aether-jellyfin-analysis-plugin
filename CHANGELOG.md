@@ -4,6 +4,14 @@ All notable changes to implementation and canonical contracts are recorded here.
 
 ## Unreleased
 
+## [0.4.1.1] (2026-10-05)
+
+- Diagnostics only: when the host rejects a 1.2 worker component, a second warning logs a
+  bounded timing summary (host and component duration, audio and legacy coverage, decoded sample
+  end, PCM origin, legacy clock, cut coverage). Only numbers and fixed identifiers are logged;
+  free text is masked. Analysis behaviour and validation are unchanged. First live run showed
+  `audio-unverified-coverage-profile` and `audio-legacy-coverage` rejections on real AAC/MP4 sources.
+
 ## [0.4.1.0] (2026-10-05)
 
 - F64 codec decode rejects sample counts beyond the left FFT padding
