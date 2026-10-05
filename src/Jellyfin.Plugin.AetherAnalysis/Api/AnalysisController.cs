@@ -57,7 +57,13 @@ public sealed class AnalysisController(
                     versions = new[] { AetherAlgorithm.Version },
                     preferredVersion = AetherAlgorithm.Version,
                     compatibleReadVersions = AetherAlgorithm.CompatibleReadVersions,
-                    readCompatibility = AetherAlgorithm.ReadCompatibility
+                    // Jellyfin's host serializer may preserve CLR property casing.
+                    // Wire keys must not depend on a host naming policy.
+                    readCompatibility = AetherAlgorithm.ReadCompatibility.Select(value => new
+                    {
+                        readerVersion = value.ReaderVersion,
+                        analysisVersions = value.AnalysisVersions
+                    }).ToArray()
                 }
             },
             supportedDetailLevels = new[] { "compact", "balanced", "full" },

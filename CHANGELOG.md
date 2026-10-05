@@ -4,6 +4,12 @@ All notable changes to implementation and canonical contracts are recorded here.
 
 ## Unreleased
 
+## [0.4.0.1] (2026-10-05)
+
+- Fix capability matrix wire keys under Jellyfin host serializers that preserve CLR property
+  names. Real 12.1 first-use inspection found PascalCase rows despite the negotiated camelCase
+  contract. A serializer-independent test now protects the runtime response.
+
 ## [0.4.0.0] (2026-10-05)
 
 - First released `aether-visual/1.2.0` server composition from fresh, host-verified audio and

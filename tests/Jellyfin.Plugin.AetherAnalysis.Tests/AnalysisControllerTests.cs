@@ -568,6 +568,10 @@ public sealed class AnalysisControllerTests
         Assert.NotEmpty(Assert.IsAssignableFrom<IEnumerable<object>>(Property(algorithm, "readCompatibility")));
         Assert.DoesNotContain(AetherAlgorithm.ReadCompatibility.Where(row => row.ReaderVersion != "1.2.0"),
             row => row.AnalysisVersions.Contains("1.2.0"));
+        using var hostJson = JsonDocument.Parse(JsonSerializer.Serialize(body));
+        var wireRows = hostJson.RootElement.GetProperty("supportedAlgorithms")[0].GetProperty("readCompatibility");
+        Assert.Equal("1.2.0", wireRows[0].GetProperty("readerVersion").GetString());
+        Assert.Equal("1.2.0", wireRows[0].GetProperty("analysisVersions")[0].GetString());
     }
 
     [Theory]
