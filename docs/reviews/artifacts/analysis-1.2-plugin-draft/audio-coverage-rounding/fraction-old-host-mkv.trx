@@ -1,0 +1,190 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="2af5b2e2-3c81-4a09-b387-c2a0b7490d98" name="@MB-JVV9WT2VJM 2026-10-05 23:42:16" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-05T23:42:16.3709160+02:00" queuing="2026-10-05T23:42:16.3709160+02:00" start="2026-10-05T23:42:14.6856510+02:00" finish="2026-10-05T23:42:18.4884630+02:00" />
+  <TestSettings name="default" id="1267d363-921a-409e-a74d-8f22386a03a6">
+    <Deployment runDeploymentRoot="_MB-JVV9WT2VJM_2026-10-05_23_42_16" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="64ec4bea-eb9d-4276-b4d0-c79d2a197668" testId="940ac5ef-11ed-0ef6-b056-0a81646cd7b6" testName="Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(profile: &quot;no-track&quot;, targetVersion: &quot;1.2.0&quot;)" computerName="MB-JVV9WT2VJM" duration="00:00:00.5966078" startTime="2026-10-05T23:42:16.9509630+02:00" endTime="2026-10-05T23:42:17.5476170+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="64ec4bea-eb9d-4276-b4d0-c79d2a197668" />
+    <UnitTestResult executionId="cc903895-705e-43c6-b266-5184e44c3f4f" testId="75d47d75-2f01-4d1d-dd70-8e01d1d6e9c8" testName="Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(profile: &quot;no-track&quot;, targetVersion: &quot;1.2.0-draft&quot;)" computerName="MB-JVV9WT2VJM" duration="00:00:00.5655141" startTime="2026-10-05T23:42:17.5480600+02:00" endTime="2026-10-05T23:42:18.1129890+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="cc903895-705e-43c6-b266-5184e44c3f4f" />
+    <UnitTestResult executionId="2ddb0014-760f-40d4-9d72-105c5c358b1f" testId="d107670a-94e7-bd84-fb59-ab893366e853" testName="Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(profile: &quot;second-default&quot;, targetVersion: &quot;1.2.0&quot;)" computerName="MB-JVV9WT2VJM" duration="00:00:01.1993232" startTime="2026-10-05T23:42:14.9674380+02:00" endTime="2026-10-05T23:42:16.1729170+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2ddb0014-760f-40d4-9d72-105c5c358b1f">
+      <Output>
+        <ErrorInfo>
+          <Message>System.IO.InvalidDataException : audio-legacy-coverage</Message>
+          <StackTrace>   at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftAnalysisArtifactValidator.Check(Boolean condition, String error)
+   at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftAnalysisArtifactValidator.Audio(JsonElement audio, JsonElement representation, JsonElement provenance, DraftArtifactContext context, String revision)
+   at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftAnalysisArtifactValidator.Validate(ReadOnlyMemory`1 json, DraftArtifactContext context, String expectedMode)
+   at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftAnalysisCompositionSession.StageAsync(String mode, Stream input, CancellationToken cancellationToken)
+   at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftServerAnalysisRunner.AnalyzeCoreAsync(Guid itemId, String mediaSourceId, Nullable`1 requestedFfmpegStreamIndex, Boolean recalculate, CancellationToken cancellationToken)
+   at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftServerAnalysisRunner.AnalyzeCoreAsync(Guid itemId, String mediaSourceId, Nullable`1 requestedFfmpegStreamIndex, Boolean recalculate, CancellationToken cancellationToken)
+   at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftServerAnalysisRunner.AnalyzeCoreAsync(Guid itemId, String mediaSourceId, Nullable`1 requestedFfmpegStreamIndex, Boolean recalculate, CancellationToken cancellationToken)
+   at Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(String profile, String targetVersion) in /private/tmp/claude-501/-Users-Marc-Bauer-Developer-aether-jellyfin-analysis-plugin/61a4b61b-0cfc-4ec1-a587-c23f101e2b45/scratchpad/wt-main/tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftServerAnalysisRunnerTests.cs:line 476
+   at Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(String profile, String targetVersion) in /private/tmp/claude-501/-Users-Marc-Bauer-Developer-aether-jellyfin-analysis-plugin/61a4b61b-0cfc-4ec1-a587-c23f101e2b45/scratchpad/wt-main/tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftServerAnalysisRunnerTests.cs:line 499
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="e958a9c1-7e4d-4677-a22c-fe5b5880e86d" testId="b03b3a08-a4bd-d713-e900-25e633576761" testName="Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(profile: &quot;available&quot;, targetVersion: &quot;1.2.0&quot;)" computerName="MB-JVV9WT2VJM" duration="00:00:00.3871651" startTime="2026-10-05T23:42:16.1782710+02:00" endTime="2026-10-05T23:42:16.5606090+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e958a9c1-7e4d-4677-a22c-fe5b5880e86d">
+      <Output>
+        <ErrorInfo>
+          <Message>System.IO.InvalidDataException : audio-legacy-coverage</Message>
+          <StackTrace>   at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftAnalysisArtifactValidator.Check(Boolean condition, String error)
+   at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftAnalysisArtifactValidator.Audio(JsonElement audio, JsonElement representation, JsonElement provenance, DraftArtifactContext context, String revision)
+   at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftAnalysisArtifactValidator.Validate(ReadOnlyMemory`1 json, DraftArtifactContext context, String expectedMode)
+   at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftAnalysisCompositionSession.StageAsync(String mode, Stream input, CancellationToken cancellationToken)
+   at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftServerAnalysisRunner.AnalyzeCoreAsync(Guid itemId, String mediaSourceId, Nullable`1 requestedFfmpegStreamIndex, Boolean recalculate, CancellationToken cancellationToken)
+   at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftServerAnalysisRunner.AnalyzeCoreAsync(Guid itemId, String mediaSourceId, Nullable`1 requestedFfmpegStreamIndex, Boolean recalculate, CancellationToken cancellationToken)
+   at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftServerAnalysisRunner.AnalyzeCoreAsync(Guid itemId, String mediaSourceId, Nullable`1 requestedFfmpegStreamIndex, Boolean recalculate, CancellationToken cancellationToken)
+   at Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(String profile, String targetVersion) in /private/tmp/claude-501/-Users-Marc-Bauer-Developer-aether-jellyfin-analysis-plugin/61a4b61b-0cfc-4ec1-a587-c23f101e2b45/scratchpad/wt-main/tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftServerAnalysisRunnerTests.cs:line 476
+   at Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(String profile, String targetVersion) in /private/tmp/claude-501/-Users-Marc-Bauer-Developer-aether-jellyfin-analysis-plugin/61a4b61b-0cfc-4ec1-a587-c23f101e2b45/scratchpad/wt-main/tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftServerAnalysisRunnerTests.cs:line 499
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="71b7d0cc-33e4-4d97-9948-78a3f0497852" testId="488228de-ec1c-10cf-3069-1ac8655c64c3" testName="Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(profile: &quot;available&quot;, targetVersion: &quot;1.2.0-draft&quot;)" computerName="MB-JVV9WT2VJM" duration="00:00:00.3504766" startTime="2026-10-05T23:42:18.1131130+02:00" endTime="2026-10-05T23:42:18.4638740+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="71b7d0cc-33e4-4d97-9948-78a3f0497852">
+      <Output>
+        <ErrorInfo>
+          <Message>System.IO.InvalidDataException : audio-legacy-coverage</Message>
+          <StackTrace>   at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftAnalysisArtifactValidator.Check(Boolean condition, String error)
+   at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftAnalysisArtifactValidator.Audio(JsonElement audio, JsonElement representation, JsonElement provenance, DraftArtifactContext context, String revision)
+   at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftAnalysisArtifactValidator.Validate(ReadOnlyMemory`1 json, DraftArtifactContext context, String expectedMode)
+   at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftAnalysisCompositionSession.StageAsync(String mode, Stream input, CancellationToken cancellationToken)
+   at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftServerAnalysisRunner.AnalyzeCoreAsync(Guid itemId, String mediaSourceId, Nullable`1 requestedFfmpegStreamIndex, Boolean recalculate, CancellationToken cancellationToken)
+   at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftServerAnalysisRunner.AnalyzeCoreAsync(Guid itemId, String mediaSourceId, Nullable`1 requestedFfmpegStreamIndex, Boolean recalculate, CancellationToken cancellationToken)
+   at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftServerAnalysisRunner.AnalyzeCoreAsync(Guid itemId, String mediaSourceId, Nullable`1 requestedFfmpegStreamIndex, Boolean recalculate, CancellationToken cancellationToken)
+   at Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(String profile, String targetVersion) in /private/tmp/claude-501/-Users-Marc-Bauer-Developer-aether-jellyfin-analysis-plugin/61a4b61b-0cfc-4ec1-a587-c23f101e2b45/scratchpad/wt-main/tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftServerAnalysisRunnerTests.cs:line 476
+   at Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(String profile, String targetVersion) in /private/tmp/claude-501/-Users-Marc-Bauer-Developer-aether-jellyfin-analysis-plugin/61a4b61b-0cfc-4ec1-a587-c23f101e2b45/scratchpad/wt-main/tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftServerAnalysisRunnerTests.cs:line 499
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="ed466c0f-1bd7-4a74-b0e6-6f37ff308a23" testId="3bde27f0-0355-d725-d49d-69d732c6d243" testName="Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(profile: &quot;second-default&quot;, targetVersion: &quot;1.2.0-draft&quot;)" computerName="MB-JVV9WT2VJM" duration="00:00:00.3893549" startTime="2026-10-05T23:42:16.5614110+02:00" endTime="2026-10-05T23:42:16.9504040+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ed466c0f-1bd7-4a74-b0e6-6f37ff308a23">
+      <Output>
+        <ErrorInfo>
+          <Message>System.IO.InvalidDataException : audio-legacy-coverage</Message>
+          <StackTrace>   at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftAnalysisArtifactValidator.Check(Boolean condition, String error)
+   at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftAnalysisArtifactValidator.Audio(JsonElement audio, JsonElement representation, JsonElement provenance, DraftArtifactContext context, String revision)
+   at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftAnalysisArtifactValidator.Validate(ReadOnlyMemory`1 json, DraftArtifactContext context, String expectedMode)
+   at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftAnalysisCompositionSession.StageAsync(String mode, Stream input, CancellationToken cancellationToken)
+   at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftServerAnalysisRunner.AnalyzeCoreAsync(Guid itemId, String mediaSourceId, Nullable`1 requestedFfmpegStreamIndex, Boolean recalculate, CancellationToken cancellationToken)
+   at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftServerAnalysisRunner.AnalyzeCoreAsync(Guid itemId, String mediaSourceId, Nullable`1 requestedFfmpegStreamIndex, Boolean recalculate, CancellationToken cancellationToken)
+   at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftServerAnalysisRunner.AnalyzeCoreAsync(Guid itemId, String mediaSourceId, Nullable`1 requestedFfmpegStreamIndex, Boolean recalculate, CancellationToken cancellationToken)
+   at Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(String profile, String targetVersion) in /private/tmp/claude-501/-Users-Marc-Bauer-Developer-aether-jellyfin-analysis-plugin/61a4b61b-0cfc-4ec1-a587-c23f101e2b45/scratchpad/wt-main/tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftServerAnalysisRunnerTests.cs:line 476
+   at Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(String profile, String targetVersion) in /private/tmp/claude-501/-Users-Marc-Bauer-Developer-aether-jellyfin-analysis-plugin/61a4b61b-0cfc-4ec1-a587-c23f101e2b45/scratchpad/wt-main/tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftServerAnalysisRunnerTests.cs:line 499
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(profile: &quot;available&quot;, targetVersion: &quot;1.2.0&quot;)" storage="/private/tmp/claude-501/-users-marc-bauer-developer-aether-jellyfin-analysis-plugin/61a4b61b-0cfc-4ec1-a587-c23f101e2b45/scratchpad/wt-main/tests/jellyfin.plugin.aetheranalysis.tests/bin/debug/net10.0/jellyfin.plugin.aetheranalysis.tests.dll" id="b03b3a08-a4bd-d713-e900-25e633576761">
+      <Execution id="e958a9c1-7e4d-4677-a22c-fe5b5880e86d" />
+      <TestMethod codeBase="/private/tmp/claude-501/-Users-Marc-Bauer-Developer-aether-jellyfin-analysis-plugin/61a4b61b-0cfc-4ec1-a587-c23f101e2b45/scratchpad/wt-main/tests/Jellyfin.Plugin.AetherAnalysis.Tests/bin/Debug/net10.0/Jellyfin.Plugin.AetherAnalysis.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests" name="RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter" />
+    </UnitTest>
+    <UnitTest name="Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(profile: &quot;no-track&quot;, targetVersion: &quot;1.2.0&quot;)" storage="/private/tmp/claude-501/-users-marc-bauer-developer-aether-jellyfin-analysis-plugin/61a4b61b-0cfc-4ec1-a587-c23f101e2b45/scratchpad/wt-main/tests/jellyfin.plugin.aetheranalysis.tests/bin/debug/net10.0/jellyfin.plugin.aetheranalysis.tests.dll" id="940ac5ef-11ed-0ef6-b056-0a81646cd7b6">
+      <Execution id="64ec4bea-eb9d-4276-b4d0-c79d2a197668" />
+      <TestMethod codeBase="/private/tmp/claude-501/-Users-Marc-Bauer-Developer-aether-jellyfin-analysis-plugin/61a4b61b-0cfc-4ec1-a587-c23f101e2b45/scratchpad/wt-main/tests/Jellyfin.Plugin.AetherAnalysis.Tests/bin/Debug/net10.0/Jellyfin.Plugin.AetherAnalysis.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests" name="RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter" />
+    </UnitTest>
+    <UnitTest name="Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(profile: &quot;second-default&quot;, targetVersion: &quot;1.2.0&quot;)" storage="/private/tmp/claude-501/-users-marc-bauer-developer-aether-jellyfin-analysis-plugin/61a4b61b-0cfc-4ec1-a587-c23f101e2b45/scratchpad/wt-main/tests/jellyfin.plugin.aetheranalysis.tests/bin/debug/net10.0/jellyfin.plugin.aetheranalysis.tests.dll" id="d107670a-94e7-bd84-fb59-ab893366e853">
+      <Execution id="2ddb0014-760f-40d4-9d72-105c5c358b1f" />
+      <TestMethod codeBase="/private/tmp/claude-501/-Users-Marc-Bauer-Developer-aether-jellyfin-analysis-plugin/61a4b61b-0cfc-4ec1-a587-c23f101e2b45/scratchpad/wt-main/tests/Jellyfin.Plugin.AetherAnalysis.Tests/bin/Debug/net10.0/Jellyfin.Plugin.AetherAnalysis.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests" name="RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter" />
+    </UnitTest>
+    <UnitTest name="Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(profile: &quot;available&quot;, targetVersion: &quot;1.2.0-draft&quot;)" storage="/private/tmp/claude-501/-users-marc-bauer-developer-aether-jellyfin-analysis-plugin/61a4b61b-0cfc-4ec1-a587-c23f101e2b45/scratchpad/wt-main/tests/jellyfin.plugin.aetheranalysis.tests/bin/debug/net10.0/jellyfin.plugin.aetheranalysis.tests.dll" id="488228de-ec1c-10cf-3069-1ac8655c64c3">
+      <Execution id="71b7d0cc-33e4-4d97-9948-78a3f0497852" />
+      <TestMethod codeBase="/private/tmp/claude-501/-Users-Marc-Bauer-Developer-aether-jellyfin-analysis-plugin/61a4b61b-0cfc-4ec1-a587-c23f101e2b45/scratchpad/wt-main/tests/Jellyfin.Plugin.AetherAnalysis.Tests/bin/Debug/net10.0/Jellyfin.Plugin.AetherAnalysis.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests" name="RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter" />
+    </UnitTest>
+    <UnitTest name="Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(profile: &quot;second-default&quot;, targetVersion: &quot;1.2.0-draft&quot;)" storage="/private/tmp/claude-501/-users-marc-bauer-developer-aether-jellyfin-analysis-plugin/61a4b61b-0cfc-4ec1-a587-c23f101e2b45/scratchpad/wt-main/tests/jellyfin.plugin.aetheranalysis.tests/bin/debug/net10.0/jellyfin.plugin.aetheranalysis.tests.dll" id="3bde27f0-0355-d725-d49d-69d732c6d243">
+      <Execution id="ed466c0f-1bd7-4a74-b0e6-6f37ff308a23" />
+      <TestMethod codeBase="/private/tmp/claude-501/-Users-Marc-Bauer-Developer-aether-jellyfin-analysis-plugin/61a4b61b-0cfc-4ec1-a587-c23f101e2b45/scratchpad/wt-main/tests/Jellyfin.Plugin.AetherAnalysis.Tests/bin/Debug/net10.0/Jellyfin.Plugin.AetherAnalysis.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests" name="RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter" />
+    </UnitTest>
+    <UnitTest name="Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(profile: &quot;no-track&quot;, targetVersion: &quot;1.2.0-draft&quot;)" storage="/private/tmp/claude-501/-users-marc-bauer-developer-aether-jellyfin-analysis-plugin/61a4b61b-0cfc-4ec1-a587-c23f101e2b45/scratchpad/wt-main/tests/jellyfin.plugin.aetheranalysis.tests/bin/debug/net10.0/jellyfin.plugin.aetheranalysis.tests.dll" id="75d47d75-2f01-4d1d-dd70-8e01d1d6e9c8">
+      <Execution id="cc903895-705e-43c6-b266-5184e44c3f4f" />
+      <TestMethod codeBase="/private/tmp/claude-501/-Users-Marc-Bauer-Developer-aether-jellyfin-analysis-plugin/61a4b61b-0cfc-4ec1-a587-c23f101e2b45/scratchpad/wt-main/tests/Jellyfin.Plugin.AetherAnalysis.Tests/bin/Debug/net10.0/Jellyfin.Plugin.AetherAnalysis.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests" name="RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="940ac5ef-11ed-0ef6-b056-0a81646cd7b6" executionId="64ec4bea-eb9d-4276-b4d0-c79d2a197668" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="75d47d75-2f01-4d1d-dd70-8e01d1d6e9c8" executionId="cc903895-705e-43c6-b266-5184e44c3f4f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d107670a-94e7-bd84-fb59-ab893366e853" executionId="2ddb0014-760f-40d4-9d72-105c5c358b1f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b03b3a08-a4bd-d713-e900-25e633576761" executionId="e958a9c1-7e4d-4677-a22c-fe5b5880e86d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="488228de-ec1c-10cf-3069-1ac8655c64c3" executionId="71b7d0cc-33e4-4d97-9948-78a3f0497852" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3bde27f0-0355-d725-d49d-69d732c6d243" executionId="ed466c0f-1bd7-4a74-b0e6-6f37ff308a23" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Ergebnisse nicht in einer Liste" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="Alle geladenen Ergebnisse" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="6" executed="6" passed="2" failed="4" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.5+1b188a7b0a (64-bit .NET 10.0.11)
+[xUnit.net 00:00:00.04]   Discovering: Jellyfin.Plugin.AetherAnalysis.Tests
+[xUnit.net 00:00:00.08]   Discovered:  Jellyfin.Plugin.AetherAnalysis.Tests
+[xUnit.net 00:00:00.09]   Starting:    Jellyfin.Plugin.AetherAnalysis.Tests
+[xUnit.net 00:00:01.30]       System.IO.InvalidDataException : audio-legacy-coverage
+[xUnit.net 00:00:01.30]       Stack Trace:
+[xUnit.net 00:00:01.30]            at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftAnalysisArtifactValidator.Check(Boolean condition, String error)
+[xUnit.net 00:00:01.30]            at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftAnalysisArtifactValidator.Audio(JsonElement audio, JsonElement representation, JsonElement provenance, DraftArtifactContext context, String revision)
+[xUnit.net 00:00:01.30]            at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftAnalysisArtifactValidator.Validate(ReadOnlyMemory`1 json, DraftArtifactContext context, String expectedMode)
+[xUnit.net 00:00:01.30]            at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftAnalysisCompositionSession.StageAsync(String mode, Stream input, CancellationToken cancellationToken)
+[xUnit.net 00:00:01.30]            at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftServerAnalysisRunner.AnalyzeCoreAsync(Guid itemId, String mediaSourceId, Nullable`1 requestedFfmpegStreamIndex, Boolean recalculate, CancellationToken cancellationToken)
+[xUnit.net 00:00:01.30]            at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftServerAnalysisRunner.AnalyzeCoreAsync(Guid itemId, String mediaSourceId, Nullable`1 requestedFfmpegStreamIndex, Boolean recalculate, CancellationToken cancellationToken)
+[xUnit.net 00:00:01.30]            at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftServerAnalysisRunner.AnalyzeCoreAsync(Guid itemId, String mediaSourceId, Nullable`1 requestedFfmpegStreamIndex, Boolean recalculate, CancellationToken cancellationToken)
+[xUnit.net 00:00:01.30]         /private/tmp/claude-501/-Users-Marc-Bauer-Developer-aether-jellyfin-analysis-plugin/61a4b61b-0cfc-4ec1-a587-c23f101e2b45/scratchpad/wt-main/tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftServerAnalysisRunnerTests.cs(476,0): at Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(String profile, String targetVersion)
+[xUnit.net 00:00:01.30]         /private/tmp/claude-501/-Users-Marc-Bauer-Developer-aether-jellyfin-analysis-plugin/61a4b61b-0cfc-4ec1-a587-c23f101e2b45/scratchpad/wt-main/tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftServerAnalysisRunnerTests.cs(499,0): at Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(String profile, String targetVersion)
+[xUnit.net 00:00:01.30]         --- End of stack trace from previous location ---
+[xUnit.net 00:00:01.69]       System.IO.InvalidDataException : audio-legacy-coverage
+[xUnit.net 00:00:01.69]       Stack Trace:
+[xUnit.net 00:00:01.69]            at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftAnalysisArtifactValidator.Check(Boolean condition, String error)
+[xUnit.net 00:00:01.69]            at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftAnalysisArtifactValidator.Audio(JsonElement audio, JsonElement representation, JsonElement provenance, DraftArtifactContext context, String revision)
+[xUnit.net 00:00:01.69]            at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftAnalysisArtifactValidator.Validate(ReadOnlyMemory`1 json, DraftArtifactContext context, String expectedMode)
+[xUnit.net 00:00:01.69]            at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftAnalysisCompositionSession.StageAsync(String mode, Stream input, CancellationToken cancellationToken)
+[xUnit.net 00:00:01.69]            at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftServerAnalysisRunner.AnalyzeCoreAsync(Guid itemId, String mediaSourceId, Nullable`1 requestedFfmpegStreamIndex, Boolean recalculate, CancellationToken cancellationToken)
+[xUnit.net 00:00:01.69]            at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftServerAnalysisRunner.AnalyzeCoreAsync(Guid itemId, String mediaSourceId, Nullable`1 requestedFfmpegStreamIndex, Boolean recalculate, CancellationToken cancellationToken)
+[xUnit.net 00:00:01.69]            at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftServerAnalysisRunner.AnalyzeCoreAsync(Guid itemId, String mediaSourceId, Nullable`1 requestedFfmpegStreamIndex, Boolean recalculate, CancellationToken cancellationToken)
+[xUnit.net 00:00:01.69]         /private/tmp/claude-501/-Users-Marc-Bauer-Developer-aether-jellyfin-analysis-plugin/61a4b61b-0cfc-4ec1-a587-c23f101e2b45/scratchpad/wt-main/tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftServerAnalysisRunnerTests.cs(476,0): at Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(String profile, String targetVersion)
+[xUnit.net 00:00:01.69]         /private/tmp/claude-501/-Users-Marc-Bauer-Developer-aether-jellyfin-analysis-plugin/61a4b61b-0cfc-4ec1-a587-c23f101e2b45/scratchpad/wt-main/tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftServerAnalysisRunnerTests.cs(499,0): at Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(String profile, String targetVersion)
+[xUnit.net 00:00:01.69]         --- End of stack trace from previous location ---
+[xUnit.net 00:00:02.08]       System.IO.InvalidDataException : audio-legacy-coverage
+[xUnit.net 00:00:02.08]       Stack Trace:
+[xUnit.net 00:00:02.08]            at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftAnalysisArtifactValidator.Check(Boolean condition, String error)
+[xUnit.net 00:00:02.08]            at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftAnalysisArtifactValidator.Audio(JsonElement audio, JsonElement representation, JsonElement provenance, DraftArtifactContext context, String revision)
+[xUnit.net 00:00:02.08]            at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftAnalysisArtifactValidator.Validate(ReadOnlyMemory`1 json, DraftArtifactContext context, String expectedMode)
+[xUnit.net 00:00:02.08]            at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftAnalysisCompositionSession.StageAsync(String mode, Stream input, CancellationToken cancellationToken)
+[xUnit.net 00:00:02.08]            at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftServerAnalysisRunner.AnalyzeCoreAsync(Guid itemId, String mediaSourceId, Nullable`1 requestedFfmpegStreamIndex, Boolean recalculate, CancellationToken cancellationToken)
+[xUnit.net 00:00:02.08]            at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftServerAnalysisRunner.AnalyzeCoreAsync(Guid itemId, String mediaSourceId, Nullable`1 requestedFfmpegStreamIndex, Boolean recalculate, CancellationToken cancellationToken)
+[xUnit.net 00:00:02.08]            at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftServerAnalysisRunner.AnalyzeCoreAsync(Guid itemId, String mediaSourceId, Nullable`1 requestedFfmpegStreamIndex, Boolean recalculate, CancellationToken cancellationToken)
+[xUnit.net 00:00:02.08]         /private/tmp/claude-501/-Users-Marc-Bauer-Developer-aether-jellyfin-analysis-plugin/61a4b61b-0cfc-4ec1-a587-c23f101e2b45/scratchpad/wt-main/tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftServerAnalysisRunnerTests.cs(476,0): at Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(String profile, String targetVersion)
+[xUnit.net 00:00:02.08]         /private/tmp/claude-501/-Users-Marc-Bauer-Developer-aether-jellyfin-analysis-plugin/61a4b61b-0cfc-4ec1-a587-c23f101e2b45/scratchpad/wt-main/tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftServerAnalysisRunnerTests.cs(499,0): at Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(String profile, String targetVersion)
+[xUnit.net 00:00:02.08]         --- End of stack trace from previous location ---
+[xUnit.net 00:00:03.59]       System.IO.InvalidDataException : audio-legacy-coverage
+[xUnit.net 00:00:03.59]       Stack Trace:
+[xUnit.net 00:00:03.59]            at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftAnalysisArtifactValidator.Check(Boolean condition, String error)
+[xUnit.net 00:00:03.59]            at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftAnalysisArtifactValidator.Audio(JsonElement audio, JsonElement representation, JsonElement provenance, DraftArtifactContext context, String revision)
+[xUnit.net 00:00:03.59]            at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftAnalysisArtifactValidator.Validate(ReadOnlyMemory`1 json, DraftArtifactContext context, String expectedMode)
+[xUnit.net 00:00:03.59]            at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftAnalysisCompositionSession.StageAsync(String mode, Stream input, CancellationToken cancellationToken)
+[xUnit.net 00:00:03.59]            at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftServerAnalysisRunner.AnalyzeCoreAsync(Guid itemId, String mediaSourceId, Nullable`1 requestedFfmpegStreamIndex, Boolean recalculate, CancellationToken cancellationToken)
+[xUnit.net 00:00:03.59]            at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftServerAnalysisRunner.AnalyzeCoreAsync(Guid itemId, String mediaSourceId, Nullable`1 requestedFfmpegStreamIndex, Boolean recalculate, CancellationToken cancellationToken)
+[xUnit.net 00:00:03.59]            at Jellyfin.Plugin.AetherAnalysis.Application.Draft.DraftServerAnalysisRunner.AnalyzeCoreAsync(Guid itemId, String mediaSourceId, Nullable`1 requestedFfmpegStreamIndex, Boolean recalculate, CancellationToken cancellationToken)
+[xUnit.net 00:00:03.59]         /private/tmp/claude-501/-Users-Marc-Bauer-Developer-aether-jellyfin-analysis-plugin/61a4b61b-0cfc-4ec1-a587-c23f101e2b45/scratchpad/wt-main/tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftServerAnalysisRunnerTests.cs(476,0): at Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(String profile, String targetVersion)
+[xUnit.net 00:00:03.59]         /private/tmp/claude-501/-Users-Marc-Bauer-Developer-aether-jellyfin-analysis-plugin/61a4b61b-0cfc-4ec1-a587-c23f101e2b45/scratchpad/wt-main/tests/Jellyfin.Plugin.AetherAnalysis.Tests/DraftServerAnalysisRunnerTests.cs(499,0): at Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(String profile, String targetVersion)
+[xUnit.net 00:00:03.59]         --- End of stack trace from previous location ---
+[xUnit.net 00:00:03.59]   Finished:    Jellyfin.Plugin.AetherAnalysis.Tests
+</StdOut>
+    </Output>
+    <RunInfos>
+      <RunInfo computerName="MB-JVV9WT2VJM" outcome="Error" timestamp="2026-10-05T23:42:16.1741960+02:00">
+        <Text>[xUnit.net 00:00:01.30]     Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(profile: "second-default", targetVersion: "1.2.0") [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="MB-JVV9WT2VJM" outcome="Error" timestamp="2026-10-05T23:42:16.5609520+02:00">
+        <Text>[xUnit.net 00:00:01.69]     Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(profile: "available", targetVersion: "1.2.0") [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="MB-JVV9WT2VJM" outcome="Error" timestamp="2026-10-05T23:42:16.9508470+02:00">
+        <Text>[xUnit.net 00:00:02.08]     Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(profile: "second-default", targetVersion: "1.2.0-draft") [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="MB-JVV9WT2VJM" outcome="Error" timestamp="2026-10-05T23:42:18.4642660+02:00">
+        <Text>[xUnit.net 00:00:03.59]     Jellyfin.Plugin.AetherAnalysis.Tests.DraftServerAnalysisRunnerTests.RealSharedBundleProducesValidatedCompositionThroughTheHostAdapter(profile: "available", targetVersion: "1.2.0-draft") [FAIL]</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+</TestRun>

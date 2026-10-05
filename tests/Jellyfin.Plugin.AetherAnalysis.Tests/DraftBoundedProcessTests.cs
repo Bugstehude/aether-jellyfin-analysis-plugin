@@ -89,6 +89,22 @@ public sealed class DraftBoundedProcessTests
     }
 
     [Fact]
+    public async Task NonzeroExitCarriesOnlyTheWorkersFixedErrorCode()
+    {
+        using var fixture = new NodeFixture(
+            "process.stderr.write('ffmpeg: /mnt/private media/title.mp4: Invalid data\\n');"
+            + "process.stderr.write(JSON.stringify({error: 'AUDIO_TIMING_UNAVAILABLE'}) + '\\n'); process.exit(3)");
+
+        var error = await Assert.ThrowsAsync<InvalidDataException>(() => Run(fixture));
+
+        Assert.Equal("draft-process-exit", error.Message);
+        Assert.Equal(3, error.Data[DraftArtifactDiagnostics.ExitCodeKey]);
+        Assert.Equal("AUDIO_TIMING_UNAVAILABLE", error.Data[DraftArtifactDiagnostics.WorkerErrorKey]);
+        Assert.Equal("-", DraftArtifactDiagnostics.WorkerErrorCode("only /mnt/private text"u8));
+        Assert.Equal("-", DraftArtifactDiagnostics.WorkerErrorCode("{\"error\":\"/mnt/x y\"}"u8));
+    }
+
+    [Fact]
     public async Task MonitorsOutputFileSize()
     {
         using var fixture = new NodeFixture("require('fs').writeFileSync(process.argv[2], Buffer.alloc(4096)); setInterval(() => {}, 1000)");
