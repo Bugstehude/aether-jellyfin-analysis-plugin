@@ -448,10 +448,10 @@ public sealed class DraftAnalysisCompositionTests
     }
 
     [Fact]
-    public void WorkerStreamEndCoverageBasisIsRejectedUntilTheTailRuleIsAgreed()
+    public void CutCoverageMustEndAtTheLastSelectedSourcePts()
     {
-        // The bundled worker emits this shape whenever FFprobe reports a video stream duration,
-        // e.g. for ordinary MP4 sources. The host contract accepts only the last selected PTS.
+        // Agreed tail rule: a declared stream end is not an inspected image. Workers before
+        // Aether 3ae4964 emitted this shape for sources with a video stream duration (MP4).
         var video = Component("video-only");
         _ = DraftAnalysisArtifactValidator.Validate(Bytes(video), Context, "video-only");
         var cuts = video["video"]!["cutAnalysis"]!;

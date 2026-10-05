@@ -9,9 +9,12 @@ All notable changes to implementation and canonical contracts are recorded here.
 - 1.2 server runs log the actual FFmpeg/FFprobe paths and `-version` lines once per change, and
   failure warnings include fixed validator codes. `tools/capture-server-toolchain.sh` records the
   server toolchain and can run the Aether video regression with exactly these binaries.
-- Known conflict, not yet fixed: the bundled worker declares `coverageEndBasis: video-stream-end`
-  whenever FFprobe reports a video stream duration (e.g. MP4). The host accepts only
-  `last-selected-source-pts`, so such 1.2 compositions fail. Tail rule decision pending.
+- Fix 1.2 compositions for sources with a declared video stream duration (e.g. MP4). The bundled
+  worker declared `coverageEndBasis: video-stream-end`, which the host rejects. The component
+  worker is rebuilt from Aether `3ae4964`: cut coverage always ends at the last selected source
+  PTS, and F64 records honour the left-padding sample rule on write and read.
+  New worker SHA-256 `a3dcfa605e0b20326ba9d7cd8ae539c1306630463ad561ff8de8192cda31827c`,
+  producer revision `sha256:4bcbc8808ab09df9d6bc3bab0c4a8c382e053e918704bb1551d193382eff26e0`.
 
 ## [0.4.0.1] (2026-10-05)
 
