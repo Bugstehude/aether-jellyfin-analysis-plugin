@@ -4,6 +4,23 @@ All notable changes to implementation and canonical contracts are recorded here.
 
 ## Unreleased
 
+## [0.4.2.0] (2026-10-06)
+
+- 1.2 masters are published when only the audio is not qualified. The first live run lost image
+  and cuts for 73 of 316 items because the worker refused unqualified audio.
+  - Dense audio whose decoded PCM starts after media zero (AAC priming, WMA decoder delay) is
+    admitted. Timestamps, coverage start and end, record count and onset positions are checked
+    exactly against `streamOffsetUs`, which must equal the first decoded PCM PTS.
+  - Legacy audio without a shared media-grid proof keeps its own grid and actual
+    `firstOutputPts`; it is never attached to image frames. A claimed proof still requires zero
+    start, contiguous PTS and zero first output PTS.
+  - Audio that is not a complete measurement is stored as `decode-error` or `unsupported`,
+    `completeness: absent`, with a fixed error code and the actual reference track, and without
+    dense, onset, legacy or FFT data. Balanced/Compact are derived as for `no-track`.
+- Component worker rebuilt from Aether `5067944`. Worker SHA-256
+  `a73368967a47939f997af0208db83802df0f42703c689307c4a2117dc80b73e6`, producer revision
+  `sha256:6603586eb4119d697574c430c3a13c178e9ce0f59221b9b2434f86177dc348e5`.
+
 ## [0.4.1.4] (2026-10-06)
 
 - The background routine visits the newest additions first (date added descending, sort name as

@@ -1,0 +1,96 @@
+{
+  "date": "2026-10-06",
+  "status": "local-real-worker-host-proof-not-live",
+  "aetherSource": {
+    "commit": "5067944ce97ff6bd5fb3b79b07f5f9460d30c2dd",
+    "branch": "agent/analysis-1.2-audio-qualification"
+  },
+  "worker": {
+    "workerSha256": "a73368967a47939f997af0208db83802df0f42703c689307c4a2117dc80b73e6",
+    "producerRevision": "sha256:6603586eb4119d697574c430c3a13c178e9ce0f59221b9b2434f86177dc348e5",
+    "bytes": 69286,
+    "reproducedTwice": true,
+    "changedSourcesVsPrevious": [
+      "packages/server-analysis-worker/src/draft-audio.ts",
+      "packages/server-analysis-worker/src/draft-storage-job.ts",
+      "release-build-transforms (hash of transformed draft-storage-job.ts)"
+    ],
+    "previous": {
+      "workerSha256": "2bf65464adbd05dd38ccf558b29a0d475ab032268b57b0ec769905a5b678c02c",
+      "sourceCommit": "5ae57ec4d0f122e78094e81efe7490c97b0fc736"
+    }
+  },
+  "toolchain": "Homebrew FFmpeg 9.0.2 (development machine, not jellyfin-ffmpeg 8.1.3)",
+  "profiles": {
+    "aac-mp4": {
+      "expectState": "available",
+      "expectLegacyProven": true
+    },
+    "aac-delayed": {
+      "expectState": "available",
+      "expectLegacyProven": false
+    },
+    "aac-negative": {
+      "expectState": "available",
+      "expectLegacyProven": true
+    },
+    "wma": {
+      "expectState": "available",
+      "expectLegacyProven": false
+    },
+    "wma-overlap": {
+      "expectState": "decode-error",
+      "expectLegacyProven": null
+    },
+    "regression": {
+      "expectState": "available",
+      "expectLegacyProven": true
+    }
+  },
+  "notReproducibleLocally": "AAC behind an edit list decodes from zero with FFmpeg 9 (fully qualified); server negative start PTS and exact first legacy PTS 470 need the live run",
+  "media": {
+    "aac-delayed.mkv": {
+      "bytes": 203659,
+      "sha256": "ee6f55e3bae3fc06dd6f59b6a85ecf6c9bd129625a0c101a167a838d51a85a1a"
+    },
+    "aac-negative.mkv": {
+      "bytes": 203660,
+      "sha256": "9007b45384c5b20e54d9c1ab692e7e8fe15bbcf4eab055574a1228ec79a9bab2"
+    },
+    "aac-negative.mp4": {
+      "bytes": 204593,
+      "sha256": "0dfd75c04d9266d5db1ccbe7fb83160e75a24318227696b3ce67f87c885a82ea"
+    },
+    "aac.mp4": {
+      "bytes": 204657,
+      "sha256": "d9c7533ff6534dc7de76898961b0b41124c12593667f67a33084c90699d31736"
+    },
+    "regression.mkv": {
+      "bytes": 856929,
+      "sha256": "be72dc8db54c9792fcc12b788426ea7df237239db741ee9dae0c7adc08350584"
+    },
+    "wma-overlap.wmv": {
+      "bytes": 176905,
+      "sha256": "9adb17bc23d14a94b3dfa04c2811323b05856769dc54a88d74a1975e96297e62"
+    },
+    "wma.wmv": {
+      "bytes": 176905,
+      "sha256": "3f2bb916270019ac39d306316628eafda0ec0d509e8654c545e200600e8c41d3"
+    }
+  },
+  "runs": {
+    "qualification-native.trx": {
+      "sha256": "3cc92de72b1a381b80156e46d1c9ffca2670831d1f3f53691bc4d6482eeacaeb",
+      "total": "12",
+      "passed": "12",
+      "failed": "0"
+    },
+    "full-suite.trx": {
+      "sha256": "dcd61f5f6132ced1e25587b8fe4063f2a72c789965b4ef50a536684e6bee6f22",
+      "total": "398",
+      "passed": "398",
+      "failed": "0"
+    }
+  },
+  "regressionSetsNewBundle": "640x360 MKV, 854x480 MP4, rounding (1900.54 ms), overrun (2010 ms), AAC 48 kHz: each 6/6"
+}

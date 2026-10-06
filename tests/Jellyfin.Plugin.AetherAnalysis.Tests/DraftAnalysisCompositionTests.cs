@@ -83,7 +83,9 @@ public sealed class DraftAnalysisCompositionTests
             case "coverage": analysis["coverage"]![0]!["endMs"] = 1999; break;
             case "pcm-origin": analysis["sourcePcm"]!["firstPts"] = "1"; break;
             case "pcm-tolerance": analysis["sourcePcm"]!["quantizationToleranceSamples"] = 1; break;
-            case "legacy-clock": root["audio"]!["legacyAudioAnalysis"]!["timeView"]!["sharedMediaGridProven"] = false; break;
+            // A claimed shared media grid must be backed by its evidence; an honest
+            // "unproven" flag is admitted and only keeps the series off the image frames.
+            case "legacy-clock": root["audio"]!["legacyAudioAnalysis"]!["timeView"]!["firstOutputPts"] = "470"; break;
             case "legacy-default-track": root["audio"]!["legacyAudioProvenance"]!["implicitDefaultStreamIndex"] = 2; break;
             case "duplicate-representation": root["audio"]!["denseAudioFrames"] = new JsonArray(); break;
             case "onset-strength": root["audio"]!["audioOnsets"] = Events(1.01, 1999, 1999, 2000); break;
@@ -483,6 +485,58 @@ public sealed class DraftAnalysisCompositionTests
         Assert.Contains("errorCode=?", diagnostics, StringComparison.Ordinal);
         Assert.DoesNotContain("mnt", diagnostics, StringComparison.Ordinal);
         Assert.StartsWith("unavailable (", DraftArtifactDiagnostics.Describe("not json"u8, 1, "audio-only"), StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void NotQualifiedAudioPublishesImageAndCutsWithoutInventedAudio()
+    {
+        var audio = Component("audio-only");
+        var component = audio["audio"]!.AsObject();
+        var reference = component["audioAnalysis"]!["referenceTrack"]!.DeepClone();
+        component["audioAnalysis"] = new JsonObject
+        {
+            ["state"] = "decode-error",
+            ["completeness"] = "absent",
+            ["referenceTrack"] = reference,
+            ["errorCode"] = "AUDIO_TIMING_UNAVAILABLE",
+            ["producerVersion"] = audio["producerRevision"]!.DeepClone()
+        };
+        foreach (var property in new[] { "packedDenseAudioFrames", "audioFrames", "audioOnsets", "legacyAudioAnalysis", "legacyAudioProvenance" })
+        {
+            component.Remove(property);
+        }
+
+        component["measuredFrameCount"] = 0;
+        foreach (var property in new[] { "denseAudioTargetIntervalMs", "denseAudioSelection", "denseAudioMaxGapMs" })
+        {
+            audio["representation"]!.AsObject().Remove(property);
+        }
+
+        var provenance = audio["signalProvenance"]!.AsObject();
+        provenance.Remove("legacyAudio");
+        provenance["denseAudio"]!["methodId"] = "audio-stream-probe-v1-draft";
+        _ = DraftAnalysisArtifactValidator.Validate(Bytes(audio), Context, "audio-only");
+
+        var full = DraftAnalysisMasterBuilder.Build(Bytes(audio), Bytes(Component("video-only")), Context, Media, DateTimeOffset.UnixEpoch);
+        using (var master = JsonDocument.Parse(full))
+        {
+            Assert.All(master.RootElement.GetProperty("frames").EnumerateArray(), frame => Assert.False(frame.TryGetProperty("audio", out _)));
+        }
+
+        foreach (var detail in new[] { "full", "balanced", "compact" })
+        {
+            _ = DraftAnalysisMasterBuilder.Create(full, detail, 32 * 1024 * 1024);
+        }
+
+        var invented = audio.DeepClone().AsObject();
+        invented["audio"]!["audioFrames"] = new JsonArray();
+        Assert.Throws<InvalidDataException>(() => DraftAnalysisArtifactValidator.Validate(Bytes(invented), Context, "audio-only"));
+        var freeText = audio.DeepClone().AsObject();
+        freeText["audio"]!["audioAnalysis"]!["errorCode"] = "/mnt/private media";
+        Assert.Throws<InvalidDataException>(() => DraftAnalysisArtifactValidator.Validate(Bytes(freeText), Context, "audio-only"));
+        var measured = audio.DeepClone().AsObject();
+        measured["audio"]!["audioAnalysis"]!["coverage"] = new JsonArray();
+        Assert.Throws<InvalidDataException>(() => DraftAnalysisArtifactValidator.Validate(Bytes(measured), Context, "audio-only"));
     }
 
     [Fact]
