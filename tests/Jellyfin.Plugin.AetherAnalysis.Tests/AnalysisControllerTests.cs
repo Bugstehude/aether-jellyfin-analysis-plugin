@@ -245,6 +245,30 @@ public sealed class AnalysisControllerTests
         Assert.Equal(StatusCodes.Status404NotFound, StatusOf(result));
     }
 
+    [Fact]
+    public async Task AdministratorApiKeyWithoutUserResolvesTheItem()
+    {
+        // Jellyfin-API-Schlüssel melden sich als Administrator ohne Nutzer-Anspruch an.
+        // Sie sehen ohnehin die ganze Bibliothek; ein 404 wäre hier irreführend.
+        var library = LibraryWithVisibleItem();
+        var item = library.GetItemById<BaseItem>(ItemId, UserId)!;
+        library.GetItemById<BaseItem>(ItemId).Returns(item);
+        var key = new AnalysisKey(ItemId, "quelle-1", "aether-visual", "1.1.0");
+        var fingerprint = new MediaFingerprintService().Create(item, "quelle-1")!;
+        var metadata = new AnalysisRecordMetadata(
+            key, fingerprint.Fingerprint, DateTimeOffset.UnixEpoch, DateTimeOffset.UnixEpoch,
+            FrameCount: 1, StoredBytes: 128, Etag: "\"sha256-abc\"");
+
+        var apiKey = CreateController(library, RepositoryWith(metadata), isAdministrator: true);
+        await apiKey.GetAnalysis(ItemId, "quelle-1", "aether-visual", "1.1.0");
+        Assert.NotEmpty(apiKey.Response.Headers.ETag.ToString());
+
+        // Ohne Administratorrolle bleibt es beim bisherigen, unterscheidungsfreien 404.
+        var anonymous = CreateController(library, RepositoryWith(metadata));
+        var result = await anonymous.GetAnalysis(ItemId, "quelle-1", "aether-visual", "1.1.0");
+        Assert.Equal(StatusCodes.Status404NotFound, StatusOf(result));
+    }
+
     [Theory]
     // Ungültige Routen-Identität bzw. Detailstufe: muss VOR jedem Datenzugriff
     // abgewiesen werden, sonst wandern ungeprüfte Zeichenketten in den
