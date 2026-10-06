@@ -1,6 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using Jellyfin.Data.Enums;
+using Jellyfin.Database.Implementations.Enums;
 using Jellyfin.Plugin.AetherAnalysis.Configuration;
 using Jellyfin.Plugin.AetherAnalysis.Application.Draft;
 using Jellyfin.Plugin.AetherAnalysis.Infrastructure;
@@ -69,7 +70,10 @@ public sealed class ServerAnalysisRunner(
         {
             IncludeItemTypes = [BaseItemKind.Movie, BaseItemKind.Episode, BaseItemKind.Video],
             Recursive = true,
-            IsVirtualItem = false
+            IsVirtualItem = false,
+            // Newest additions first: a full pass over a large library takes long, and recently
+            // added media is what gets watched next. Sort name keeps equal dates deterministic.
+            OrderBy = [(ItemSortBy.DateCreated, SortOrder.Descending), (ItemSortBy.SortName, SortOrder.Ascending)]
         };
 
         var libraryIds = ParseGuids(Configuration.AnalysisLibraryIds);
