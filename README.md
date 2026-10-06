@@ -94,6 +94,23 @@ POST /AetherAnalysis/v1/items/{itemId}/media-sources/{mediaSourceId}/analyze    
 GET  /AetherAnalysis/v1/items/{itemId}/media-sources/{mediaSourceId}/analyze/status  -> {state, progress}
 ```
 
+Authenticate with the Jellyfin 12 header `Authorization: MediaBrowser Token="<token>"`; the legacy
+`X-Emby-Token` header can be disabled server-side (a Jellyfin 12.1 server answered `401`). A Jellyfin API key (Dashboard → API keys) acts as
+administrator and can address any item. A user access token works for administrators and for user
+ids listed in the analyzer allow-list. To analyse one item immediately (it runs after the current
+routine item, one analysis at a time):
+
+```sh
+SERVER=https://jellyfin.example
+TOKEN=<api-key-or-user-token>
+ID=<item-id>                      # from the item URL: …/details?id=<item-id>
+SOURCE=$ID                        # single-source items: media source id equals the item id
+curl -s -X POST -H "Authorization: MediaBrowser Token=\"$TOKEN\"" \
+  "$SERVER/AetherAnalysis/v1/items/$ID/media-sources/$SOURCE/analyze?recalculate=true"
+curl -s -H "Authorization: MediaBrowser Token=\"$TOKEN\"" \
+  "$SERVER/AetherAnalysis/v1/items/$ID/media-sources/$SOURCE/analyze/status"
+```
+
 Folder and multi-item checkbox selection remain client features. When server-side analysis is
 disabled, the plugin never decodes media or starts jobs and behaves exactly like 0.1.
 

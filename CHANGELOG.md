@@ -4,6 +4,14 @@ All notable changes to implementation and canonical contracts are recorded here.
 
 ## Unreleased
 
+## [0.4.1.3] (2026-10-06)
+
+- Jellyfin API keys authenticate as administrator without a user. Item endpoints resolved items
+  only per user and answered `404 media-source-not-found` for them; administrators without a user
+  now resolve items without a per-user visibility filter. Users keep the existing per-user check,
+  anonymous requests keep the indistinguishable `404`.
+- README: Jellyfin 12 `Authorization: MediaBrowser Token="…"` header and a per-item analysis example.
+
 ## [0.4.1.2] (2026-10-05)
 
 - Fix 1.2 host validation rejecting common real AAC/MP4 sources (first live run: several of the

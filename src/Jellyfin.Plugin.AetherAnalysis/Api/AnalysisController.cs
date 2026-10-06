@@ -1002,12 +1002,22 @@ public sealed class AnalysisController(
     private MediaFingerprint? GetAccessibleMedia(Guid itemId, string mediaSourceId)
     {
         var userId = GetUserId();
-        if (userId == Guid.Empty)
+        BaseItem? item;
+        if (userId != Guid.Empty)
+        {
+            item = libraryManager.GetItemById<BaseItem>(itemId, userId);
+        }
+        else if (User.IsInRole(AdministratorRole))
+        {
+            // Jellyfin API keys authenticate as administrator without a user. They already have
+            // full library access, so the item is resolved without a per-user visibility filter.
+            item = libraryManager.GetItemById<BaseItem>(itemId);
+        }
+        else
         {
             return null;
         }
 
-        var item = libraryManager.GetItemById<BaseItem>(itemId, userId);
         return item is null ? null : fingerprintService.Create(item, mediaSourceId);
     }
 
