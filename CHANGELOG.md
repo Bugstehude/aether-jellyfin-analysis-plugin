@@ -4,6 +4,13 @@ All notable changes to implementation and canonical contracts are recorded here.
 
 ## Unreleased
 
+## [0.4.1.4] (2026-10-06)
+
+- The background routine visits the newest additions first (date added descending, sort name as
+  tie-break) instead of Jellyfin's default alphabetical order. A full pass over a large library
+  takes long; recently added media is what gets watched next. Per-item behaviour is unchanged.
+  Play history is per user and is not used for the server-wide order.
+
 ## [0.4.1.3] (2026-10-06)
 
 - Jellyfin API keys authenticate as administrator without a user. Item endpoints resolved items

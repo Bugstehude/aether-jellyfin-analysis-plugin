@@ -1,3 +1,5 @@
+using Jellyfin.Data.Enums;
+using Jellyfin.Database.Implementations.Enums;
 using Jellyfin.Plugin.AetherAnalysis.Application;
 using Jellyfin.Plugin.AetherAnalysis.Infrastructure;
 using MediaBrowser.Controller.Entities;
@@ -210,6 +212,21 @@ public sealed class ServerAnalysisRunnerTests
             () => runner.AnalyzeItemAsync(Guid.NewGuid(), null, CancellationToken.None));
     }
 
+    [Fact]
+    public void RoutineVisitsNewestAdditionsFirst()
+    {
+        using var fixture = new RunnerFixture();
+
+        Assert.Single(fixture.Runner.SelectItems());
+
+        fixture.Library.Received(1).GetItemList(Arg.Is<InternalItemsQuery>(query =>
+            query.OrderBy.Count == 2
+            && query.OrderBy[0].Item1 == ItemSortBy.DateCreated
+            && query.OrderBy[0].Item2 == SortOrder.Descending
+            && query.OrderBy[1].Item1 == ItemSortBy.SortName
+            && query.OrderBy[1].Item2 == SortOrder.Ascending));
+    }
+
     private sealed class RunnerFixture : IDisposable
     {
         public string[] Paths { get; }
@@ -219,6 +236,7 @@ public sealed class ServerAnalysisRunnerTests
         public AnalysisWriteCoordinator Coordinator { get; } = new();
         public Dictionary<AnalysisKey, AnalysisRecord> Records { get; } = new();
         public ServerAnalysisRunner Runner { get; }
+        public ILibraryManager Library { get; }
 
         public RunnerFixture(int sourceCount = 1, AnalysisWorkerExecutionGate? workerExecutionGate = null)
         {
@@ -238,6 +256,7 @@ public sealed class ServerAnalysisRunnerTests
                 RunTimeTicks = TimeSpan.FromMinutes(1).Ticks
             }).ToList());
             var library = Substitute.For<ILibraryManager>();
+            Library = library;
             library.GetItemById<BaseItem>(Item.Id).Returns(Item);
             library.GetItemList(Arg.Any<InternalItemsQuery>()).Returns([Item]);
             Repository.GetAsync(Arg.Any<AnalysisKey>(), Arg.Any<CancellationToken>())
