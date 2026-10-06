@@ -499,6 +499,105 @@ public sealed class DraftServerAnalysisRunnerTests
         Assert.True(file.Exists);
     }
 
+    [DraftNativeTheory]
+    [InlineData("aac-mp4")]
+    [InlineData("aac-delayed")]
+    [InlineData("aac-negative")]
+    [InlineData("wma")]
+    [InlineData("wma-overlap")]
+    [InlineData("regression")]
+    public async Task RealBundleStoresImageAndCutsWhenOnlyAudioIsNotQualified(string profile)
+    {
+        // Explicit opt-in offline smoke: the qualification media of the first live run.
+        var manifest = JsonNode.Parse(await File.ReadAllTextAsync(
+            Environment.GetEnvironmentVariable("AETHER_DRAFT_NATIVE_PROOF_MANIFEST")!))!.AsObject();
+        if (manifest["qualification"]?[profile] is not JsonObject media)
+        {
+            return;
+        }
+
+        await using var fixture = await Fixture.CreateAsync(false);
+        fixture.Settings = fixture.Settings with { TargetVersion = "1.2.0" };
+        var path = media["path"]!.GetValue<string>();
+        var source = new MediaBrowser.Model.Dto.MediaSourceInfo
+        {
+            Id = fixture.Current.Media.MediaSourceId,
+            Path = path,
+            RunTimeTicks = TimeSpan.FromSeconds(2).Ticks,
+            MediaStreams = media["streams"]!.AsArray().Select(node => new MediaBrowser.Model.Entities.MediaStream
+            {
+                Index = node!["index"]!.GetValue<int>(),
+                Type = Enum.Parse<MediaBrowser.Model.Entities.MediaStreamType>(node["type"]!.GetValue<string>(), true),
+                Codec = node["codec"]?.GetValue<string>(),
+                Channels = node["channels"]?.GetValue<int>(),
+                SampleRate = node["sampleRate"]?.GetValue<int>()
+            }).ToList(),
+            DefaultAudioStreamIndex = media["selectedIndex"]?.GetValue<int>()
+        };
+        var item = Substitute.For<MediaBrowser.Controller.Entities.BaseItem>();
+        item.Id = fixture.Current.Media.ItemId;
+        item.GetMediaSources(false).Returns([source]);
+        var library = Substitute.For<MediaBrowser.Controller.Library.ILibraryManager>();
+        library.GetItemById<MediaBrowser.Controller.Entities.BaseItem>(item.Id).Returns(item);
+        var hostResolver = new DraftJellyfinSourceResolver(library, new MediaFingerprintService());
+        var host = await hostResolver.ResolveAsync(item.Id, source.Id, default);
+        Assert.NotNull(host);
+        await fixture.Repository.DeleteAsync(fixture.SourceKey, default);
+        await fixture.Repository.UpsertAsync(StoredAnalysisTestData.Create(host.Media, "1.1.0"), null, default);
+        var settings = fixture.Settings with
+        {
+            WorkerPath = manifest["workerPath"]!.GetValue<string>(),
+            WorkerSha256 = manifest["workerSha256"]!.GetValue<string>(),
+            ProducerRevision = manifest["producerRevision"]!.GetValue<string>(),
+            FfmpegPath = manifest["ffmpegPath"]!.GetValue<string>(),
+            FfprobePath = manifest["ffprobePath"]!.GetValue<string>(),
+            Timeout = TimeSpan.FromMinutes(2)
+        };
+        using var runner = new DraftServerAnalysisRunner(hostResolver, new DraftWorkerProcessRunner(), fixture.Repository,
+            fixture.Writes, fixture.Execution, () => settings);
+
+        Assert.Equal(DraftCompositionResult.Stored, await runner.AnalyzeAsync(item.Id, source.Id, default));
+        var record = (await fixture.Repository.GetAsync(fixture.TargetKey, default))!;
+        var bytes = CompressionCodec.Decompress(record.CompressedDocument, record.UncompressedBytes);
+        using (var document = JsonDocument.Parse(bytes))
+        {
+            var root = document.RootElement;
+            Assert.True(root.GetProperty("frames").GetArrayLength() > 0);
+            Assert.Equal("measured", root.GetProperty("cutAnalysis").GetProperty("state").GetString());
+            var audio = root.GetProperty("audioAnalysis");
+            Assert.Equal(media["expectState"]!.GetValue<string>(), audio.GetProperty("state").GetString());
+            var legacyProven = media["expectLegacyProven"]?.GetValue<bool>();
+            if (legacyProven is null)
+            {
+                Assert.Equal("absent", audio.GetProperty("completeness").GetString());
+                Assert.False(root.TryGetProperty("legacyAudioAnalysis", out _));
+                Assert.False(root.TryGetProperty("packedDenseAudioFrames", out _));
+            }
+            else
+            {
+                Assert.Equal(legacyProven, root.GetProperty("legacyAudioAnalysis").GetProperty("timeView")
+                    .GetProperty("sharedMediaGridProven").GetBoolean());
+            }
+
+            if (legacyProven != true)
+            {
+                // Unproven or absent legacy audio is never attached to an image.
+                Assert.All(root.GetProperty("frames").EnumerateArray(), frame => Assert.False(frame.TryGetProperty("audio", out _)));
+            }
+        }
+
+        foreach (var detail in new[] { "full", "balanced", "compact" })
+        {
+            var representation = DraftAnalysisMasterBuilder.Create(bytes, detail, 32 * 1024 * 1024);
+            var output = Path.Combine(manifest["exportDirectory"]!.GetValue<string>(), "qualification");
+            Directory.CreateDirectory(output);
+            await File.WriteAllBytesAsync(Path.Combine(output, profile + "-" + detail + ".json"), representation.Json);
+        }
+
+        Assert.Equal(DraftCompositionResult.AlreadyCurrent, await runner.AnalyzeIfNeededAsync(item.Id, source.Id, default));
+        Assert.Equal(record.Etag, (await fixture.Repository.GetAsync(fixture.TargetKey, default))!.Etag);
+    }
+
     private sealed class Fixture : IAsyncDisposable
     {
         private const string Revision = "sha256:8ddc99b791acc18b70aba15237c909024a69364637f2b776fb9a48f96a758e3b";

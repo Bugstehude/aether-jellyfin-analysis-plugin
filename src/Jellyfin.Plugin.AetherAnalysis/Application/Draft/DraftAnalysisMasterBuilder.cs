@@ -117,7 +117,9 @@ public static class DraftAnalysisMasterBuilder
 
         // Attach only independently measured legacy values with exact media-time equality.
         // A padded nominal tail row is not a measurement and must not be attached to an image.
-        if (root["audioFrames"] is JsonArray rows)
+        // Legacy values without a shared media-grid proof keep their own grid and stay unattached.
+        if (root["audioFrames"] is JsonArray rows
+            && root["legacyAudioAnalysis"]!["timeView"]!["sharedMediaGridProven"]!.GetValue<bool>())
         {
             if (audio["legacyAudioAnalysis"]!["timeView"]!["intervalMs"]!.GetValue<int>() != interval)
             {
@@ -164,7 +166,7 @@ public static class DraftAnalysisMasterBuilder
         if (full.GetProperty("algorithm").GetProperty("version").GetString() is not (AlgorithmVersion or "1.2.0")
             || full.GetProperty("representation").GetProperty("detail").GetString() != "full"
             || (hasMeasuredAudio && full.GetProperty("representation").GetProperty("denseAudioSelection").GetString() != "all-measurements-v1")
-            || (!hasMeasuredAudio && full.GetProperty("audioAnalysis").GetProperty("state").GetString() != "no-track"))
+            || (!hasMeasuredAudio && full.GetProperty("audioAnalysis").GetProperty("state").GetString() is not ("no-track" or "decode-error" or "unsupported")))
         {
             throw new InvalidDataException("representation-requires-full-master");
         }

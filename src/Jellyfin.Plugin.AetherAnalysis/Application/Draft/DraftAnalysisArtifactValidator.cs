@@ -123,7 +123,8 @@ public static class DraftAnalysisArtifactValidator
 
     private static void ValidateStoredFrameAudio(JsonElement root)
     {
-        var available = root.GetProperty("audioAnalysis").GetProperty("state").GetString() == "available";
+        var available = root.GetProperty("audioAnalysis").GetProperty("state").GetString() == "available"
+            && root.GetProperty("legacyAudioAnalysis").GetProperty("timeView").GetProperty("sharedMediaGridProven").GetBoolean();
         var interval = root.GetProperty("sampling").GetProperty("intervalMs").GetInt32();
         var rows = available ? root.GetProperty("audioFrames") : default;
         var measured = available ? root.GetProperty("legacyAudioAnalysis").GetProperty("counters").GetProperty("measuredWindows").GetInt32() : 0;
@@ -196,13 +197,23 @@ public static class DraftAnalysisArtifactValidator
             return;
         }
 
+        if (analysis.GetProperty("state").GetString() is "decode-error" or "unsupported")
+        {
+            NotQualified(audio, representation, provenance, context, revision);
+            return;
+        }
+
         Equal(analysis, "state", "available");
         Equal(analysis, "completeness", "complete");
         Track(analysis.GetProperty("referenceTrack"), context);
         Check(analysis.GetProperty("sampleRateHz").GetInt32() == 22050
             && analysis.GetProperty("fftSize").GetInt32() == 2048
             && analysis.GetProperty("hopSamples").GetInt32() == 441
-            && analysis.GetProperty("streamOffsetUs").GetInt64() == 0, "audio-dsp-parameters");
+            && analysis.GetProperty("streamOffsetUs").GetInt64() >= 0
+            && analysis.GetProperty("streamOffsetUs").GetInt64() < context.DurationMs * 1000, "audio-dsp-parameters");
+        // A decoded start after media zero (e.g. a dropped AAC priming frame) shifts every dense
+        // timestamp by this offset. It is derived exactly from the first decoded PCM PTS below.
+        var offsetUs = analysis.GetProperty("streamOffsetUs").GetInt64();
         Equal(analysis, "window", "hann-symmetric-v1");
         Equal(analysis, "downmix", "channel-arithmetic-mean-v1");
         Equal(analysis, "timestampReference", "window-center-v1");
@@ -229,11 +240,12 @@ public static class DraftAnalysisArtifactValidator
             && onset.GetProperty("confirmationHops").GetInt32() == 1
             && onset.GetProperty("minRmsRiseFraction").GetDouble() == 0.01, "audio-onset-parameters");
         var pcm = analysis.GetProperty("sourcePcm");
-        Check(pcm.GetProperty("mediaOriginUs").GetInt64() == 0
-            && Pts(pcm.GetProperty("firstPts").GetString()!) == 0, "audio-unverified-pcm-origin");
         var pcmBase = pcm.GetProperty("ptsTimeBase");
         Check(pcmBase.GetProperty("num").GetInt32() == 1
             && pcmBase.GetProperty("den").GetInt32() == 22050, "audio-pcm-timebase");
+        var firstPts = Pts(pcm.GetProperty("firstPts").GetString()!);
+        Check(pcm.GetProperty("mediaOriginUs").GetInt64() == 0 && firstPts >= 0
+            && offsetUs == Round(firstPts * 1_000_000, 22050), "audio-unverified-pcm-origin");
         var sourceBase = pcm.GetProperty("sourcePtsTimeBase");
         var tolerance = (int)BigInteger.DivRem(
             2 * (BigInteger)Positive(sourceBase, "num") * 22050 + Positive(sourceBase, "den") - 1,
@@ -250,29 +262,31 @@ public static class DraftAnalysisArtifactValidator
         // dense audio rounds sample time (JavaScript Math.round), legacy floors conservatively.
         // Neither may claim media time beyond the host duration, so both are capped there.
         var coverage = Coverage(analysis.GetProperty("coverage"), context.DurationMs);
-        Check(coverage.Length == 1 && coverage[0].Start == 0
-            && coverage[0].End == Math.Min(context.DurationMs, Round(samples * (BigInteger)1000, 22050)),
+        Check(coverage.Length == 1 && coverage[0].Start == Round(offsetUs, 1000)
+            && coverage[0].End == Math.Min(context.DurationMs, Round(offsetUs * (BigInteger)22050 + samples * (BigInteger)1_000_000, 22_050_000)),
             "audio-unverified-coverage-profile");
         var legacyCoverage = Coverage(legacy.GetProperty("coverage"), context.DurationMs);
         var legacyEnd = Math.Min(context.DurationMs, (long)(samples * (BigInteger)1000 / 22050));
         Check(legacyEnd > 0 && legacyCoverage.Length == 1 && legacyCoverage[0].Start == 0
             && legacyCoverage[0].End == legacyEnd, "audio-legacy-coverage");
         var series = DecodeAudio(audio, context.DurationMs, context.MaximumDocumentBytes);
-        Check(series.Count > 0 && series.Count == ExpectedDenseCount(samples, context.DurationMs)
+        Check(series.Count > 0 && series.Count == ExpectedDenseCount(samples, context.DurationMs, offsetUs)
             && audio.GetProperty("measuredFrameCount").GetInt32() == series.Count, "audio-full-count");
         var normalization = analysis.GetProperty("normalization");
         Equal(normalization, "raw", "digital-full-scale-v1");
         Equal(normalization, "driveProjection", "file-peak-v1");
         double maxRms = 0, maxFlux = 0;
+        var timestamps = new long[series.Count];
         for (var index = 0; index < series.Count; index++)
         {
             var point = series.GetPoint(index);
             var start = checked(index * 441 - 1023);
             var valid = Math.Min(samples, start + 2048L) - Math.Max(0, start);
             Check(point.WindowStartSample == start && point.ValidSamples == valid && point.HasBands
-                && point.TimestampMs == Round((2 * (BigInteger)start + 2047) * 1000, 44100)
+                && point.TimestampMs == DenseTimestamp(start, offsetUs)
                 && point.TimestampMs < coverage[0].End, "audio-sample-time-or-window");
             Check(index != 0 || point.SpectralFluxLinear == 0, "audio-first-flux");
+            timestamps[index] = point.TimestampMs;
             maxRms = Math.Max(maxRms, point.RmsLinear);
             maxFlux = Math.Max(maxFlux, point.SpectralFluxLinear);
         }
@@ -287,7 +301,7 @@ public static class DraftAnalysisArtifactValidator
         foreach (var item in audio.GetProperty("audioOnsets").EnumerateArray())
         {
             var timestamp = item.GetProperty("timestampMs").GetInt64();
-            var index = checked((int)(timestamp / 20));
+            var index = Array.BinarySearch(timestamps, timestamp);
             Check(index > 0 && index + 1 < series.Count, "onset-unmeasured-point");
             var point = series.GetPoint(index);
             var confirmed = series.GetPoint(index + 1);
@@ -334,6 +348,44 @@ public static class DraftAnalysisArtifactValidator
         Provenance(provenance, "denseAudio", "audio-stream-probe-v1-draft", "1.2.0-draft", context, revision);
     }
 
+    /// <summary>
+    /// Audio of the selected track that is not a complete contiguous measurement. Image and cuts
+    /// are still published; audio carries only its state, error code and actual reference track.
+    /// </summary>
+    private static void NotQualified(JsonElement audio, JsonElement representation, JsonElement provenance, DraftArtifactContext context, string revision)
+    {
+        var analysis = audio.GetProperty("audioAnalysis");
+        Equal(analysis, "completeness", "absent");
+        Check(context.FfmpegStreamIndex is not null && audio.GetProperty("measuredFrameCount").GetInt32() == 0, "audio-unqualified-host-selection");
+        Track(analysis.GetProperty("referenceTrack"), context);
+        var code = analysis.GetProperty("errorCode").GetString() ?? string.Empty;
+        Check(code.Length is > 0 and <= 64 && code.All(character => character is >= 'A' and <= 'Z' or >= '0' and <= '9' or '_'),
+            "audio-unqualified-error-code");
+        if (analysis.TryGetProperty("producerVersion", out _))
+        {
+            Equal(analysis, "producerVersion", revision);
+        }
+
+        foreach (var property in analysis.EnumerateObject())
+        {
+            Check(property.Name is "state" or "completeness" or "referenceTrack" or "errorCode" or "producerVersion" or "sourcePcm",
+                "audio-unqualified-fabricated-measurement");
+        }
+
+        foreach (var property in new[] { "packedDenseAudioFrames", "denseAudioFrames", "audioFrames", "audioOnsets", "legacyAudioAnalysis", "legacyAudioProvenance" })
+        {
+            Check(!audio.TryGetProperty(property, out _), "audio-unqualified-fabricated-group");
+        }
+
+        foreach (var property in new[] { "denseAudioTargetIntervalMs", "denseAudioSelection", "denseAudioMaxGapMs" })
+        {
+            Check(!representation.TryGetProperty(property, out _), "audio-unqualified-fabricated-representation");
+        }
+
+        Check(!provenance.TryGetProperty("legacyAudio", out _), "audio-unqualified-legacy-provenance");
+        Provenance(provenance, "denseAudio", "audio-stream-probe-v1-draft", "1.2.0-draft", context, revision);
+    }
+
     private static JsonElement Legacy(JsonElement audio, DraftArtifactContext context)
     {
         var legacy = audio.GetProperty("legacyAudioAnalysis");
@@ -346,16 +398,26 @@ public static class DraftAnalysisArtifactValidator
         Equal(view, "methodId", "legacy-concatenated-pcm-window-start-v1");
         Equal(view, "nominalGrid", "timestampMs=index*intervalMs");
         Equal(view, "decodedWindowGrid", "startSample=index*round(intervalMs/1000*22050)");
-        Equal(view, "firstOutputPts", "0");
         var interval = view.GetProperty("intervalMs").GetInt32();
         Check(interval is >= 250 and <= 10000 && interval * 22050L % 1000 == 0
             && view.GetProperty("samplesPerWindow").GetInt32() == interval * 22050 / 1000
             && view.GetProperty("sampleRateHz").GetInt32() == 22050
-            && view.GetProperty("contiguousOutputPts").GetBoolean()
-            && view.GetProperty("sharedMediaGridProven").GetBoolean()
-            && view.GetProperty("mediaOriginUs").GetInt64() == 0
-            && view.GetProperty("sourceStartUs").GetInt64() == 0
-            && view.GetProperty("containerStartUs").GetInt64() == 0, "legacy-unverified-clock");
+            && view.GetProperty("mediaOriginUs").GetInt64() == 0, "legacy-unverified-clock");
+        if (view.GetProperty("sharedMediaGridProven").GetBoolean())
+        {
+            Equal(view, "firstOutputPts", "0");
+            Check(view.GetProperty("contiguousOutputPts").GetBoolean()
+                && view.GetProperty("sourceStartUs").GetInt64() == 0
+                && view.GetProperty("containerStartUs").GetInt64() == 0, "legacy-unverified-clock");
+        }
+        else
+        {
+            // Without a shared media-grid proof the series keeps its own grid and actual first
+            // output PTS. It is never attached to image frames (see ValidateStoredFrameAudio).
+            Check(Pts(view.GetProperty("firstOutputPts").GetString()!) >= 0
+                && view.GetProperty("contiguousOutputPts").ValueKind is JsonValueKind.True or JsonValueKind.False,
+                "legacy-unverified-clock");
+        }
         var provenance = audio.GetProperty("legacyAudioProvenance");
         Equal(provenance, "methodId", "legacy-rms-flux-audio-1.1");
         Equal(provenance, "rms", "unweighted-whole-decoded-window-v1");
@@ -633,16 +695,20 @@ public static class DraftAnalysisArtifactValidator
     /// Windows start every 441 samples at -1023. The worker keeps a window whose centre lies
     /// before the decoded end and whose rounded centre time lies before the host duration.
     /// </summary>
-    private static long ExpectedDenseCount(long samples, long durationMs)
+    private static long ExpectedDenseCount(long samples, long durationMs, long offsetUs)
     {
         var count = (samples + 440) / 441;
-        while (count > 0 && Round((2 * (BigInteger)((count - 1) * 441 - 1023) + 2047) * 1000, 44100) >= durationMs)
+        while (count > 0 && DenseTimestamp((count - 1) * 441 - 1023, offsetUs) >= durationMs)
         {
             count--;
         }
 
         return count;
     }
+
+    /// <summary>Window centre time: offset + (start + 1023.5) / 22050 s, rounded like JavaScript.</summary>
+    private static long DenseTimestamp(long windowStart, long offsetUs) =>
+        Round(offsetUs * (BigInteger)44100 + (2 * (BigInteger)windowStart + 2047) * 1_000_000, 44_100_000);
 
     // JavaScript Math.round ties toward positive infinity, including negative PTS.
     private static long Round(BigInteger numerator, BigInteger denominator)
