@@ -33,7 +33,10 @@ public sealed class ServiceRegistrator : IPluginServiceRegistrator
 
             options.UseSqlite(connectionString);
         });
-        serviceCollection.AddSingleton<IAnalysisRepository, AnalysisRepository>();
+        serviceCollection.AddSingleton<IAnalysisRepository>(provider => new AnalysisRepository(
+            provider.GetRequiredService<IDbContextFactory<AnalysisDbContext>>(),
+            provider.GetRequiredService<AnalysisWriteCoordinator>(),
+            provider.GetRequiredService<ILibraryManager>()));
         serviceCollection.AddSingleton<VoiceRecordingRepository>();
         serviceCollection.AddSingleton<ManualPresetRepository>();
         serviceCollection.AddSingleton<DeviceQualityProfileRepository>();

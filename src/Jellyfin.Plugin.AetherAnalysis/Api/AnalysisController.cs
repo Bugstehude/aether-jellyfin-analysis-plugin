@@ -665,7 +665,7 @@ public sealed class AnalysisController(
         });
     }
 
-    /// <summary>Runs retention and over-capacity cleanup immediately.</summary>
+    /// <summary>Runs orphan, retention and over-capacity cleanup immediately.</summary>
     [HttpPost("maintenance/cleanup")]
     public async Task<ActionResult> RunCleanup(CancellationToken cancellationToken)
     {
@@ -690,6 +690,7 @@ public sealed class AnalysisController(
             cancellationToken).ConfigureAwait(false);
         return Ok(new
         {
+            orphanDeletedRecords = result.OrphanDeletedRecords,
             retentionDeletedRecords = result.RetentionDeletedRecords,
             capacityDeletedRecords = result.CapacityDeletedRecords,
             deletedBytes = result.DeletedBytes,

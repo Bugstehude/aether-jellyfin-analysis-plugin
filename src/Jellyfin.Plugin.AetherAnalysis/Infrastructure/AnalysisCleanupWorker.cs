@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Jellyfin.Plugin.AetherAnalysis.Infrastructure;
 
-/// <summary>Runs bounded retention and over-capacity cleanup without analyzing media.</summary>
+/// <summary>Runs bounded orphan, retention and over-capacity cleanup without analyzing media.</summary>
 public sealed class AnalysisCleanupWorker(
     IAnalysisRepository repository,
     AnalysisWriteCoordinator writeCoordinator,
@@ -35,7 +35,8 @@ public sealed class AnalysisCleanupWorker(
                     new AnalysisCleanupRequest(cutoff, maxStoredBytes, null, "scheduled", now),
                     stoppingToken).ConfigureAwait(false);
                 logger.LogInformation(
-                    "AETHER cleanup completed: {RetentionDeleted} retention, {CapacityDeleted} LRU, {DeletedBytes} bytes deleted",
+                    "AETHER cleanup completed: {OrphanDeleted} orphan, {RetentionDeleted} retention, {CapacityDeleted} LRU, {DeletedBytes} bytes deleted",
+                    result.OrphanDeletedRecords,
                     result.RetentionDeletedRecords,
                     result.CapacityDeletedRecords,
                     result.DeletedBytes);

@@ -28,7 +28,7 @@ public interface IAnalysisRepository
     /// <summary>Gets aggregate storage statistics.</summary>
     Task<AnalysisStorageStats> GetStatsAsync(CancellationToken cancellationToken);
 
-    /// <summary>Applies retention and least-recently-used capacity cleanup.</summary>
+    /// <summary>Removes orphan analyses, then applies retention and least-recently-used capacity cleanup.</summary>
     Task<AnalysisCleanupResult> CleanupAsync(AnalysisCleanupRequest request, CancellationToken cancellationToken);
 
     /// <summary>Gets the latest successful maintenance summary.</summary>
@@ -96,7 +96,11 @@ public sealed record AnalysisCleanupResult(
     int RetentionDeletedRecords,
     int CapacityDeletedRecords,
     long DeletedBytes,
-    long StoredBytesAfter);
+    long StoredBytesAfter)
+{
+    /// <summary>Gets the number of analyses whose items no longer exist in Jellyfin.</summary>
+    public int OrphanDeletedRecords { get; init; }
+}
 
 /// <summary>Persistent summary of the latest successful cleanup.</summary>
 public sealed record AnalysisMaintenanceSummary(
