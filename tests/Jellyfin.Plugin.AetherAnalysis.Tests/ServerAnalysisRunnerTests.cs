@@ -48,6 +48,21 @@ public sealed class ServerAnalysisRunnerTests
     }
 
     [Fact]
+    public async Task MovingItemToAnotherLibraryWithSameIdentityReusesStoredAnalysis()
+    {
+        using var fixture = new RunnerFixture();
+        fixture.Item.ParentId = Guid.NewGuid();
+        var record = fixture.Store("1.0.0");
+        fixture.Item.ParentId = Guid.NewGuid();
+
+        var result = await fixture.Runner.AnalyzeItemAsync(fixture.Item.Id, null, default, "source-1");
+
+        Assert.Equal("already-current", Assert.Single(result.Sources).Detail);
+        Assert.Same(record, Assert.Single(fixture.Records.Values));
+        await fixture.Worker.DidNotReceiveWithAnyArgs().AnalyzeAsync(default!, 0, 0, 0, null, default);
+    }
+
+    [Fact]
     public async Task RoutineUpgradesOlderVersionThenSkipsItOnTheNextRun()
     {
         using var fixture = new RunnerFixture();

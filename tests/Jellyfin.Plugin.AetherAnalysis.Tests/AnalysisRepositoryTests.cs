@@ -1,11 +1,131 @@
 using Jellyfin.Plugin.AetherAnalysis.Application;
 using Jellyfin.Plugin.AetherAnalysis.Infrastructure;
+using MediaBrowser.Controller.Entities;
+using MediaBrowser.Controller.Entities.Movies;
+using MediaBrowser.Controller.Library;
 using Microsoft.EntityFrameworkCore;
+using NSubstitute;
 
 namespace Jellyfin.Plugin.AetherAnalysis.Tests;
 
 public sealed class AnalysisRepositoryTests
 {
+    [Fact]
+    public async Task CleanupRemovesOrphansAcrossBatchesButKeepsItemsInAnotherLibraryAndProtectedSources()
+    {
+        var path = Path.Combine(Path.GetTempPath(), $"aether-orphans-{Guid.NewGuid():N}.sqlite");
+        try
+        {
+            var factory = new TestContextFactory(new DbContextOptionsBuilder<AnalysisDbContext>()
+                .UseSqlite($"Data Source={path}").Options);
+            var missingId = Guid.Parse("00000000-0000-0000-0000-000000000001");
+            var liveId = Guid.Parse("00000000-0000-0000-0000-000000000002");
+            var laterMissingId = Guid.Parse("00000000-0000-0000-0000-000000000003");
+            await using (var context = await factory.CreateDbContextAsync())
+            {
+                await context.Database.MigrateAsync();
+                // More than one page, with retained rows between deleted rows.
+                for (var i = 0; i < 600; i++)
+                {
+                    var record = CreateRecord($"source-{i:D4}", "\"etag\"", 4);
+                    record.ItemId = i < 300 ? missingId : i < 580 ? liveId : laterMissingId;
+                    context.Analyses.Add(record);
+                }
+                await context.SaveChangesAsync();
+            }
+
+            var library = Substitute.For<ILibraryManager>();
+            // The current catalog entry has the same ID but belongs to a new library.
+            // A missing filesystem path must not affect orphan detection.
+            library.GetItemById<BaseItem>(liveId).Returns(new Movie
+            {
+                Id = liveId,
+                ParentId = Guid.NewGuid(),
+                Path = "/offline/new-library/movie.mkv"
+            });
+            using var coordinator = new AnalysisWriteCoordinator();
+            var protectedKey = new AnalysisKey(missingId, "source-0000", "aether-visual", "1.0.0");
+            using var protection = coordinator.Protect(protectedKey);
+            var repository = new AnalysisRepository(factory, coordinator, library);
+            var result = await repository.CleanupAsync(
+                new AnalysisCleanupRequest(null, 10000, null, "scheduled", DateTimeOffset.UtcNow), default);
+
+            Assert.Equal(319, result.OrphanDeletedRecords);
+            Assert.Equal(0, result.RetentionDeletedRecords);
+            Assert.Equal(0, result.CapacityDeletedRecords);
+            Assert.Equal(1276, result.DeletedBytes);
+            Assert.Equal(1124, result.StoredBytesAfter);
+            Assert.NotNull(await repository.GetAsync(protectedKey, default));
+            var summary = await repository.GetMaintenanceSummaryAsync(default);
+            Assert.Equal(result.DeletedBytes, summary!.LastDeletedBytes);
+            await using var remaining = await factory.CreateDbContextAsync();
+            Assert.Equal(280, await remaining.Analyses.CountAsync(value => value.ItemId == liveId));
+            Assert.Equal(0, await remaining.Analyses.CountAsync(value => value.ItemId == laterMissingId));
+
+            protection.Dispose();
+            var manual = await repository.CleanupAsync(
+                new AnalysisCleanupRequest(null, 10000, null, "manual", DateTimeOffset.UtcNow), default);
+            Assert.Equal(1, manual.OrphanDeletedRecords);
+            Assert.Equal(280, (await repository.GetStatsAsync(default)).RecordCount);
+        }
+        finally
+        {
+            File.Delete(path);
+        }
+    }
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task CleanupRollsBackPriorOrphanBatchesWhenCatalogLookupFailsOrIsCancelled(bool cancel)
+    {
+        var path = Path.Combine(Path.GetTempPath(), $"aether-orphans-rollback-{Guid.NewGuid():N}.sqlite");
+        try
+        {
+            var factory = new TestContextFactory(new DbContextOptionsBuilder<AnalysisDbContext>()
+                .UseSqlite($"Data Source={path}").Options);
+            var missingId = Guid.Parse("00000000-0000-0000-0000-000000000001");
+            var failingId = Guid.Parse("00000000-0000-0000-0000-000000000002");
+            await using (var context = await factory.CreateDbContextAsync())
+            {
+                await context.Database.MigrateAsync();
+                for (var i = 0; i < 257; i++)
+                {
+                    var record = CreateRecord($"source-{i:D4}", "\"etag\"");
+                    record.ItemId = i < 256 ? missingId : failingId;
+                    context.Analyses.Add(record);
+                }
+                await context.SaveChangesAsync();
+            }
+
+            var library = Substitute.For<ILibraryManager>();
+            using var cancellation = new CancellationTokenSource();
+            library.GetItemById<BaseItem>(failingId).Returns(_ =>
+            {
+                if (!cancel) throw new InvalidOperationException("Catalog unavailable");
+                cancellation.Cancel();
+                return (BaseItem?)null;
+            });
+            var repository = new AnalysisRepository(factory, libraryManager: library);
+            var request = new AnalysisCleanupRequest(null, 0, null, "manual", DateTimeOffset.UtcNow);
+            if (cancel)
+            {
+                await Assert.ThrowsAnyAsync<OperationCanceledException>(() => repository.CleanupAsync(request, cancellation.Token));
+            }
+            else
+            {
+                await Assert.ThrowsAsync<InvalidOperationException>(() => repository.CleanupAsync(request, default));
+            }
+
+            Assert.Equal(257, (await repository.GetStatsAsync(default)).RecordCount);
+            Assert.Null(await repository.GetMaintenanceSummaryAsync(default));
+        }
+        finally
+        {
+            File.Delete(path);
+        }
+    }
+
     [Fact]
     public async Task RunningUpgradeProtectsSourceFromRetentionAndCapacityCleanup()
     {

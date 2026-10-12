@@ -30,9 +30,17 @@ is running.
 ## Capacity
 
 The default compressed-analysis ceiling is 10 GiB. Administrators can change it in the plugin
-configuration. Scheduled and manual cleanup apply retention first and then least-recently-used
+configuration. Scheduled and manual cleanup first remove analyses whose item IDs no longer
+exist in Jellyfin's catalog, even with retention set to zero. They then apply retention and least-recently-used
 eviction. The admin status endpoint reports record count, compressed bytes, configured ceiling,
 latest cleanup and non-sensitive operational counters.
+
+Orphan cleanup checks the catalog without a user visibility filter and does not check file
+availability. An item still present in another library keeps its analyses, provided its item ID
+is unchanged. Reuse still requires matching media-source identity and fingerprint. A new item
+ID is not automatically matched to an old analysis, even for the same file. Library lookup errors
+abort cleanup and roll back deletions. Orphan deletion counts are returned by manual cleanup and
+logged for scheduled cleanup; the persisted summary includes their bytes in total deleted bytes.
 
 During a server replacement the readable source analysis is temporarily protected from retention
 and LRU. Both old and new results must fit for a version upgrade to commit. If they cannot fit,

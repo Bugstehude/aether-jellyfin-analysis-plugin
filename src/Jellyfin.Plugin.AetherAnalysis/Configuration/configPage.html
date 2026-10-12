@@ -31,10 +31,12 @@
           <div class="inputContainer">
             <label class="inputLabel inputLabelUnfocused" for="RetentionDays">Retention days (0 = unlimited)</label>
             <input id="RetentionDays" type="number" min="0" max="36500" step="1" required>
+            <div class="fieldDescription">0 disables age-based expiry. Analyses for items removed from Jellyfin are still cleaned up.</div>
           </div>
           <div class="inputContainer">
             <label class="inputLabel inputLabelUnfocused" for="CleanupIntervalHours">Cleanup interval (hours)</label>
             <input id="CleanupIntervalHours" type="number" min="1" max="168" step="1" required>
+            <div class="fieldDescription">Cleanup removes analyses for deleted items, expired analyses and data exceeding the storage limit. Items still present in another library are kept.</div>
           </div>
           <div class="inputContainer">
             <label class="inputLabel inputLabelUnfocused" for="AllowedOrigins">Allowed browser origins (one per line)</label>

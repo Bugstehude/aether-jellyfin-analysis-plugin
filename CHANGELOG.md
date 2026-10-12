@@ -4,6 +4,13 @@ All notable changes to implementation and canonical contracts are recorded here.
 
 ## Unreleased
 
+## [0.4.3.0] (2026-10-12)
+
+- Scheduled and manual cleanup remove orphan analyses for deleted Jellyfin items even with
+  unlimited retention. Items still in the catalog, including other libraries or offline files,
+  retain their analyses under the existing retention and capacity rules. Lookup errors roll back
+  cleanup, and in-flight replacement sources remain protected.
+
 ## [0.4.2.0] (2026-10-06)
 
 - 1.2 masters are published when only the audio is not qualified. The first live run lost image

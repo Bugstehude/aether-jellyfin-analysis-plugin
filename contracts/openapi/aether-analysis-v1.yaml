@@ -696,7 +696,7 @@ paths:
     post:
       operationId: runAetherAnalysisCleanup
       tags: [Administration]
-      summary: Run retention and over-capacity LRU cleanup immediately
+      summary: Run orphan, retention and over-capacity LRU cleanup immediately
       responses:
         "200":
           description: Cleanup result
@@ -1071,6 +1071,9 @@ components:
         - deletedBytes
         - storedBytesAfter
       properties:
+        orphanDeletedRecords:
+          type: integer
+          description: Analyses removed because their Jellyfin item no longer exists.
         retentionDeletedRecords:
           type: integer
         capacityDeletedRecords:

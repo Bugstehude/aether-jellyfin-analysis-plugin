@@ -1,4 +1,6 @@
 using Jellyfin.Plugin.AetherAnalysis.Application;
+using MediaBrowser.Controller.Entities;
+using MediaBrowser.Controller.Library;
 using Microsoft.EntityFrameworkCore;
 
 namespace Jellyfin.Plugin.AetherAnalysis.Infrastructure;
@@ -6,7 +8,8 @@ namespace Jellyfin.Plugin.AetherAnalysis.Infrastructure;
 /// <summary>EF Core implementation of plugin-owned analysis storage.</summary>
 public sealed class AnalysisRepository(
     IDbContextFactory<AnalysisDbContext> contextFactory,
-    AnalysisWriteCoordinator? writeCoordinator = null)
+    AnalysisWriteCoordinator? writeCoordinator = null,
+    ILibraryManager? libraryManager = null)
     : IAnalysisRepository
 {
     private const int CleanupBatchSize = 256;
@@ -215,7 +218,9 @@ public sealed class AnalysisRepository(
     {
         await using var context = await contextFactory.CreateDbContextAsync(cancellationToken).ConfigureAwait(false);
         await using var transaction = await context.Database.BeginTransactionAsync(cancellationToken).ConfigureAwait(false);
-        var result = await CleanupCoreAsync(context, request, writeCoordinator?.ProtectedKeys ?? [], cancellationToken).ConfigureAwait(false);
+        var protectedKeys = writeCoordinator?.ProtectedKeys ?? [];
+        var orphaned = await CleanupOrphansAsync(context, request, protectedKeys, cancellationToken).ConfigureAwait(false);
+        var result = await CleanupCoreAsync(context, request, protectedKeys, cancellationToken, orphaned).ConfigureAwait(false);
         await transaction.CommitAsync(cancellationToken).ConfigureAwait(false);
         return result;
     }
@@ -224,11 +229,12 @@ public sealed class AnalysisRepository(
         AnalysisDbContext context,
         AnalysisCleanupRequest request,
         IReadOnlyCollection<AnalysisKey> protectedKeys,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken,
+        (int Records, long Bytes) orphaned = default)
     {
         var retentionDeleted = 0;
         var capacityDeleted = 0;
-        var deletedBytes = 0L;
+        var deletedBytes = orphaned.Bytes;
 
         if (request.RetentionCutoff.HasValue)
         {
@@ -286,7 +292,53 @@ public sealed class AnalysisRepository(
         await context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
         var storedBytesAfter = await GetStoredBytesAsync(context, cancellationToken).ConfigureAwait(false);
-        return new AnalysisCleanupResult(retentionDeleted, capacityDeleted, deletedBytes, storedBytesAfter);
+        return new AnalysisCleanupResult(retentionDeleted, capacityDeleted, deletedBytes, storedBytesAfter)
+        {
+            OrphanDeletedRecords = orphaned.Records
+        };
+    }
+
+    private async Task<(int Records, long Bytes)> CleanupOrphansAsync(
+        AnalysisDbContext context,
+        AnalysisCleanupRequest request,
+        IReadOnlyCollection<AnalysisKey> protectedKeys,
+        CancellationToken cancellationToken)
+    {
+        if (libraryManager is null) return default;
+
+        var skipped = 0;
+        var deleted = 0;
+        var bytes = 0L;
+        while (true)
+        {
+            // Stable pagination over lightweight metadata. Deleted rows do not advance
+            // the offset. Protected analyses are excluded by the same rules as retention.
+            var batch = await SelectCandidates(CandidateQuery(context, request.ExcludedKey, protectedKeys)
+                    .OrderBy(value => value.ItemId)
+                    .ThenBy(value => value.MediaSourceId)
+                    .ThenBy(value => value.AlgorithmId)
+                    .ThenBy(value => value.AlgorithmVersion)
+                    .Skip(skipped), cancellationToken)
+                .ConfigureAwait(false);
+            if (batch.Count == 0) break;
+
+            var missingIds = new HashSet<Guid>();
+            foreach (var itemId in batch.Select(value => value.ItemId).Distinct())
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                // Check Jellyfin's catalog, never filesystem availability or user access.
+                // Lookup failures propagate and roll back the entire cleanup transaction.
+                if (libraryManager.GetItemById<BaseItem>(itemId) is null) missingIds.Add(itemId);
+            }
+
+            var orphans = batch.Where(value => missingIds.Contains(value.ItemId)).ToList();
+            await DeleteCandidatesAsync(context, orphans, cancellationToken).ConfigureAwait(false);
+            deleted += orphans.Count;
+            bytes += orphans.Sum(value => (long)value.StoredBytes);
+            skipped += batch.Count - orphans.Count;
+        }
+
+        return (deleted, bytes);
     }
 
     /// <inheritdoc />
@@ -352,7 +404,7 @@ public sealed class AnalysisRepository(
     }
 
     private static Task<List<CleanupCandidate>> SelectCandidates(
-        IOrderedQueryable<AnalysisRecord> query,
+        IQueryable<AnalysisRecord> query,
         CancellationToken cancellationToken) => query
         .Take(CleanupBatchSize)
         .Select(value => new CleanupCandidate(
