@@ -63,6 +63,39 @@ public sealed class AnalysisDocumentValidatorTests
         Assert.True(result.IsValid, result.Error);
     }
 
+    [Fact]
+    public void AcceptsAContractConformStoredMaster()
+    {
+        var upload = System.Text.Json.Nodes.JsonNode.Parse(Upload().GetRawText())!.AsObject();
+        var media = new MediaFingerprint(Guid.NewGuid(), "source", Fingerprint, "strong", 60000);
+        var master = new AnalysisRepresentationService().BuildMaster(upload, media, "aether-visual", "1.1.0", DateTimeOffset.UtcNow);
+        using var document = JsonDocument.Parse(master);
+
+        Assert.True(new AnalysisDocumentValidator().IsValidStoredMaster(document.RootElement, Fingerprint));
+    }
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public void RejectsNullPaletteEntriesWithoutThrowing(bool storedMaster)
+    {
+        var body = System.Text.Json.Nodes.JsonNode.Parse(Upload().GetRawText())!;
+        body["frames"]![0]!["palette"] = new System.Text.Json.Nodes.JsonArray((System.Text.Json.Nodes.JsonNode?)null);
+        using var document = JsonDocument.Parse(body.ToJsonString());
+        var validator = new AnalysisDocumentValidator();
+
+        if (storedMaster)
+        {
+            Assert.False(validator.IsValidStoredMaster(document.RootElement, Fingerprint));
+        }
+        else
+        {
+            var result = validator.Validate(document.RootElement, MaxBytes);
+            Assert.False(result.IsValid);
+            Assert.Equal("analysis-invalid", result.Code);
+        }
+    }
+
     [Theory]
     [InlineData("""{ "schemaVersion": 1 }""")]
     [InlineData("""{ "schemaVersion": 3 }""")]

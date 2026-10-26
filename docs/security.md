@@ -18,9 +18,10 @@ The test project runs outside Jellyfin. It therefore pins `SQLitePCLRaw.bundle_e
 which resolves to the patched SourceGear native SQLite package. The CI vulnerability gate audits
 both the production and test dependency graphs and fails on every NuGet advisory severity.
 
-The deterministic install archive is verified to contain
-`Jellyfin.Plugin.AetherAnalysis.dll` and the executable `aether-analysis-worker.cjs`. Both are part
-of the release boundary and the worker is recorded with its SHA-256 hash in the CycloneDX SBOM.
+The deterministic install archive contains exactly the plugin DLL, the legacy and 1.2 worker
+bundles and the 1.2 runtime pin manifest. Packaging checks every worker/manifest byte against
+the canonical repository source and its SHA-256 entry in the CycloneDX SBOM. Reused publish
+output is not trusted as the source of vendored worker assets.
 The Jellyfin smoke test loads that exact archive into the digest-pinned official Jellyfin 12.0.0
 image and repeats the endpoint check after restart.
 

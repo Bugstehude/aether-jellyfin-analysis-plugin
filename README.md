@@ -31,7 +31,7 @@ After an intentional OpenAPI or schema change, run `tools/contract-hash.sh` and 
 
 ## Current scope
 
-Version **0.3.0.0 requires Jellyfin 12.0.0**. For Jellyfin 10.11.11, use plugin
+Version **0.4.3.0 requires Jellyfin 12.0.0**. For Jellyfin 10.11.11, use plugin
 0.2.9.0. The compatibility update preserves the client API and stored analysis format.
 
 Version 0.2.4.0 includes the storage-plugin foundation:
@@ -132,7 +132,8 @@ tools/package-plugin.sh
 
 The installable artifact is `artifacts/package/aether-analysis-<build.yaml version>.zip`. Its SHA-256 checksum
 and CycloneDX SBOM are generated beside it. The archive contains
-`Jellyfin.Plugin.AetherAnalysis.dll` and the vendored `aether-analysis-worker.cjs`; do not copy
+`Jellyfin.Plugin.AetherAnalysis.dll`, both vendored worker bundles and the 1.2 pin manifest.
+Packaging verifies their bytes against the canonical sources and generated SBOM; do not copy
 test-native libraries or host framework assemblies into Jellyfin's plugin directory. Jellyfin
 12.0.0 supplies the exactly pinned runtime dependencies.
 

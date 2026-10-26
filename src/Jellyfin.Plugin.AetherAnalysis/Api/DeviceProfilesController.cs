@@ -37,6 +37,7 @@ namespace Jellyfin.Plugin.AetherAnalysis.Api;
 public sealed partial class DeviceProfilesController(
     DeviceQualityProfileRepository profiles,
     DeviceQualityProfileValidator validator,
+    AnalysisWriteCoordinator writeCoordinator,
     ILogger<DeviceProfilesController> logger) : ControllerBase
 {
     private static readonly string[] AllowedClients = ["tvos", "web"];
@@ -84,6 +85,7 @@ public sealed partial class DeviceProfilesController(
 
     /// <summary>Stores or replaces one device profile. Last write wins; there is no history.</summary>
     [HttpPut("{client}/{ladder}/{deviceIdentifier}")]
+    [ServiceFilter(typeof(DeviceProfileUploadResourceFilter))]
     public async Task<ActionResult> PutProfile(
         string client,
         string ladder,
@@ -103,6 +105,7 @@ public sealed partial class DeviceProfilesController(
                 StatusCodes.Status400BadRequest, "invalid-device-profile", result.Error ?? "Device profile body is invalid.");
         }
 
+        using var writeLease = await writeCoordinator.AcquireAsync(cancellationToken).ConfigureAwait(false);
         await profiles.UpsertAsync(
             client,
             ladder,

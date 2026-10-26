@@ -102,6 +102,41 @@ public sealed class JourneyTrackStoreTests : IDisposable
     }
 
     [Fact]
+    public async Task CancellationAtEndOfBodyKeepsPreviousBytesAndContentType()
+    {
+        var store = Store;
+        await store.WriteAsync(new MemoryStream(new byte[10]), "audio/mpeg", CancellationToken.None);
+        using var cancellation = new CancellationTokenSource();
+        await using var replacement = new CancelAtEndStream(new byte[25], cancellation);
+
+        await Assert.ThrowsAnyAsync<OperationCanceledException>(() =>
+            store.WriteAsync(replacement, "audio/ogg", cancellation.Token));
+
+        Assert.Equal(10, store.GetInfo()!.Bytes);
+        Assert.Equal("audio/mpeg", store.GetInfo()!.ContentType);
+        await using var stream = store.OpenRead();
+        using var buffer = new MemoryStream();
+        await stream!.CopyToAsync(buffer);
+        Assert.Equal(new byte[10], buffer.ToArray());
+        Assert.Empty(Directory.GetFiles(folder, "*.part"));
+    }
+
+    private sealed class CancelAtEndStream(byte[] data, CancellationTokenSource cancellation)
+        : MemoryStream(data)
+    {
+        public override ValueTask<int> ReadAsync(Memory<byte> buffer, CancellationToken cancellationToken = default)
+        {
+            if (Position == Length)
+            {
+                cancellation.Cancel();
+                return ValueTask.FromResult(0);
+            }
+
+            return base.ReadAsync(buffer, cancellationToken);
+        }
+    }
+
+    [Fact]
     public async Task DeleteIsRepeatable()
     {
         await Store.WriteAsync(new MemoryStream(new byte[10]), "audio/mpeg", CancellationToken.None);

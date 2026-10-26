@@ -23,7 +23,10 @@ not silently select the entire library.
 3. Call `GET /capabilities` once per authenticated server session.
 4. Require API `1.0`, schema `2`, the desired detail level and an algorithm accepted by the
    [analysis version contract](analysis-version-contract.md). Use `readCompatibility` for reads
-   when available. New server analyses currently use `aether-visual@1.1.0`.
+   when available. New server analyses use `aether-visual@1.2.0` in the current 0.4.x implementation.
+   Legacy 1.0/1.1 records remain available through the negotiated read matrix; an ordinary
+   server job may retain a valid compatible record. Only an explicit `recalculate=true`
+   request forces replacement of that source.
 5. Honor the returned upload and batch limits. A client must not hard-code a larger value.
 
 Tokens must never be placed in URLs, analysis documents, telemetry or persistent analysis caches.

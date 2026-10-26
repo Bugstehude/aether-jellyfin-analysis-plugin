@@ -41,6 +41,7 @@ public sealed class ServiceRegistrator : IPluginServiceRegistrator
         serviceCollection.AddSingleton<ManualPresetRepository>();
         serviceCollection.AddSingleton<DeviceQualityProfileRepository>();
         serviceCollection.AddSingleton<DeviceQualityProfileValidator>();
+        serviceCollection.AddSingleton<DeviceProfileUploadResourceFilter>();
         serviceCollection.AddSingleton(_ => new JourneyTrackStore(
             Plugin.Instance?.DataFolderPath
                 ?? throw new InvalidOperationException("AETHER plugin data path is not initialized.")));

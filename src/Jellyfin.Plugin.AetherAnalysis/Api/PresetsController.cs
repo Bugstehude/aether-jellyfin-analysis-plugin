@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using System.Text.Json;
+using Jellyfin.Plugin.AetherAnalysis.Application;
 using Jellyfin.Plugin.AetherAnalysis.Infrastructure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -22,7 +23,10 @@ namespace Jellyfin.Plugin.AetherAnalysis.Api;
 [ApiController]
 [Authorize]
 [Route("AetherAnalysis/v1/presets")]
-public sealed class PresetsController(ManualPresetRepository presets, ILogger<PresetsController> logger)
+public sealed class PresetsController(
+    ManualPresetRepository presets,
+    AnalysisWriteCoordinator writeCoordinator,
+    ILogger<PresetsController> logger)
     : ControllerBase
 {
     private const string UserIdClaim = "Jellyfin-UserId";
@@ -66,6 +70,7 @@ public sealed class PresetsController(ManualPresetRepository presets, ILogger<Pr
         // Die Obergrenze nur beim NEUANLEGEN prüfen: ein bestehendes Preset zu
         // aktualisieren darf nicht daran scheitern, dass der Vorrat inzwischen
         // voll ist — sonst könnte man ein Preset irgendwann nicht mehr umbenennen.
+        using var writeLease = await writeCoordinator.AcquireAsync(cancellationToken).ConfigureAwait(false);
         var existingCount = await presets.CountAsync(userId, cancellationToken).ConfigureAwait(false);
         if (existingCount >= ManualPresetRepository.MaxPresetsPerUser)
         {
@@ -102,6 +107,7 @@ public sealed class PresetsController(ManualPresetRepository presets, ILogger<Pr
             return ProblemResult(StatusCodes.Status400BadRequest, "invalid-preset-id", "Preset id is invalid.");
         }
 
+        using var writeLease = await writeCoordinator.AcquireAsync(cancellationToken).ConfigureAwait(false);
         await presets.DeleteAsync(userId, id, cancellationToken).ConfigureAwait(false);
         return NoContent();
     }

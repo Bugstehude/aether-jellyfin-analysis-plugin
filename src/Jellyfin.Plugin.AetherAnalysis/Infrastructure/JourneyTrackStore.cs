@@ -102,6 +102,7 @@ public sealed class JourneyTrackStore
     {
         Directory.CreateDirectory(dataFolder);
         var temporary = TrackPath + ".part";
+        var temporaryType = TypePath + ".part";
         long written = 0;
         try
         {
@@ -131,13 +132,19 @@ public sealed class JourneyTrackStore
                 return 0;
             }
 
+            // Finish all cancellable work before replacing either existing file.
+            // The controller's shared write lease serializes this commit with other
+            // uploads/deletes; cancellation must not replace bytes but keep old MIME.
+            await File.WriteAllTextAsync(temporaryType, contentType, cancellationToken).ConfigureAwait(false);
+            cancellationToken.ThrowIfCancellationRequested();
             File.Move(temporary, TrackPath, overwrite: true);
-            await File.WriteAllTextAsync(TypePath, contentType, cancellationToken).ConfigureAwait(false);
+            File.Move(temporaryType, TypePath, overwrite: true);
             return written;
         }
         finally
         {
             TryDelete(temporary);
+            TryDelete(temporaryType);
         }
     }
 

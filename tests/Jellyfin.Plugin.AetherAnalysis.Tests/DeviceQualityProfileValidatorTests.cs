@@ -17,7 +17,7 @@ public sealed class DeviceQualityProfileValidatorTests
     private const string Ladder = "tvos-7";
     private const string DeviceIdentifier = "AppleTV14,1";
 
-    private static JsonElement Profile(string? overrides = null)
+    internal static JsonElement Profile(string? overrides = null)
     {
         var json = """
             {
