@@ -3,7 +3,7 @@
 This document distinguishes committed behavior from accepted design. It is updated with every
 implementation milestone so consumers never infer features from the architecture document alone.
 
-## Current source baseline: 0.4.3.0
+## Current source baseline: 0.4.4.0
 
 The current implementation produces host-verified `aether-visual/1.2.0` server
 analyses and negotiates compatible reads of existing 1.0/1.1 records. Ordinary

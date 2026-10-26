@@ -31,7 +31,7 @@ After an intentional OpenAPI or schema change, run `tools/contract-hash.sh` and 
 
 ## Current scope
 
-Version **0.4.3.0 requires Jellyfin 12.0.0**. For Jellyfin 10.11.11, use plugin
+Version **0.4.4.0 requires Jellyfin 12.0.0**. For Jellyfin 10.11.11, use plugin
 0.2.9.0. The compatibility update preserves the client API and stored analysis format.
 
 Version 0.2.4.0 includes the storage-plugin foundation:

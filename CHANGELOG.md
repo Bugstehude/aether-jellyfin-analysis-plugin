@@ -4,6 +4,17 @@ All notable changes to implementation and canonical contracts are recorded here.
 
 ## Unreleased
 
+## [0.4.4.0] (2026-10-26)
+
+- Concurrent preset and device-profile writes are serialized; the preset quota and the
+  last-write-wins contract hold under parallel requests.
+- A cancelled journey-track upload keeps the previous bytes.
+- Device profiles are limited to 256 KiB before JSON binding (Content-Length and chunked);
+  oversized bodies still return 400.
+- Null palette entries are rejected; invalid process timeouts are rejected before process start.
+- Packaging stages canonical assets and verifies archive contents and hashes against the SBOM.
+- No API, schema, permission or dependency changes.
+
 ## [0.4.3.0] (2026-10-12)
 
 - Scheduled and manual cleanup remove orphan analyses for deleted Jellyfin items even with
