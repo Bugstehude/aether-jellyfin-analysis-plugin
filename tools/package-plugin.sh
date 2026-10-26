@@ -47,9 +47,11 @@ done
 mkdir -p "$staging_dir" "$package_dir"
 find "$staging_dir" -mindepth 1 -maxdepth 1 -delete
 cp "$publish_dir/Jellyfin.Plugin.AetherAnalysis.dll" "$staging_dir/"
-cp "$publish_dir/$worker_file" "$staging_dir/"
-cp "$publish_dir/$worker_1_2_file" "$staging_dir/"
-cp "$publish_dir/$worker_1_2_manifest" "$staging_dir/"
+# Vendored source is canonical: PreserveNewest publish copies can retain
+# stale, newer-dated assets after a checkout or a reused local build.
+cp "$root/worker/$worker_file" "$staging_dir/"
+cp "$root/worker/$worker_1_2_file" "$staging_dir/"
+cp "$root/worker/$worker_1_2_manifest" "$staging_dir/"
 chmod 0644 "$staging_dir/Jellyfin.Plugin.AetherAnalysis.dll" "$staging_dir/$worker_file" \
   "$staging_dir/$worker_1_2_file" "$staging_dir/$worker_1_2_manifest"
 TZ=UTC touch -t 198001010000 "$staging_dir/Jellyfin.Plugin.AetherAnalysis.dll" "$staging_dir/$worker_file" \
@@ -68,6 +70,7 @@ else
 fi
 
 python3 "$root/tools/generate-sbom.py" "$package_dir/aether-analysis-${version}.cdx.json"
+python3 "$root/tools/verify-package.py" "$archive" "$package_dir/aether-analysis-${version}.cdx.json"
 python3 "$root/tools/generate-repository-manifest.py" \
   "$archive" \
   "$package_dir/manifest.json" \

@@ -153,7 +153,8 @@ public sealed partial class AnalysisDocumentValidator
 
             if (frame.Palette is null
                 || frame.Palette.Count > 5
-                || frame.Palette.Any(color => color.Red is < 0 or > 255
+                || frame.Palette.Any(color => color is null
+                    || color.Red is < 0 or > 255
                     || color.Green is < 0 or > 255
                     || color.Blue is < 0 or > 255
                     || !IsUnit(color.Coverage))

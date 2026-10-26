@@ -33,6 +33,7 @@ public sealed record DraftProcessResult(byte[] StandardOutput, string StandardEr
 public static class DraftBoundedProcess
 {
     private static readonly TimeSpan MonitorInterval = TimeSpan.FromMilliseconds(50);
+    private static readonly TimeSpan MaximumTimeout = TimeSpan.FromMilliseconds(uint.MaxValue - 1d);
 
     /// <summary>Runs a child process with bounded pipes, runtime, memory, and optional file output.</summary>
     /// <param name="request">Process and resource limit settings.</param>
@@ -201,6 +202,7 @@ public static class DraftBoundedProcess
             || request.Environment is null
             || request.Arguments.Any(static value => value is null)
             || request.Environment.Any(static pair => string.IsNullOrWhiteSpace(pair.Key) || pair.Value is null)
+            || request.Timeout > MaximumTimeout
             || request.Timeout <= TimeSpan.Zero
             || request.Timeout == Timeout.InfiniteTimeSpan
             || request.MaxOutputBytes < 0

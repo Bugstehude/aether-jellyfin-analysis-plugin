@@ -3,7 +3,21 @@
 This document distinguishes committed behavior from accepted design. It is updated with every
 implementation milestone so consumers never infer features from the architecture document alone.
 
-## Unreleased analysis version contract
+## Current source baseline: 0.4.3.0
+
+The current implementation produces host-verified `aether-visual/1.2.0` server
+analyses and negotiates compatible reads of existing 1.0/1.1 records. Ordinary
+source-scoped jobs may keep a valid compatible result; `recalculate=true` forces
+replacement. See [analysis-version-contract.md](analysis-version-contract.md).
+Cleanup now removes records whose Jellyfin item no longer exists. A removed
+media source on an otherwise surviving item is a separate remaining cleanup case.
+The release-readiness and target-system acceptance gates remain unchanged.
+
+The dated sections below record earlier implementation milestones and acceptance
+history; their former closed-gate or planned-version notes do not describe the
+current runtime selection.
+
+## Historical analysis version contract
 
 - Explicit read compatibility between `aether-visual/1.0.0` and `1.1.0` in both directions.
 - Opt-in metadata-only compatible batch selection, actual algorithm identity in available status,
@@ -169,7 +183,7 @@ implementation milestone so consumers never infer features from the architecture
 
 ## Accepted but not yet implemented
 
-- Orphan cleanup for items or media sources removed from Jellyfin.
+- Cleanup for removed media sources whose Jellyfin item still exists.
 - External importer for the transitional AETHER sidecar.
 - Generated TypeScript client package and automated consumer synchronization releases.
 - Target-LXC install/upgrade/uninstall acceptance, backup test and Quest 3S benchmark.
@@ -177,6 +191,6 @@ implementation milestone so consumers never infer features from the architecture
 Folder and multi-item selection remain AETHER client concerns. The optional server runner is
 described by ADR 0005; with server analysis disabled, the plugin remains a storage-only service.
 
-Version 0.3.0.0 remains a test release. Fresh installation, authenticated API access, storage
-initialization and restart pass against Jellyfin 12.0.0 on local x64 Docker and x64 CI. It must
-not be treated as production-ready until target-LXC upgrade and uninstall acceptance pass.
+The current 0.4.x source retains the production-readiness restrictions. The historical
+0.3.0.0 fresh-install/authentication/storage/restart evidence against Jellyfin 12.0.0 does
+not replace target-LXC upgrade, uninstall or backup/restore acceptance for a new artifact.

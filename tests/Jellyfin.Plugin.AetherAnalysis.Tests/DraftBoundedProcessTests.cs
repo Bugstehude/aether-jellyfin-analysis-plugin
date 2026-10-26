@@ -39,6 +39,20 @@ public sealed class DraftBoundedProcessTests
     }
 
     [Fact]
+    public async Task RejectsUnrepresentableTimeoutBeforeStartingAProcess()
+    {
+        // A missing executable makes the validation/start ordering observable
+        // without risking a process left behind by an invalid timeout.
+        var request = new DraftProcessRequest(
+            Path.Combine(Path.GetTempPath(), "aether-missing-" + Guid.NewGuid().ToString("N")),
+            [], new Dictionary<string, string>(), TimeSpan.MaxValue, 0, 0, 0);
+
+        var error = await Assert.ThrowsAsync<InvalidDataException>(() => DraftBoundedProcess.RunAsync(request));
+
+        Assert.Equal("draft-process-invalid-request", error.Message);
+    }
+
+    [Fact]
     public async Task EnforcesTimeoutAndStopsNode()
     {
         using var fixture = new NodeFixture("setInterval(() => {}, 1000)");
